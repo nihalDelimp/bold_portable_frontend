@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { withoutAuthAxios } from "../config/config";
 import {
   setAccessToken,
@@ -8,44 +7,43 @@ import {
 } from "../Redux/Reducers/auth";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppDispatch } from "../Redux/store";
 
 const Signup = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
-    mobile: ""
+    mobile: "",
   });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("user" , user)
-    const payload =  user
-    return new Promise(async (resolve, reject) => {
-      dispatch(setAccessToken("tbytoikentoken"));
-      await withoutAuthAxios().post("/auth/register", payload)
-        .then(
-          (response) => {
-            resolve(response.data);
-            if (response.data.status === "1") {
-              toast.success('User registered successfully')
-              dispatch(setAccessToken(response.data.access_token));
-              dispatch(setuser(response.data.user));
-              dispatch(setIsAuthenticated(true));
-            }
-            else{
-              toast.error(response.data.message)
-            }
-          },
-          (error) => {
-            reject(error);
+    console.log("user", user);
+    const payload = user;
+    dispatch(setAccessToken("tbytoikentoken"));
+    await withoutAuthAxios()
+      .post("/auth/register", payload)
+      .then(
+        (response) => {
+          if (response.data.status === 1) {
+            toast.success("User registered successfully");
+            dispatch(setAccessToken(response.data.data.token));
+            dispatch(setuser(response.data.data.user));
+            dispatch(setIsAuthenticated(true));
+          } else {
+            toast.error(response.data.message);
           }
-        )
-        .catch((error) => {
-          console.log("errorrrr", error);
-        });
-    });
+        },
+        (error) => {
+          toast.error(error.response.data.message);
+          console.log(error);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,68 +56,70 @@ const Signup = () => {
 
   return (
     <div className="container mt-3">
-    <form onSubmit={handleSubmit}>
-      <div className="form-row">
-        <div className="form-group col-md-6">
-          <label htmlFor="inputEmail4">Name</label>
-          <input
-            value={user.name}
-            onChange={handleChange}
-            type="text"
-            name="name"
-            className="form-control"
-            id="inputEmail4"
-            placeholder="Enter name"
-          />
+      <form onSubmit={handleSubmit}>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <label htmlFor="inputEmail4">Name</label>
+            <input
+              value={user.name}
+              onChange={handleChange}
+              type="text"
+              name="name"
+              className="form-control"
+              id="inputEmail4"
+              placeholder="Enter name"
+            />
+          </div>
+          <div className="form-group col-md-6">
+            <label htmlFor="inputEmail4">Email</label>
+            <input
+              value={user.email}
+              onChange={handleChange}
+              type="email"
+              name="email"
+              className="form-control"
+              id="inputEmail4"
+              placeholder="Enter Email"
+            />
+          </div>
+          <div className="form-group col-md-6">
+            <label htmlFor="inputEmail4">Phone</label>
+            <input
+              value={user.mobile}
+              name="mobile"
+              onChange={handleChange}
+              type="text"
+              className="form-control"
+              id="inputEmail4"
+              placeholder="Enter phone"
+            />
+          </div>
+          <div className="form-group col-md-6">
+            <label htmlFor="inputPassword4">Password</label>
+            <input
+              type="password"
+              value={user.password}
+              name="password"
+              onChange={handleChange}
+              className="form-control"
+              id="inputPassword4"
+              placeholder="Password"
+            />
+          </div>
         </div>
-
-        <div className="form-group col-md-6">
-          <label htmlFor="inputEmail4">Email</label>
-          <input
-            value={user.email}
-            onChange={handleChange}
-            type="email"
-            name="email"
-            className="form-control"
-            id="inputEmail4"
-            placeholder="Enter Email"
-          />
+        <div className="row mt-3">
+          <Link className="ml-4" to="/login">
+            login
+          </Link>{" "}
+          have an account ?
+          <div className="pb-5 d-flex justify-content-center">
+            <button type="submit" className="btn btn-success mr-3 ml-3 ">
+              Submit
+            </button>{" "}
+            <br />
+          </div>
         </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="inputEmail4">Phone</label>
-          <input
-            value={user.mobile}
-            name="mobile"
-            onChange={handleChange}
-            type="text"
-            className="form-control"
-            id="inputEmail4"
-            placeholder="Enter phone"
-          />
-        </div>
-
-        <div className="form-group col-md-6">
-          <label htmlFor="inputPassword4">Password</label>
-          <input
-            type="password"
-            value={user.password}
-            name="password"
-            onChange={handleChange}
-            className="form-control"
-            id="inputPassword4"
-            placeholder="Password"
-          />
-        </div>
-      </div>
-      <div className="row mt-3">
-      <Link className="ml-4" to = "/login">login</Link> have an account ?
-      <div className="pb-5 d-flex justify-content-center">
-        <button type="submit" className="btn btn-success mr-3 ml-3 ">
-          Submit
-        </button> <br/>
-      </div>
-      </div>
-    </form>
+      </form>
     </div>
   );
 };

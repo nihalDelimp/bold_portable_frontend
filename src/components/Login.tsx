@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { withoutAuthAxios } from "../config/config";
 import {
   setAccessToken,
@@ -8,9 +8,14 @@ import {
 } from "../Redux/Reducers/auth";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { RootState } from "../Redux/rootReducer";
+import { useAppDispatch } from "../Redux/store";
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const authUser = useSelector((state: RootState) => state.auth);
+
+  console.log("Auth_user", authUser);
+  const dispatch = useAppDispatch();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -20,32 +25,27 @@ const Login = () => {
     event.preventDefault();
     console.log("user", user);
     const payload = user;
-    return new Promise(async (resolve, reject) => {
-      dispatch(setAccessToken("tbytoikentoken"));
-      await withoutAuthAxios()
-        .post("/auth/login", payload)
-        .then(
-          (response) => {
-            resolve(response.data);
-            if (response.data.status === 1) {
-              toast.success("User login successfully");
-              dispatch(setAccessToken(response.data.access_token));
-              dispatch(setuser(response.data.user));
-              dispatch(setIsAuthenticated(true));
-            } else {
-              alert("sapihusiag");
-              toast.error(response.data.message);
-            }
-          },
-          (error) => {
-            toast.error(error.response.data.message);
-            reject(error);
+    await withoutAuthAxios()
+      .post("/auth/login", payload)
+      .then(
+        (response) => {
+          if (response.data.status === 1) {
+            toast.success("User login successfully");
+            console.log("resposnse Data", response.data.data);
+            dispatch(setAccessToken(response.data.data.token));
+            dispatch(setuser(response.data.data.user));
+            dispatch(setIsAuthenticated(true));
+          } else {
+            toast.error(response.data.message);
           }
-        )
-        .catch((error) => {
-          console.log("errorrrr", error);
-        });
-    });
+        },
+        (error) => {
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +88,8 @@ const Login = () => {
         <div className="row mt-3">
           <Link className="ml-4" to="/">
             signup
-          </Link> don't have account ?
+          </Link>{" "}
+          don't have account ?
           <div className="pb-4 d-flex justify-content-center">
             <button type="submit" className="btn btn-success mr-3 ml-3 ">
               Submit

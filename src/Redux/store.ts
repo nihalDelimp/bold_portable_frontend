@@ -17,5 +17,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
 export type AppDispatch = typeof store.dispatch
 export const useAppDispatch: () => AppDispatch = useDispatch // Export a hook that can be reused to resolve types
 export type AppThunk = ThunkAction<void, RootState, null, Action<string>>
+export type AppStore = ReturnType<typeof store.getState>
+
 
 export default store

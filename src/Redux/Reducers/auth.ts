@@ -23,7 +23,7 @@ export const authSlice = createSlice({
       state.isAuthenticated = action.payload;
     },
     setuser: (state, action: PayloadAction<any>) => {
-        state.isAuthenticated = action.payload;
+        state.user = action.payload;
       },
   },
 });

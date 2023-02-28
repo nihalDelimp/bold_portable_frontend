@@ -1,25 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
+import store from "./Redux/store";
+import "./index.css";
+import App from "./App";
 
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
-//import * as serviceWorker from './serviceWorker';
-import store from './Redux/store'
-import './index.css'
-
-function render() {
-  const App = require('./App').default
-  ReactDOM.render(
+root.render(
+  <React.StrictMode>
     <Provider store={store}>
       <App />
-    </Provider>,
-    document.getElementById('root')
-  )
-}
-
-render()
-
-if (process.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('./App.tsx', render)
-};
+    </Provider>
+  </React.StrictMode>
+);
