@@ -83,6 +83,8 @@ const Login = () => {
               placeholder="Enter Email"
             />
           </div>
+          </div>
+          <div className="form-row">
           <div className="form-group col-md-6">
             <label htmlFor="inputPassword4">Password</label>
             <input
@@ -96,13 +98,13 @@ const Login = () => {
             />
           </div>
         </div>
-        <div className="row mt-3">
-          <Link className="ml-4" to="/signup">
+        <div className="row">
+          <Link className="" to="/signup">
             signup
           </Link>{" "}
           don't have account ?
-          <div className="pb-4 d-flex justify-content-center">
-            <button type="submit" className="btn btn-success mr-3 ml-3 ">
+          <div className="d-flex justify-content-center">
+            <button type="submit" className="btn btn-success">
               Submit
             </button>
           </div>

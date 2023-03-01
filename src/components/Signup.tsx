@@ -108,13 +108,13 @@ const Signup = () => {
             />
           </div>
         </div>
-        <div className="row mt-3">
-          <Link className="ml-4" to="/">
+        <div className="row">
+          <Link className="" to="/">
             login
           </Link>{" "}
           have an account ?
-          <div className="pb-5 d-flex justify-content-center">
-            <button type="submit" className="btn btn-success mr-3 ml-3 ">
+          <div className="d-flex justify-content-center">
+            <button type="submit" className="btn btn-success">
               Submit
             </button>{" "}
             <br />
