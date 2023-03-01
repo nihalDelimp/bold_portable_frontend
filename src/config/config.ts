@@ -14,7 +14,7 @@ export const authAxios = () => {
   return axios.create({
     baseURL: process.env.REACT_APP_BASEURL,
     headers: {
-      'x-access-token': `${token ? `${token}` : null}`,
+      'Authorization': `${token ? `${token}` : null}`,
     },
   });
 };

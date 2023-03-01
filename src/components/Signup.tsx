@@ -16,6 +16,7 @@ const Signup = () => {
     email: "",
     password: "",
     mobile: "",
+    user_type:"ADMIN"
   });
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -108,7 +109,7 @@ const Signup = () => {
           </div>
         </div>
         <div className="row mt-3">
-          <Link className="ml-4" to="/login">
+          <Link className="ml-4" to="/">
             login
           </Link>{" "}
           have an account ?

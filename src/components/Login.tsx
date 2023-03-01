@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useSelector } from "react-redux";
 import { withoutAuthAxios } from "../config/config";
 import {
@@ -6,25 +6,35 @@ import {
   setIsAuthenticated,
   setuser,
 } from "../Redux/Reducers/auth";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RootState } from "../Redux/rootReducer";
 import { useAppDispatch } from "../Redux/store";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Login = () => {
-  const authUser = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate()
+  const {accessToken} = useSelector((state: RootState) => state.auth);
 
-  console.log("Auth_user", authUser);
+
   const dispatch = useAppDispatch();
-  const [user, setUser] = useState({
+  const [userInput, setUserInput] = useState({
     email: "",
     password: "",
   });
 
+  useEffect(() => {
+    if(accessToken){
+      navigate('/products')
+    }
+  })
+
+ 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("user", user);
-    const payload = user;
+    console.log("user", userInput);
+    const payload = userInput;
     await withoutAuthAxios()
       .post("/auth/login", payload)
       .then(
@@ -35,6 +45,7 @@ const Login = () => {
             dispatch(setAccessToken(response.data.data.token));
             dispatch(setuser(response.data.data.user));
             dispatch(setIsAuthenticated(true));
+            navigate('/products')
           } else {
             toast.error(response.data.message);
           }
@@ -50,7 +61,7 @@ const Login = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUser((prev) => ({
+    setUserInput((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -63,7 +74,7 @@ const Login = () => {
           <div className="form-group col-md-6">
             <label htmlFor="inputEmail4">Email</label>
             <input
-              value={user.email}
+              value={userInput.email}
               onChange={handleChange}
               type="email"
               name="email"
@@ -76,7 +87,7 @@ const Login = () => {
             <label htmlFor="inputPassword4">Password</label>
             <input
               type="password"
-              value={user.password}
+              value={userInput.password}
               name="password"
               onChange={handleChange}
               className="form-control"
@@ -86,7 +97,7 @@ const Login = () => {
           </div>
         </div>
         <div className="row mt-3">
-          <Link className="ml-4" to="/">
+          <Link className="ml-4" to="/signup">
             signup
           </Link>{" "}
           don't have account ?
