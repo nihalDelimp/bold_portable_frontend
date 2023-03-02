@@ -16,7 +16,7 @@ const Signup = () => {
     email: "",
     password: "",
     mobile: "",
-    user_type:"ADMIN"
+    user_type: "ADMIN",
   });
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -62,6 +62,7 @@ const Signup = () => {
           <div className="form-group col-md-6">
             <label htmlFor="inputEmail4">Name</label>
             <input
+              required
               value={user.name}
               onChange={handleChange}
               type="text"
@@ -74,6 +75,7 @@ const Signup = () => {
           <div className="form-group col-md-6">
             <label htmlFor="inputEmail4">Email</label>
             <input
+              required
               value={user.email}
               onChange={handleChange}
               type="email"
@@ -86,10 +88,11 @@ const Signup = () => {
           <div className="form-group col-md-6">
             <label htmlFor="inputEmail4">Phone</label>
             <input
+              required
               value={user.mobile}
               name="mobile"
               onChange={handleChange}
-              type="text"
+              type="number"
               className="form-control"
               id="inputEmail4"
               placeholder="Enter phone"
@@ -98,6 +101,7 @@ const Signup = () => {
           <div className="form-group col-md-6">
             <label htmlFor="inputPassword4">Password</label>
             <input
+              required
               type="password"
               value={user.password}
               name="password"

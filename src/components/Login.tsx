@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { withoutAuthAxios } from "../config/config";
 import {
@@ -6,7 +6,7 @@ import {
   setIsAuthenticated,
   setuser,
 } from "../Redux/Reducers/auth";
-import { Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RootState } from "../Redux/rootReducer";
 import { useAppDispatch } from "../Redux/store";
@@ -14,9 +14,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const Login = () => {
-  const navigate = useNavigate()
-  const {accessToken} = useSelector((state: RootState) => state.auth);
-
+  const navigate = useNavigate();
+  const { accessToken } = useSelector((state: RootState) => state.auth);
 
   const dispatch = useAppDispatch();
   const [userInput, setUserInput] = useState({
@@ -25,12 +24,11 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if(accessToken){
-      navigate('/products')
+    if (accessToken) {
+      navigate("/products");
     }
-  })
+  });
 
- 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log("user", userInput);
@@ -45,7 +43,7 @@ const Login = () => {
             dispatch(setAccessToken(response.data.data.token));
             dispatch(setuser(response.data.data.user));
             dispatch(setIsAuthenticated(true));
-            navigate('/products')
+            navigate("/products");
           } else {
             toast.error(response.data.message);
           }
@@ -74,6 +72,7 @@ const Login = () => {
           <div className="form-group col-md-6">
             <label htmlFor="inputEmail4">Email</label>
             <input
+              required
               value={userInput.email}
               onChange={handleChange}
               type="email"
@@ -83,11 +82,12 @@ const Login = () => {
               placeholder="Enter Email"
             />
           </div>
-          </div>
-          <div className="form-row">
+        </div>
+        <div className="form-row">
           <div className="form-group col-md-6">
             <label htmlFor="inputPassword4">Password</label>
             <input
+              required
               type="password"
               value={userInput.password}
               name="password"

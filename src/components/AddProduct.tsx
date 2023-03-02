@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import NavBar from "../Common/NavBar";
 import { useNavigate } from "react-router-dom";
 
 
@@ -68,7 +67,6 @@ const Signup = () => {
 
   return (
     <>
-      <NavBar />
       <div className="container mt-3">
         <form onSubmit={handleSubmit}>
           <div className="form-row">

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "../Common/NavBar";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 
-function UserProducts() {
+const  UserProducts = () => {
   const [products, setProduct] = useState([]);
 
   useEffect(() => {
@@ -29,7 +28,6 @@ function UserProducts() {
   };
   return (
     <div>
-      <NavBar />
       <div className="p-3" >
       <div className="card-deck">
         {products?.map((item : any , index) => (

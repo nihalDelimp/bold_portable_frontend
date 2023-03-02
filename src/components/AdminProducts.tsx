@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "../Common/NavBar";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 
@@ -30,8 +29,6 @@ function AdminProducts() {
 
   return (
     <>
-      <NavBar />
-
       <div className="container pt-2">
         <table className="table">
           <thead>
