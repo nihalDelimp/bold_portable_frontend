@@ -20,7 +20,7 @@ function NavBar() {
   };
 
   const handleModal = () => {
-    setCartModal(!cartModal)
+    setCartModal(!cartModal);
   };
 
   return (
@@ -44,11 +44,7 @@ function NavBar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <NavLink
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/dashboard"
-                >
+                <NavLink className="nav-link active" aria-current="page" to="/">
                   Home
                 </NavLink>
               </li>
@@ -71,20 +67,24 @@ function NavBar() {
               )}
             </ul>
             <form className="d-flex">
-              <input
+              {/* <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-              />
-              <a href="#" onClick={handleModal}>
-              { cart && cart.length > 0 && cart.length}  View 
-              </a>
+              /> */}
+              {cart && cart.length > 0 && (
+                <a href="#" onClick={handleModal}>
+                  {cart.length} View
+                </a>
+              )}
             </form>
           </div>
         </div>
       </nav>
-      {cartModal && < CartModal cartModal = {cartModal} handleModal = {handleModal}/>}
+      {cartModal && (
+        <CartModal cartModal={cartModal} handleModal={handleModal} />
+      )}
     </>
   );
 }

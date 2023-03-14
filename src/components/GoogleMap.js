@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
-  Marker,
+  MarkerF,
   Autocomplete,
 } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
@@ -112,6 +112,11 @@ function SimpleMap() {
     );
   }
 
+  const handleDragLocation = (latLng) => {
+    console.log('LatLng' , latLng)
+
+  }
+
   const mapContainerStyle = { width: "100%", height: "600px" };
 console.log('latLng' , latLng)
   return (
@@ -124,20 +129,20 @@ console.log('latLng' , latLng)
           zoom={15}
           mapContainerStyle={mapContainerStyle}
           onLoad={handleLoad}
-          options={{
-            zoomControl: false,
-            streetViewControl: false,
-            mapTypeControl: false,
-            fullscreenControl: false,
-          }}
         >
-          <Marker position={latLng}  icon = {simpleMarker} />
+          <MarkerF 
+           draggable
+           onDragEnd={( latLng ) => {
+            handleDragLocation(latLng)
+            // handleUnLoadingPointDragLocation &&
+            // handleUnLoadingPointDragLocation(latLng!.lat(), latLng!.lng());
+          }}
+          position={latLng}  icon = {simpleMarker} />
           <Autocomplete onPlaceChanged={(place) => onPlaceChanged(place)}>
-            <section className="content mt-1 p-3">
+            <section className="content mt-5 p-3">
               <div className="row">
-                <div className="col-12">
-                  <div className="form-group has-search">
-                    <span className="fa fa-search form-control-feedback"></span>
+                <div className="mx-auto col-10 col-lg-8">
+                  <div className="form-group">
                     <input
                       style={{ borderRadius: "2.25rem", height: "2.5rem" }}
                       className="form-control"

@@ -56,7 +56,10 @@ const Signup = () => {
   };
 
   return (
-    <div className="container mt-3">
+    <div className="container mt-3 bg-light">
+    <div className="row">
+      <div className="mx-auto col-10 col-lg-8">
+        <h3>Signup</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group col-md-6">
@@ -125,6 +128,8 @@ const Signup = () => {
           </div>
         </div>
       </form>
+    </div>
+    </div>
     </div>
   );
 };

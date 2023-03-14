@@ -66,50 +66,55 @@ const Login = () => {
   };
 
   return (
-    <div className="container mt-3">
-      <form onSubmit={handleSubmit}>
-        <div className="form-row">
-          <div className="form-group col-md-6">
-            <label htmlFor="inputEmail4">Email</label>
-            <input
-              required
-              value={userInput.email}
-              onChange={handleChange}
-              type="email"
-              name="email"
-              className="form-control"
-              id="inputEmail4"
-              placeholder="Enter Email"
-            />
-          </div>
+    <div className="container mt-3 bg-light">
+      <div className="row">
+        <div className="mx-auto col-10 col-lg-8">
+          <h3>Login </h3>
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="inputEmail4">Email</label>
+                <input
+                  required
+                  value={userInput.email}
+                  onChange={handleChange}
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  id="inputEmail4"
+                  placeholder="Enter Email"
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="inputPassword4">Password</label>
+                <input
+                  required
+                  type="password"
+                  value={userInput.password}
+                  name="password"
+                  onChange={handleChange}
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="Password"
+                />
+              </div>
+            </div>
+            <div className="row">
+              <Link className="" to="/signup">
+                signup
+              </Link>{" "}
+              don't have account ?
+              <div className="d-flex justify-content-center">
+                <button type="submit" className="btn btn-success">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div className="form-row">
-          <div className="form-group col-md-6">
-            <label htmlFor="inputPassword4">Password</label>
-            <input
-              required
-              type="password"
-              value={userInput.password}
-              name="password"
-              onChange={handleChange}
-              className="form-control"
-              id="inputPassword4"
-              placeholder="Password"
-            />
-          </div>
-        </div>
-        <div className="row">
-          <Link className="" to="/signup">
-            signup
-          </Link>{" "}
-          don't have account ?
-          <div className="d-flex justify-content-center">
-            <button type="submit" className="btn btn-success">
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };
