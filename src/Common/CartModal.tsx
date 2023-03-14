@@ -81,21 +81,21 @@ const CartModal = (props: any) => {
                         <td>
                           <a
                             href="#"
-                            onClick={() => dispetch(incrementQuantity(item.id))}
+                            onClick={() => dispetch(incrementQuantity(item._id))}
                             className="btn btn-primary btn-sm mr-2"
                           >
                             <i className="fa fa-plus"></i>
                           </a>
                           <a
                             href="#"
-                            onClick={() => dispetch(decrementQuantity(item.id))}
+                            onClick={() => dispetch(decrementQuantity(item._id))}
                             className="btn btn-secondary btn-sm mr-2"
                           >
                             <i className="fa fa-minus"></i>
                           </a>
                           <a
                             href="#"
-                            onClick={() => dispetch(removeItem(item.id))}
+                            onClick={() => dispetch(removeItem(item._id))}
                             className="btn btn-danger btn-sm"
                           >
                             <i className="fa fa-times"></i>
