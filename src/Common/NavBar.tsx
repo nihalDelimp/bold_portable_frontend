@@ -1,27 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useSelector ,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/auth";
 import { useNavigate } from "react-router-dom";
-
+import CartModal from "./CartModal";
 
 function NavBar() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { user } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const { cart } = useSelector((state: RootState) => state.product);
+
+  const [cartModal, setCartModal] = useState(false);
 
   const handleLogout = () => {
-    dispatch(logout(true))
-    navigate('/')
-  }
+    dispatch(logout(true));
+    navigate("/");
+  };
+
+  const handleModal = () => {
+    setCartModal(!cartModal)
+  };
 
   return (
-    <div>
+    <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-           {user.name}
+            {user.name}
           </a>
           <button
             className="navbar-toggler"
@@ -50,25 +57,18 @@ function NavBar() {
                   Products
                 </NavLink>
               </li>
-              {user.user_type === "ADMIN" && (
-                <li className="nav-item">
-                  <NavLink className="nav-link" to="/add-product">
-                    Add Product
-                  </NavLink>
-                </li>
-              )}
-              {user.user_type === "ADMIN" && (
-                <li className="nav-item">
-                  <NavLink className="nav-link" to="/users">
-                    Users
-                  </NavLink>
-                </li>
-              )}
               <li className="nav-item">
-                <span className="nav-link" onClick={handleLogout} >
-                  Logout
-                </span>
+                <NavLink className="nav-link" to="/map-location">
+                  Location
+                </NavLink>
               </li>
+              {accessToken && (
+                <li className="nav-item">
+                  <span className="nav-link" onClick={handleLogout}>
+                    Logout
+                  </span>
+                </li>
+              )}
             </ul>
             <form className="d-flex">
               <input
@@ -77,14 +77,15 @@ function NavBar() {
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
+              <a href="#" onClick={handleModal}>
+              { cart && cart.length > 0 && cart.length}  View 
+              </a>
             </form>
           </div>
         </div>
       </nav>
-    </div>
+      {cartModal && < CartModal cartModal = {cartModal} handleModal = {handleModal}/>}
+    </>
   );
 }
 

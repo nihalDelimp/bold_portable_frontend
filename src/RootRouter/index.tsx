@@ -6,9 +6,9 @@ import Signup from "../components/Signup";
 import NavBar from "../Common/NavBar";
 import Home from "../components/Home";
 import ProductList from "../components/ProductList";
-import AddProduct from "../components/AddProduct";
 import Users from "../components/Users";
 import PageNoteFound from "../Common/PageNoteFound";
+import GoogleMap from "../components/GoogleMap";
 
 function RootRouter() {
   const { accessToken } = useSelector((state: RootState) => state.auth);
@@ -27,8 +27,8 @@ function PrivateRouter(props: any) {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductList />} />
-        <Route path="/add-product" element={<AddProduct />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/map-location" element={<GoogleMap />} />
         <Route path="*" element={<PageNoteFound />} />
       </Routes>
     </div>
