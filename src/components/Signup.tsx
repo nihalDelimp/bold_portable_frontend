@@ -16,7 +16,7 @@ const Signup = () => {
     email: "",
     password: "",
     mobile: "",
-    user_type: "ADMIN",
+    user_type: "USER",
   });
 
   const handleSubmit = async (event: React.FormEvent) => {
