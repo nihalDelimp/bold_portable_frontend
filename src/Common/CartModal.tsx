@@ -68,8 +68,8 @@ const CartModal = (props: any) => {
                     cart.map((item) => (
                       <tr>
                         <td className="w-25">
-                          <img style={{maxHeight: '130px'}}
-                            src={`${process.env.REACT_APP_BASEURL}/${item?.product_image}`}
+                          <img style={{maxHeight: '130px' , maxWidth: "130px"}}
+                            src={`${process.env.REACT_APP_BASEURL}/${item?.product_images[0]?.image_path}`}
                             className="img-fluid img-thumbnail"
                             alt="Sheep"
                           />
