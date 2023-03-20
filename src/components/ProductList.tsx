@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 import { addToCart } from "../Redux/Reducers/productSlice";
 import { useDispatch } from "react-redux";
 import SimpleImageSlider from "react-simple-image-slider";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 
-const ProductList = () => {
+const ProductList = (props : any) => {
+  const {setLoading} =  props
   const dispatch = useDispatch();
   const [products, setProduct] = useState([]);
 
@@ -14,16 +16,19 @@ const ProductList = () => {
   }, []);
 
   const getProductsListData = async () => {
+    setLoading(true)
     await authAxios()
       .get("/product/get-products")
       .then(
         (response) => {
+          setLoading(false)
           if (response.data.status === 1) {
             const resData = response.data.data;
             setProduct(resData);
           }
         },
         (error) => {
+          setLoading(false)
           toast.error(error.response.data.message);
         }
       )
@@ -98,4 +103,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default IsLoadingHOC(ProductList);

@@ -8,7 +8,7 @@ import { persistStore, persistReducer } from "redux-persist";
 
 
 const persistConfig = {
-  key: "bold",
+  key: "bold_portable_webapp",
   storage: storage,
 };
 

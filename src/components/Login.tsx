@@ -12,8 +12,10 @@ import { RootState } from "../Redux/rootReducer";
 import { useAppDispatch } from "../Redux/store";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import IsLoadingHOC from './../Common/IsLoadingHOC';
 
-const Login = () => {
+const Login = (props : any) => {
+   const {setLoading} = props
   const navigate = useNavigate();
   const { accessToken } = useSelector((state: RootState) => state.auth);
 
@@ -31,12 +33,13 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("user", userInput);
     const payload = userInput;
+    setLoading(true)
     await withoutAuthAxios()
       .post("/auth/login", payload)
       .then(
         (response) => {
+          setLoading(false)
           if (response.data.status === 1) {
             toast.success("User login successfully");
             console.log("resposnse Data", response.data.data);
@@ -49,6 +52,7 @@ const Login = () => {
           }
         },
         (error) => {
+          setLoading(false)
           toast.error(error.response.data.message);
         }
       )
@@ -119,4 +123,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default IsLoadingHOC(Login);

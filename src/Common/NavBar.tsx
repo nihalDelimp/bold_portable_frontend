@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/auth";
@@ -27,7 +27,7 @@ function NavBar() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="#">
             {user.name}
           </a>
           <button
@@ -58,27 +58,32 @@ function NavBar() {
                   Location
                 </NavLink>
               </li>
-              {accessToken && (
-                <li className="nav-item">
-                  <span className="nav-link" onClick={handleLogout}>
-                    Logout
-                  </span>
-                </li>
-              )}
-            </ul>
-            <form className="d-flex">
-              {/* <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              /> */}
-              {cart && cart.length > 0 && (
-                <a href="#" onClick={handleModal}>
-                  {cart.length} View
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  data-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Setting
                 </a>
-              )}
-            </form>
+                <div className="dropdown-menu">
+                  <Link className="dropdown-item" to = {`/edit-profile/${user.id}`}>
+                    Edit profile
+                  </Link>
+                  <a className="dropdown-item" href="#two" onClick={handleLogout}>
+                    LogOut
+                  </a>
+                </div>
+              </li>
+            </ul>
+            {cart && cart.length > 0 && (
+              <a href="#" onClick={handleModal}>
+                {cart.length} View
+              </a>
+            )}
           </div>
         </div>
       </nav>
