@@ -1,6 +1,6 @@
 // src/redux/cartSlice.js
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { string } from "yup";
+import { Action } from '@reduxjs/toolkit';
 
 interface product {
   cart: any[];
@@ -19,21 +19,21 @@ const cartSlice = createSlice({
         (item) => item._id === action.payload._id
       );
       if (itemInCart) {
-        itemInCart.quantity++;
+        itemInCart.product_quantity++;
       } else {
-        state.cart.push({ ...action.payload, quantity: 1 });
+        state.cart.push({ ...action.payload, product_quantity: 1 });
       }
     },
     incrementQuantity: (state, action: PayloadAction<any>) => {
       const item = state.cart.find((item) => item._id === action.payload);
-      item.quantity++;
+      item.product_quantity++;
     },
     decrementQuantity: (state, action: PayloadAction<any>) => {
       const item = state.cart.find((item) => item._id === action.payload);
-      if (item.quantity === 1) {
-        item.quantity = 1;
+      if (item.product_quantity === 1) {
+        item.product_quantity = 1;
       } else {
-        item.quantity--;
+        item.product_quantity--;
       }
     },
     removeItem: (state, action: PayloadAction<any>) => {
@@ -42,7 +42,10 @@ const cartSlice = createSlice({
       );
       state.cart = removeItem;
     },
+    removeAllItems : (state) => {
+      state.cart = []
+    }
   },
 });
 export default cartSlice.reducer;
-export const { addToCart, incrementQuantity, decrementQuantity, removeItem } = cartSlice.actions;
+export const { addToCart, incrementQuantity, decrementQuantity, removeItem , removeAllItems } = cartSlice.actions;

@@ -27,7 +27,7 @@ function NavBar() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="#">
             {user.name}
           </a>
           <button
@@ -54,6 +54,11 @@ function NavBar() {
                 </NavLink>
               </li>
               <li className="nav-item">
+                <NavLink className="nav-link" to="/my-orders">
+                  My orders
+                </NavLink>
+              </li>
+              <li className="nav-item">
                 <NavLink className="nav-link" to="/map-location">
                   Location
                 </NavLink>
@@ -70,10 +75,17 @@ function NavBar() {
                   Setting
                 </a>
                 <div className="dropdown-menu">
-                  <Link className="dropdown-item" to = {`/edit-profile/${user.id}`}>
+                  <Link
+                    className="dropdown-item"
+                    to={`/edit-profile/${user.id}`}
+                  >
                     Edit profile
                   </Link>
-                  <a className="dropdown-item" href="#two" onClick={handleLogout}>
+                  <a
+                    className="dropdown-item"
+                    href="#two"
+                    onClick={handleLogout}
+                  >
                     LogOut
                   </a>
                 </div>

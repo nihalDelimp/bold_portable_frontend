@@ -6,22 +6,70 @@ import {
   removeItem,
   incrementQuantity,
   decrementQuantity,
+  removeAllItems,
 } from "../Redux/Reducers/productSlice";
 import { useDispatch } from "react-redux";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { authAxios } from "../config/config";
+import { toast } from "react-toastify";
 
 const CartModal = (props: any) => {
-  const { cartModal, handleModal } = props;
-  const { cart } = useSelector((state: RootState) => state.product);
-  console.log("Cart", cart);
   const dispetch = useDispatch();
+  const { cartModal, handleModal, setLoading, isLoading } = props;
+  const { cart } = useSelector((state: RootState) => state.product);
+  const { user } = useSelector((state: RootState) => state.auth);
 
-  console.log("CartMOdal , setCartModal", cartModal);
+  interface MyCart {
+    userId: string;
+    products: {
+      productId: string;
+      product_quantity: number;
+      product_price: number;
+    }[];
+  }
 
   const totalCounter = () => {
     var result = cart.reduce(function (acc, item) {
-      return acc + item.product_price * item.quantity;
+      return acc + item.product_price * item.product_quantity;
     }, 0);
     return result;
+  };
+
+  const createOrder = async () => {
+    const payLoad: MyCart = {
+      userId: user.id,
+      products: [],
+    };
+    cart.forEach((item) => {
+      payLoad.products.push({
+        productId: item._id,
+        product_quantity: item.product_quantity,
+        product_price: item.product_price,
+      });
+    });
+
+    setLoading(true);
+    await authAxios()
+      .post(`/order/create-order`, payLoad)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data?.message);
+            dispetch(removeAllItems());
+            handleModal();
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
 
   return (
@@ -68,7 +116,8 @@ const CartModal = (props: any) => {
                     cart.map((item) => (
                       <tr>
                         <td className="w-25">
-                          <img style={{maxHeight: '130px' , maxWidth: "130px"}}
+                          <img
+                            style={{ maxHeight: "130px", maxWidth: "130px" }}
                             src={`${process.env.REACT_APP_BASEURL}/${item?.product_images[0]?.image_path}`}
                             className="img-fluid img-thumbnail"
                             alt="Sheep"
@@ -76,19 +125,23 @@ const CartModal = (props: any) => {
                         </td>
                         <td>{item.title}</td>
                         <td>${item.product_price}</td>
-                        <td className="qty">{item.quantity}</td>
-                        <td>${item.product_price * item.quantity}</td>
+                        <td className="qty">{item.product_quantity}</td>
+                        <td>${item.product_price * item.product_quantity}</td>
                         <td>
                           <a
                             href="#"
-                            onClick={() => dispetch(incrementQuantity(item._id))}
+                            onClick={() =>
+                              dispetch(incrementQuantity(item._id))
+                            }
                             className="btn btn-primary btn-sm mr-2"
                           >
                             <i className="fa fa-plus"></i>
                           </a>
                           <a
                             href="#"
-                            onClick={() => dispetch(decrementQuantity(item._id))}
+                            onClick={() =>
+                              dispetch(decrementQuantity(item._id))
+                            }
                             className="btn btn-secondary btn-sm mr-2"
                           >
                             <i className="fa fa-minus"></i>
@@ -123,8 +176,13 @@ const CartModal = (props: any) => {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-success">
-                Checkout
+              <button
+                disabled={isLoading}
+                type="button"
+                onClick={createOrder}
+                className="btn btn-success btn-sm"
+              >
+                {isLoading ? "Processing" : "Create Order"}
               </button>
             </div>
           </div>
@@ -134,4 +192,4 @@ const CartModal = (props: any) => {
   );
 };
 
-export default CartModal;
+export default IsLoadingHOC(CartModal);

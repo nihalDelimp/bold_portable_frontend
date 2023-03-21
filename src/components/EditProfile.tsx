@@ -78,8 +78,6 @@ function EditProfile(props: any) {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success("Profile updated successfully");
-            const user = response.data.data;
-            dispatch(setuser(user));
           } else {
             toast.error(response.data.message);
           }
