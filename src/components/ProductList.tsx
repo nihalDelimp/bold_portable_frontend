@@ -39,7 +39,7 @@ const ProductList = (props : any) => {
 
   const addToCartHandler = (item: any) => {
     const payload = {
-      id: item.id,
+      id: item._id,
       product_name: item.title,
       product_price: item.product_price,
     };

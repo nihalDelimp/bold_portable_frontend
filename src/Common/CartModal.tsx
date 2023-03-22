@@ -37,7 +37,7 @@ const CartModal = (props: any) => {
 
   const createOrder = async () => {
     const payLoad: MyCart = {
-      userId: user.id,
+      userId: user._id,
       products: [],
     };
     cart.forEach((item) => {

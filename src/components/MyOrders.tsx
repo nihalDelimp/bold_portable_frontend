@@ -18,7 +18,7 @@ function MyOrders(props: any) {
   const getProductsListData = async () => {
     setLoading(true);
     await authAxios()
-      .get(`/order/get-user-order-details/${user.id}`)
+      .get(`/order/get-user-order-details/${user._id}`)
       .then(
         (response) => {
           setLoading(false);

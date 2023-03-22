@@ -77,7 +77,7 @@ function NavBar() {
                 <div className="dropdown-menu">
                   <Link
                     className="dropdown-item"
-                    to={`/edit-profile/${user.id}`}
+                    to={`/edit-profile/${user._id}`}
                   >
                     Edit profile
                   </Link>
