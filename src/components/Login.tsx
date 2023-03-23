@@ -41,7 +41,7 @@ const Login = (props : any) => {
         (response) => {
           setLoading(false)
           if (response.data.status === 1) {
-            toast.success("User login successfully");
+            toast.success("Logged in successfully");
             console.log("resposnse Data", response.data.data);
             dispatch(setAccessToken(response.data.data.token));
             dispatch(setuser(response.data.data.user));

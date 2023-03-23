@@ -9,10 +9,10 @@ function MyOrders(props: any) {
   const [MyOrders, setMyOrders] = useState<string[]>([]);
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const { setLoading } = props;
+  const { setLoading , isLoading } = props;
 
   useEffect(() => {
-    getProductsListData();
+     getProductsListData();
   }, []);
 
   const getProductsListData = async () => {
@@ -36,30 +36,60 @@ function MyOrders(props: any) {
         console.log("errorrrr", error);
       });
   };
+
   return (
     <div className="container">
-      <table className="table">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          {MyOrders &&
-            MyOrders.length > 0 &&
-            MyOrders.map((item, index) => (
-              <tr key = {index+1}>
-                <th scope="row">{index+1}</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+      {MyOrders && MyOrders.length > 0 && (
+        <table className="table">
+          <thead className="thead-dark">
+            <tr>
+              <th scope="col">Sr. No</th>
+              <th scope="col">product Quantity</th>
+              <th scope="col">product Price</th>
+              <th scope="col">Total Price</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {MyOrders.map((item: any, index) => (
+              <tr key={index + 1}>
+                <th scope="row">{index + 1}</th>
+                <td>
+                  {item.products &&
+                    item.products.length > 0 &&
+                    item.products.map((item: any) => {
+                      return (
+                        <>
+                          <span>{item.product_quantity}</span>
+                          <br />
+                        </>
+                      );
+                    })}
+                </td>
+                <td>
+                  {item.products &&
+                    item.products.length > 0 &&
+                    item.products.map((item: any) => {
+                      return (
+                        <>
+                          <span>{item.product_price}</span>
+                          <br />
+                        </>
+                      );
+                    })}
+                </td>
+                <td>{item?.total_price}</td>
+                <td>{item?.status}</td>
               </tr>
             ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      )}
+      {MyOrders.length === 0 && !isLoading && (
+        <div className="pt-5">
+          <h4 className="text-center">No Data Found</h4>
+        </div>
+      )}
     </div>
   );
 }
