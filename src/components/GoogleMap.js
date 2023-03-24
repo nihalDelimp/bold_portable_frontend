@@ -5,12 +5,12 @@ import {
     GoogleMap,
     MarkerF,
     Autocomplete,
-    Marker,
 } from "@react-google-maps/api";
-import { useDispatch, useSelector } from "react-redux";
-import simpleMarker from '../assets/img/marker.png'
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 
-function SimpleMap() {
+
+function SimpleMap(props) {
+    const {setLoading}  = props
     const [latLng, setCurrentLatLng] = useState(null)
     const [map, setMap] = useState(null);
     const autocompleteRef = useRef();
@@ -26,13 +26,14 @@ function SimpleMap() {
             navigator.geolocation.getCurrentPosition((position) => {
                 const location = { lat: position.coords.latitude, lng: position.coords.longitude };
                 setCurrentLatLng(location)
+                setLoading(false);
             });
         }
     };
 
 
     function errorCallback() {
-        // setLoading(false);
+         setLoading(false);
         switch (error.code) {
             case error.PERMISSION_DENIED:
                 alert("User denied the request for Geolocation.");
@@ -53,7 +54,7 @@ function SimpleMap() {
 
     useEffect(() => {
         if (navigator.geolocation) {
-            // setLoading(true)
+            setLoading(true)
             navigator.geolocation.getCurrentPosition(
                 successCallback,
                 errorCallback,
@@ -167,4 +168,4 @@ function SimpleMap() {
         </div>
     );
 }
-export default SimpleMap;
+export default  IsLoadingHOC(SimpleMap);

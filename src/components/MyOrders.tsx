@@ -3,16 +3,22 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
+import { socket } from "../config/socket";
 import { RootState } from "../Redux/rootReducer";
 
 function MyOrders(props: any) {
   const [MyOrders, setMyOrders] = useState<string[]>([]);
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const { setLoading , isLoading } = props;
+  const { setLoading, isLoading } = props;
 
   useEffect(() => {
-     getProductsListData();
+    getProductsListData();
+  }, []);
+
+  useEffect(() => {
+    // Connect to the server
+    socket.emit("my_order", "My order is processing");
   }, []);
 
   const getProductsListData = async () => {

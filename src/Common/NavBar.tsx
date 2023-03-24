@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/auth";
 import { useNavigate } from "react-router-dom";
 import CartModal from "./CartModal";
+import { socket } from "../config/socket";
 
 function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   const { cart } = useSelector((state: RootState) => state.product);
-
   const [cartModal, setCartModal] = useState(false);
 
   const handleLogout = () => {
@@ -22,6 +22,31 @@ function NavBar() {
   const handleModal = () => {
     setCartModal(!cartModal);
   };
+
+
+  useEffect(() => {
+    // Connect to the server
+    socket.connect();
+    socket.on("new_order", (data: string) => {
+      console.log("order_status", data);
+    });
+
+    socket.on("cancel_order", (data: string) => {
+      console.log("order_status", data);
+    });
+
+    socket.emit("accept_order", "Order has been accepted");
+
+    socket.on("complete_order", (data: string) => {
+      console.log("order_status", data);
+    });
+
+    // Cleanup function to disconnect from the server
+    return () => {
+      socket.disconnect();
+      console.log("after LOgOut" , socket)
+    };
+  }, []);
 
   return (
     <>
