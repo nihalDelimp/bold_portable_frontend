@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "../assets/css/userProfile.css";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
-import { setuser } from "../Redux/Reducers/auth";
+import { setuser } from "../Redux/Reducers/authSlice";
 import { RootState } from "../Redux/rootReducer";
 import { string } from "yup";
 

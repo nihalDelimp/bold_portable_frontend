@@ -63,24 +63,24 @@ function MyOrders(props: any) {
                 <td>
                   {item.products &&
                     item.products.length > 0 &&
-                    item.products.map((item: any) => {
+                    item.products.map((item: any , index2 :  number) => {
                       return (
-                        <>
+                        <div key = {index2+2 + 'abc'}>
                           <span>{item.product_quantity}</span>
                           <br />
-                        </>
+                        </div>
                       );
                     })}
                 </td>
                 <td>
                   {item.products &&
                     item.products.length > 0 &&
-                    item.products.map((item: any) => {
+                    item.products.map((item: any , index3 : number) => {
                       return (
-                        <>
+                        <div key = {index3+3 + 'kjf'}>
                           <span>{item.product_price}</span>
                           <br />
-                        </>
+                        </div>
                       );
                     })}
                 </td>

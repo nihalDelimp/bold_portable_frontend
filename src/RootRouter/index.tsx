@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import Login from "../components/Login";

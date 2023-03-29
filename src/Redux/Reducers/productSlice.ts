@@ -1,6 +1,5 @@
 // src/redux/cartSlice.js
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Action } from '@reduxjs/toolkit';
 
 interface product {
   cart: any[];

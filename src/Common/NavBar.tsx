@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
-import { logout } from "../Redux/Reducers/auth";
+import { logout } from "../Redux/Reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import CartModal from "./CartModal";
 import { socket } from "../config/socket";
@@ -15,7 +15,7 @@ function NavBar() {
   const [cartModal, setCartModal] = useState(false);
 
   const handleLogout = () => {
-    dispatch(logout(true));
+    dispatch(logout(false));
     navigate("/");
   };
 

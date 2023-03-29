@@ -5,7 +5,7 @@ import {
   setAccessToken,
   setIsAuthenticated,
   setuser,
-} from "../Redux/Reducers/auth";
+} from "../Redux/Reducers/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RootState } from "../Redux/rootReducer";
