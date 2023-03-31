@@ -9,6 +9,11 @@ import { authAxios } from "../config/config";
 import { setuser } from "../Redux/Reducers/authSlice";
 import { RootState } from "../Redux/rootReducer";
 import { string } from "yup";
+import {
+  acceptedFileTypes,
+  acceptedFileTypesArray,
+  imageMaxSize,
+} from "../Helper";
 
 function EditProfile(props: any) {
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
@@ -123,15 +128,36 @@ function EditProfile(props: any) {
       });
   };
 
-  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const filesList = e.target.files;
-    if (!filesList) {
-      return;
+  const verifyFile = (files: any) => {
+    if (files && files.length > 0) {
+      const currentFile = files[0];
+      const currentFileType = currentFile.type;
+      const currentFileSize = currentFile.size;
+      if (!acceptedFileTypesArray.includes(currentFileType)) {
+        toast.error("This file is not allowed. Only images are allowed.");
+        return false;
+      }
+      if (currentFileSize > imageMaxSize) {
+        toast.error(
+          "This file is not allowed. " + currentFileSize + " bytes is too large"
+        );
+        return false;
+      }
+      return true;
     }
-    let previewImage = URL.createObjectURL(filesList[0]);
-    setPrevImage("")
-    setCurrentImage(previewImage);
-    setSelectedImage(filesList[0]);
+  };
+
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const isVerified = verifyFile(files);
+      if (isVerified) {
+        let previewImage = URL.createObjectURL(files[0]);
+        setPrevImage("");
+        setCurrentImage(previewImage);
+        setSelectedImage(files[0]);
+      }
+    }
   };
 
   return (
@@ -161,7 +187,7 @@ function EditProfile(props: any) {
                       <input
                         className="form-control"
                         onChange={handleChangeImage}
-                        accept="image/*"
+                        accept={acceptedFileTypes}
                         type="file"
                       ></input>
                     </div>
