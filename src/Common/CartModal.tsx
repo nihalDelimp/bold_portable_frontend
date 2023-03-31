@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useRef , useEffect } from "react";
 import "../assets/css/styles.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
@@ -11,15 +11,19 @@ import {
 import { useDispatch } from "react-redux";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
-import io from 'socket.io-client';
+import io , {Socket} from 'socket.io-client';
 import { toast } from "react-toastify";
-const socket = io('http://localhost:4000');
+
 
 const CartModal = (props: any) => {
   const dispetch = useDispatch();
   const { cartModal, handleModal, setLoading, isLoading } = props;
   const { cart } = useSelector((state: RootState) => state.product);
   const { user } = useSelector((state: RootState) => state.auth);
+
+  const socket = useRef<Socket>()
+
+   socket.current = io('http://localhost:4000');
 
   interface MyCart {
     userId: string;
@@ -30,13 +34,6 @@ const CartModal = (props: any) => {
     }[];
   }
 
-  useEffect(() => {
-    socket.connect();
-    
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
 
   const totalCounter = () => {
     var result = cart.reduce(function (acc, item) {
@@ -65,7 +62,9 @@ const CartModal = (props: any) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            socket.emit('new_order', response.data.data);
+            if(socket.current){
+            socket.current.emit('new_order', response.data.data);
+            }
             toast.success(response.data?.message);
             dispetch(removeAllItems());
             handleModal();
