@@ -5,9 +5,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { PersistGate } from 'redux-persist/integration/react';
 import store from "./Redux/store";
 import { persistor } from "./Redux/store";
-import './assets/css/styles.css';
+// import './asstes/css/main.css';
+import './asstes/scss/main.scss';
 
-import "./index.css";
+
+
 import App from "./App";
 
 const root = ReactDOM.createRoot(

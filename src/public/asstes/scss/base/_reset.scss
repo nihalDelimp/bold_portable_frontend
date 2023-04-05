@@ -1,0 +1,33 @@
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+}
+div {
+    width: 100%;
+}
+
+a {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+img {
+    max-width: 100%;
+}
+section {
+    position: relative;
+}
+input , select , textarea, button {
+    outline: none;
+    border: none;
+}
+button {
+    cursor: pointer;
+}

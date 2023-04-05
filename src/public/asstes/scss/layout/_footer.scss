@@ -1,0 +1,174 @@
+.footer {
+    background-color: lighten($black, 5%);
+    padding-top: clamp(50px, 6.5vw, 100px);
+    .bold--heading--wrapper {
+        max-width: 500px;
+        h2 {
+            color: $white;
+        }
+    }
+    .footer--form {
+        .form--group {
+            position: relative;
+            input {
+                width: 100%;
+                border-bottom: 1px solid lighten($black, 30%);
+                background-color: transparent;
+                min-height: 60px;
+                font-size: 20px;
+                color: $white;
+            }
+            .submit--btn {
+                button {
+                    width: 160px;
+                    aspect-ratio: 1;
+                    background-color: $yellow;
+                    border-radius: 50%;
+                    position: absolute;
+                    right: 0;
+                    transform: translate(-50px, -50%);
+                    background-image: url('../../image//arrow--thin.svg');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: 50%;
+                    transition: $transition;
+                    @media (max-width:1024px) {
+                        width: 100px;
+                    }
+                    @media (max-width:767px) {
+                        width: 70px;
+                        transform: translate(-15px, -50%);
+                    }
+                    &:hover {
+                        transform: translate(0px, -50%);
+                    }
+                }
+            }
+        }
+    }
+    .contact--details {
+        margin-top: 100px;
+        @media (max-width:767px) {
+            margin-top: 100px;
+        }
+        ul {
+            @include flex(flex-start);
+            gap:30px;
+            @media (max-width:767px) {
+               flex-direction: column;
+               align-items: flex-start;
+               gap:20px;
+            }
+            li {
+                a {
+                    font-size: 18px;
+                    font-weight: 400;
+                    color: #fff;
+                    border: 1px solid lighten($black, 30%);
+                    padding: 20px 40px;
+                    border-radius: 15px;
+                    position: relative;
+                    overflow: hidden;
+                    z-index: 1;
+                    transition: $transition;
+                    @media (max-width:767px) {
+                        font-size: 16px;
+                        padding: 15px 30px;
+                    }
+                    &::before {
+                        @extend %before_content;
+                        background-color: $yellow;
+                        z-index: -1;
+                        transition: $transition;
+                        transform: scaleX(0);
+                    }
+                    &:hover {
+                        color: $black;
+                        &:before {
+                            transform: scaleX(1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .footer--social {
+        margin-top: 100px;
+        @media (max-width:767px) {
+            margin-top: 40px;
+        }
+        @include flex(space-between);
+        .social--list {
+            ul {
+                display: flex;
+                justify-content: flex-end;
+                gap: 15px;
+                li {
+                    a {
+                        width: 40px;
+                        aspect-ratio: 1;
+                        border: 2px solid lighten($black, 30%);
+                        border-radius: 50%;
+                        font-size: 15px;
+                        color: $white;
+                        display: flex;
+                        @include flex();
+                        position: relative;
+                        z-index: 1;
+                        transition: $transition;
+                        &::before {
+                            @extend %before_content;
+                            background-color: $yellow;
+                            z-index: -1;
+                            transition: $transition;
+                            transform: scale(0);
+                            border-radius: 50%;
+                        }
+                        &:hover {
+                            color: $black;
+                            &::before {
+                                transform: scale(1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .footer--copyright {
+        
+        @include flex(space-between);
+        margin-top: 60px;
+        padding-block: 25px;
+        @media (max-width:767px) {
+            margin-top: 20px;
+            flex-direction: column;
+            padding-block: 10px;
+        }
+        .copyright {
+            font-size: 15px;
+            color: $white;
+            width: 50%;
+            @media (max-width:767px) {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        .design--by {
+            width: 50%;
+            text-align: right;
+            @media (max-width:767px) {
+                width: 100%;
+                text-align: center;
+            }
+            a {
+                font-size: 15px;
+                color: $white;
+                transition: $transition;
+                &:hover {
+                    color: $yellow;
+                }
+            }
+        }
+    }
+}

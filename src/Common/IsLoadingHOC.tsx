@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Circles } from "react-loader-spinner";
-import '../assets/css/loaderStyle.css';
+import './Loader.css';
 
 const Loading = () => {
   return (
