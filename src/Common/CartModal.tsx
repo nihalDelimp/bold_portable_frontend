@@ -23,7 +23,7 @@ const CartModal = (props: any) => {
 
   const socket = useRef<Socket>()
 
-   socket.current = io('http://localhost:4000');
+   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   interface MyCart {
     userId: string;
