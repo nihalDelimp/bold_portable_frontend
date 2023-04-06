@@ -36,7 +36,7 @@ const Products = (props: any) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            const resData = response.data.data;
+            const resData = response.data.data.products;
             setProducts(resData);
           }
         },
