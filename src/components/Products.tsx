@@ -20,7 +20,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 const Products = (props: any) => {
   const { setLoading } = props;
   const dispatch = useDispatch();
-  const [products, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     getProductsListData();
@@ -37,7 +37,7 @@ const Products = (props: any) => {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setProduct(resData);
+            setProducts(resData);
           }
         },
         (error) => {
@@ -52,7 +52,7 @@ const Products = (props: any) => {
 
   const options = {
     loop: true,
-    margin: 0,
+    margin: 10,
     autoplay: true,
     nav: true,
     dots: false,
@@ -79,6 +79,15 @@ const Products = (props: any) => {
     },
   };
 
+  const addToCartHandler = (item: any) => {
+    const payload = {
+      id: item._id,
+      product_name: item.title,
+      product_price: item.product_price,
+    };
+    dispatch(addToCart(item));
+  };
+
   return (
     <section className="rentals">
       <div className="title--heading">
@@ -91,14 +100,14 @@ const Products = (props: any) => {
       </div>
       <div className="rentals--slider" data-aos="fade" data-aos-duration="2000">
         <div className="rentals--slider--wrapper">
-          <OwlCarousel
-            className="owl-carousel owl-theme"
-            id="rentals--slider"
-            {...options}
-          >
-            {products &&
+        {products &&
               products.length > 0 &&
-              products.map((item: any, index: number) => (
+          <OwlCarousel
+            className="owl-theme"
+             {...options}
+          >
+           
+            {  products.map((item: any, index: number) => (
                 <div key={index + 1} className="rentals--item">
                   <div className="rentals--item--wrapper">
                     <div className="thumbnuil">
@@ -125,225 +134,41 @@ const Products = (props: any) => {
                               </SwiperSlide>
                             )
                           )}
+                          {item.product_images &&
+                          item.product_images.length > 0 &&
+                          item.product_images.map(
+                            (image: any, index2: number) => (
+                              <SwiperSlide key = {index2*2}>
+                                <div className="item">
+                                  <a href="#">
+                                    {" "}
+                                    <img
+                                       src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
+                                      alt=""
+                                    />
+                                  </a>
+                                </div>
+                              </SwiperSlide>
+                            )
+                          )}
                       </Swiper>
                     </div>
                     <div className="rentals--content">
                       <a href="#">
-                        <h3>{item.title}</h3>
+                        <h3>{item?.title}</h3>
                       </a>
-                      <p className="rentals--description">{item.description}</p>
+                      <p className="rentals--description">{item?.description}</p>
                       <div className="rentals--cart--data">
-                        <a href="#" className="add--to--cart">
+                        <a onClick={() => addToCartHandler(item)} className="add--to--cart">
                           Add To cart
                         </a>
-                        <span className="price">$110</span>
+                        <span className="price">${item.product_price}</span>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-
-            <div className="rentals--item">
-              <div className="rentals--item--wrapper">
-                <div className="thumbnuil">
-                  <Swiper
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={10}
-                    slidesPerView={1}
-                    pagination={{ clickable: true }}
-                  >
-                    <SwiperSlide>
-                      <div className="item">
-                        <a href="#">
-                          {" "}
-                          <img
-                            src={require("../asstes/image/pd--1.png")}
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="item">
-                        <a href="#">
-                          {" "}
-                          <img
-                            src={require("../asstes/image/pd--2.png")}
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                  </Swiper>
-                </div>
-                <div className="rentals--content">
-                  <a href="#">
-                    <h3>We are best for any industrial business solutions</h3>
-                  </a>
-                  <p className="rentals--description">
-                    Separate men’s & women’s restrooms, Flushing toilets,
-                    Waterless urinal
-                  </p>
-                  <div className="rentals--cart--data">
-                    <a href="#" className="add--to--cart">
-                      Add To cart
-                    </a>
-                    <span className="price">$110</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="rentals--item">
-              <div className="rentals--item--wrapper">
-                <div className="thumbnuil">
-                  <Swiper
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={10}
-                    slidesPerView={1}
-                    pagination={{ clickable: true }}
-                  >
-                    <SwiperSlide>
-                      <div className="item">
-                        <a href="#">
-                          {" "}
-                          <img
-                            src={require("../asstes/image/pd--1.png")}
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="item">
-                        <a href="#">
-                          {" "}
-                          <img
-                            src={require("../asstes/image/pd--2.png")}
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                  </Swiper>
-                </div>
-                <div className="rentals--content">
-                  <a href="#">
-                    <h3>We are best for any industrial business solutions</h3>
-                  </a>
-                  <p className="rentals--description">
-                    Separate men’s & women’s restrooms, Flushing toilets,
-                    Waterless urinal
-                  </p>
-                  <div className="rentals--cart--data">
-                    <a href="#" className="add--to--cart">
-                      Add To cart
-                    </a>
-                    <span className="price">$110</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="rentals--item">
-              <div className="rentals--item--wrapper">
-                <div className="thumbnuil">
-                  <Swiper
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={10}
-                    slidesPerView={1}
-                    pagination={{ clickable: true }}
-                  >
-                    <SwiperSlide>
-                      <div className="item">
-                        <a href="#">
-                          {" "}
-                          <img
-                            src={require("../asstes/image/pd--1.png")}
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="item">
-                        <a href="#">
-                          {" "}
-                          <img
-                            src={require("../asstes/image/pd--2.png")}
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                  </Swiper>
-                </div>
-                <div className="rentals--content">
-                  <a href="#">
-                    <h3>We are best for any industrial business solutions</h3>
-                  </a>
-                  <p className="rentals--description">
-                    Separate men’s & women’s restrooms, Flushing toilets,
-                    Waterless urinal
-                  </p>
-                  <div className="rentals--cart--data">
-                    <a href="#" className="add--to--cart">
-                      Add To cart
-                    </a>
-                    <span className="price">$110</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <div className="rentals--item">
-              <div className="rentals--item--wrapper">
-                <div className="thumbnuil">
-                  <Swiper
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={10}
-                    slidesPerView={1}
-                    pagination={{ clickable: true }}
-                  >
-                    <SwiperSlide>
-                      <div className="item">
-                        <a href="#">
-                          {" "}
-                          <img
-                            src={require("../asstes/image/pd--1.png")}
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="item">
-                        <a href="#">
-                          {" "}
-                          <img
-                            src={require("../asstes/image/pd--2.png")}
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                    </SwiperSlide>
-                  </Swiper>
-                </div>
-                <div className="rentals--content">
-                  <a href="#">
-                    <h3>We are best for any industrial business solutions</h3>
-                  </a>
-                  <p className="rentals--description">
-                    Separate men’s & women’s restrooms, Flushing toilets,
-                    Waterless urinal
-                  </p>
-                  <div className="rentals--cart--data">
-                    <a href="#" className="add--to--cart">
-                      Add To cart
-                    </a>
-                    <span className="price">$110</span>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-          </OwlCarousel>
+          </OwlCarousel>}
         </div>
       </div>
     </section>

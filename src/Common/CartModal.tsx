@@ -1,5 +1,5 @@
 import React, { useRef , useEffect } from "react";
-import "../assets/css/styles.css";
+// import "../assets/css/styles.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import {
@@ -87,10 +87,10 @@ const CartModal = (props: any) => {
       <div
         id="myModal"
         className={`modal fade ${cartModal ? "show" : "hide"}`}
-        style={{ display: cartModal ? "block" : "none" }}
+        style={{ display: cartModal ? "block" : "none" , overflowY : "scroll" }}
       >
         <div
-          className="modal-dialog modal-lg modal-dialog-centered"
+          className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
           role="document"
         >
           <div className="modal-content bg-light">
@@ -138,31 +138,28 @@ const CartModal = (props: any) => {
                         <td className="qty">{item.product_quantity}</td>
                         <td>${item.product_price * item.product_quantity}</td>
                         <td>
-                          <a
-                            href="#"
+                          <button style={{backgroundColor :  "#edf2f4"}}
                             onClick={() =>
                               dispetch(incrementQuantity(item._id))
                             }
-                            className="btn btn-primary btn-sm mr-2"
+                            className="btn"
                           >
                             <i className="fa fa-plus"></i>
-                          </a>
-                          <a
-                            href="#"
+                          </button>
+                          <button style={{backgroundColor :  "#8d99ae"}}
                             onClick={() =>
                               dispetch(decrementQuantity(item._id))
                             }
                             className="btn btn-secondary btn-sm mr-2"
                           >
                             <i className="fa fa-minus"></i>
-                          </a>
-                          <a
-                            href="#"
+                          </button>
+                          <button style={{backgroundColor :  "#ef233c"}}
                             onClick={() => dispetch(removeItem(item._id))}
                             className="btn btn-danger btn-sm"
                           >
                             <i className="fa fa-times"></i>
-                          </a>
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -177,8 +174,10 @@ const CartModal = (props: any) => {
                 </div>
               )}
             </div>
+           
             <div className="modal-footer border-top-0 d-flex justify-content-between">
               <button
+              style={{backgroundColor :  "#8d99ae"}}
                 onClick={() => handleModal()}
                 type="button"
                 className="btn btn-secondary"
@@ -186,7 +185,8 @@ const CartModal = (props: any) => {
               >
                 Close
               </button>
-              <button
+              <button 
+                style={{backgroundColor :  "#2b2d42"}}
                 disabled={isLoading}
                 type="button"
                 onClick={createOrder}
