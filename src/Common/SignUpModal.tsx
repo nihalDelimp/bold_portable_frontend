@@ -74,9 +74,9 @@ function SignUpModal(props: any) {
               <span aria-hidden="true">&times;</span>
             </button>
             <div className="modal-header border-0 mb-2">
-              <h5 className="modal-title" id="exampleModalLabel">
+              <h4 className="modal-title" id="exampleModalLabel">
                 Bold Portable
-              </h5>
+              </h4>
               <button type="button" className="close" aria-label="Close">
                 <span onClick={handleSignUpModal} aria-hidden="true">
                   Log in
@@ -84,7 +84,7 @@ function SignUpModal(props: any) {
               </button>
             </div>
             <div className="modal-body">
-              <h3 className="mb-4 title">Create New Account</h3>
+              <h4 className="mb-4 text-center">Create New Account</h4>
               <div className="form-group">
                 <input
                   required

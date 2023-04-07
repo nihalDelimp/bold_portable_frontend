@@ -1,4 +1,4 @@
-import React, { useRef , useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 // import "../assets/css/styles.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
@@ -11,19 +11,20 @@ import {
 import { useDispatch } from "react-redux";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
-import io , {Socket} from 'socket.io-client';
+import io, { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
-
+import GoogleMapModal from "./GoogleMapModal";
 
 const CartModal = (props: any) => {
   const dispetch = useDispatch();
   const { cartModal, handleModal, setLoading, isLoading } = props;
   const { cart } = useSelector((state: RootState) => state.product);
   const { user } = useSelector((state: RootState) => state.auth);
+  const [mapModal, setMapModal] = useState(false);
 
-  const socket = useRef<Socket>()
+  const socket = useRef<Socket>();
 
-   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   interface MyCart {
     userId: string;
@@ -33,7 +34,6 @@ const CartModal = (props: any) => {
       product_price: number;
     }[];
   }
-
 
   const totalCounter = () => {
     var result = cart.reduce(function (acc, item) {
@@ -62,8 +62,8 @@ const CartModal = (props: any) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            if(socket.current){
-            socket.current.emit('new_order', response.data.data);
+            if (socket.current) {
+              socket.current.emit("new_order", response.data.data);
             }
             toast.success(response.data?.message);
             dispetch(removeAllItems());
@@ -82,12 +82,21 @@ const CartModal = (props: any) => {
       });
   };
 
+  const placeOrder = () => {
+    setMapModal(true)
+   // handleModal()
+  }
+
+  const handleMapModal = () => {
+    setMapModal(!mapModal)
+  };
+
   return (
     <div>
       <div
         id="myModal"
         className={`modal fade ${cartModal ? "show" : "hide"}`}
-        style={{ display: cartModal ? "block" : "none" , overflowY : "scroll" }}
+        style={{ display: cartModal ? "block" : "none", overflowY: "scroll" }}
       >
         <div
           className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
@@ -138,7 +147,8 @@ const CartModal = (props: any) => {
                         <td className="qty">{item.product_quantity}</td>
                         <td>${item.product_price * item.product_quantity}</td>
                         <td>
-                          <button style={{backgroundColor :  "#edf2f4"}}
+                          <button
+                            style={{ backgroundColor: "#edf2f4" }}
                             onClick={() =>
                               dispetch(incrementQuantity(item._id))
                             }
@@ -146,7 +156,8 @@ const CartModal = (props: any) => {
                           >
                             <i className="fa fa-plus"></i>
                           </button>
-                          <button style={{backgroundColor :  "#8d99ae"}}
+                          <button
+                            style={{ backgroundColor: "#8d99ae" }}
                             onClick={() =>
                               dispetch(decrementQuantity(item._id))
                             }
@@ -154,7 +165,8 @@ const CartModal = (props: any) => {
                           >
                             <i className="fa fa-minus"></i>
                           </button>
-                          <button style={{backgroundColor :  "#ef233c"}}
+                          <button
+                            style={{ backgroundColor: "#ef233c" }}
                             onClick={() => dispetch(removeItem(item._id))}
                             className="btn btn-danger btn-sm"
                           >
@@ -174,10 +186,10 @@ const CartModal = (props: any) => {
                 </div>
               )}
             </div>
-           
+
             <div className="modal-footer border-top-0 d-flex justify-content-between">
               <button
-              style={{backgroundColor :  "#8d99ae"}}
+                style={{ backgroundColor: "#8d99ae" }}
                 onClick={() => handleModal()}
                 type="button"
                 className="btn btn-secondary"
@@ -185,19 +197,20 @@ const CartModal = (props: any) => {
               >
                 Close
               </button>
-              <button 
-                style={{backgroundColor :  "#2b2d42"}}
+              <button
+                style={{ backgroundColor: "#2b2d42" }}
                 disabled={isLoading}
                 type="button"
-                onClick={createOrder}
+                onClick={placeOrder}
                 className="btn btn-success btn-sm"
               >
-                {isLoading ? "Processing" : "Create Order"}
+                {isLoading ? "Processing" : "Place Order"}
               </button>
             </div>
           </div>
         </div>
       </div>
+      {mapModal && <GoogleMapModal mapModal={mapModal} handleMapModal = {handleMapModal} closeCartModal = {handleModal} />}
     </div>
   );
 };
