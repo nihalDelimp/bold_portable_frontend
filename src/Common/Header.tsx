@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useRef } from "react";
 import $ from "jquery";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,8 +6,9 @@ import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import CartModal from "./CartModal";
-import { socket } from "../config/socket";
+import io, { Socket } from "socket.io-client";
 import SignInModal from "./SignInModal";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
@@ -16,6 +17,28 @@ const Header = () => {
   const [cartModal, setCartModal] = useState(false);
   const [signinModal, setSigninModal] = useState(false);
   const dispatch = useDispatch();
+
+  const socket = useRef<Socket>();
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+
+console.log('User' , user)
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("cancel_order_received", (order) => {
+        console.log("cancel_order_user_Id", order.user);
+        console.log("_user_Id", user._id);
+        if(user._id === order.user){
+          alert("jhdkhsdh _  ALert")
+          toast.warning('Your order hase been cancelled')
+        }
+        console.log("cancel_order_received", order);
+      });
+    }
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     $(".hamburger").click(function () {

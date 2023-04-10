@@ -83,7 +83,7 @@ function SignUpModal(props: any) {
                 </span>
               </button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body form_modal">
               <h4 className="mb-4 text-center">Create New Account</h4>
               <div className="form-group">
                 <input

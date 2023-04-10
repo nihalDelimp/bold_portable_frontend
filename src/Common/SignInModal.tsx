@@ -96,7 +96,7 @@ function SignInModal(props: any) {
                 <span onClick={handleSignUpModal} aria-hidden="true">Sign up</span>
               </button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body form_modal">
               <h4 className="mb-4  text-center">Login your Account</h4>
               <div className="form-group">
                 <input

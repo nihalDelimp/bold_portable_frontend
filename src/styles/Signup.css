@@ -22,11 +22,11 @@
            opacity: 1;
        }
 
-       /* .form-control {
+       .form_modal  .form-control {
            background: transparent;
            border: none;
            border-bottom: 1px solid grey;
-       } */
+       }
 
        input.form-control:focus,
        input.form-control:after {
