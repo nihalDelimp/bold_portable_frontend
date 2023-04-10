@@ -16,6 +16,7 @@ import { addToCart } from "../Redux/Reducers/productSlice";
 import { useDispatch } from "react-redux";
 import SimpleImageSlider from "react-simple-image-slider";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { limitDesc } from "../Helper/index";
 
 const Products = (props: any) => {
   const { setLoading } = props;
@@ -52,8 +53,8 @@ const Products = (props: any) => {
 
   const options = {
     loop: true,
-    margin: 10,
-    autoplay: true,
+    margin: 0,
+    autoplay: false,
     nav: true,
     dots: false,
     autoplayTimeout: 2000,
@@ -100,14 +101,9 @@ const Products = (props: any) => {
       </div>
       <div className="rentals--slider" data-aos="fade" data-aos-duration="2000">
         <div className="rentals--slider--wrapper">
-        {products &&
-              products.length > 0 &&
-          <OwlCarousel
-            className="owl-theme"
-             {...options}
-          >
-           
-            {  products.map((item: any, index: number) => (
+          {products && products.length > 0 && (
+            <OwlCarousel className="owl-theme" {...options}>
+              {products.map((item: any, index: number) => (
                 <div key={index + 1} className="rentals--item">
                   <div className="rentals--item--wrapper">
                     <div className="thumbnuil">
@@ -121,12 +117,12 @@ const Products = (props: any) => {
                           item.product_images.length > 0 &&
                           item.product_images.map(
                             (image: any, index2: number) => (
-                              <SwiperSlide key = {index2*2}>
+                              <SwiperSlide key={index2 * 2}>
                                 <div className="item">
                                   <a href="#">
                                     {" "}
                                     <img
-                                       src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
+                                      src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
                                       alt=""
                                     />
                                   </a>
@@ -134,16 +130,16 @@ const Products = (props: any) => {
                               </SwiperSlide>
                             )
                           )}
-                          {item.product_images &&
+                        {item.product_images &&
                           item.product_images.length > 0 &&
                           item.product_images.map(
                             (image: any, index2: number) => (
-                              <SwiperSlide key = {index2*2}>
+                              <SwiperSlide key={index2 * 2}>
                                 <div className="item">
                                   <a href="#">
                                     {" "}
                                     <img
-                                       src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
+                                      src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
                                       alt=""
                                     />
                                   </a>
@@ -157,9 +153,14 @@ const Products = (props: any) => {
                       <a href="#">
                         <h3>{item?.title}</h3>
                       </a>
-                      <p className="rentals--description">{item?.description}</p>
+                      <p className="rentals--description">
+                        {item?.description.substring(0, limitDesc) + "..."}
+                      </p>
                       <div className="rentals--cart--data">
-                        <a onClick={() => addToCartHandler(item)} className="add--to--cart">
+                        <a
+                          onClick={() => addToCartHandler(item)}
+                          className="add--to--cart"
+                        >
                           Add To cart
                         </a>
                         <span className="price">${item.product_price}</span>
@@ -168,7 +169,8 @@ const Products = (props: any) => {
                   </div>
                 </div>
               ))}
-          </OwlCarousel>}
+            </OwlCarousel>
+          )}
         </div>
       </div>
     </section>

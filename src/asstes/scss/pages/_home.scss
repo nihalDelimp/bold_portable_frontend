@@ -967,31 +967,22 @@
                         .rentals--item--wrapper {
                             .thumbnuil {
                                 padding-top: 20px;
-                                .owl-nav {
-                                    display: none;
-                                }
-                                .owl-item {
+                                .swiper-slide {
                                     .item {
-                                        text-align: center;
+                                        padding: clamp(15px, 2vw, 30px);
                                         img {
-                                            max-width: 80%;
-                                            margin: 0 auto;
+                                            aspect-ratio: 1/ 1;
+                                            object-fit: cover;
                                         }
                                     }
                                 }
-                                .owl-dots {
-                                    margin-top: 5px;
-                                    .owl-dot {
-                                        &.active {
-                                            span {
-                                                background-color: $yellow;
-                                            }
-                                        }
-                                        span {
-                                            margin: 3px 4px;
-                                        }
+                                .swiper-pagination .swiper-pagination-bullet {
+                                    background-color: lighten($black, 70%);
+                                    &.swiper-pagination-bullet-active {
+                                        background-color: $blue;
                                     }
                                 }
+                                
                             }
                             .rentals--content {
                                 padding: 30px clamp(20px, 3vw, 40px) 10px;
