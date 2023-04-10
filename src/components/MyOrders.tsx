@@ -1,24 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { socket } from "../config/socket";
 import { RootState } from "../Redux/rootReducer";
+import io, { Socket } from "socket.io-client";
 
 function MyOrders(props: any) {
   const [MyOrders, setMyOrders] = useState<string[]>([]);
   const { user } = useSelector((state: RootState) => state.auth);
-
+  const socket = useRef<Socket>();
   const { setLoading, isLoading } = props;
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   useEffect(() => {
     getProductsListData();
   }, []);
 
+
   useEffect(() => {
-    // Connect to the server
-    socket.emit("my_order", "My order is processing");
+    if (socket.current) {
+      socket.current.on("cancel_order_received", (orderId) => {
+        console.log("cancel_order_received", orderId);
+      });
+    }
+    return () => {
+      socket.current?.disconnect();
+    };
   }, []);
 
   const getProductsListData = async () => {
