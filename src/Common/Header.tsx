@@ -21,15 +21,16 @@ const Header = () => {
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
-console.log('User' , user)
+console.log('UserID' , user._id)
 
   useEffect(() => {
     if (socket.current) {
       socket.current.on("cancel_order_received", (order) => {
         console.log("cancel_order_user_Id", order.user);
         console.log("_user_Id", user._id);
+        toast.warning('Your order hase been cancelled')
         if(user._id === order.user){
-          toast.warning('Your order hase been cancelled')
+         
         }
         console.log("cancel_order_received", order);
       });
