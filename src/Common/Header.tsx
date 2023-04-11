@@ -28,7 +28,7 @@ console.log('UserID' , user._id)
       socket.current.on("cancel_order_received", (order) => {
         console.log("cancel_order_user_Id", order.user);
         console.log("_user_Id", user._id);
-        toast.warning('Your order hase been cancelled')
+        toast.warning('Your order has cancelled')
         if(user._id === order.user){
          
         }
