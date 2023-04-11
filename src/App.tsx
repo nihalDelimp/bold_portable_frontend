@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import RootRouter from "./RootRouter";
 
-console.log("Fixed product images swiper 2")
+console.log("Test on clicked add to cart")
 
 function App() {
   return (
