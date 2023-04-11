@@ -128,7 +128,7 @@ const Products = (props: any) => {
                     </div>
                     <div className="rentals--content">
                       <a href="#">
-                        <h3>{item?.title}</h3>
+                        <h3>{item?.title.substring(0, 20) + "..."}</h3>
                       </a>
                       <p className="rentals--description">
                         {item?.description.substring(0, limitDesc) + "..."}
