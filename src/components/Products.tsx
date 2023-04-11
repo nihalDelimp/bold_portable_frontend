@@ -139,12 +139,12 @@ const Products = (props: any) => {
                         {item?.description.substring(0, limitDesc) + "..."}
                       </p>
                       <div className="rentals--cart--data">
-                        <a
+                        <span
                           onClick={() => addToCartHandler(item)}
                           className="add--to--cart"
                         >
                           Add To cart
-                        </a>
+                        </span>
                         <span className="price">${item.product_price}</span>
                       </div>
                     </div>
