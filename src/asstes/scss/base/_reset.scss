@@ -30,4 +30,8 @@ input , select , textarea, button {
 }
 button {
     cursor: pointer;
+    &:focus {
+        outline: none;
+    }
 }
+

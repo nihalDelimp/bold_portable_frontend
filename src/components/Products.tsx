@@ -114,7 +114,7 @@ const Products = (props: any) => {
                             (image: any, index2: number) => (
                               <SwiperSlide key={index2 * 2}>
                                 <div className="item">
-                                  <a style={{width : '100%'}}>
+                                  <a href="#">
                                     <img
                                       src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
                                       alt=""
@@ -136,7 +136,7 @@ const Products = (props: any) => {
                       <div className="rentals--cart--data">
                         <button 
                           onClick={() => addToCartHandler(item)}
-                          className="btn"
+                          className="add--to--cart"
                         >
                           Add To cart
                         </button>

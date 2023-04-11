@@ -970,9 +970,12 @@
                                 .swiper-slide {
                                     .item {
                                         padding: clamp(15px, 2vw, 30px);
-                                        img {
-                                            aspect-ratio: 1/ 1;
-                                            object-fit: cover;
+                                        a {
+                                            display: block;
+                                            img {
+                                                aspect-ratio: 1/ 1;
+                                                object-fit: cover;
+                                            }
                                         }
                                     }
                                 }
@@ -1005,6 +1008,7 @@
                                         text-transform: uppercase;
                                         padding: 10px 0;
                                         transition: $transition;
+                                        background-color: transparent;
                                         &:hover {
                                             color: $blue;
                                         }
