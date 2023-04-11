@@ -114,7 +114,7 @@ const Products = (props: any) => {
                             (image: any, index2: number) => (
                               <SwiperSlide key={index2 * 2}>
                                 <div className="item">
-                                  <a>
+                                  <a style={{width : '100%'}}>
                                     <img
                                       src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
                                       alt=""

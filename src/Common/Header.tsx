@@ -120,7 +120,7 @@ console.log('UserID' , user._id)
                   <div className="cart--wrapper">
                     <div className="cart--icon">
                       {
-                        <span onClick={handleModal} className="badge">
+                        <span onClick={handleModal} className={ `${cart && cart.length > 0 ? 'badge'  : ''}`}>
                           {cart && cart.length > 0 &&  cart.length}
                         </span>
                       }
