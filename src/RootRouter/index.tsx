@@ -6,7 +6,6 @@ import MyOrders from "../components/MyOrders";
 
 function RootRouter() {
 
- 
   return (
     <div>
       <Router>

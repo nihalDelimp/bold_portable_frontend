@@ -1,9 +1,0 @@
-@keyframes marquee {
-	0% {
-		transform: translate3d(calc(-25% + 20vw), 0, 0);
-	}
-
-	100% {
-		transform: translate3d(calc(-50% + 20vw), 0, 0);
-	}
-}

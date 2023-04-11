@@ -29,7 +29,6 @@ console.log('User' , user)
         console.log("cancel_order_user_Id", order.user);
         console.log("_user_Id", user._id);
         if(user._id === order.user){
-          alert("jhdkhsdh _  ALert")
           toast.warning('Your order hase been cancelled')
         }
         console.log("cancel_order_received", order);
