@@ -118,11 +118,11 @@ console.log('User' , user)
                 <div className="cart">
                   <div className="cart--wrapper">
                     <div className="cart--icon">
-                      {cart && cart.length && (
+                      {
                         <span onClick={handleModal} className="badge">
-                          {cart && cart.length}
+                          {cart && cart.length > 0 &&  cart.length}
                         </span>
-                      )}
+                      }
                       <img
                         src={require("../asstes/image/cart.svg").default}
                         alt=""

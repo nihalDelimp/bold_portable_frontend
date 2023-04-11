@@ -119,25 +119,7 @@ const Products = (props: any) => {
                             (image: any, index2: number) => (
                               <SwiperSlide key={index2 * 2}>
                                 <div className="item">
-                                  <a href="#">
-                                    {" "}
-                                    <img
-                                      src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
-                                      alt=""
-                                    />
-                                  </a>
-                                </div>
-                              </SwiperSlide>
-                            )
-                          )}
-                        {item.product_images &&
-                          item.product_images.length > 0 &&
-                          item.product_images.map(
-                            (image: any, index2: number) => (
-                              <SwiperSlide key={index2 * 2}>
-                                <div className="item">
-                                  <a href="#">
-                                    {" "}
+                                  <a>
                                     <img
                                       src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
                                       alt=""
