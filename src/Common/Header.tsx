@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import $ from "jquery";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,16 +21,15 @@ const Header = () => {
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
-console.log('UserID' , user._id)
+  console.log("UserID", user._id);
 
   useEffect(() => {
     if (socket.current) {
       socket.current.on("cancel_order_received", (order) => {
         console.log("cancel_order_user_Id", order.user);
         console.log("_user_Id", user._id);
-        toast.warning('Your order has cancelled')
-        if(user._id === order.user){
-         
+        toast.warning("Your order has cancelled");
+        if (user._id === order.user) {
         }
         console.log("cancel_order_received", order);
       });
@@ -118,10 +117,14 @@ console.log('UserID' , user._id)
               <div className="login--cart--wrapper">
                 <div className="cart">
                   <div className="cart--wrapper">
-                    <div className="cart--icon">
+                    <div className="cart--icon" onClick={handleModal}>
                       {
-                        <span onClick={handleModal} className={ `${cart && cart.length > 0 ? 'badge'  : ''}`}>
-                          {cart && cart.length > 0 &&  cart.length}
+                        <span
+                          className={`${
+                            cart && cart.length > 0 ? "badge" : ""
+                          }`}
+                        >
+                          {cart && cart.length > 0 && cart.length}
                         </span>
                       }
                       <img
