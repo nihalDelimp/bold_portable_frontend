@@ -221,7 +221,7 @@ const Header = () => {
                 </div>
                 <div className="login--btn--wrapper">
                   <a href="#" className="login--btn">
-                    Join Us
+                    {accessToken ? user.name :"Join Us"}
                   </a>
                 </div>
               </div>
