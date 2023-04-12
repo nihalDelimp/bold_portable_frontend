@@ -128,10 +128,10 @@ const Products = (props: any) => {
                     </div>
                     <div className="rentals--content">
                       <a href="#">
-                        <h3>{item?.title.substring(0, 20) + "..."}</h3>
+                        <h3>{`${item?.title.substring(0, 20)} ${item.title.length > 20  ? "..." : '' } `}</h3>
                       </a>
                       <p className="rentals--description">
-                        {item?.description.substring(0, limitDesc) + "..."}
+                        {` ${item?.description.substring(0, limitDesc)} ${item.description.length > limitDesc  ? "..." : '' }  `}
                       </p>
                       <div className="rentals--cart--data">
                         <button 
