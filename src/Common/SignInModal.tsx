@@ -13,6 +13,7 @@ import SignUpModal from "./SignUpModal";
 
 function SignInModal(props: any) {
   const { signinModal, handleSigninModal } = props;
+
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [signupModal, setSignupModal] = useState(false);
@@ -50,6 +51,12 @@ function SignInModal(props: any) {
             dispatch(setAccessToken(response.data.data.token));
             dispatch(setuser(response.data.data.user));
             dispatch(setIsAuthenticated(true));
+
+            document.querySelector(".custom--popup")?.classList.remove("active--popup");
+
+
+
+
             handleSigninModal()
           } else {
             toast.error(response.data.message);

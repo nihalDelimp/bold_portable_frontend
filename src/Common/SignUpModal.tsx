@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 
 function SignUpModal(props: any) {
   const { signupModal, handleSignUpModal } = props;
-  const [loading, setLoading] = useState(false);
 
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",

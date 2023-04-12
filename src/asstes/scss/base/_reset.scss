@@ -4,7 +4,9 @@
     margin: 0;
     box-sizing: border-box;
 }
-
+body {
+    overflow-x: hidden;
+}
 ul{
     list-style: none;
     padding: 0;
@@ -17,6 +19,7 @@ a {
     position: relative;
     display: inline-block;
     cursor: pointer;
+    transition: $transition;
 }
 img {
     max-width: 100%;
@@ -30,8 +33,4 @@ input , select , textarea, button {
 }
 button {
     cursor: pointer;
-    &:focus {
-        outline: none;
-    }
 }
-

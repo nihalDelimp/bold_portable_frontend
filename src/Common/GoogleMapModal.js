@@ -147,7 +147,7 @@ function GoogleMapModal(props) {
   }
 
 
-  const mapContainerStyle = { width: "100%", height: "600px" };
+  const mapContainerStyle = { width: "100%", height: "300px" };
   console.log('latLng', latLng)
 
 
@@ -183,7 +183,7 @@ function GoogleMapModal(props) {
             }
             toast.success(response.data?.message);
             dispetch(removeAllItems());
-            closeAllModal()
+            handleMapModal()
           } else {
             toast.error(response.data?.message);
           }
@@ -208,7 +208,7 @@ function GoogleMapModal(props) {
         role="dialog"
         aria-labelledby="myModalLabel"
         className={`modal fade ${mapModal ? "show" : "hide"}`}
-        style={{ display: mapModal ? "block" : "none", overflowY: "scroll" }}
+        style={{ display: mapModal ? "block" : "none" , bottom : '-700px' }}
       >
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
@@ -227,19 +227,19 @@ function GoogleMapModal(props) {
               </button>
             </div>
             <div className="modal-body">
-              <div className="row">
+              <div className="row mx-0">
                 <div className="col-md-12 modal_body_content">
                   <p>Please share your location to complete an order</p>
                 </div>
               </div>
-              <div className="row">
+              <div className="row mx-0">
                 <div className="col-md-12 modal_body_map">
                   <div className="location-map" id="location-map">
                     <div className="track-maps-content">
                       {isLoaded && latLng && latLng.lat && latLng.lng && (
                         <GoogleMap
                           center={latLng}
-                          zoom={15}
+                          zoom={14}
                           mapContainerStyle={mapContainerStyle}
                           onLoad={handleLoad}
                           options={{

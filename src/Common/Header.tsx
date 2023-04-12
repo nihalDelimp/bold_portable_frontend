@@ -9,6 +9,9 @@ import CartModal from "./CartModal";
 import io, { Socket } from "socket.io-client";
 import SignInModal from "./SignInModal";
 import { toast } from "react-toastify";
+import Notifications from "./Notifications";
+import CartPage from "./Cart";
+import SigninModalPopup from "./SigninModalPopup";
 
 const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
@@ -43,6 +46,79 @@ const Header = () => {
     $(".hamburger").click(function () {
       $(this).toggleClass("active--hamburger");
       $(".nav--menu--wrapper").toggleClass("active--nav");
+    });
+  }, []);
+
+  useEffect(() => {
+    // Login Dropdown
+
+    $(".login--btn").click(function(){
+      $(".user--dropdown").toggleClass("active--dropdown");
+    });
+    
+    $(document).on("click", function(e){
+      if($(e.target).closest(".user--dropdown").length === 0 && $(e.target).closest(".login--btn").length === 0 ) {
+        $(".user--dropdown").removeClass("active--dropdown");
+      }
+      if($(e.target).closest(".notifications--dropdown").length === 0 && $(e.target).closest(".notifications--wrapper").length === 0 ) {
+        $(".notifications--dropdown").removeClass("active--notifications--dropdown");
+      }
+      if($(e.target).closest(".cart--dropdown").length === 0 && $(e.target).closest(".cart").length === 0 ) {
+        $(".cart--dropdown").removeClass("active--cart--dropdown");
+      }
+      if($(e.target).closest(".custom--popup--wrapper").length === 0 && $(e.target).closest(".form--popup").length === 0 ) {
+        $(".custom--popup").removeClass("active--popup");
+      }
+    });
+    
+    // notification dropdown
+    
+    $(".notifications--wrapper").click(function(){
+      $(".notifications--dropdown").toggleClass("active--notifications--dropdown");
+    });
+    $(".close--notification").click(function(){
+      $(".notifications--dropdown").removeClass("active--notifications--dropdown");
+    });
+    
+    // cart dropdown
+    
+    $(".cart").click(function(){
+      $(".cart--dropdown").toggleClass("active--cart--dropdown");
+    });
+    $(".close--cart").click(function(){
+      $(".cart--dropdown").removeClass("active--cart--dropdown");
+    });
+    
+    // switcher--tabs form
+    
+    $(document).on("click", ".switcher--tabs li a", function(e){
+      e.preventDefault();
+        $(this).parent().siblings().find("a").removeClass("active");
+        $(this).addClass("active");
+    
+        var form_tab_data = $(this).attr("data-id");
+        $(".login--form").removeClass("active--from")
+        $('#'+form_tab_data).addClass("active--from");
+    });
+    
+    $(document).on("click", ".form--popup", function(e){
+      e.preventDefault();
+      if($(this).hasClass("signin--popup")) {
+        $("#login--form").removeClass("active--from");
+        $("#signin--form").addClass("active--from");
+        $(".custom--popup").addClass("active--popup");
+        $(".login--tab--item").removeClass("active");
+        $(".signin--tab--item").addClass("active");
+      }
+      else {
+        $("#signin--form").removeClass("active--from");
+        $("#login--form").addClass("active--from");
+        $(".custom--popup").addClass("active--popup");
+        $(".signin--tab--item").removeClass("active");
+        $(".login--tab--item").addClass("active");
+        
+      }
+     
     });
   }, []);
 
@@ -113,20 +189,17 @@ const Header = () => {
                 </nav>
               </div>
             </div>
+
             <div className="login--cart--container">
               <div className="login--cart--wrapper">
                 <div className="cart">
                   <div className="cart--wrapper">
-                    <div className="cart--icon" onClick={handleModal}>
-                      {
-                        <span
-                          className={`${
-                            cart && cart.length > 0 ? "badge" : ""
-                          }`}
-                        >
-                          {cart && cart.length > 0 && cart.length}
-                        </span>
-                      }
+                    <div className="cart--icon">
+                      <span
+                        className={`${cart && cart.length > 0 ? "badge" : ""}`}
+                      >
+                        {cart && cart.length > 0 && cart.length}
+                      </span>
                       <img
                         src={require("../asstes/image/cart.svg").default}
                         alt=""
@@ -146,30 +219,78 @@ const Header = () => {
                     />
                   </div>
                 </div>
-
-                {accessToken && (
-                  <div className="">
-                    <button onClick={handleLogout} className="btn btn-sm">
-                      logout
-                    </button>
-                  </div>
-                )}
-                {accessToken ? (
-                  <div className="login--btn--wrapper">
-                    <a className="login--btn">{user.name}</a>
-                  </div>
-                ) : (
-                  <div className="login--btn--wrapper">
-                    <a
-                      href="#"
-                      onClick={handleSigninModal}
-                      className="login--btn"
-                    >
-                      Join Us
-                    </a>
-                  </div>
-                )}
+                <div className="login--btn--wrapper">
+                  <a href="#" className="login--btn">
+                    Join Us
+                  </a>
+                </div>
               </div>
+              <div className="user--dropdown">
+                <div className="user--dropdown--wrapper">
+                  <ul>
+                    {!accessToken && (
+                      <li>
+                        <a className=" form--popup login--popup ">
+                          <span className="icons">
+                            <img
+                              src={require("../asstes/image/Login.svg").default}
+                              alt=""
+                            />
+                          </span>{" "}
+                          <span>Login</span>
+                        </a>
+                      </li>
+                    )}
+                    {!accessToken && (
+                      <li>
+                        <a className="form--popup signin--popup">
+                          <span className="icons">
+                            <img
+                              src={
+                                require("../asstes/image/Signup.svg").default
+                              }
+                              alt=""
+                            />
+                          </span>{" "}
+                          <span>Signup</span>
+                        </a>
+                      </li>
+                    )}
+                    {accessToken && (
+                      <li>
+                        <a href="#">
+                          <span className="icons">
+                            <img
+                              src={
+                                require("../asstes/image/Profile.svg").default
+                              }
+                              alt=""
+                            />
+                          </span>{" "}
+                          <span>Account</span>
+                        </a>
+                      </li>
+                    )}
+                    {accessToken && (
+                      <li>
+                        <a onClick={handleLogout} href="#">
+                          <span className="icons">
+                            <img
+                              src={
+                                require("../asstes/image/Logout.svg").default
+                              }
+                              alt=""
+                            />
+                          </span>{" "}
+                          <span>Logout</span>
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+              <Notifications />
+              <CartPage />
             </div>
           </div>
         </div>
@@ -183,6 +304,7 @@ const Header = () => {
           handleSigninModal={handleSigninModal}
         />
       )}
+     < SigninModalPopup />
     </>
   );
 };
