@@ -12,6 +12,13 @@ const GoogleMaps = (props: any) => {
   const [latLng, setCurrentLatLng] = useState({ lat: 0, lng: 0 });
   const [map, setMap] = useState(null);
   const autocompleteRef = useRef<any>(null);
+  const [isMount , setMount] =  useState(false)
+
+  
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
+    libraries: ["places"],
+  });
 
   var options = {
     enableHighAccuracy: true,
@@ -19,16 +26,18 @@ const GoogleMaps = (props: any) => {
     maximumAge: 0,
   };
 
-  const successCallback = function (position: GeolocationPosition) {
+  const successCallback = function () {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
-          const location = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const location = { lat, lng };
           setCurrentLatLng(location);
-         setLoading(false);
+          if(isMount){
+            getAddressFromLatLng(lat, lng);
+          }
+          setLoading(false);
         }
       );
     }
@@ -54,7 +63,7 @@ const GoogleMaps = (props: any) => {
     }
   }
 
-  useEffect(() => {
+  const getCurrentLocation = () => {
     if (navigator.geolocation) {
       setLoading(true);
       navigator.geolocation.getCurrentPosition(
@@ -65,12 +74,13 @@ const GoogleMaps = (props: any) => {
     } else {
       alert("Geolocation is not supported by your browser");
     }
+  };
+
+  useEffect(() => {
+    getCurrentLocation();
+    setMount(!isMount)
   }, []);
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    libraries: ["places"],
-  });
 
   function handleLoad(maps: any) {
     setMap(maps);
@@ -102,9 +112,7 @@ const GoogleMaps = (props: any) => {
     );
   }
 
-  function handleDragEnd(e: any) {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
+  const getAddressFromLatLng = (lat: number, lng: number) => {
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode(
       { location: { lat, lng } },
@@ -124,6 +132,12 @@ const GoogleMaps = (props: any) => {
         }
       }
     );
+  };
+
+  function handleDragEnd(e: any) {
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    getAddressFromLatLng(lat, lng);
   }
 
   const mapContainerStyle = { width: "100%", height: "600px" };
@@ -206,6 +220,7 @@ const GoogleMaps = (props: any) => {
                           className="current--location"
                           data-aos="fade-up"
                           data-aos-duration="1000"
+                          onClick={getCurrentLocation}
                         >
                           <span className="icon">
                             <img
