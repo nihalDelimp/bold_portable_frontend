@@ -29,7 +29,7 @@ const Products = (props: any) => {
 
 
   const getProductsListData = async () => {
-    //  setLoading(true);
+      setLoading(true);
     await authAxios()
       .get("/product/get-products")
       .then(

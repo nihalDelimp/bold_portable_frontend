@@ -3,4 +3,4 @@ export const acceptedFileTypesArray = acceptedFileTypes.split(",").map((item) =>
    return item.trim();
  });
 export const imageMaxSize = 10000000; // bytes
-export const limitDesc = 100;
+export const limitDesc = 80;
