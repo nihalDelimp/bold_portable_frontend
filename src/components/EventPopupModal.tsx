@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   setAccessToken,
   setIsAuthenticated,
@@ -6,13 +6,39 @@ import {
 } from "../Redux/Reducers/authSlice";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { withoutAuthAxios } from "../config/config";
+import { authAxios, withoutAuthAxios } from "../config/config";
 
 function EventPopupModal() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const [events, setEventsData] = useState<any>({});
 
+  useEffect(() => {
+    getSpecificNotification();
+  }, []);
+
+  const getSpecificNotification = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(`/notification/get-specific-unseen-notfications/`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            console.log(response.data);
+            setEventsData(response.data.data);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
 
   const [userInput, setUserInput] = useState({
     email: "",
@@ -60,6 +86,10 @@ function EventPopupModal() {
       });
   };
 
+  const closeModal = () => {
+    document.querySelector(".custom--popup")?.classList.remove("active--popup");
+  };
+
   return (
     <>
       <section className="custom--popup">
@@ -67,38 +97,41 @@ function EventPopupModal() {
           <div className="switcher--tabs">
             <h3 className="text-center mt-4">Events</h3>
           </div>
-          <div className="login--form active--from" id="login--form">
+          <div className="login--form active--from" id="event--form">
             <div className="login--form--wrapper">
-              <form onSubmit={handleSubmit}>
+              <form>
                 <div className="form--group">
                   <label htmlFor="Email">
-                    Email <span className="required"></span>
+                    Event Name <span className="required"></span>
                   </label>
                   <input
                     required
-                    value={userInput.email}
-                    onChange={handleChange}
+                    // value={userInput.email}
+                    // onChange={handleChange}
                     type="email"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Event Name"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="password">
-                    Password <span className="required"></span>
+                   Event Type <span className="required"></span>
                   </label>
                   <input
                     required
                     type="password"
-                    value={userInput.password}
-                    name="password"
-                    onChange={handleChange}
-                    placeholder="Password"
+                    // value={userInput.password}
+                    // name="password"
+                    // onChange={handleChange}
+                    placeholder="Event Type"
                   />
                 </div>
-               
                 <div className="form--action">
-                  <button type="button" className="submit--from btn">
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="submit--from btn"
+                  >
                     Cancel
                   </button>
                 </div>
