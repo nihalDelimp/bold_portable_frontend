@@ -21,12 +21,12 @@ const BestDescribe = () => {
   }, []);
 
 
-  useEffect(() => {
-    $(document).on("click", ".event--popup", function (e) {
-      e.preventDefault();
-      $("#event--form").addClass("active--from");
-    });
-  }, []);
+//   useEffect(() => {
+//     $(document).on("click", ".event--popup", function (e) {
+//       e.preventDefault();
+//       $("#event--form").addClass("active--from");
+//     });
+//   }, []);
 
   return (
     <>
@@ -161,7 +161,7 @@ const BestDescribe = () => {
           </div>
         </div>
       </section>
-      <EventPopupModal />
+      {/* <EventPopupModal /> */}
     </>
   );
 };
