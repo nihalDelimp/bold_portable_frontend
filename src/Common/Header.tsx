@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Notifications from "./Notifications";
 import CartPage from "./Cart";
 import SigninModalPopup from "./SigninModalPopup";
+import { firstChartByFullName } from "../Helper";
 
 const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
@@ -48,73 +49,88 @@ const Header = () => {
   useEffect(() => {
     // Login Dropdown
 
-    $(".login--btn").click(function(){
+    $(".login--btn").click(function () {
       $(".user--dropdown").toggleClass("active--dropdown");
     });
-    
-    $(document).on("click", function(e){
-      if($(e.target).closest(".user--dropdown").length === 0 && $(e.target).closest(".login--btn").length === 0 ) {
+
+    $(document).on("click", function (e) {
+      if (
+        $(e.target).closest(".user--dropdown").length === 0 &&
+        $(e.target).closest(".login--btn").length === 0
+      ) {
         $(".user--dropdown").removeClass("active--dropdown");
       }
-      if($(e.target).closest(".notifications--dropdown").length === 0 && $(e.target).closest(".notifications--wrapper").length === 0 ) {
-        $(".notifications--dropdown").removeClass("active--notifications--dropdown");
+      if (
+        $(e.target).closest(".notifications--dropdown").length === 0 &&
+        $(e.target).closest(".notifications--wrapper").length === 0
+      ) {
+        $(".notifications--dropdown").removeClass(
+          "active--notifications--dropdown"
+        );
       }
-      if($(e.target).closest(".cart--dropdown").length === 0 && $(e.target).closest(".cart").length === 0 ) {
+      if (
+        $(e.target).closest(".cart--dropdown").length === 0 &&
+        $(e.target).closest(".cart").length === 0
+      ) {
         $(".cart--dropdown").removeClass("active--cart--dropdown");
       }
-      if($(e.target).closest(".custom--popup--wrapper").length === 0 && $(e.target).closest(".form--popup").length === 0 ) {
+      if (
+        $(e.target).closest(".custom--popup--wrapper").length === 0 &&
+        $(e.target).closest(".form--popup").length === 0
+      ) {
         $(".custom--popup").removeClass("active--popup");
       }
     });
-    
+
     // notification dropdown
-    
-    $(".notifications--wrapper").click(function(){
-      $(".notifications--dropdown").toggleClass("active--notifications--dropdown");
+
+    $(".notifications--wrapper").click(function () {
+      $(".notifications--dropdown").toggleClass(
+        "active--notifications--dropdown"
+      );
     });
-    $(".close--notification").click(function(){
-      $(".notifications--dropdown").removeClass("active--notifications--dropdown");
+    $(".close--notification").click(function () {
+      $(".notifications--dropdown").removeClass(
+        "active--notifications--dropdown"
+      );
     });
-    
+
     // cart dropdown
-    
-    $(".cart").click(function(){
+
+    $(".cart").click(function () {
       $(".cart--dropdown").toggleClass("active--cart--dropdown");
     });
-    $(".close--cart").click(function(){
+    $(".close--cart").click(function () {
       $(".cart--dropdown").removeClass("active--cart--dropdown");
     });
-    
+
     // switcher--tabs form
-    
-    $(document).on("click", ".switcher--tabs li a", function(e){
+
+    $(document).on("click", ".switcher--tabs li a", function (e) {
       e.preventDefault();
-        $(this).parent().siblings().find("a").removeClass("active");
-        $(this).addClass("active");
-    
-        var form_tab_data = $(this).attr("data-id");
-        $(".login--form").removeClass("active--from")
-        $('#'+form_tab_data).addClass("active--from");
+      $(this).parent().siblings().find("a").removeClass("active");
+      $(this).addClass("active");
+
+      var form_tab_data = $(this).attr("data-id");
+      $(".login--form").removeClass("active--from");
+      $("#" + form_tab_data).addClass("active--from");
     });
-    
-    $(document).on("click", ".form--popup", function(e){
+
+    $(document).on("click", ".form--popup", function (e) {
       e.preventDefault();
-      if($(this).hasClass("signin--popup")) {
+      if ($(this).hasClass("signin--popup")) {
         $("#login--form").removeClass("active--from");
         $("#signin--form").addClass("active--from");
         $(".custom--popup").addClass("active--popup");
         $(".login--tab--item").removeClass("active");
         $(".signin--tab--item").addClass("active");
-      }
-      else {
+      } else {
         $("#signin--form").removeClass("active--from");
         $("#login--form").addClass("active--from");
         $(".custom--popup").addClass("active--popup");
         $(".signin--tab--item").removeClass("active");
         $(".login--tab--item").addClass("active");
-        
       }
-     
     });
   }, []);
 
@@ -209,7 +225,7 @@ const Header = () => {
                 </div>
                 <div className="login--btn--wrapper">
                   <a href="#" className="login--btn">
-                    {accessToken ? user.name :"Join Us"}
+                  <b>  {accessToken ? firstChartByFullName(user?.name) : "Join Us"} </b>
                   </a>
                 </div>
               </div>
@@ -283,7 +299,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-     < SigninModalPopup />
+      <SigninModalPopup />
     </>
   );
 };
