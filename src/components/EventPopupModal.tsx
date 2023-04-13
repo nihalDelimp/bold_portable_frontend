@@ -8,7 +8,8 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { authAxios, withoutAuthAxios } from "../config/config";
 
-function EventPopupModal() {
+function EventPopupModal(props: any) {
+  const { modal, closeModal } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -86,60 +87,72 @@ function EventPopupModal() {
       });
   };
 
-  const closeModal = () => {
-    document.querySelector(".custom--popup")?.classList.remove("active--popup");
-  };
-
   return (
     <>
-      <section className="custom--popup">
-        <div className="custom--popup--wrapper">
-          <div className="switcher--tabs">
-            <h3 className="text-center mt-4">Events</h3>
-          </div>
-          <div className="login--form active--from" id="event--form">
-            <div className="login--form--wrapper">
+      <div
+        className={`modal fade ${modal ? "show" : "hide"}`}
+        style={{ display: modal ? "block" : "none" }}
+        id="exampleModal"
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Event message
+              </h5>
+              <button
+                type="button"
+                onClick={closeModal}
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
               <form>
-                <div className="form--group">
-                  <label htmlFor="Email">
-                    Event Name <span className="required"></span>
+                <div className="form-group">
+                  <label htmlFor="recipient-name" className="col-form-label">
+                    Recipient:
                   </label>
                   <input
-                    required
-                    // value={userInput.email}
-                    // onChange={handleChange}
-                    type="email"
-                    name="email"
-                    placeholder="Event Name"
+                    type="text"
+                    className="form-control"
+                    id="recipient-name"
                   />
                 </div>
-                <div className="form--group">
-                  <label htmlFor="password">
-                   Event Type <span className="required"></span>
+                <div className="form-group">
+                  <label htmlFor="message-text" className="col-form-label">
+                    Message:
                   </label>
-                  <input
-                    required
-                    type="password"
-                    // value={userInput.password}
-                    // name="password"
-                    // onChange={handleChange}
-                    placeholder="Event Type"
-                  />
-                </div>
-                <div className="form--action">
-                  <button
-                    type="button"
-                    onClick={closeModal}
-                    className="submit--from btn"
-                  >
-                    Cancel
-                  </button>
+                  <textarea
+                    className="form-control"
+                    id="message-text"
+                  ></textarea>
                 </div>
               </form>
             </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                onClick={closeModal}
+                className="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary">
+                Send message
+              </button>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </>
   );
 }

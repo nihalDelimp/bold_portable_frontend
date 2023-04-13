@@ -4,6 +4,9 @@ import EventPopupModal from "./EventPopupModal";
 import $ from "jquery";
 
 const BestDescribe = () => {
+  const [modal , setModal] = useState(false)
+
+
   useEffect(() => {
     $(".describe--categorys--list .describe--categorys--item").mouseenter(
       function () {
@@ -21,12 +24,7 @@ const BestDescribe = () => {
   }, []);
 
 
-//   useEffect(() => {
-//     $(document).on("click", ".event--popup", function (e) {
-//       e.preventDefault();
-//       $("#event--form").addClass("active--from");
-//     });
-//   }, []);
+
 
   return (
     <>
@@ -102,7 +100,7 @@ const BestDescribe = () => {
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
                       </p>
-                      <a href="#" className="btn--arrow event--popup "></a>
+                      <a  onClick={() => setModal(true)} className="btn--arrow  "></a>
                     </div>
                     <div
                       className="describe--categorys--item"
@@ -113,7 +111,7 @@ const BestDescribe = () => {
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
                       </p>
-                      <a href="#" className="btn--arrow event--popup"></a>
+                      <a  onClick={() => setModal(true)} className="btn--arrow "></a>
                     </div>
                     <div
                       className="describe--categorys--item active--item"
@@ -124,7 +122,7 @@ const BestDescribe = () => {
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
                       </p>
-                      <a href="#" className="btn--arrow event--popup"></a>
+                      <a onClick={() => setModal(true)} href="#" className="btn--arrow "></a>
                     </div>
                     <div
                       className="describe--categorys--item"
@@ -136,8 +134,8 @@ const BestDescribe = () => {
                         dolor sit.
                       </p>
                       <a
-                        href="#"
-                        className="btn--arrow event--popup "
+                       onClick={() => setModal(true)}
+                        className="btn--arrow  "
                       ></a>
                     </div>
                     <div
@@ -150,8 +148,8 @@ const BestDescribe = () => {
                         dolor sit.
                       </p>
                       <a
-                        href="#"
-                        className="btn--arrow event--popup "
+                       onClick={() => setModal(true)}
+                        className="btn--arrow  "
                       ></a>
                     </div>
                   </div>
@@ -161,7 +159,7 @@ const BestDescribe = () => {
           </div>
         </div>
       </section>
-      {/* <EventPopupModal /> */}
+     {modal  &&  <EventPopupModal modal = {modal} closeModal = {() => setModal(false)} /> }
     </>
   );
 };
