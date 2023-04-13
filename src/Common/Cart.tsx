@@ -1,21 +1,14 @@
-import React ,{useState} from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
-import {
-    removeItem,
-    incrementQuantity,
-    decrementQuantity,
-    removeAllItems,
-  } from "../Redux/Reducers/productSlice";
-  import GoogleMapModal from "./GoogleMapModal";
-
+import { removeItem } from "../Redux/Reducers/productSlice";
+import GoogleMapModal from "./GoogleMapModal";
 
 export default function CartPage() {
-  const dispatch =  useDispatch()
+  const dispatch = useDispatch();
   const { cart } = useSelector((state: RootState) => state.product);
   const { user } = useSelector((state: RootState) => state.auth);
   const [mapModal, setMapModal] = useState(false);
-
 
   const totalCounter = (cart: any) => {
     var result = cart.reduce(function (acc: any, item: any) {
@@ -25,7 +18,7 @@ export default function CartPage() {
   };
 
   const handleMapModal = () => {
-    setMapModal(!mapModal)
+    setMapModal(!mapModal);
   };
 
   return (
@@ -70,7 +63,10 @@ export default function CartPage() {
                           <b>Type:</b> <span>Port</span>
                         </div>
                       </div>
-                      <div   onClick={() => dispatch(removeItem(item._id))} className="delete--product">
+                      <div
+                        onClick={() => dispatch(removeItem(item._id))}
+                        className="delete--product"
+                      >
                         <i className="fa-sharp fa-solid fa-circle-xmark"></i>
                       </div>
                     </div>
@@ -94,8 +90,10 @@ export default function CartPage() {
                 </div>
               </div>
             )}
-
-            <div className="cart--empty">
+            <div
+              style={{ display: cart && cart.length < 1 ? "block" : "none" }}
+              className="cart--empty"
+            >
               <div className="icons">
                 <i className="fa-solid fa-cart-plus"></i>
               </div>
@@ -108,8 +106,9 @@ export default function CartPage() {
           </div>
         </div>
       </div>
-      {mapModal && <GoogleMapModal mapModal={mapModal} handleMapModal = {handleMapModal} />}
-
+      {mapModal && (
+        <GoogleMapModal mapModal={mapModal} handleMapModal={handleMapModal} />
+      )}
     </React.Fragment>
   );
 }

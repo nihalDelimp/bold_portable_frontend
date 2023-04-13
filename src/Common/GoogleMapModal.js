@@ -146,15 +146,9 @@ function GoogleMapModal(props) {
     });
   }
 
-
   const mapContainerStyle = { width: "100%", height: "300px" };
   console.log('latLng', latLng)
 
-
-  const closeAllModal = () => {
-    closeCartModal()
-    handleMapModal();
-  }
 
   const placeOrder = async () => {
     const payLoad = {

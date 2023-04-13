@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import $ from "jquery";
-import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/authSlice";
-import { useNavigate } from "react-router-dom";
-import CartModal from "./CartModal";
 import io, { Socket } from "socket.io-client";
-import SignInModal from "./SignInModal";
 import { toast } from "react-toastify";
 import Notifications from "./Notifications";
 import CartPage from "./Cart";
@@ -121,14 +117,6 @@ const Header = () => {
      
     });
   }, []);
-
-  const handleModal = () => {
-    setCartModal(!cartModal);
-  };
-
-  const handleSigninModal = () => {
-    setSigninModal(!signinModal);
-  };
 
   const handleLogout = () => {
     dispatch(logout(false));
@@ -295,15 +283,6 @@ const Header = () => {
           </div>
         </div>
       </header>
-      {cartModal && (
-        <CartModal cartModal={cartModal} handleModal={handleModal} />
-      )}
-      {signinModal && (
-        <SignInModal
-          signinModal={signinModal}
-          handleSigninModal={handleSigninModal}
-        />
-      )}
      < SigninModalPopup />
     </>
   );
