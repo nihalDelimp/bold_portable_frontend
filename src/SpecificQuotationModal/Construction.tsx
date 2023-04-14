@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {
-  setAccessToken,
-  setIsAuthenticated,
-  setuser,
-} from "../Redux/Reducers/authSlice";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { authAxios } from "../config/config";
@@ -12,8 +7,6 @@ function Construction(props: any) {
   const { modal, closeModal } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
-  const [events, setEventsData] = useState<any>({});
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -138,7 +131,6 @@ function Construction(props: any) {
                         name="name"
                         placeholder="Name"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
@@ -158,12 +150,10 @@ function Construction(props: any) {
                         name="email"
                         placeholder="Email"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
                 </div>
-
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
@@ -181,7 +171,6 @@ function Construction(props: any) {
                         name="cellNumber"
                         placeholder="Cell number"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
@@ -201,12 +190,10 @@ function Construction(props: any) {
                         name="maxWorkers"
                         placeholder="Max Workers"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
                 </div>
-
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
@@ -224,7 +211,6 @@ function Construction(props: any) {
                         name="weeklyHours"
                         placeholder="Weekly Hours"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
@@ -234,7 +220,7 @@ function Construction(props: any) {
                         htmlFor="recipient-name"
                         className="col-form-label"
                       >
-                        Placement Date: :
+                        Placement Date :
                       </label>
                       <input
                         type="date"
@@ -244,12 +230,10 @@ function Construction(props: any) {
                         name="placementDate"
                         placeholder="placement Date"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
                 </div>
-
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
@@ -267,7 +251,6 @@ function Construction(props: any) {
                         name="restrictedAccess"
                         placeholder="restrictedAccess"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
@@ -285,14 +268,12 @@ function Construction(props: any) {
                         value={quotation.distanceFromKelowna}
                         onChange={handleChangeQuotation}
                         name="distanceFromKelowna"
-                        placeholder="Distance From Kelowna"
+                        placeholder="Distance from kelowna"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
                 </div>
-
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
@@ -308,9 +289,8 @@ function Construction(props: any) {
                         value={quotation.serviceCharge}
                         onChange={handleChangeQuotation}
                         name="serviceCharge"
-                        placeholder="Service Charge"
+                        placeholder="Service charge"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
@@ -328,14 +308,12 @@ function Construction(props: any) {
                         value={quotation.deliveredPrice}
                         onChange={handleChangeQuotation}
                         name="deliveredPrice"
-                        placeholder="Delivered Price"
+                        placeholder="Delivered price"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
                 </div>
-
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
@@ -353,7 +331,6 @@ function Construction(props: any) {
                         name="useAtNight"
                         placeholder="use at night"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
@@ -373,12 +350,10 @@ function Construction(props: any) {
                         name="useInWinter"
                         placeholder="Use in winter"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
                 </div>
-
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
@@ -396,7 +371,6 @@ function Construction(props: any) {
                         name="specialRequirements"
                         placeholder="Special requirements"
                         className="form-control"
-                        id="recipient-name"
                       />
                     </div>
                   </div>
