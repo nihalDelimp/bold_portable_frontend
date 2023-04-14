@@ -310,7 +310,7 @@ function Construction(props: any) {
                 </div>
 
                 <div className="form--group">
-                  <label htmlFor="password">
+                  <label>
                     Special requirements <span className="required">*</span>
                   </label>
                   <input
@@ -320,7 +320,6 @@ function Construction(props: any) {
                     onChange={handleChangeQuotation}
                     name="specialRequirements"
                     placeholder="Special requirements"
-                    className="form-control"
                   />
                 </div>
 
