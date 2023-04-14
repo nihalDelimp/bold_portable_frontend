@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Construction from "../SpecificQuotationModal/Construction";
+import SpecialEvents from "../SpecificQuotationModal/SpecialEvents";
 
 import $ from "jquery";
 
 const BestDescribe = () => {
-  const [modal , setModal] = useState(false)
 
 
   useEffect(() => {
@@ -22,6 +22,28 @@ const BestDescribe = () => {
       }
     );
   }, []);
+
+  useEffect(()=>{
+    $(document).on("click", function(e){
+      if($(e.target).closest(".default--popup--wrapper").length === 0 && $(e.target).closest(".describe--categorys--list .describe--categorys--item").length === 0 ) {
+        $(".default--popup default--form").removeClass("active--from");
+        $(".default--popup").removeClass("active--popup");
+      }
+    });
+
+    $(".describe--categorys--list .describe--categorys--item").click(function(){
+
+      var data_category = $(this).attr("data-category");
+      $(".describe--category--items .describe--category--item").removeClass("active--cat--img");
+      $("#"+data_category).addClass("active--cat--img");
+      $(".default--popup").addClass("active--popup");
+      $("."+data_category).addClass("active--from");
+      $(".describe--categorys--list .describe--categorys--item").removeClass("active--item");
+      $(this).addClass("active--item");
+      
+    });
+
+  },[])
 
 
 
@@ -100,7 +122,7 @@ const BestDescribe = () => {
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
                       </p>
-                      <a  onClick={() => setModal(true)} className="btn--arrow  "></a>
+                      <a className="btn--arrow"></a>
                     </div>
                     <div
                       className="describe--categorys--item"
@@ -111,7 +133,7 @@ const BestDescribe = () => {
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
                       </p>
-                      <a  onClick={() => setModal(true)} className="btn--arrow "></a>
+                      <a className="btn--arrow "></a>
                     </div>
                     <div
                       className="describe--categorys--item active--item"
@@ -122,7 +144,7 @@ const BestDescribe = () => {
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
                       </p>
-                      <a onClick={() => setModal(true)} href="#" className="btn--arrow "></a>
+                      <a className="btn--arrow "></a>
                     </div>
                     <div
                       className="describe--categorys--item"
@@ -134,8 +156,7 @@ const BestDescribe = () => {
                         dolor sit.
                       </p>
                       <a
-                       onClick={() => setModal(true)}
-                        className="btn--arrow  "
+                        className="btn--arrow"
                       ></a>
                     </div>
                     <div
@@ -148,8 +169,7 @@ const BestDescribe = () => {
                         dolor sit.
                       </p>
                       <a
-                       onClick={() => setModal(true)}
-                        className="btn--arrow  "
+                        className="btn--arrow"
                       ></a>
                     </div>
                   </div>
@@ -159,7 +179,8 @@ const BestDescribe = () => {
           </div>
         </div>
       </section>
-     {modal  &&  <Construction modal = {modal} closeModal = {() => setModal(false)} /> }
+      <Construction />
+      {/* <SpecialEvents /> */}
     </>
   );
 };
