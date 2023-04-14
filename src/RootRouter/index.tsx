@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../components/Home";
-import PageNoteFound from "../Common/PageNoteFound";
+import PageNoteFound from "../components/PageNoteFound";
 
 
 function RootRouter() {

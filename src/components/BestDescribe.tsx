@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EventPopupModal from "./EventPopupModal";
+import Construction from "../SpecificQuotationModal/Construction";
 
 import $ from "jquery";
 
@@ -159,7 +159,7 @@ const BestDescribe = () => {
           </div>
         </div>
       </section>
-     {modal  &&  <EventPopupModal modal = {modal} closeModal = {() => setModal(false)} /> }
+     {modal  &&  <Construction modal = {modal} closeModal = {() => setModal(false)} /> }
     </>
   );
 };

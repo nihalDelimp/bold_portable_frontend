@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SignupModalPopup from "./SignupModalPopup";
+import SignupPopupModal from "./SignupPopupModal";
 import {
   setAccessToken,
   setIsAuthenticated,
@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { withoutAuthAxios } from "../config/config";
 
-function SigninModalPopup() {
+function SigninPopupModal() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -136,11 +136,11 @@ function SigninModalPopup() {
               </form>
             </div>
           </div>
-          <SignupModalPopup />
+          <SignupPopupModal />
         </div>
       </section>
     </>
   );
 }
 
-export default SigninModalPopup;
+export default SigninPopupModal;

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { authAxios, withoutAuthAxios } from "../config/config";
 
-function EventPopupModal(props: any) {
+function Construction(props: any) {
   const { modal, closeModal } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -157,4 +157,4 @@ function EventPopupModal(props: any) {
   );
 }
 
-export default EventPopupModal;
+export default Construction;

@@ -6,8 +6,8 @@ import { logout } from "../Redux/Reducers/authSlice";
 import io, { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 import Notifications from "./Notifications";
-import CartPage from "./Cart";
-import SigninModalPopup from "./SigninModalPopup";
+import MyCart from "./MyCart";
+import SigninPopupModal from "./SigninPopupModal";
 import { firstChartByFullName } from "../Helper";
 
 const Header = () => {
@@ -294,12 +294,12 @@ const Header = () => {
                 </div>
               </div>
               <Notifications />
-              <CartPage />
+              <MyCart />
             </div>
           </div>
         </div>
       </header>
-      <SigninModalPopup />
+      <SigninPopupModal />
     </>
   );
 };

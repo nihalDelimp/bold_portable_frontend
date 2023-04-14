@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { withoutAuthAxios } from "../config/config";
 import { toast } from "react-toastify";
 
-function SignupModalPopup() {
+function SignupPopupModal() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     name: "",
@@ -139,4 +139,4 @@ function SignupModalPopup() {
   );
 }
 
-export default SignupModalPopup;
+export default SignupPopupModal;

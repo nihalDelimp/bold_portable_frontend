@@ -4,7 +4,7 @@ import { RootState } from "../Redux/rootReducer";
 import { removeItem } from "../Redux/Reducers/productSlice";
 import GoogleMapModal from "./GoogleMapModal";
 
-export default function CartPage() {
+export default function MyCart() {
   const dispatch = useDispatch();
   const { cart } = useSelector((state: RootState) => state.product);
   const { user } = useSelector((state: RootState) => state.auth);
