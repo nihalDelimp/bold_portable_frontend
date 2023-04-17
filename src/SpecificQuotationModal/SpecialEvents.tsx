@@ -1,23 +1,21 @@
-// import React from 'react'
-
-// function SpecialEvents() {
-//   return (
-//     <div>
-
-//     </div>
-//   )
-// }
-
-// export default SpecialEvents
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { authAxios } from "../config/config";
 
 function SpecialEvents(props: any) {
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [formStep, setFormStep] = useState<number>(1);
+
+  const [eventDetails, setEventDetails] = useState({
+    eventName: "",
+    eventDate: "",
+    eventType: "",
+    eventLocation: "",
+    eventMapLocation: {
+      type: "Point",
+      coordinates: [-119.498, 49.876],
+    },
+  });
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -26,16 +24,15 @@ function SpecialEvents(props: any) {
   });
 
   const [quotation, setQuotation] = useState({
-    maxWorkers: 105,
-    weeklyHours: 40,
-    placementDate: "2023-04-15T10:00:00.000Z",
-    restrictedAccess: "false",
-    distanceFromKelowna: 20,
-    serviceCharge: 10,
-    deliveredPrice: 0,
-    useAtNight: "true",
-    useInWinter: "true",
-    specialRequirements: "Special requirements go here",
+    maxWorkers: undefined,
+    weeklyHours: undefined,
+    placement_datetime: "",
+    placement_location: "",
+    distanceFromKelowna: undefined,
+    serviceCharge: undefined,
+    night_use: "true",
+    winter_use: "true",
+    special_requirements: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -48,6 +45,14 @@ function SpecialEvents(props: any) {
     coordinates: [28.58482, 77.3091888],
   });
 
+  const handleChangeEventDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEventDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleChangeCoordinator = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCoordinator((prev) => ({
@@ -58,15 +63,45 @@ function SpecialEvents(props: any) {
 
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log("Radiobutton Value Access", typeof value);
+    console.log("Radiobutton name Access", name);
+
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
+  const resetForm = () => {
+    setCoordinator({ name: "", email: "", cellNumber: "" });
+    setQuotation({
+      maxWorkers: undefined,
+      weeklyHours: undefined,
+      placement_datetime: "",
+      placement_location: "",
+      distanceFromKelowna: undefined,
+      serviceCharge: undefined,
+      night_use: "true",
+      winter_use: "true",
+      special_requirements: "",
+    });
+    setEventDetails({
+      eventName: "",
+      eventDate: "",
+      eventType: "",
+      eventLocation: "",
+      eventMapLocation: {
+        type: "Point",
+        coordinates: [119.498, 49.876],
+      },
+    });
+    setFormStep(1);
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = {
+      eventDetails,
       coordinator,
       ...quotation,
       placementLocation,
@@ -74,13 +109,16 @@ function SpecialEvents(props: any) {
     };
     setLoading(true);
     await authAxios()
-      .post("/quotation/create-quotation-for-construction", payload)
+      .post("/quotation/create-quotation-for-event", payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data.message);
-            console.log("resposnse Data", response.data.data);
+            resetForm();
+            document
+              .querySelector(".default--popup")
+              ?.classList.remove("active--popup");
           } else {
             toast.error(response.data.message);
           }
@@ -95,460 +133,342 @@ function SpecialEvents(props: any) {
       });
   };
 
+  const handleNextPage = () => {
+    setFormStep((currentStep) => currentStep + 1);
+  };
+
+  const handlePreviousPage = () => {
+    setFormStep((currentStep) => currentStep - 1);
+  };
+
   return (
     <>
-      {/* <div
-        className={`modal fade ${modal ? "show" : "hide"}`}
-        style={{ display: modal ? "block" : "none", overflowY: "scroll" }}
-        id="exampleModal"
-        tabIndex={-1}
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-lg" role="document">
-          <div className="modal-content">
-            <form onSubmit={handleSubmit}>
-              <div className="modal-header">
-                <h5 className="modal-title text-center" id="exampleModalLabel">
-                  Create Specific Quotation for Construction
-                </h5>
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Name:
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={coordinator.name}
-                        onChange={handleChangeCoordinator}
-                        name="name"
-                        placeholder="Name"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Email:
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={coordinator.email}
-                        onChange={handleChangeCoordinator}
-                        name="email"
-                        placeholder="Email"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Cell Number:
-                      </label>
-                      <input
-                        type="number"
-                        required
-                        value={coordinator.cellNumber}
-                        onChange={handleChangeCoordinator}
-                        name="cellNumber"
-                        placeholder="Cell number"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Max Workers:
-                      </label>
-                      <input
-                        type="number"
-                        required
-                        value={quotation.maxWorkers}
-                        onChange={handleChangeQuotation}
-                        name="maxWorkers"
-                        placeholder="Max Workers"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Weekly Hours:
-                      </label>
-                      <input
-                        type="number"
-                        required
-                        value={quotation.weeklyHours}
-                        onChange={handleChangeQuotation}
-                        name="weeklyHours"
-                        placeholder="Weekly Hours"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Placement Date :
-                      </label>
-                      <input
-                        type="date"
-                        required
-                        value={quotation.placementDate}
-                        onChange={handleChangeQuotation}
-                        name="placementDate"
-                        placeholder="placement Date"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Restricted Access:
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={quotation.restrictedAccess}
-                        onChange={handleChangeQuotation}
-                        name="restrictedAccess"
-                        placeholder="restrictedAccess"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Distance From Kelowna:
-                      </label>
-                      <input
-                        type="number"
-                        required
-                        value={quotation.distanceFromKelowna}
-                        onChange={handleChangeQuotation}
-                        name="distanceFromKelowna"
-                        placeholder="Distance from kelowna"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Service Charge :
-                      </label>
-                      <input
-                        type="number"
-                        required
-                        value={quotation.serviceCharge}
-                        onChange={handleChangeQuotation}
-                        name="serviceCharge"
-                        placeholder="Service charge"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Delivered Price:
-                      </label>
-                      <input
-                        type="number"
-                        required
-                        value={quotation.deliveredPrice}
-                        onChange={handleChangeQuotation}
-                        name="deliveredPrice"
-                        placeholder="Delivered price"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Use At Night :
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={quotation.useAtNight}
-                        onChange={handleChangeQuotation}
-                        name="useAtNight"
-                        placeholder="use at night"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Use In Winter:
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={quotation.useInWinter}
-                        onChange={handleChangeQuotation}
-                        name="useInWinter"
-                        placeholder="Use in winter"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label
-                        htmlhtmlFor="recipient-name"
-                        className="col-form-label"
-                      >
-                        Special Requirements :
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={quotation.specialRequirements}
-                        onChange={handleChangeQuotation}
-                        name="specialRequirements"
-                        placeholder="Special requirements"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Submit
-                </button>
-              </div>
-            </form>
+      <div className="default--form cat--2">
+        <div className="default--form--wrapper">
+          <div className="form--title">
+            <h3>Create Quotation for special events</h3>
           </div>
-        </div>
-      </div> */}
-      <section className="default--popup">
-        <div className="default--popup--wrapper">
-          <div className="default--form active--from cat--2">
-            <div className="default--form--wrapper">
-              <div className="form--title">
-                <h2>Create Quotation for Special Events</h2>
-              </div>
-              <form action="">
+          <form onSubmit={handleSubmit}>
+            {formStep === 1 && (
+              <>
                 <div className="form--group">
                   <label htmlFor="name">
                     Name <span className="required">*</span>
                   </label>
-                  <input type="text" placeholder="Name" />
+                  <input
+                    type="text"
+                    required
+                    value={coordinator.name}
+                    onChange={handleChangeCoordinator}
+                    name="name"
+                    placeholder="Name"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Email <span className="required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={coordinator.email}
+                    onChange={handleChangeCoordinator}
+                    name="email"
+                    placeholder="Email"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Cell number <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={coordinator.cellNumber}
+                    onChange={handleChangeCoordinator}
+                    name="cellNumber"
+                    placeholder="Cell number"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Event Name <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={eventDetails.eventName}
+                    onChange={handleChangeEventDetails}
+                    name="eventName"
+                    placeholder="Event name"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Event Date<span className="required">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={eventDetails.eventDate}
+                    onChange={handleChangeEventDetails}
+                    name="eventDate"
+                    placeholder="Event Date"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Event Type<span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={eventDetails.eventType}
+                    onChange={handleChangeEventDetails}
+                    name="eventType"
+                    placeholder="Event type"
+                  />
+                </div>
+              </>
+            )}
+
+            {formStep === 2 && (
+              <>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Event Location<span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={eventDetails.eventLocation}
+                    onChange={handleChangeEventDetails}
+                    name="eventLocation"
+                    placeholder="Event location"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Max workers <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={quotation.maxWorkers}
+                    onChange={handleChangeQuotation}
+                    name="maxWorkers"
+                    placeholder="Max workers"
+                  />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Message <span className="required">*</span>
+                    Weekly Hours <span className="required">*</span>
                   </label>
-                  <textarea name="" id="" placeholder="Message"></textarea>
+                  <input
+                    type="number"
+                    required
+                    value={quotation.weeklyHours}
+                    onChange={handleChangeQuotation}
+                    name="weeklyHours"
+                    placeholder="Weekly hours"
+                  />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Select <span className="required">*</span>
+                    Placement Date <span className="required">*</span>
                   </label>
-                  <select name="" id="">
-                    <option value="">item1</option>
-                    <option value="">item1</option>
-                    <option value="">item1</option>
-                  </select>
-                </div>
-                <div className="form--group">
-                  <label htmlFor="name">
-                    Name <span className="required">*</span>
-                  </label>
-                  <input type="text" placeholder="Name" />
-                </div>
-                <div className="form--group">
-                  <label htmlFor="name">
-                    Name <span className="required">*</span>
-                  </label>
-                  <input type="text" placeholder="Name" />
-                </div>
-                <div className="form--group">
-                  <label htmlFor="name">
-                    Name <span className="required">*</span>
-                  </label>
-                  <input type="text" placeholder="Name" />
-                </div>
-                <div className="form--checkbox--option">
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label htmlFor="vehicle1"> I have a bike</label>
-                  </div>
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
-                    />
-                    <label htmlFor="vehicle2"> I have a car</label>
-                  </div>
+                  <input
+                    type="date"
+                    required
+                    value={quotation.placement_datetime}
+                    onChange={handleChangeQuotation}
+                    name="placement_datetime"
+                    placeholder="placement date"
+                  />
                 </div>
                 <div className="form--group">
                   <label htmlFor="Email">
-                    Email <span className="required">*</span>
+                    Distance from kelowna <span className="required">*</span>
                   </label>
-                  <input type="email" placeholder="Email" />
+                  <input
+                    type="number"
+                    required
+                    value={quotation.distanceFromKelowna}
+                    onChange={handleChangeQuotation}
+                    name="distanceFromKelowna"
+                    placeholder="Distance from kelowna"
+                  />
                 </div>
+              </>
+            )}
+
+            {formStep === 3 && (
+              <>
                 <div className="form--group">
                   <label htmlFor="password">
-                    Password <span className="required">*</span>
+                    Service charge <span className="required">*</span>
                   </label>
-                  <input type="password" placeholder="Password" />
+                  <input
+                    type="number"
+                    required
+                    value={quotation.serviceCharge}
+                    onChange={handleChangeQuotation}
+                    name="serviceCharge"
+                    placeholder="Service charge"
+                  />
                 </div>
-                <div className="form--checkbox--option">
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label htmlFor="vehicle1"> I have a bike</label>
-                  </div>
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
-                    />
-                    <label htmlFor="vehicle2"> I have a car</label>
-                  </div>
-                </div>
+
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
                       type="radio"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
+                      name="night_use"
+                      value="true"
+                      checked={quotation.night_use === "true"}
+                      onChange={handleChangeQuotation}
                     />
-                    <label htmlFor="vehicle1"> I have a bike</label>
+                    <label htmlFor="vehicle1">Use at night</label>
                   </div>
                   <div className="radio--option">
                     <input
                       type="radio"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
+                      name="night_use"
+                      value="false"
+                      checked={quotation.night_use === "false"}
+                      onChange={handleChangeQuotation}
                     />
-                    <label htmlFor="vehicle2"> I have a car</label>
+                    <label htmlFor="vehicle2">Not use at night</label>
                   </div>
                 </div>
-                <div className="form--checkbox">
-                  <label htmlFor="rememberme">
+
+                <div className="form--radio--option">
+                  <div className="radio--option">
                     <input
-                      className=""
-                      name="rememberme"
-                      type="checkbox"
-                      id="rememberme"
-                    />{" "}
-                    <span>Remember me</span>
+                      type="radio"
+                      name="winter_use"
+                      value="true"
+                      checked={quotation.winter_use === "true"}
+                      onChange={handleChangeQuotation}
+                    />
+                    <label htmlFor="vehicle1">Use in winter</label>
+                  </div>
+                  <div className="radio--option">
+                    <input
+                      type="radio"
+                      name="winter_use"
+                      value="false"
+                      checked={quotation.winter_use === "false"}
+                      onChange={handleChangeQuotation}
+                    />
+                    <label htmlFor="vehicle2">Not use in winter</label>
+                  </div>
+                </div>
+
+                <div className="form--group">
+                  <label>
+                    Special requirements <span className="required">*</span>
                   </label>
-                  <span className="lost--password">
-                    <a href="#">Lost your password?</a>
-                  </span>
+                  <input
+                    type="text"
+                    required
+                    value={quotation.special_requirements}
+                    onChange={handleChangeQuotation}
+                    name="special_requirements"
+                    placeholder="Special requirements"
+                  />
                 </div>
-                <div className="form--action">
-                  <button type="submit" className="submit--from btn">
-                    Login
-                  </button>
-                </div>
-              </form>
+              </>
+            )}
+
+            <div className="form--action">
+              {(formStep === 2 || formStep === 3) && (
+                <button
+                  type="button"
+                  onClick={handlePreviousPage}
+                  className="submit--from btn"
+                >
+                  Back
+                </button>
+              )}
+              {formStep === 1 && (
+                <button
+                  type="button"
+                  onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                    !coordinator.name ||
+                    !coordinator.email ||
+                    !coordinator.cellNumber ||
+                    !eventDetails.eventName ||
+                    !eventDetails.eventDate ||
+                    !eventDetails.eventType
+                  }
+                >
+                  Next
+                </button>
+              )}
+              {formStep === 2 && (
+                <button
+                  type="button"
+                  onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                    !eventDetails.eventLocation ||
+                    !quotation.maxWorkers ||
+                    !quotation.weeklyHours ||
+                    !quotation.distanceFromKelowna ||
+                    !quotation.placement_datetime
+                  }
+                >
+                  Next
+                </button>
+              )}
+              {formStep === 3 && (
+                <button
+                  type="submit"
+                  className="submit--from submit--from--action btn"
+                  disabled={
+                    !quotation.serviceCharge || !quotation.special_requirements
+                  }
+                >
+                  {loading ? "Loading..." : "Submit"}
+                </button>
+              )}
             </div>
-          </div>
+          </form>
         </div>
-      </section>
+      </div>
     </>
   );
 }
 
 export default SpecialEvents;
+
+{
+  /* <div className="form--checkbox--option">
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      id="vehicle1"
+                      name="vehicle1"
+                      value="Bike"
+                    />
+                    <label htmlFor="vehicle1"> I have a bike</label>
+                  </div>
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      id="vehicle2"
+                      name="vehicle2"
+                      value="Car"
+                    />
+                    <label htmlFor="vehicle2"> I have a car</label>
+                  </div>
+                </div> */
+}

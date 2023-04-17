@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Construction from "../SpecificQuotationModal/Construction";
 import SpecialEvents from "../SpecificQuotationModal/SpecialEvents";
+import DisasterRelief from "../SpecificQuotationModal/DisasterRelief";
+import IndividualNeeds from "../SpecificQuotationModal/IndividualNeeds";
+import LongTerm from "../SpecificQuotationModal/LongTerm";
 
 import $ from "jquery";
 
 const BestDescribe = () => {
-
-
   useEffect(() => {
     $(".describe--categorys--list .describe--categorys--item").mouseenter(
       function () {
@@ -23,30 +24,39 @@ const BestDescribe = () => {
     );
   }, []);
 
-  useEffect(()=>{
-    $(document).on("click", function(e){
-      if($(e.target).closest(".default--popup--wrapper").length === 0 && $(e.target).closest(".describe--categorys--list .describe--categorys--item").length === 0 ) {
-        $(".default--popup default--form").removeClass("active--from");
+  useEffect(() => {
+    $(document).on("click", function (e) {
+      if (
+        $(e.target).closest(".default--popup--wrapper").length === 0 && $(e.target).closest(".submit--from").length === 0 &&
+        $(e.target).closest(
+          ".describe--categorys--list .describe--categorys--item"
+        ).length === 0
+      ) {
+       
         $(".default--popup").removeClass("active--popup");
+        $(".default--form ").removeClass("active--from");
       }
     });
 
-    $(".describe--categorys--list .describe--categorys--item").click(function(){
+    $(".describe--categorys--list .describe--categorys--item").click(
+      function () {
+        var data_category = $(this).attr("data-category");
+        $(".describe--category--items .describe--category--item").removeClass(
+          "active--cat--img"
+        );
+        $("#" + data_category).addClass("active--cat--img");
+        $(".default--popup").addClass("active--popup");
+        $("." + data_category).addClass("active--from");
+        $(".describe--categorys--list .describe--categorys--item").removeClass(
+          "active--item"
+        );
+        $(this).addClass("active--item");
+      }
+    );
 
-      var data_category = $(this).attr("data-category");
-      $(".describe--category--items .describe--category--item").removeClass("active--cat--img");
-      $("#"+data_category).addClass("active--cat--img");
-      $(".default--popup").addClass("active--popup");
-      $("."+data_category).addClass("active--from");
-      $(".describe--categorys--list .describe--categorys--item").removeClass("active--item");
-      $(this).addClass("active--item");
-      
-    });
+    
 
-  },[])
-
-
-
+  }, []);
 
   return (
     <>
@@ -155,9 +165,7 @@ const BestDescribe = () => {
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
                       </p>
-                      <a
-                        className="btn--arrow"
-                      ></a>
+                      <a className="btn--arrow"></a>
                     </div>
                     <div
                       className="describe--categorys--item"
@@ -168,9 +176,7 @@ const BestDescribe = () => {
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
                       </p>
-                      <a
-                        className="btn--arrow"
-                      ></a>
+                      <a className="btn--arrow"></a>
                     </div>
                   </div>
                 </div>
@@ -179,8 +185,15 @@ const BestDescribe = () => {
           </div>
         </div>
       </section>
-      <Construction />
-      {/* <SpecialEvents /> */}
+
+      <section className="default--popup">
+        <div className="default--popup--wrapper">
+          <Construction />
+          <SpecialEvents />
+        </div>
+      </section>
+
+      {/* < DisasterRelief /> */}
     </>
   );
 };
