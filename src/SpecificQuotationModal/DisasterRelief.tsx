@@ -88,9 +88,7 @@ function DisasterRelief(props: any) {
 
   return (
     <>
-      <section className="default--popup">
-        <div className="default--popup--wrapper">
-          <div className="default--form active--from cat--1">
+          <div className="default--form active--from cat--3">
             <div className="default--form--wrapper">
               <div className="form--title">
                 <h2>Create Quotation for Disaster Relief</h2>
@@ -149,15 +147,6 @@ function DisasterRelief(props: any) {
                     placeholder="disaster nature"
                   />
                 </div>
-
-                {/* <div className="form--group">
-                            <label htmlFor="name">Select <span className="required">*</span></label>
-                            <select name="" id="">
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                            </select>
-                        </div> */}
                 <div className="form--group">
                   <label htmlFor="name">
                     Max workers <span className="required">*</span>
@@ -237,26 +226,6 @@ function DisasterRelief(props: any) {
                     placeholder="Hazards"
                   />
                 </div>
-                {/* <div className="form--checkbox--option">
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label htmlFor="vehicle1"> I have a bike</label>
-                  </div>
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
-                    />
-                    <label htmlFor="vehicle2"> I have a car</label>
-                  </div>
-                </div> */}
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -324,8 +293,6 @@ function DisasterRelief(props: any) {
               </form>
             </div>
           </div>
-        </div>
-      </section>
     </>
   );
 }
