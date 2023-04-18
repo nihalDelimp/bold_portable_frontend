@@ -29,7 +29,7 @@ function Construction() {
     deliveredPrice: 0,
     useAtNight: "true",
     useInWinter: "true",
-    specialRequirements: "",
+    special_requirements: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -73,7 +73,7 @@ function Construction() {
       deliveredPrice: 0,
       useAtNight: "true",
       useInWinter: "true",
-      specialRequirements: "",
+      special_requirements: "",
     });
     setFormStep(1)
   };
@@ -327,9 +327,9 @@ function Construction() {
                   <input
                     type="text"
                     required
-                    value={quotation.specialRequirements}
+                    value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
-                    name="specialRequirements"
+                    name="special_requirements"
                     placeholder="Enter special requirements"
                   />
                 </div>
@@ -380,7 +380,7 @@ function Construction() {
                   className="submit--from submit--from--action btn"
                   disabled={
                     !quotation.serviceCharge ||
-                    !quotation.specialRequirements
+                    !quotation.special_requirements
                   }
                 >
                   {loading ? "Loading..." : "Submit"}

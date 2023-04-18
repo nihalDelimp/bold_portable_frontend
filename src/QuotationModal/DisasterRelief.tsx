@@ -28,7 +28,7 @@ function DisasterRelief(props: any) {
     hazards: "",
     useAtNight: "true",
     useInWinter: "true",
-    specialRequirements: "",
+    special_requirements: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -72,7 +72,7 @@ function DisasterRelief(props: any) {
       hazards: "",
       useAtNight: "true",
       useInWinter: "true",
-      specialRequirements: "",
+      special_requirements: "",
     });
     setFormStep(1);
   };
@@ -328,9 +328,9 @@ function DisasterRelief(props: any) {
                   <input
                     type="text"
                     required
-                    value={quotation.specialRequirements}
+                    value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
-                    name="specialRequirements"
+                    name="special_requirements"
                     placeholder="Enter special requirements"
                   />
                 </div>
@@ -383,7 +383,7 @@ function DisasterRelief(props: any) {
                   disabled={
                     !quotation.serviceCharge ||
                     !quotation.hazards ||
-                    !quotation.specialRequirements
+                    !quotation.special_requirements
                   }
                 >
                   {loading ? "Loading..." : "Submit"}

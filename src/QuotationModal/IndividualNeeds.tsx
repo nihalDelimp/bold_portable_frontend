@@ -25,7 +25,7 @@ function FarmaWinery(props: any) {
     serviceCharge: undefined,
     nightUse: "true",
     winterUse: "true",
-    specialRequirements: "",
+    special_requirements: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -73,7 +73,7 @@ function FarmaWinery(props: any) {
       serviceCharge: undefined,
       nightUse: "true",
       winterUse: "true",
-      specialRequirements: "",
+      special_requirements: "",
     });
     setFormStep(1);
   };
@@ -314,9 +314,9 @@ function FarmaWinery(props: any) {
                   <input
                     type="text"
                     required
-                    value={quotation.specialRequirements}
+                    value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
-                    name="specialRequirements"
+                    name="special_requirements"
                     placeholder="Enter special requirements"
                   />
                 </div>
@@ -368,7 +368,7 @@ function FarmaWinery(props: any) {
                   type="submit"
                   className="submit--from submit--from--action btn"
                   disabled={
-                    !quotation.serviceCharge || !quotation.specialRequirements
+                    !quotation.serviceCharge || !quotation.special_requirements
                   }
                 >
                   {loading ? "Loading..." : "Submit"}
