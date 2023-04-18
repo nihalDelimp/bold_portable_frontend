@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { authAxios } from "../config/config";
 
 function DisasterRelief(props: any) {
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const [formStep, setFormStep] = useState<number>(1);
 
   const [coordinator, setCoordinator] = useState({
@@ -125,9 +123,9 @@ function DisasterRelief(props: any) {
           <form onSubmit={handleSubmit}>
             {formStep === 1 && (
               <React.Fragment>
-                <div className="form--group">
+                    <div className="form--group">
                   <label htmlFor="name">
-                    Name <span className="required">*</span>
+                  Coordinator Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -135,12 +133,12 @@ function DisasterRelief(props: any) {
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
-                    placeholder="Name"
+                    placeholder="Enter coordinator name"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Email <span className="required">*</span>
+                  Coordinator Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -148,20 +146,21 @@ function DisasterRelief(props: any) {
                     value={coordinator.email}
                     onChange={handleChangeCoordinator}
                     name="email"
-                    placeholder="Email"
+                    placeholder="Enter coordinator email"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Cell number <span className="required">*</span>
+                  Coordinator Cell number <span className="required">*</span>
                   </label>
                   <input
                     type="number"
                     required
+                    min={0}
                     value={coordinator.cellNumber}
                     onChange={handleChangeCoordinator}
                     name="cellNumber"
-                    placeholder="Cell number"
+                    placeholder="Enter coordinator cell number"
                   />
                 </div>
                 <div className="form--group">
@@ -174,7 +173,7 @@ function DisasterRelief(props: any) {
                     value={quotation.disasterNature}
                     onChange={handleChangeQuotation}
                     name="disasterNature"
-                    placeholder="disaster nature"
+                    placeholder="Enter disaster nature"
                   />
                 </div>
               </React.Fragment>
@@ -189,10 +188,11 @@ function DisasterRelief(props: any) {
                   <input
                     type="number"
                     required
+                    min={0}
                     value={quotation.maxWorkers}
                     onChange={handleChangeQuotation}
                     name="maxWorkers"
-                    placeholder="Max workers"
+                    placeholder="Enter max workers"
                   />
                 </div>
                 <div className="form--group">
@@ -201,11 +201,12 @@ function DisasterRelief(props: any) {
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.weeklyHours}
                     onChange={handleChangeQuotation}
                     name="weeklyHours"
-                    placeholder="weekly hours"
+                    placeholder="Enter weekly hours"
                   />
                 </div>
                 <div className="form--group">
@@ -218,7 +219,7 @@ function DisasterRelief(props: any) {
                     value={quotation.placementDate}
                     onChange={handleChangeQuotation}
                     name="placementDate"
-                    placeholder="placement date"
+                    placeholder="Select placement date"
                   />
                 </div>
                 <div className="form--group">
@@ -231,7 +232,7 @@ function DisasterRelief(props: any) {
                     value={quotation.distanceFromKelowna}
                     onChange={handleChangeQuotation}
                     name="distanceFromKelowna"
-                    placeholder="Distance from kelowna"
+                    placeholder="Enter distance from kelowna"
                   />
                 </div>
               </React.Fragment>
@@ -245,11 +246,12 @@ function DisasterRelief(props: any) {
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.serviceCharge}
                     onChange={handleChangeQuotation}
                     name="serviceCharge"
-                    placeholder="Service charge"
+                    placeholder="Enter service charge"
                   />
                 </div>
                 <div className="form--group">
@@ -262,7 +264,7 @@ function DisasterRelief(props: any) {
                     value={quotation.hazards}
                     onChange={handleChangeQuotation}
                     name="hazards"
-                    placeholder="Hazards"
+                    placeholder="Enter hazards"
                   />
                 </div>
                 <div className="form--radio--option">
@@ -320,7 +322,7 @@ function DisasterRelief(props: any) {
                     value={quotation.specialRequirements}
                     onChange={handleChangeQuotation}
                     name="specialRequirements"
-                    placeholder="Special requirements"
+                    placeholder="Enter special requirements"
                   />
                 </div>
               </React.Fragment>

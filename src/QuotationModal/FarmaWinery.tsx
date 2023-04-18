@@ -1,12 +1,10 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { authAxios } from "../config/config";
 
-function LongTerm(props: any) {
+function FarmaWinery(props: any) {
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [formStep, setFormStep] = useState<number>(1);
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -15,13 +13,12 @@ function LongTerm(props: any) {
   });
 
   const [quotation, setQuotation] = useState({
+    useType: "",
     maxWorkers: undefined,
     weeklyHours: undefined,
-    placementDate: "",
-    restrictedAccess: "true",
+    placementDatetime: "",
     distanceFromKelowna: undefined,
     serviceCharge: undefined,
-    deliveredPrice: undefined,
     useAtNight: "true",
     useInWinter: "true",
     specialRequirements: "",
@@ -47,13 +44,34 @@ function LongTerm(props: any) {
 
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Radiobutton Value Access", typeof value);
-    console.log("Radiobutton name Access", name);
-
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const resetForm = () => {
+    setCoordinator({ name: "", email: "", cellNumber: "" });
+    setQuotation({
+      useType: "",
+      maxWorkers: undefined,
+      weeklyHours: undefined,
+      placementDatetime: "",
+      distanceFromKelowna: undefined,
+      serviceCharge: undefined,
+      useAtNight: "true",
+      useInWinter: "true",
+      specialRequirements: "",
+    });
+    setFormStep(1);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -66,13 +84,16 @@ function LongTerm(props: any) {
     };
     setLoading(true);
     await authAxios()
-      .post("/quotation/create-quotation-for-construction", payload)
+      .post("/quotation/create-quotation-for-farm-orchard-winery", payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data.message);
-            console.log("resposnse Data", response.data.data);
+            resetForm();
+            document
+              .querySelector(".default--popup")
+              ?.classList.remove("active--popup");
           } else {
             toast.error(response.data.message);
           }
@@ -87,17 +108,27 @@ function LongTerm(props: any) {
       });
   };
 
+  const handleNextPage = () => {
+    setFormStep((currentStep) => currentStep + 1);
+  };
+
+  const handlePreviousPage = () => {
+    setFormStep((currentStep) => currentStep - 1);
+  };
+
   return (
     <React.Fragment>
-          <div className="default--form cat--4">
-            <div className="default--form--wrapper">
-              <div className="form--title">
-                <h2>Create Quotation for Long Term</h2>
-              </div>
-              <form onSubmit={handleSubmit}>
+      <div className="default--form cat--4">
+        <div className="default--form--wrapper">
+          <div className="form--title">
+            <h3>Create Quotation for Farm, Winery or Orchad</h3>
+          </div>
+          <form onSubmit={handleSubmit}>
+            {formStep === 1 && (
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Name <span className="required">*</span>
+                    Coordinator Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -105,12 +136,12 @@ function LongTerm(props: any) {
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
-                    placeholder="Name"
+                    placeholder="Enter coordinator name"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Email <span className="required">*</span>
+                    Coordinator Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -118,41 +149,54 @@ function LongTerm(props: any) {
                     value={coordinator.email}
                     onChange={handleChangeCoordinator}
                     name="email"
-                    placeholder="Email"
+                    placeholder="Enter coordinator email"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Cell number <span className="required">*</span>
+                    Coordinator Cell number <span className="required">*</span>
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={coordinator.cellNumber}
                     onChange={handleChangeCoordinator}
                     name="cellNumber"
-                    placeholder="Cell number"
+                    placeholder="Enter coordinator cell number"
                   />
                 </div>
-                {/* <div className="form--group">
-                            <label htmlFor="name">Select <span className="required">*</span></label>
-                            <select name="" id="">
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                            </select>
-                        </div> */}
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Use type <span className="required">*</span>
+                  </label>
+                  <select
+                    name="useType"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useType}
+                  >
+                    <option value="">Select use type</option>
+                    <option value="Farm">Farm</option>
+                    <option value="Winery">Winery</option>
+                    <option value="Orchad">Orchad</option>
+                  </select>
+                </div>
+              </React.Fragment>
+            )}
+            {formStep === 2 && (
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
                     Max workers <span className="required">*</span>
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.maxWorkers}
                     onChange={handleChangeQuotation}
                     name="maxWorkers"
-                    placeholder="Max workers"
+                    placeholder="Enter max workers"
                   />
                 </div>
                 <div className="form--group">
@@ -161,11 +205,12 @@ function LongTerm(props: any) {
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.weeklyHours}
                     onChange={handleChangeQuotation}
                     name="weeklyHours"
-                    placeholder="weekly hours"
+                    placeholder="Enter weekly hours"
                   />
                 </div>
                 <div className="form--group">
@@ -175,33 +220,11 @@ function LongTerm(props: any) {
                   <input
                     type="date"
                     required
-                    value={quotation.placementDate}
+                    value={quotation.placementDatetime}
                     onChange={handleChangeQuotation}
-                    name="placementDate"
-                    placeholder="placement date"
+                    name="placementDatetime"
+                    placeholder="Select placement date"
                   />
-                </div>
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="restrictedAccess"
-                      value="true"
-                      checked={quotation.restrictedAccess === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Restricted Access</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="restrictedAccess"
-                      value="false"
-                      checked={quotation.restrictedAccess === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not Restricted Access</label>
-                  </div>
                 </div>
                 <div className="form--group">
                   <label htmlFor="Email">
@@ -213,55 +236,27 @@ function LongTerm(props: any) {
                     value={quotation.distanceFromKelowna}
                     onChange={handleChangeQuotation}
                     name="distanceFromKelowna"
-                    placeholder="Distance from kelowna"
+                    placeholder="Enter distance from kelowna"
                   />
                 </div>
+              </React.Fragment>
+            )}
+            {formStep === 3 && (
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="password">
                     Service charge <span className="required">*</span>
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.serviceCharge}
                     onChange={handleChangeQuotation}
                     name="serviceCharge"
-                    placeholder="Service charge"
+                    placeholder="Enter service charge"
                   />
                 </div>
-                <div className="form--group">
-                  <label htmlFor="password">
-                    Delivered price <span className="required">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    required
-                    value={quotation.deliveredPrice}
-                    onChange={handleChangeQuotation}
-                    name="deliveredPrice"
-                    placeholder="Delivered price"
-                  />
-                </div>
-                {/* <div className="form--checkbox--option">
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label htmlFor="vehicle1"> I have a bike</label>
-                  </div>
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
-                    />
-                    <label htmlFor="vehicle2"> I have a car</label>
-                  </div>
-                </div> */}
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -284,7 +279,6 @@ function LongTerm(props: any) {
                     <label htmlFor="vehicle2">Not use at night</label>
                   </div>
                 </div>
-
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -307,7 +301,6 @@ function LongTerm(props: any) {
                     <label htmlFor="vehicle2">Not use in winter</label>
                   </div>
                 </div>
-
                 <div className="form--group">
                   <label>
                     Special requirements <span className="required">*</span>
@@ -318,23 +311,70 @@ function LongTerm(props: any) {
                     value={quotation.specialRequirements}
                     onChange={handleChangeQuotation}
                     name="specialRequirements"
-                    placeholder="Special requirements"
+                    placeholder="Enter special requirements"
                   />
                 </div>
-                <div className="form--action">
-                  <button type="submit" className="submit--from btn">
-                    {loading ? "Loading..." : " Submit"}
-                  </button>
-                </div>
-              </form>
+              </React.Fragment>
+            )}
+
+            <div className="form--action">
+              {(formStep === 2 || formStep === 3) && (
+                <button
+                  type="button"
+                  onClick={handlePreviousPage}
+                  className="submit--from btn"
+                >
+                  Back
+                </button>
+              )}
+              {formStep === 1 && (
+                <button
+                  type="button"
+                  onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                    !coordinator.name ||
+                    !coordinator.email ||
+                    !coordinator.cellNumber ||
+                    !quotation.useType
+                  }
+                >
+                  Next
+                </button>
+              )}
+              {formStep === 2 && (
+                <button
+                  type="button"
+                  onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                    !quotation.maxWorkers ||
+                    !quotation.weeklyHours ||
+                    !quotation.placementDatetime ||
+                    !quotation.distanceFromKelowna
+                  }
+                >
+                  Next
+                </button>
+              )}
+              {formStep === 3 && (
+                <button
+                  type="submit"
+                  className="submit--from submit--from--action btn"
+                  disabled={
+                    !quotation.serviceCharge ||
+                    !quotation.specialRequirements
+                  }
+                >
+                  {loading ? "Loading..." : "Submit"}
+                </button>
+              )}
             </div>
-          </div>
+          </form>
+        </div>
+      </div>
     </React.Fragment>
   );
 }
 
-export default LongTerm;
-
-
-
-
+export default FarmaWinery;

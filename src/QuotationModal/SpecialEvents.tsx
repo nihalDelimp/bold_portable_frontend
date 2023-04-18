@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 
-function SpecialEvents(props: any) {
+function SpecialEvents() {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
 
@@ -153,7 +153,7 @@ function SpecialEvents(props: any) {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Name <span className="required">*</span>
+                    Coordinator Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -161,13 +161,12 @@ function SpecialEvents(props: any) {
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
-                    placeholder="Name"
+                    placeholder="Enter coordinator name"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
-                    Email <span className="required">*</span>
+                    Coordinator Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -175,24 +174,23 @@ function SpecialEvents(props: any) {
                     value={coordinator.email}
                     onChange={handleChangeCoordinator}
                     name="email"
-                    placeholder="Email"
+                    placeholder="Enter coordinator email"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
-                    Cell number <span className="required">*</span>
+                    Coordinator Cell number <span className="required">*</span>
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={coordinator.cellNumber}
                     onChange={handleChangeCoordinator}
                     name="cellNumber"
-                    placeholder="Cell number"
+                    placeholder="Enter coordinator cell number"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Event Name <span className="required">*</span>
@@ -203,10 +201,9 @@ function SpecialEvents(props: any) {
                     value={eventDetails.eventName}
                     onChange={handleChangeEventDetails}
                     name="eventName"
-                    placeholder="Event name"
+                    placeholder="Enter event name"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Event Date<span className="required">*</span>
@@ -217,10 +214,9 @@ function SpecialEvents(props: any) {
                     value={eventDetails.eventDate}
                     onChange={handleChangeEventDetails}
                     name="eventDate"
-                    placeholder="Event Date"
+                    placeholder="Select event date"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Event Type<span className="required">*</span>
@@ -231,7 +227,7 @@ function SpecialEvents(props: any) {
                     value={eventDetails.eventType}
                     onChange={handleChangeEventDetails}
                     name="eventType"
-                    placeholder="Event type"
+                    placeholder="Enter event type"
                   />
                 </div>
               </React.Fragment>
@@ -249,21 +245,21 @@ function SpecialEvents(props: any) {
                     value={eventDetails.eventLocation}
                     onChange={handleChangeEventDetails}
                     name="eventLocation"
-                    placeholder="Event location"
+                    placeholder="Enter event location"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Max workers <span className="required">*</span>
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.maxWorkers}
                     onChange={handleChangeQuotation}
                     name="maxWorkers"
-                    placeholder="Max workers"
+                    placeholder="Enter max workers"
                   />
                 </div>
                 <div className="form--group">
@@ -272,11 +268,12 @@ function SpecialEvents(props: any) {
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.weeklyHours}
                     onChange={handleChangeQuotation}
                     name="weeklyHours"
-                    placeholder="Weekly hours"
+                    placeholder="Enter weekly hours"
                   />
                 </div>
                 <div className="form--group">
@@ -289,7 +286,7 @@ function SpecialEvents(props: any) {
                     value={quotation.placement_datetime}
                     onChange={handleChangeQuotation}
                     name="placement_datetime"
-                    placeholder="placement date"
+                    placeholder="Select placement date"
                   />
                 </div>
                 <div className="form--group">
@@ -302,7 +299,7 @@ function SpecialEvents(props: any) {
                     value={quotation.distanceFromKelowna}
                     onChange={handleChangeQuotation}
                     name="distanceFromKelowna"
-                    placeholder="Distance from kelowna"
+                    placeholder="Enter distance from kelowna"
                   />
                 </div>
               </React.Fragment>
@@ -316,14 +313,14 @@ function SpecialEvents(props: any) {
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.serviceCharge}
                     onChange={handleChangeQuotation}
                     name="serviceCharge"
-                    placeholder="Service charge"
+                    placeholder="Enter service charge"
                   />
                 </div>
-
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -346,7 +343,6 @@ function SpecialEvents(props: any) {
                     <label htmlFor="vehicle2">Not use at night</label>
                   </div>
                 </div>
-
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -369,7 +365,6 @@ function SpecialEvents(props: any) {
                     <label htmlFor="vehicle2">Not use in winter</label>
                   </div>
                 </div>
-
                 <div className="form--group">
                   <label>
                     Special requirements <span className="required">*</span>
@@ -380,12 +375,11 @@ function SpecialEvents(props: any) {
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"
-                    placeholder="Special requirements"
+                    placeholder="Enetr special requirements"
                   />
                 </div>
               </React.Fragment>
             )}
-
             <div className="form--action">
               {(formStep === 2 || formStep === 3) && (
                 <button
@@ -450,25 +444,4 @@ function SpecialEvents(props: any) {
 
 export default SpecialEvents;
 
-{
-  /* <div className="form--checkbox--option">
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label htmlFor="vehicle1"> I have a bike</label>
-                  </div>
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
-                    />
-                    <label htmlFor="vehicle2"> I have a car</label>
-                  </div>
-                </div> */
-}
+

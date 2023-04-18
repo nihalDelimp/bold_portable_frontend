@@ -2,7 +2,7 @@ import React, { useState} from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 
-function Construction(props: any) {
+function Construction() {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
 
@@ -19,7 +19,7 @@ function Construction(props: any) {
     restrictedAccess: "true",
     distanceFromKelowna: undefined,
     serviceCharge: undefined,
-    deliveredPrice: undefined,
+    deliveredPrice: 0,
     useAtNight: "true",
     useInWinter: "true",
     specialRequirements: "",
@@ -63,7 +63,7 @@ function Construction(props: any) {
       restrictedAccess: "true",
       distanceFromKelowna: undefined,
       serviceCharge: undefined,
-      deliveredPrice: undefined,
+      deliveredPrice: 0,
       useAtNight: "true",
       useInWinter: "true",
       specialRequirements: "",
@@ -125,7 +125,7 @@ function Construction(props: any) {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Name <span className="required">*</span>
+                  Coordinator Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -133,12 +133,12 @@ function Construction(props: any) {
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
-                    placeholder="Name"
+                    placeholder="Enter coordinator name"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Email <span className="required">*</span>
+                  Coordinator Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -146,20 +146,21 @@ function Construction(props: any) {
                     value={coordinator.email}
                     onChange={handleChangeCoordinator}
                     name="email"
-                    placeholder="Email"
+                    placeholder="Enter coordinator email"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Cell number <span className="required">*</span>
+                  Coordinator Cell number <span className="required">*</span>
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={coordinator.cellNumber}
                     onChange={handleChangeCoordinator}
                     name="cellNumber"
-                    placeholder="Cell number"
+                    placeholder="Enter coordinator cell number"
                   />
                 </div>
                 <div className="form--group">
@@ -172,7 +173,7 @@ function Construction(props: any) {
                     value={quotation.placementDate}
                     onChange={handleChangeQuotation}
                     name="placementDate"
-                    placeholder="placement date"
+                    placeholder="Select placement date"
                   />
                 </div>
               </React.Fragment>
@@ -186,11 +187,12 @@ function Construction(props: any) {
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.maxWorkers}
                     onChange={handleChangeQuotation}
                     name="maxWorkers"
-                    placeholder="Max workers"
+                    placeholder="Enter max workers"
                   />
                 </div>
 
@@ -200,14 +202,14 @@ function Construction(props: any) {
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.weeklyHours}
                     onChange={handleChangeQuotation}
                     name="weeklyHours"
-                    placeholder="Weekly hours"
+                    placeholder="Enter weekly hours"
                   />
                 </div>
-
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -240,7 +242,7 @@ function Construction(props: any) {
                     value={quotation.distanceFromKelowna}
                     onChange={handleChangeQuotation}
                     name="distanceFromKelowna"
-                    placeholder="Distance from kelowna"
+                    placeholder="Enter distance from kelowna"
                   />
                 </div>
               </React.Fragment>
@@ -254,27 +256,14 @@ function Construction(props: any) {
                   </label>
                   <input
                     type="number"
+                    min={0}
                     required
                     value={quotation.serviceCharge}
                     onChange={handleChangeQuotation}
                     name="serviceCharge"
-                    placeholder="Service charge"
+                    placeholder="Enter service charge"
                   />
                 </div>
-                <div className="form--group">
-                  <label htmlFor="password">
-                    Delivered price <span className="required">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    required
-                    value={quotation.deliveredPrice}
-                    onChange={handleChangeQuotation}
-                    name="deliveredPrice"
-                    placeholder="Delivered price"
-                  />
-                </div>
-
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -331,7 +320,7 @@ function Construction(props: any) {
                     value={quotation.specialRequirements}
                     onChange={handleChangeQuotation}
                     name="specialRequirements"
-                    placeholder="Special requirements"
+                    placeholder="Enter special requirements"
                   />
                 </div>
               </React.Fragment>
@@ -381,7 +370,6 @@ function Construction(props: any) {
                   className="submit--from submit--from--action btn"
                   disabled={
                     !quotation.serviceCharge ||
-                    !quotation.deliveredPrice ||
                     !quotation.specialRequirements
                   }
                 >
@@ -399,16 +387,7 @@ function Construction(props: any) {
 
 export default Construction;
 
-{
-  /* <div className="form--group">
-                            <label htmlFor="name">Select <span className="required">*</span></label>
-                            <select name="" id="">
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                            </select>
-                        </div> */
-}
+
 
 {
   /* <div className="form--checkbox--option">

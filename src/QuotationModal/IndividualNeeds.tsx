@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { authAxios } from "../config/config";
 
-function IndividualNeeds(props: any) {
+function FarmaWinery(props: any) {
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [formStep, setFormStep] = useState<number>(1);
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -14,15 +13,14 @@ function IndividualNeeds(props: any) {
   });
 
   const [quotation, setQuotation] = useState({
+    useType: "",
     maxWorkers: undefined,
     weeklyHours: undefined,
-    placementDate: "",
-    restrictedAccess: "true",
+    placementDatetime: "",
     distanceFromKelowna: undefined,
     serviceCharge: undefined,
-    deliveredPrice: undefined,
-    useAtNight: "true",
-    useInWinter: "true",
+    nightUse: "true",
+    winterUse: "true",
     specialRequirements: "",
   });
 
@@ -46,13 +44,34 @@ function IndividualNeeds(props: any) {
 
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Radiobutton Value Access", typeof value);
-    console.log("Radiobutton name Access", name);
-
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const resetForm = () => {
+    setCoordinator({ name: "", email: "", cellNumber: "" });
+    setQuotation({
+      useType: "",
+      maxWorkers: undefined,
+      weeklyHours: undefined,
+      placementDatetime: "",
+      distanceFromKelowna: undefined,
+      serviceCharge: undefined,
+      nightUse: "true",
+      winterUse: "true",
+      specialRequirements: "",
+    });
+    setFormStep(1);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -60,18 +79,21 @@ function IndividualNeeds(props: any) {
     const payload = {
       coordinator,
       ...quotation,
-      placementLocation,
+      placement_location : placementLocation,
       originPoint,
     };
     setLoading(true);
     await authAxios()
-      .post("/quotation/create-quotation-for-construction", payload)
+      .post("/quotation/create-quotation-for-farm-orchard-winery", payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data.message);
-            console.log("resposnse Data", response.data.data);
+            resetForm();
+            document
+              .querySelector(".default--popup")
+              ?.classList.remove("active--popup");
           } else {
             toast.error(response.data.message);
           }
@@ -86,244 +108,267 @@ function IndividualNeeds(props: any) {
       });
   };
 
+  const handleNextPage = () => {
+    setFormStep((currentStep) => currentStep + 1);
+  };
+
+  const handlePreviousPage = () => {
+    setFormStep((currentStep) => currentStep - 1);
+  };
+
   return (
     <React.Fragment>
       <div className="default--form cat--5">
         <div className="default--form--wrapper">
           <div className="form--title">
-            <h2>Create Quotation for individual needs</h2>
+            <h3>Create Quotation for Individual Needs</h3>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="form--group">
-              <label htmlFor="name">
-                Name <span className="required">*</span>
-              </label>
-              <input
-                type="text"
-                required
-                value={coordinator.name}
-                onChange={handleChangeCoordinator}
-                name="name"
-                placeholder="Name"
-              />
-            </div>
-            <div className="form--group">
-              <label htmlFor="name">
-                Email <span className="required">*</span>
-              </label>
-              <input
-                type="email"
-                required
-                value={coordinator.email}
-                onChange={handleChangeCoordinator}
-                name="email"
-                placeholder="Email"
-              />
-            </div>
-            <div className="form--group">
-              <label htmlFor="name">
-                Cell number <span className="required">*</span>
-              </label>
-              <input
-                type="number"
-                required
-                value={coordinator.cellNumber}
-                onChange={handleChangeCoordinator}
-                name="cellNumber"
-                placeholder="Cell number"
-              />
-            </div>
-            {/* <div className="form--group">
-                            <label htmlFor="name">Select <span className="required">*</span></label>
-                            <select name="" id="">
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                            </select>
-                        </div> */}
-            <div className="form--group">
-              <label htmlFor="name">
-                Max workers <span className="required">*</span>
-              </label>
-              <input
-                type="number"
-                required
-                value={quotation.maxWorkers}
-                onChange={handleChangeQuotation}
-                name="maxWorkers"
-                placeholder="Max workers"
-              />
-            </div>
-            <div className="form--group">
-              <label htmlFor="name">
-                Weekly Hours <span className="required">*</span>
-              </label>
-              <input
-                type="number"
-                required
-                value={quotation.weeklyHours}
-                onChange={handleChangeQuotation}
-                name="weeklyHours"
-                placeholder="Weekly hours"
-              />
-            </div>
-            <div className="form--group">
-              <label htmlFor="name">
-                Placement Date <span className="required">*</span>
-              </label>
-              <input
-                type="date"
-                required
-                value={quotation.placementDate}
-                onChange={handleChangeQuotation}
-                name="placementDate"
-                placeholder="placement date"
-              />
-            </div>
-            <div className="form--radio--option">
-              <div className="radio--option">
-                <input
-                  type="radio"
-                  name="restrictedAccess"
-                  value="true"
-                  checked={quotation.restrictedAccess === "true"}
-                  onChange={handleChangeQuotation}
-                />
-                <label htmlFor="vehicle1">Restricted Access</label>
-              </div>
-              <div className="radio--option">
-                <input
-                  type="radio"
-                  name="restrictedAccess"
-                  value="false"
-                  checked={quotation.restrictedAccess === "false"}
-                  onChange={handleChangeQuotation}
-                />
-                <label htmlFor="vehicle2">Not Restricted Access</label>
-              </div>
-            </div>
-            <div className="form--group">
-              <label htmlFor="Email">
-                Distance from kelowna <span className="required">*</span>
-              </label>
-              <input
-                type="number"
-                required
-                value={quotation.distanceFromKelowna}
-                onChange={handleChangeQuotation}
-                name="distanceFromKelowna"
-                placeholder="Distance from kelowna"
-              />
-            </div>
-            <div className="form--group">
-              <label htmlFor="password">
-                Service charge <span className="required">*</span>
-              </label>
-              <input
-                type="number"
-                required
-                value={quotation.serviceCharge}
-                onChange={handleChangeQuotation}
-                name="serviceCharge"
-                placeholder="Service charge"
-              />
-            </div>
-            <div className="form--group">
-              <label htmlFor="password">
-                Delivered price <span className="required">*</span>
-              </label>
-              <input
-                type="number"
-                required
-                value={quotation.deliveredPrice}
-                onChange={handleChangeQuotation}
-                name="deliveredPrice"
-                placeholder="Delivered price"
-              />
-            </div>
-            {/* <div className="form--checkbox--option">
-                  <div className="checkbox--option">
+            {formStep === 1 && (
+              <React.Fragment>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Coordinator Name <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={coordinator.name}
+                    onChange={handleChangeCoordinator}
+                    name="name"
+                    placeholder="Enter coordinator name"
+                  />
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Coordinator Email <span className="required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={coordinator.email}
+                    onChange={handleChangeCoordinator}
+                    name="email"
+                    placeholder="Enter coordinator email"
+                  />
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Coordinator Cell number <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    required
+                    value={coordinator.cellNumber}
+                    onChange={handleChangeCoordinator}
+                    name="cellNumber"
+                    placeholder="Enter coordinator cell number"
+                  />
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Use type <span className="required">*</span>
+                  </label>
+                  <select
+                    name="useType"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useType}
+                  >
+                    <option value="">Select use type</option>
+                    <option value="Farm">Farm</option>
+                    <option value="Winery">Winery</option>
+                    <option value="Orchad">Orchad</option>
+                  </select>
+                </div>
+              </React.Fragment>
+            )}
+            {formStep === 2 && (
+              <React.Fragment>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Max workers <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    required
+                    value={quotation.maxWorkers}
+                    onChange={handleChangeQuotation}
+                    name="maxWorkers"
+                    placeholder="Enter max workers"
+                  />
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Weekly Hours <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    required
+                    value={quotation.weeklyHours}
+                    onChange={handleChangeQuotation}
+                    name="weeklyHours"
+                    placeholder="Enter weekly hours"
+                  />
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Placement Date <span className="required">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={quotation.placementDatetime}
+                    onChange={handleChangeQuotation}
+                    name="placementDatetime"
+                    placeholder="Select placement date"
+                  />
+                </div>
+                <div className="form--group">
+                  <label htmlFor="Email">
+                    Distance from kelowna <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={quotation.distanceFromKelowna}
+                    onChange={handleChangeQuotation}
+                    name="distanceFromKelowna"
+                    placeholder="Enter distance from kelowna"
+                  />
+                </div>
+              </React.Fragment>
+            )}
+            {formStep === 3 && (
+              <React.Fragment>
+                <div className="form--group">
+                  <label htmlFor="password">
+                    Service charge <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    required
+                    value={quotation.serviceCharge}
+                    onChange={handleChangeQuotation}
+                    name="serviceCharge"
+                    placeholder="Enter service charge"
+                  />
+                </div>
+                <div className="form--radio--option">
+                  <div className="radio--option">
                     <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
+                      type="radio"
+                      name="nightUse"
+                      value="true"
+                      checked={quotation.nightUse === "true"}
+                      onChange={handleChangeQuotation}
                     />
-                    <label htmlFor="vehicle1"> I have a bike</label>
+                    <label htmlFor="vehicle1">Use at night</label>
                   </div>
-                  <div className="checkbox--option">
+                  <div className="radio--option">
                     <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
+                      type="radio"
+                      name="nightUse"
+                      value="false"
+                      checked={quotation.nightUse === "false"}
+                      onChange={handleChangeQuotation}
                     />
-                    <label htmlFor="vehicle2"> I have a car</label>
+                    <label htmlFor="vehicle2">Not use at night</label>
                   </div>
-                </div> */}
-            <div className="form--radio--option">
-              <div className="radio--option">
-                <input
-                  type="radio"
-                  name="useAtNight"
-                  value="true"
-                  checked={quotation.useAtNight === "true"}
-                  onChange={handleChangeQuotation}
-                />
-                <label htmlFor="vehicle1">Use at night</label>
-              </div>
-              <div className="radio--option">
-                <input
-                  type="radio"
-                  name="useAtNight"
-                  value="false"
-                  checked={quotation.useAtNight === "false"}
-                  onChange={handleChangeQuotation}
-                />
-                <label htmlFor="vehicle2">Not use at night</label>
-              </div>
-            </div>
+                </div>
+                <div className="form--radio--option">
+                  <div className="radio--option">
+                    <input
+                      type="radio"
+                      name="winterUse"
+                      value="true"
+                      checked={quotation.winterUse === "true"}
+                      onChange={handleChangeQuotation}
+                    />
+                    <label htmlFor="vehicle1">Use in winter</label>
+                  </div>
+                  <div className="radio--option">
+                    <input
+                      type="radio"
+                      name="winterUse"
+                      value="false"
+                      checked={quotation.winterUse === "false"}
+                      onChange={handleChangeQuotation}
+                    />
+                    <label htmlFor="vehicle2">Not use in winter</label>
+                  </div>
+                </div>
+                <div className="form--group">
+                  <label>
+                    Special requirements <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={quotation.specialRequirements}
+                    onChange={handleChangeQuotation}
+                    name="specialRequirements"
+                    placeholder="Enter special requirements"
+                  />
+                </div>
+              </React.Fragment>
+            )}
 
-            <div className="form--radio--option">
-              <div className="radio--option">
-                <input
-                  type="radio"
-                  name="useInWinter"
-                  value="true"
-                  checked={quotation.useInWinter === "true"}
-                  onChange={handleChangeQuotation}
-                />
-                <label htmlFor="vehicle1">Use in winter</label>
-              </div>
-              <div className="radio--option">
-                <input
-                  type="radio"
-                  name="useInWinter"
-                  value="false"
-                  checked={quotation.useInWinter === "false"}
-                  onChange={handleChangeQuotation}
-                />
-                <label htmlFor="vehicle2">Not use in winter</label>
-              </div>
-            </div>
-
-            <div className="form--group">
-              <label>
-                Special requirements <span className="required">*</span>
-              </label>
-              <input
-                type="text"
-                required
-                value={quotation.specialRequirements}
-                onChange={handleChangeQuotation}
-                name="specialRequirements"
-                placeholder="Special requirements"
-              />
-            </div>
             <div className="form--action">
-              <button type="submit" className="submit--from btn">
-                {loading ? "Loading..." : " Submit"}
-              </button>
+              {(formStep === 2 || formStep === 3) && (
+                <button
+                  type="button"
+                  onClick={handlePreviousPage}
+                  className="submit--from btn"
+                >
+                  Back
+                </button>
+              )}
+              {formStep === 1 && (
+                <button
+                  type="button"
+                  onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                    !coordinator.name ||
+                    !coordinator.email ||
+                    !coordinator.cellNumber ||
+                    !quotation.useType
+                  }
+                >
+                  Next
+                </button>
+              )}
+              {formStep === 2 && (
+                <button
+                  type="button"
+                  onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                    !quotation.maxWorkers ||
+                    !quotation.weeklyHours ||
+                    !quotation.placementDatetime ||
+                    !quotation.distanceFromKelowna
+                  }
+                >
+                  Next
+                </button>
+              )}
+              {formStep === 3 && (
+                <button
+                  type="submit"
+                  className="submit--from submit--from--action btn"
+                  disabled={
+                    !quotation.serviceCharge ||
+                    !quotation.specialRequirements
+                  }
+                >
+                  {loading ? "Loading..." : "Submit"}
+                </button>
+              )}
             </div>
           </form>
         </div>
@@ -332,4 +377,4 @@ function IndividualNeeds(props: any) {
   );
 }
 
-export default IndividualNeeds;
+export default FarmaWinery;

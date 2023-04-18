@@ -3,7 +3,7 @@ import Construction from "../QuotationModal/Construction";
 import SpecialEvents from "../QuotationModal/SpecialEvents";
 import DisasterRelief from "../QuotationModal/DisasterRelief";
 import IndividualNeeds from "../QuotationModal/IndividualNeeds";
-import LongTerm from "../QuotationModal/LongTerm";
+import FarmaWinery from "../QuotationModal/FarmaWinery";
 
 import $ from "jquery";
 
@@ -157,7 +157,7 @@ const BestDescribe = () => {
                       className="describe--categorys--item"
                       data-category="cat--4"
                     >
-                      <h3>Long Term</h3>
+                      <h3>Farm, Winery or Orchad</h3>
                       <p>
                         Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
                         dolor sit.
@@ -188,7 +188,7 @@ const BestDescribe = () => {
           <Construction />
           <SpecialEvents />
           <DisasterRelief />
-          <LongTerm />
+          <FarmaWinery />
           <IndividualNeeds />
         </div>
       </section>
