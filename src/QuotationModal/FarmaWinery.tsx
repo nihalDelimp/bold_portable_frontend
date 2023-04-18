@@ -21,12 +21,12 @@ function FarmaWinery(props: any) {
     useType: "",
     maxWorkers: undefined,
     weeklyHours: undefined,
-    placementDatetime: "",
+    placement_datetime: "",
     distanceFromKelowna: undefined,
     serviceCharge: undefined,
-    useAtNight: "true",
-    useInWinter: "true",
-    specialRequirements: "",
+    night_use: "true",
+    winter_use: "true",
+    special_requirements: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -69,12 +69,12 @@ function FarmaWinery(props: any) {
       useType: "",
       maxWorkers: undefined,
       weeklyHours: undefined,
-      placementDatetime: "",
+      placement_datetime: "",
       distanceFromKelowna: undefined,
       serviceCharge: undefined,
-      useAtNight: "true",
-      useInWinter: "true",
-      specialRequirements: "",
+      night_use: "true",
+      winter_use: "true",
+      special_requirements: "",
     });
     setFormStep(1);
   };
@@ -84,7 +84,7 @@ function FarmaWinery(props: any) {
     const payload = {
       coordinator,
       ...quotation,
-      placementLocation,
+      placement_location : placementLocation,
       originPoint,
     };
     setLoading(true);
@@ -228,9 +228,9 @@ function FarmaWinery(props: any) {
                   <input
                     type="date"
                     required
-                    value={quotation.placementDatetime}
+                    value={quotation.placement_datetime}
                     onChange={handleChangeQuotation}
-                    name="placementDatetime"
+                    name="placement_datetime"
                     placeholder="Select placement date"
                   />
                 </div>
@@ -269,9 +269,9 @@ function FarmaWinery(props: any) {
                   <div className="radio--option">
                     <input
                       type="radio"
-                      name="useAtNight"
+                      name="night_use"
                       value="true"
-                      checked={quotation.useAtNight === "true"}
+                      checked={quotation.night_use === "true"}
                       onChange={handleChangeQuotation}
                     />
                     <label htmlFor="vehicle1">Use at night</label>
@@ -279,9 +279,9 @@ function FarmaWinery(props: any) {
                   <div className="radio--option">
                     <input
                       type="radio"
-                      name="useAtNight"
+                      name="night_use"
                       value="false"
-                      checked={quotation.useAtNight === "false"}
+                      checked={quotation.night_use === "false"}
                       onChange={handleChangeQuotation}
                     />
                     <label htmlFor="vehicle2">Not use at night</label>
@@ -291,9 +291,9 @@ function FarmaWinery(props: any) {
                   <div className="radio--option">
                     <input
                       type="radio"
-                      name="useInWinter"
+                      name="winter_use"
                       value="true"
-                      checked={quotation.useInWinter === "true"}
+                      checked={quotation.winter_use === "true"}
                       onChange={handleChangeQuotation}
                     />
                     <label htmlFor="vehicle1">Use in winter</label>
@@ -301,9 +301,9 @@ function FarmaWinery(props: any) {
                   <div className="radio--option">
                     <input
                       type="radio"
-                      name="useInWinter"
+                      name="winter_use"
                       value="false"
-                      checked={quotation.useInWinter === "false"}
+                      checked={quotation.winter_use === "false"}
                       onChange={handleChangeQuotation}
                     />
                     <label htmlFor="vehicle2">Not use in winter</label>
@@ -316,9 +316,9 @@ function FarmaWinery(props: any) {
                   <input
                     type="text"
                     required
-                    value={quotation.specialRequirements}
+                    value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
-                    name="specialRequirements"
+                    name="special_requirements"
                     placeholder="Enter special requirements"
                   />
                 </div>
@@ -358,7 +358,7 @@ function FarmaWinery(props: any) {
                   disabled={
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.placementDatetime ||
+                    !quotation.placement_datetime ||
                     !quotation.distanceFromKelowna
                   }
                 >
@@ -371,7 +371,7 @@ function FarmaWinery(props: any) {
                   className="submit--from submit--from--action btn"
                   disabled={
                     !quotation.serviceCharge ||
-                    !quotation.specialRequirements
+                    !quotation.special_requirements
                   }
                 >
                   {loading ? "Loading..." : "Submit"}

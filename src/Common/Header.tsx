@@ -225,7 +225,8 @@ const Header = () => {
                 </div>
                 <div className="login--btn--wrapper">
                   <a href="#" className="login--btn">
-                  <b>  {accessToken ? firstChartByFullName(user?.name) : "Join Us"} </b>
+                  <img src= {require("../asstes/image/Profile.svg").default } alt=""/><span><b>{accessToken ? firstChartByFullName(user?.name) : "Join Us"} </b></span>
+                  
                   </a>
                 </div>
               </div>

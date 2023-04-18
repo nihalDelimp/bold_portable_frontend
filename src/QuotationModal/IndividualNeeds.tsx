@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState,  useRef } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
@@ -83,12 +83,12 @@ function FarmaWinery(props: any) {
     const payload = {
       coordinator,
       ...quotation,
-      placement_location : placementLocation,
+      placement_location: placementLocation,
       originPoint,
     };
     setLoading(true);
     await authAxios()
-      .post("/quotation/create-quotation-for-farm-orchard-winery", payload)
+      .post("/quotation/create-quotation-for-personal-business-site", payload)
       .then(
         (response) => {
           setLoading(false);
@@ -183,9 +183,8 @@ function FarmaWinery(props: any) {
                     value={quotation.useType}
                   >
                     <option value="">Select use type</option>
-                    <option value="Farm">Farm</option>
-                    <option value="Winery">Winery</option>
-                    <option value="Orchad">Orchad</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Business purpose">Businees purpose</option>
                   </select>
                 </div>
               </React.Fragment>
@@ -369,8 +368,7 @@ function FarmaWinery(props: any) {
                   type="submit"
                   className="submit--from submit--from--action btn"
                   disabled={
-                    !quotation.serviceCharge ||
-                    !quotation.specialRequirements
+                    !quotation.serviceCharge || !quotation.specialRequirements
                   }
                 >
                   {loading ? "Loading..." : "Submit"}

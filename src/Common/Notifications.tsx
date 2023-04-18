@@ -6,10 +6,11 @@ import { authAxios } from "../config/config";
 const Notifications= (props: any)=> {
   const { setLoading } = props;
   const [cancelData, setCancelData]= useState<any>([])
+
+  
   useEffect(()=>{
     getCancelOrderNotifications();
   },[])
-
 
 const getCancelOrderNotifications = async () => {
   setLoading(true);
