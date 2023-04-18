@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
+import io, { Socket } from "socket.io-client";
 
 function SpecialEvents() {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
+
+  const socket = useRef<Socket>();
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   const [eventDetails, setEventDetails] = useState({
     eventName: "",
@@ -113,6 +117,9 @@ function SpecialEvents() {
       .then(
         (response) => {
           setLoading(false);
+          if (socket.current) {
+            socket.current.emit("new_quote", response.data.data);
+          }
           if (response.data.status === 1) {
             toast.success(response.data.message);
             resetForm();

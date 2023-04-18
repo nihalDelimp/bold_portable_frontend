@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
+import io, { Socket } from "socket.io-client";
 
 function FarmaWinery(props: any) {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
+
+  const socket = useRef<Socket>();
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -88,6 +93,9 @@ function FarmaWinery(props: any) {
       .then(
         (response) => {
           setLoading(false);
+          if (socket.current) {
+            socket.current.emit("new_quote", response.data.data);
+          }
           if (response.data.status === 1) {
             toast.success(response.data.message);
             resetForm();
