@@ -1,16 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
+import io, { Socket } from "socket.io-client";
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/rootReducer";
+
 
 const Notifications= (props: any)=> {
   const { setLoading } = props;
   const [cancelData, setCancelData]= useState<any>([])
+  const { user, accessToken } = useSelector((state: RootState) => state.auth);
+
+
+  const socket = useRef<Socket>();
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   
   useEffect(()=>{
     getCancelOrderNotifications();
   },[])
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("cancel_order_received", (order) => {
+        getCancelOrderNotifications();
+        // toast.warning("Your order has cancelled");
+        if (user._id === order.user) {
+        }
+        console.log("cancel_order_received", order);
+      });
+    }
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
 
 const getCancelOrderNotifications = async () => {
   setLoading(true);

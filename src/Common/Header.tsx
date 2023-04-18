@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import $ from "jquery";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/authSlice";
-import io, { Socket } from "socket.io-client";
-import { toast } from "react-toastify";
 import Notifications from "./Notifications";
 import MyCart from "./MyCart";
 import SigninPopupModal from "./SigninPopupModal";
@@ -14,30 +12,8 @@ const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
   const { cart } = useSelector((state: RootState) => state.product);
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
-  const [cartModal, setCartModal] = useState(false);
-  const [signinModal, setSigninModal] = useState(false);
+
   const dispatch = useDispatch();
-
-  const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
-
-  console.log("UserID", user._id);
-
-  useEffect(() => {
-    if (socket.current) {
-      socket.current.on("cancel_order_received", (order) => {
-        console.log("cancel_order_user_Id", order.user);
-        console.log("_user_Id", user._id);
-        toast.warning("Your order has cancelled");
-        if (user._id === order.user) {
-        }
-        console.log("cancel_order_received", order);
-      });
-    }
-    return () => {
-      socket.current?.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     $(".hamburger").click(function () {
