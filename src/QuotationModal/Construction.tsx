@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { authAxios } from "../config/config";
 
-function DisasterRelief(props: any) {
+function Construction(props: any) {
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [formStep, setFormStep] = useState<number>(1);
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -14,13 +13,13 @@ function DisasterRelief(props: any) {
   });
 
   const [quotation, setQuotation] = useState({
-    disasterNature: "",
     maxWorkers: undefined,
     weeklyHours: undefined,
     placementDate: "",
+    restrictedAccess: "true",
     distanceFromKelowna: undefined,
     serviceCharge: undefined,
-    hazards: "",
+    deliveredPrice: undefined,
     useAtNight: "true",
     useInWinter: "true",
     specialRequirements: "",
@@ -55,6 +54,23 @@ function DisasterRelief(props: any) {
     }));
   };
 
+  const resetForm = () => {
+    setCoordinator({ name: "", email: "", cellNumber: "" });
+    setQuotation({
+      maxWorkers: undefined,
+      weeklyHours: undefined,
+      placementDate: "",
+      restrictedAccess: "true",
+      distanceFromKelowna: undefined,
+      serviceCharge: undefined,
+      deliveredPrice: undefined,
+      useAtNight: "true",
+      useInWinter: "true",
+      specialRequirements: "",
+    });
+    setFormStep(1)
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = {
@@ -65,13 +81,16 @@ function DisasterRelief(props: any) {
     };
     setLoading(true);
     await authAxios()
-      .post("/quotation/create-quotation-for-disaster-relief", payload)
+      .post("/quotation/create-quotation-for-construction", payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data.message);
-            console.log("resposnse Data", response.data.data);
+            resetForm();
+            document
+              .querySelector(".default--popup")
+              ?.classList.remove("active--popup");
           } else {
             toast.error(response.data.message);
           }
@@ -86,14 +105,24 @@ function DisasterRelief(props: any) {
       });
   };
 
+  const handleNextPage = () => {
+    setFormStep((currentStep) => currentStep + 1);
+  };
+
+  const handlePreviousPage = () => {
+    setFormStep((currentStep) => currentStep - 1);
+  };
+
   return (
-    <>
-          <div className="default--form active--from cat--3">
-            <div className="default--form--wrapper">
-              <div className="form--title">
-                <h2>Create Quotation for Disaster Relief</h2>
-              </div>
-              <form onSubmit={handleSubmit}>
+    <React.Fragment>
+      <div className="default--form cat--1">
+        <div className="default--form--wrapper">
+          <div className="form--title">
+            <h3>Create Quotation for Construction</h3>
+          </div>
+          <form onSubmit={handleSubmit}>
+            {formStep === 1 && (
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
                     Name <span className="required">*</span>
@@ -133,46 +162,6 @@ function DisasterRelief(props: any) {
                     placeholder="Cell number"
                   />
                 </div>
-
-                <div className="form--group">
-                  <label htmlFor="name">
-                    disaster Nature <span className="required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={quotation.disasterNature}
-                    onChange={handleChangeQuotation}
-                    name="disasterNature"
-                    placeholder="disaster nature"
-                  />
-                </div>
-                <div className="form--group">
-                  <label htmlFor="name">
-                    Max workers <span className="required">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    required
-                    value={quotation.maxWorkers}
-                    onChange={handleChangeQuotation}
-                    name="maxWorkers"
-                    placeholder="Max workers"
-                  />
-                </div>
-                <div className="form--group">
-                  <label htmlFor="name">
-                    Weekly hours <span className="required">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    required
-                    value={quotation.weeklyHours}
-                    onChange={handleChangeQuotation}
-                    name="weeklyHours"
-                    placeholder="weekly hours"
-                  />
-                </div>
                 <div className="form--group">
                   <label htmlFor="name">
                     Placement Date <span className="required">*</span>
@@ -186,7 +175,61 @@ function DisasterRelief(props: any) {
                     placeholder="placement date"
                   />
                 </div>
+              </React.Fragment>
+            )}
 
+            {formStep === 2 && (
+              <React.Fragment>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Max workers <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={quotation.maxWorkers}
+                    onChange={handleChangeQuotation}
+                    name="maxWorkers"
+                    placeholder="Max workers"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Weekly Hours <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={quotation.weeklyHours}
+                    onChange={handleChangeQuotation}
+                    name="weeklyHours"
+                    placeholder="Weekly hours"
+                  />
+                </div>
+
+                <div className="form--radio--option">
+                  <div className="radio--option">
+                    <input
+                      type="radio"
+                      name="restrictedAccess"
+                      value="true"
+                      checked={quotation.restrictedAccess === "true"}
+                      onChange={handleChangeQuotation}
+                    />
+                    <label htmlFor="vehicle1">Restricted Access</label>
+                  </div>
+                  <div className="radio--option">
+                    <input
+                      type="radio"
+                      name="restrictedAccess"
+                      value="false"
+                      checked={quotation.restrictedAccess === "false"}
+                      onChange={handleChangeQuotation}
+                    />
+                    <label htmlFor="vehicle2">Not Restricted Access</label>
+                  </div>
+                </div>
                 <div className="form--group">
                   <label htmlFor="Email">
                     Distance from kelowna <span className="required">*</span>
@@ -200,6 +243,11 @@ function DisasterRelief(props: any) {
                     placeholder="Distance from kelowna"
                   />
                 </div>
+              </React.Fragment>
+            )}
+
+            {formStep === 3 && (
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="password">
                     Service charge <span className="required">*</span>
@@ -215,17 +263,18 @@ function DisasterRelief(props: any) {
                 </div>
                 <div className="form--group">
                   <label htmlFor="password">
-                  Hazards <span className="required">*</span>
+                    Delivered price <span className="required">*</span>
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     required
-                    value={quotation.hazards}
+                    value={quotation.deliveredPrice}
                     onChange={handleChangeQuotation}
-                    name="hazards"
-                    placeholder="Hazards"
+                    name="deliveredPrice"
+                    placeholder="Delivered price"
                   />
                 </div>
+
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -285,16 +334,101 @@ function DisasterRelief(props: any) {
                     placeholder="Special requirements"
                   />
                 </div>
-                <div className="form--action">
-                  <button type="submit" className="submit--from btn">
-                    {loading ? "Loading..." : " Submit"}
-                  </button>
-                </div>
-              </form>
+              </React.Fragment>
+            )}
+            <div className="form--action">
+              {(formStep === 2 || formStep === 3) && (
+                <button
+                  type="button"
+                  onClick={handlePreviousPage}
+                  className="submit--from btn"
+                >
+                  Back
+                </button>
+              )}
+              {formStep === 1 && (
+                <button
+                  type="button"
+                  onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                    !coordinator.name ||
+                    !coordinator.email ||
+                    !coordinator.cellNumber ||
+                    !quotation.placementDate
+                  }
+                >
+                  Next
+                </button>
+              )}
+              {formStep === 2 && (
+                <button
+                  type="button"
+                  onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                    !quotation.maxWorkers ||
+                    !quotation.weeklyHours ||
+                    !quotation.distanceFromKelowna
+                  }
+                >
+                  Next
+                </button>
+              )}
+              {formStep === 3 && (
+                <button
+                  type="submit"
+                  className="submit--from submit--from--action btn"
+                  disabled={
+                    !quotation.serviceCharge ||
+                    !quotation.deliveredPrice ||
+                    !quotation.specialRequirements
+                  }
+                >
+                  {loading ? "Loading..." : "Submit"}
+                </button>
+              )}
             </div>
-          </div>
-    </>
+            
+          </form>
+        </div>
+      </div>
+    </React.Fragment>
   );
 }
 
-export default DisasterRelief;
+export default Construction;
+
+{
+  /* <div className="form--group">
+                            <label htmlFor="name">Select <span className="required">*</span></label>
+                            <select name="" id="">
+                                <option value="">item1</option>
+                                <option value="">item1</option>
+                                <option value="">item1</option>
+                            </select>
+                        </div> */
+}
+
+{
+  /* <div className="form--checkbox--option">
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      id="vehicle1"
+                      name="vehicle1"
+                      value="Bike"
+                    />
+                    <label htmlFor="vehicle1"> I have a bike</label>
+                  </div>
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      id="vehicle2"
+                      name="vehicle2"
+                      value="Car"
+                    />
+                    <label htmlFor="vehicle2"> I have a car</label>
+                  </div>
+                </div> */
+}

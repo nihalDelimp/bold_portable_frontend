@@ -1,10 +1,12 @@
-import React, { useState} from "react";
+
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import { authAxios } from "../config/config";
 
-function Construction(props: any) {
+function LongTerm(props: any) {
   const [loading, setLoading] = useState(false);
-  const [formStep, setFormStep] = useState<number>(1);
+  const dispatch = useDispatch();
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -54,23 +56,6 @@ function Construction(props: any) {
     }));
   };
 
-  const resetForm = () => {
-    setCoordinator({ name: "", email: "", cellNumber: "" });
-    setQuotation({
-      maxWorkers: undefined,
-      weeklyHours: undefined,
-      placementDate: "",
-      restrictedAccess: "true",
-      distanceFromKelowna: undefined,
-      serviceCharge: undefined,
-      deliveredPrice: undefined,
-      useAtNight: "true",
-      useInWinter: "true",
-      specialRequirements: "",
-    });
-    setFormStep(1)
-  };
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = {
@@ -87,10 +72,7 @@ function Construction(props: any) {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data.message);
-            resetForm();
-            document
-              .querySelector(".default--popup")
-              ?.classList.remove("active--popup");
+            console.log("resposnse Data", response.data.data);
           } else {
             toast.error(response.data.message);
           }
@@ -105,24 +87,14 @@ function Construction(props: any) {
       });
   };
 
-  const handleNextPage = () => {
-    setFormStep((currentStep) => currentStep + 1);
-  };
-
-  const handlePreviousPage = () => {
-    setFormStep((currentStep) => currentStep - 1);
-  };
-
   return (
-    <>
-      <div className="default--form active--from cat--1">
-        <div className="default--form--wrapper">
-          <div className="form--title">
-            <h3>Create Quotation for Construction</h3>
-          </div>
-          <form onSubmit={handleSubmit}>
-            {formStep === 1 && (
-              <>
+    <React.Fragment>
+          <div className="default--form cat--4">
+            <div className="default--form--wrapper">
+              <div className="form--title">
+                <h2>Create Quotation for Long Term</h2>
+              </div>
+              <form onSubmit={handleSubmit}>
                 <div className="form--group">
                   <label htmlFor="name">
                     Name <span className="required">*</span>
@@ -162,25 +134,14 @@ function Construction(props: any) {
                     placeholder="Cell number"
                   />
                 </div>
-
-                <div className="form--group">
-                  <label htmlFor="name">
-                    Placement Date <span className="required">*</span>
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    value={quotation.placementDate}
-                    onChange={handleChangeQuotation}
-                    name="placementDate"
-                    placeholder="placement date"
-                  />
-                </div>
-              </>
-            )}
-
-            {formStep === 2 && (
-              <>
+                {/* <div className="form--group">
+                            <label htmlFor="name">Select <span className="required">*</span></label>
+                            <select name="" id="">
+                                <option value="">item1</option>
+                                <option value="">item1</option>
+                                <option value="">item1</option>
+                            </select>
+                        </div> */}
                 <div className="form--group">
                   <label htmlFor="name">
                     Max workers <span className="required">*</span>
@@ -194,7 +155,6 @@ function Construction(props: any) {
                     placeholder="Max workers"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Weekly Hours <span className="required">*</span>
@@ -205,10 +165,22 @@ function Construction(props: any) {
                     value={quotation.weeklyHours}
                     onChange={handleChangeQuotation}
                     name="weeklyHours"
-                    placeholder="Weekly hours"
+                    placeholder="weekly hours"
                   />
                 </div>
-
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Placement Date <span className="required">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={quotation.placementDate}
+                    onChange={handleChangeQuotation}
+                    name="placementDate"
+                    placeholder="placement date"
+                  />
+                </div>
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -244,11 +216,6 @@ function Construction(props: any) {
                     placeholder="Distance from kelowna"
                   />
                 </div>
-              </>
-            )}
-
-            {formStep === 3 && (
-              <>
                 <div className="form--group">
                   <label htmlFor="password">
                     Service charge <span className="required">*</span>
@@ -275,7 +242,26 @@ function Construction(props: any) {
                     placeholder="Delivered price"
                   />
                 </div>
-
+                {/* <div className="form--checkbox--option">
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      id="vehicle1"
+                      name="vehicle1"
+                      value="Bike"
+                    />
+                    <label htmlFor="vehicle1"> I have a bike</label>
+                  </div>
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      id="vehicle2"
+                      name="vehicle2"
+                      value="Car"
+                    />
+                    <label htmlFor="vehicle2"> I have a car</label>
+                  </div>
+                </div> */}
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -335,101 +321,20 @@ function Construction(props: any) {
                     placeholder="Special requirements"
                   />
                 </div>
-              </>
-            )}
-            <div className="form--action">
-              {(formStep === 2 || formStep === 3) && (
-                <button
-                  type="button"
-                  onClick={handlePreviousPage}
-                  className="submit--from btn"
-                >
-                  Back
-                </button>
-              )}
-              {formStep === 1 && (
-                <button
-                  type="button"
-                  onClick={handleNextPage}
-                  className="submit--from btn"
-                  disabled={
-                    !coordinator.name ||
-                    !coordinator.email ||
-                    !coordinator.cellNumber ||
-                    !quotation.placementDate
-                  }
-                >
-                  Next
-                </button>
-              )}
-              {formStep === 2 && (
-                <button
-                  type="button"
-                  onClick={handleNextPage}
-                  className="submit--from btn"
-                  disabled={
-                    !quotation.maxWorkers ||
-                    !quotation.weeklyHours ||
-                    !quotation.distanceFromKelowna
-                  }
-                >
-                  Next
-                </button>
-              )}
-              {formStep === 3 && (
-                <button
-                  type="submit"
-                  className="submit--from submit--from--action btn"
-                  disabled={
-                    !quotation.serviceCharge ||
-                    !quotation.deliveredPrice ||
-                    !quotation.specialRequirements
-                  }
-                >
-                  {loading ? "Loading..." : "Submit"}
-                </button>
-              )}
+                <div className="form--action">
+                  <button type="submit" className="submit--from btn">
+                    {loading ? "Loading..." : " Submit"}
+                  </button>
+                </div>
+              </form>
             </div>
-            
-          </form>
-        </div>
-      </div>
-    </>
+          </div>
+    </React.Fragment>
   );
 }
 
-export default Construction;
+export default LongTerm;
 
-{
-  /* <div className="form--group">
-                            <label htmlFor="name">Select <span className="required">*</span></label>
-                            <select name="" id="">
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                                <option value="">item1</option>
-                            </select>
-                        </div> */
-}
 
-{
-  /* <div className="form--checkbox--option">
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label htmlFor="vehicle1"> I have a bike</label>
-                  </div>
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
-                    />
-                    <label htmlFor="vehicle2"> I have a car</label>
-                  </div>
-                </div> */
-}
+
+

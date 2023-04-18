@@ -142,7 +142,7 @@ function SpecialEvents(props: any) {
   };
 
   return (
-    <>
+    <React.Fragment>
       <div className="default--form cat--2">
         <div className="default--form--wrapper">
           <div className="form--title">
@@ -150,7 +150,7 @@ function SpecialEvents(props: any) {
           </div>
           <form onSubmit={handleSubmit}>
             {formStep === 1 && (
-              <>
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
                     Name <span className="required">*</span>
@@ -234,11 +234,11 @@ function SpecialEvents(props: any) {
                     placeholder="Event type"
                   />
                 </div>
-              </>
+              </React.Fragment>
             )}
 
             {formStep === 2 && (
-              <>
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
                     Event Location<span className="required">*</span>
@@ -305,11 +305,11 @@ function SpecialEvents(props: any) {
                     placeholder="Distance from kelowna"
                   />
                 </div>
-              </>
+              </React.Fragment>
             )}
 
             {formStep === 3 && (
-              <>
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="password">
                     Service charge <span className="required">*</span>
@@ -383,7 +383,7 @@ function SpecialEvents(props: any) {
                     placeholder="Special requirements"
                   />
                 </div>
-              </>
+              </React.Fragment>
             )}
 
             <div className="form--action">
@@ -444,7 +444,7 @@ function SpecialEvents(props: any) {
           </form>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 

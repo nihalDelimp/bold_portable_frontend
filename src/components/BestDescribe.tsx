@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Construction from "../SpecificQuotationModal/Construction";
-import SpecialEvents from "../SpecificQuotationModal/SpecialEvents";
-import DisasterRelief from "../SpecificQuotationModal/DisasterRelief";
-import IndividualNeeds from "../SpecificQuotationModal/IndividualNeeds";
-import LongTerm from "../SpecificQuotationModal/LongTerm";
+import Construction from "../QuotationModal/Construction";
+import SpecialEvents from "../QuotationModal/SpecialEvents";
+import DisasterRelief from "../QuotationModal/DisasterRelief";
+import IndividualNeeds from "../QuotationModal/IndividualNeeds";
+import LongTerm from "../QuotationModal/LongTerm";
 
 import $ from "jquery";
 
@@ -27,12 +27,12 @@ const BestDescribe = () => {
   useEffect(() => {
     $(document).on("click", function (e) {
       if (
-        $(e.target).closest(".default--popup--wrapper").length === 0 && $(e.target).closest(".submit--from").length === 0 &&
+        $(e.target).closest(".default--popup--wrapper").length === 0 &&
+        $(e.target).closest(".submit--from").length === 0 &&
         $(e.target).closest(
           ".describe--categorys--list .describe--categorys--item"
         ).length === 0
       ) {
-       
         $(".default--popup").removeClass("active--popup");
         $(".default--form ").removeClass("active--from");
       }
@@ -53,9 +53,6 @@ const BestDescribe = () => {
         $(this).addClass("active--item");
       }
     );
-
-    
-
   }, []);
 
   return (
@@ -190,11 +187,11 @@ const BestDescribe = () => {
         <div className="default--popup--wrapper">
           <Construction />
           <SpecialEvents />
-          < DisasterRelief />
+          <DisasterRelief />
+          <LongTerm />
+          <IndividualNeeds />
         </div>
       </section>
-
-   
     </>
   );
 };
