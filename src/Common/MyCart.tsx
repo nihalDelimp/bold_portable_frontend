@@ -85,7 +85,7 @@ export default function MyCart() {
                     View Cart
                   </a>
                   <a onClick={handleMapModal} href="#" className="btn">
-                    Chekout
+                    Checkout
                   </a>
                 </div>
               </div>
