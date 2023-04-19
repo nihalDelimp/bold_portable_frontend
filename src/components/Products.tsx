@@ -16,7 +16,7 @@ import { addToCart } from "../Redux/Reducers/productSlice";
 import { useDispatch } from "react-redux";
 import SimpleImageSlider from "react-simple-image-slider";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { limitDesc } from "../Helper/index";
+import { limitDesc } from "../Helper/constants";
 
 const Products = (props: any) => {
   const { setLoading } = props;

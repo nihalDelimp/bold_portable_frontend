@@ -1,17 +1,15 @@
-import React, { useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
+import GoogleMaps from "./GoogleMaps";
 
 function Construction() {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
 
-
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
-
-
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -20,12 +18,12 @@ function Construction() {
   });
 
   const [quotation, setQuotation] = useState({
-    maxWorkers: undefined,
-    weeklyHours: undefined,
+    maxWorkers: 10,
+    weeklyHours: 40,
     placementDate: "",
     restrictedAccess: "true",
-    distanceFromKelowna: undefined,
     serviceCharge: undefined,
+    distanceFromKelowna: undefined,
     deliveredPrice: 0,
     useAtNight: "true",
     useInWinter: "true",
@@ -64,8 +62,8 @@ function Construction() {
   const resetForm = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
-      maxWorkers: undefined,
-      weeklyHours: undefined,
+      maxWorkers: 10,
+      weeklyHours: 40,
       placementDate: "",
       restrictedAccess: "true",
       distanceFromKelowna: undefined,
@@ -75,7 +73,7 @@ function Construction() {
       useInWinter: "true",
       special_requirements: "",
     });
-    setFormStep(1)
+    setFormStep(1);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -130,12 +128,15 @@ function Construction() {
           <div className="form--title">
             <h3>Create Quotation for Construction</h3>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form
+            style={{ display: formStep === 3 ? "block" : "grid" }}
+            onSubmit={handleSubmit}
+          >
             {formStep === 1 && (
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Coordinator Name <span className="required">*</span>
+                    Coordinator Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -148,7 +149,7 @@ function Construction() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Coordinator Email <span className="required">*</span>
+                    Coordinator Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -161,7 +162,7 @@ function Construction() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Coordinator Cell number <span className="required">*</span>
+                    Coordinator Cell number <span className="required">*</span>
                   </label>
                   <input
                     type="number"
@@ -185,6 +186,28 @@ function Construction() {
                     name="placementDate"
                     placeholder="Select placement date"
                   />
+                </div>
+                <div className="form--radio--option">
+                  <div className="radio--option">
+                    <input
+                      type="radio"
+                      name="useInWinter"
+                      value="true"
+                      checked={quotation.useInWinter === "true"}
+                      onChange={handleChangeQuotation}
+                    />
+                    <label htmlFor="vehicle1">Use in winter</label>
+                  </div>
+                  <div className="radio--option">
+                    <input
+                      type="radio"
+                      name="useInWinter"
+                      value="false"
+                      checked={quotation.useInWinter === "false"}
+                      onChange={handleChangeQuotation}
+                    />
+                    <label htmlFor="vehicle2">Not use in winter</label>
+                  </div>
                 </div>
               </React.Fragment>
             )}
@@ -242,38 +265,7 @@ function Construction() {
                     <label htmlFor="vehicle2">Not Restricted Access</label>
                   </div>
                 </div>
-                <div className="form--group">
-                  <label htmlFor="Email">
-                    Distance from kelowna <span className="required">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    required
-                    value={quotation.distanceFromKelowna}
-                    onChange={handleChangeQuotation}
-                    name="distanceFromKelowna"
-                    placeholder="Enter distance from kelowna"
-                  />
-                </div>
-              </React.Fragment>
-            )}
 
-            {formStep === 3 && (
-              <React.Fragment>
-                <div className="form--group">
-                  <label htmlFor="password">
-                    Service charge <span className="required">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    required
-                    value={quotation.serviceCharge}
-                    onChange={handleChangeQuotation}
-                    name="serviceCharge"
-                    placeholder="Enter service charge"
-                  />
-                </div>
                 <div className="form--radio--option">
                   <div className="radio--option">
                     <input
@@ -297,29 +289,6 @@ function Construction() {
                   </div>
                 </div>
 
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useInWinter"
-                      value="true"
-                      checked={quotation.useInWinter === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use in winter</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useInWinter"
-                      value="false"
-                      checked={quotation.useInWinter === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use in winter</label>
-                  </div>
-                </div>
-
                 <div className="form--group">
                   <label>
                     Special requirements <span className="required">*</span>
@@ -333,8 +302,18 @@ function Construction() {
                     placeholder="Enter special requirements"
                   />
                 </div>
+               
               </React.Fragment>
             )}
+            {formStep === 3 && (
+              <div className="google--map">
+                <label>
+                  Placement Location <span className="required">*</span>
+                </label>
+                <GoogleMaps />
+              </div>
+            )}
+
             <div className="form--action">
               {(formStep === 2 || formStep === 3) && (
                 <button
@@ -368,7 +347,7 @@ function Construction() {
                   disabled={
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.distanceFromKelowna
+                    !quotation.special_requirements
                   }
                 >
                   Next
@@ -378,16 +357,11 @@ function Construction() {
                 <button
                   type="submit"
                   className="submit--from submit--from--action btn"
-                  disabled={
-                    !quotation.serviceCharge ||
-                    !quotation.special_requirements
-                  }
                 >
                   {loading ? "Loading..." : "Submit"}
                 </button>
               )}
             </div>
-            
           </form>
         </div>
       </div>
@@ -396,8 +370,6 @@ function Construction() {
 }
 
 export default Construction;
-
-
 
 {
   /* <div className="form--checkbox--option">

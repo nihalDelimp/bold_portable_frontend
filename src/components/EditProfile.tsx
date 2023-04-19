@@ -12,7 +12,7 @@ import {
   acceptedFileTypes,
   acceptedFileTypesArray,
   imageMaxSize,
-} from "../Helper";
+} from "../Helper/constants";
 
 function EditProfile(props: any) {
   const { user, accessToken } = useSelector((state: RootState) => state.auth);

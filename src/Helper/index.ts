@@ -1,9 +1,13 @@
-export const acceptedFileTypes = "image/x-png, image/png, image/jpg, image/jpeg, image/gif";
-export const acceptedFileTypesArray = acceptedFileTypes.split(",").map((item) => {
-   return item.trim();
- });
-export const imageMaxSize = 10000000; // bytes
-export const limitDesc = 80;
+
+import moment from "moment";
+
+export function getFormatedDate(date : string) {
+    if(!date){
+     return 'NA'
+    }
+     let formatedDateTime = moment(date).format('MMMM Do YYYY, hh:mm:ss A');
+     return formatedDateTime;
+}
 
 export function firstChartByFullName (fullName : any){ 
   var str = fullName
