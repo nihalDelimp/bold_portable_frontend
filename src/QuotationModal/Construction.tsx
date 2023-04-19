@@ -59,6 +59,14 @@ function Construction() {
     }));
   };
 
+  const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const resetForm = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
@@ -187,28 +195,35 @@ function Construction() {
                     placeholder="Select placement date"
                   />
                 </div>
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useInWinter"
-                      value="true"
-                      checked={quotation.useInWinter === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use in winter</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useInWinter"
-                      value="false"
-                      checked={quotation.useInWinter === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use in winter</label>
-                  </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Use in winter<span className="required">*</span>
+                  </label>
+                  <select
+                    name="useInWinter"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useInWinter}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Use at night<span className="required">*</span>
+                  </label>
+                  <select
+                    name="useAtNight"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useAtNight}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+
               </React.Fragment>
             )}
 
@@ -231,7 +246,7 @@ function Construction() {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                    Weekly Hours <span className="required">*</span>
+                    Weekly hours <span className="required">*</span>
                   </label>
                   <input
                     type="number"
@@ -243,50 +258,20 @@ function Construction() {
                     placeholder="Enter weekly hours"
                   />
                 </div>
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="restrictedAccess"
-                      value="true"
-                      checked={quotation.restrictedAccess === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Restricted Access</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="restrictedAccess"
-                      value="false"
-                      checked={quotation.restrictedAccess === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not Restricted Access</label>
-                  </div>
-                </div>
 
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useAtNight"
-                      value="true"
-                      checked={quotation.useAtNight === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use at night</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useAtNight"
-                      value="false"
-                      checked={quotation.useAtNight === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use at night</label>
-                  </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Restricted access<span className="required">*</span>
+                  </label>
+                  <select
+                    name="restrictedAccess"
+                    onChange={handleSelectQuotation}
+                    value={quotation.restrictedAccess}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
 
                 <div className="form--group">

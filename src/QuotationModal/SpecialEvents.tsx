@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
+import { usePickTimes } from "../Helper/constants";
 
 function SpecialEvents() {
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,8 @@ function SpecialEvents() {
     placement_location: "",
     distanceFromKelowna: undefined,
     serviceCharge: undefined,
+    peakUseTimes: "true",
+    peakTimeSlot: "",
     night_use: "true",
     winter_use: "true",
     special_requirements: "",
@@ -65,6 +68,14 @@ function SpecialEvents() {
     }));
   };
 
+  const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log("Radiobutton Value Access", typeof value);
@@ -85,6 +96,8 @@ function SpecialEvents() {
       placement_location: "",
       distanceFromKelowna: undefined,
       serviceCharge: undefined,
+      peakUseTimes: "true",
+      peakTimeSlot: "",
       night_use: "true",
       winter_use: "true",
       special_requirements: "",
@@ -244,19 +257,6 @@ function SpecialEvents() {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Event Location<span className="required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={eventDetails.eventLocation}
-                    onChange={handleChangeEventDetails}
-                    name="eventLocation"
-                    placeholder="Enter event location"
-                  />
-                </div>
-                <div className="form--group">
-                  <label htmlFor="name">
                     Max workers <span className="required">*</span>
                   </label>
                   <input
@@ -297,24 +297,42 @@ function SpecialEvents() {
                   />
                 </div>
                 <div className="form--group">
-                  <label htmlFor="Email">
-                    Distance from kelowna <span className="required">*</span>
+                  <label htmlFor="name">
+                    Use pick time <span className="required">*</span>
                   </label>
-                  <input
-                    type="number"
-                    required
-                    value={quotation.distanceFromKelowna}
-                    onChange={handleChangeQuotation}
-                    name="distanceFromKelowna"
-                    placeholder="Enter distance from kelowna"
-                  />
+                  <select
+                    name="peakUseTimes"
+                    onChange={handleSelectQuotation}
+                    value={quotation.peakUseTimes}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
+
+                {quotation.peakUseTimes === "true" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      Pick time slot <span className="required">*</span>
+                    </label>
+                    <select
+                      name="peakTimeSlot"
+                      onChange={handleSelectQuotation}
+                      value={quotation.peakTimeSlot}
+                    >
+                      <option value="">Select Time</option>
+                      {usePickTimes.map((item) => (
+                        <option value={item}>{item}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </React.Fragment>
             )}
 
             {formStep === 3 && (
               <React.Fragment>
-                <div className="form--group">
+                {/* <div className="form--group">
                   <label htmlFor="password">
                     Service charge <span className="required">*</span>
                   </label>
@@ -327,51 +345,36 @@ function SpecialEvents() {
                     name="serviceCharge"
                     placeholder="Enter service charge"
                   />
+                </div> */}
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Use at night<span className="required">*</span>
+                  </label>
+                  <select
+                    name="night_use"
+                    onChange={handleSelectQuotation}
+                    value={quotation.night_use}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="night_use"
-                      value="true"
-                      checked={quotation.night_use === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use at night</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="night_use"
-                      value="false"
-                      checked={quotation.night_use === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use at night</label>
-                  </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Use in winter<span className="required">*</span>
+                  </label>
+                  <select
+                    name="winter_use"
+                    onChange={handleSelectQuotation}
+                    value={quotation.winter_use}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="winter_use"
-                      value="true"
-                      checked={quotation.winter_use === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use in winter</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="winter_use"
-                      value="false"
-                      checked={quotation.winter_use === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use in winter</label>
-                  </div>
-                </div>
+                
                 <div className="form--group">
                   <label>
                     Special requirements <span className="required">*</span>
@@ -420,10 +423,8 @@ function SpecialEvents() {
                   onClick={handleNextPage}
                   className="submit--from btn"
                   disabled={
-                    !eventDetails.eventLocation ||
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.distanceFromKelowna ||
                     !quotation.placement_datetime
                   }
                 >
@@ -435,7 +436,7 @@ function SpecialEvents() {
                   type="submit"
                   className="submit--from submit--from--action btn"
                   disabled={
-                    !quotation.serviceCharge || !quotation.special_requirements
+                     !quotation.special_requirements
                   }
                 >
                   {loading ? "Loading..." : "Submit"}
@@ -450,5 +451,3 @@ function SpecialEvents() {
 }
 
 export default SpecialEvents;
-
-
