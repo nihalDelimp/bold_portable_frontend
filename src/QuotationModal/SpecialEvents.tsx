@@ -28,6 +28,12 @@ function SpecialEvents() {
     cellNumber: "",
   });
 
+  const [vipSection, setVipSection] = useState({
+    payPerUse: true,
+    fencedOff: false,
+    activelyCleaned: true,
+  });
+
   const [quotation, setQuotation] = useState({
     maxWorkers: undefined,
     weeklyHours: undefined,
@@ -87,6 +93,23 @@ function SpecialEvents() {
     }));
   };
 
+  const handleChangeVipSection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const is_checked = e.target.checked;
+    console.log("name", name, "checked", is_checked);
+    if (is_checked) {
+      setVipSection((prev) => ({
+        ...prev,
+        [name]: true,
+      }));
+    } else {
+      setVipSection((prev) => ({
+        ...prev,
+        [name]: false,
+      }));
+    }
+  };
+
   const resetForm = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
@@ -123,6 +146,7 @@ function SpecialEvents() {
       ...quotation,
       placementLocation,
       originPoint,
+      vipSection,
     };
     setLoading(true);
     await authAxios()
@@ -349,7 +373,7 @@ function SpecialEvents() {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                  Use at night<span className="required">*</span>
+                    Use at night<span className="required">*</span>
                   </label>
                   <select
                     name="night_use"
@@ -363,7 +387,7 @@ function SpecialEvents() {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                  Use in winter<span className="required">*</span>
+                    Use in winter<span className="required">*</span>
                   </label>
                   <select
                     name="winter_use"
@@ -374,7 +398,7 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-                
+
                 <div className="form--group">
                   <label>
                     Special requirements <span className="required">*</span>
@@ -387,6 +411,40 @@ function SpecialEvents() {
                     name="special_requirements"
                     placeholder="Enetr special requirements"
                   />
+                </div>
+
+                <div className="form--checkbox--option">
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      onChange={handleChangeVipSection}
+                      checked={vipSection.payPerUse}
+                      id="payPerUse"
+                      name="payPerUse"
+                    />
+                    <label htmlFor="vehicle1"> Pay Per Use</label>
+                  </div>
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      checked={vipSection.activelyCleaned}
+                      onChange={handleChangeVipSection}
+                      id="activelyCleaned"
+                      name="activelyCleaned"
+                    />
+                    <label htmlFor="vehicle1"> Actively Cleaned </label>
+                  </div>
+                  <div className="checkbox--option">
+                    <input
+                      type="checkbox"
+                      checked={vipSection.fencedOff}
+                      onChange={handleChangeVipSection}
+                      id="fencedOff"
+                      name="fencedOff"
+                    />
+
+                    <label htmlFor="vehicle2">Fenced Off</label>
+                  </div>
                 </div>
               </React.Fragment>
             )}
@@ -435,9 +493,7 @@ function SpecialEvents() {
                 <button
                   type="submit"
                   className="submit--from submit--from--action btn"
-                  disabled={
-                     !quotation.special_requirements
-                  }
+                  disabled={!quotation.special_requirements}
                 >
                   {loading ? "Loading..." : "Submit"}
                 </button>
