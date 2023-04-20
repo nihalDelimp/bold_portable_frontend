@@ -227,6 +227,7 @@ function FarmaWinery(props: any) {
                   </label>
                   <input
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
                     required
                     value={quotation.placement_datetime}
                     onChange={handleChangeQuotation}

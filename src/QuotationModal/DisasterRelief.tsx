@@ -224,6 +224,7 @@ function DisasterRelief(props: any) {
                   </label>
                   <input
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
                     required
                     value={quotation.placementDate}
                     onChange={handleChangeQuotation}

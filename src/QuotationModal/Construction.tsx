@@ -165,6 +165,8 @@ function Construction() {
     setFormStep((currentStep) => currentStep - 1);
   };
 
+
+
   return (
     <React.Fragment>
       <div className="default--form cat--1">
@@ -225,6 +227,7 @@ function Construction() {
                   <input
                     type="date"
                     required
+                    min={new Date().toISOString().split("T")[0]}
                     value={quotation.placementDate}
                     onChange={handleChangeQuotation}
                     name="placementDate"

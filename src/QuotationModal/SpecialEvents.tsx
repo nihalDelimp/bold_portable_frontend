@@ -46,6 +46,8 @@ function SpecialEvents() {
     night_use: "true",
     winter_use: "true",
     special_requirements: "",
+    alcoholServed: "false",
+    maxAttendees: undefined,
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -124,6 +126,8 @@ function SpecialEvents() {
       night_use: "true",
       winter_use: "true",
       special_requirements: "",
+      alcoholServed: "false",
+      maxAttendees: undefined,
     });
     setEventDetails({
       eventName: "",
@@ -250,10 +254,11 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Event Date<span className="required">*</span>
+                    Event Date <span className="required">*</span>
                   </label>
                   <input
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
                     required
                     value={eventDetails.eventDate}
                     onChange={handleChangeEventDetails}
@@ -263,7 +268,7 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Event Type<span className="required">*</span>
+                    Event Type <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -309,11 +314,12 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Placement Date <span className="required">*</span>
+                    Placement Date <span className="required"> *</span>
                   </label>
                   <input
                     type="date"
                     required
+                    min={new Date().toISOString().split("T")[0]}
                     value={quotation.placement_datetime}
                     onChange={handleChangeQuotation}
                     name="placement_datetime"
@@ -322,7 +328,7 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use pick time <span className="required">*</span>
+                    Use pick time <span className="required"></span>
                   </label>
                   <select
                     name="peakUseTimes"
@@ -334,10 +340,24 @@ function SpecialEvents() {
                   </select>
                 </div>
 
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Alcohol served<span className="required"></span>
+                  </label>
+                  <select
+                    name="alcoholServed"
+                    onChange={handleSelectQuotation}
+                    value={quotation.alcoholServed}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+
                 {quotation.peakUseTimes === "true" && (
                   <div className="form--group">
                     <label htmlFor="name">
-                      Pick time slot <span className="required">*</span>
+                      Pick time slot <span className="required"> *</span>
                     </label>
                     <select
                       name="peakTimeSlot"
@@ -356,24 +376,9 @@ function SpecialEvents() {
 
             {formStep === 3 && (
               <React.Fragment>
-                {/* <div className="form--group">
-                  <label htmlFor="password">
-                    Service charge <span className="required">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    required
-                    value={quotation.serviceCharge}
-                    onChange={handleChangeQuotation}
-                    name="serviceCharge"
-                    placeholder="Enter service charge"
-                  />
-                </div> */}
-
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use at night<span className="required">*</span>
+                    Use at night<span className="required"></span>
                   </label>
                   <select
                     name="night_use"
@@ -387,7 +392,7 @@ function SpecialEvents() {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use in winter<span className="required">*</span>
+                    Use in winter<span className="required"></span>
                   </label>
                   <select
                     name="winter_use"
@@ -401,7 +406,7 @@ function SpecialEvents() {
 
                 <div className="form--group">
                   <label>
-                    Special requirements <span className="required">*</span>
+                    Special requirements <span className="required"> *</span>
                   </label>
                   <input
                     type="text"
@@ -410,6 +415,21 @@ function SpecialEvents() {
                     onChange={handleChangeQuotation}
                     name="special_requirements"
                     placeholder="Enetr special requirements"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label>
+                    Max Attendees <span className="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min={0}
+                    value={quotation.maxAttendees}
+                    onChange={handleChangeQuotation}
+                    name="maxAttendees"
+                    placeholder="Enetr max attendees"
                   />
                 </div>
 
@@ -493,7 +513,7 @@ function SpecialEvents() {
                 <button
                   type="submit"
                   className="submit--from submit--from--action btn"
-                  disabled={!quotation.special_requirements}
+                  disabled={!quotation.special_requirements || !quotation.maxAttendees}
                 >
                   {loading ? "Loading..." : "Submit"}
                 </button>
