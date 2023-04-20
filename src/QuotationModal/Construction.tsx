@@ -92,7 +92,6 @@ function Construction() {
   };
 
   const placementAddressCallBack = (address: string) => {
-    alert("address" , )
     setQuotation((prev) => ({
       ...prev,
       placementAddress: address,
