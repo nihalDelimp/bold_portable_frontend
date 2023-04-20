@@ -4,6 +4,12 @@ import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
 import SessionOutModal from "../Common/SessionOutModal";
+import { originPoint, originAddress } from "../Helper/constants";
+
+interface latlngPoint {
+  lat: number;
+  lng: number;
+}
 
 function Construction() {
   const [loading, setLoading] = useState(false);
@@ -25,11 +31,12 @@ function Construction() {
     placementDate: "",
     restrictedAccess: "true",
     serviceCharge: undefined,
-    distanceFromKelowna: undefined,
+    distanceFromKelowna: 0,
     deliveredPrice: 0,
     useAtNight: "true",
     useInWinter: "true",
     special_requirements: "",
+    placementAddress: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -37,10 +44,11 @@ function Construction() {
     coordinates: [28.5722234, 7.3228051],
   });
 
-  const [originPoint, setOriginPoint] = useState({
+  const [originLocation] = useState({
     type: "Point",
-    coordinates: [28.58482, 77.3091888],
+    coordinates: [originPoint.lat, originPoint.lng],
   });
+
 
   const handleChangeCoordinator = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -69,6 +77,28 @@ function Construction() {
     }));
   };
 
+  const distanceCallBack = (distance: number) => {
+    setQuotation((prev) => ({
+      ...prev,
+      distanceFromKelowna: distance,
+    }));
+  };
+
+  const placementLocationCallBack = (destination: latlngPoint) => {
+    setPlacementLocation((prev) => ({
+      ...prev,
+      coordinates: [destination.lat, destination.lng],
+    }));
+  };
+
+  const placementAddressCallBack = (address: string) => {
+    alert("address" , )
+    setQuotation((prev) => ({
+      ...prev,
+      placementAddress: address,
+    }));
+  };
+
   const resetForm = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
@@ -76,12 +106,13 @@ function Construction() {
       weeklyHours: 40,
       placementDate: "",
       restrictedAccess: "true",
-      distanceFromKelowna: undefined,
+      distanceFromKelowna: 0,
       serviceCharge: undefined,
       deliveredPrice: 0,
       useAtNight: "true",
       useInWinter: "true",
       special_requirements: "",
+      placementAddress: "",
     });
     setFormStep(1);
   };
@@ -92,7 +123,7 @@ function Construction() {
       coordinator,
       ...quotation,
       placementLocation,
-      originPoint,
+      originPoint: originLocation,
     };
     setLoading(true);
     await authAxios()
@@ -115,8 +146,8 @@ function Construction() {
         },
         (error) => {
           setLoading(false);
-          if(error.response.status === 401){
-            setSessionOut(true)
+          if (error.response.status === 401) {
+            setSessionOut(true);
           }
           toast.error(error.response.data.message);
         }
@@ -200,7 +231,6 @@ function Construction() {
                     placeholder="Select placement date"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Use in winter<span className="required">*</span>
@@ -297,7 +327,11 @@ function Construction() {
                 <label>
                   Placement Location <span className="required">*</span>
                 </label>
-                <GoogleMaps />
+                <GoogleMaps
+                  distanceCallBack={distanceCallBack}
+                  placementLocationCallBack={placementLocationCallBack}
+                  placementAddressCallBack={placementAddressCallBack}
+                />
               </div>
             )}
 

@@ -182,7 +182,6 @@ const BestDescribe = () => {
           </div>
         </div>
       </section>
-
       <section className="default--popup">
         <div className="default--popup--wrapper">
           <Construction />
