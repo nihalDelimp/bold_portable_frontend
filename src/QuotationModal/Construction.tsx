@@ -3,10 +3,12 @@ import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
+import SessionOutModal from "../Common/SessionOutModal";
 
 function Construction() {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
+  const [sessionOut, setSessionOut] = useState<boolean>(false);
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
@@ -113,6 +115,9 @@ function Construction() {
         },
         (error) => {
           setLoading(false);
+          if(error.response.status === 401){
+            setSessionOut(true)
+          }
           toast.error(error.response.data.message);
         }
       )
@@ -198,7 +203,7 @@ function Construction() {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                  Use in winter<span className="required">*</span>
+                    Use in winter<span className="required">*</span>
                   </label>
                   <select
                     name="useInWinter"
@@ -212,7 +217,7 @@ function Construction() {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                  Use at night<span className="required">*</span>
+                    Use at night<span className="required">*</span>
                   </label>
                   <select
                     name="useAtNight"
@@ -223,7 +228,6 @@ function Construction() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
               </React.Fragment>
             )}
 
@@ -259,10 +263,9 @@ function Construction() {
                   />
                 </div>
 
-
                 <div className="form--group">
                   <label htmlFor="name">
-                  Restricted access<span className="required">*</span>
+                    Restricted access <span className="required">*</span>
                   </label>
                   <select
                     name="restrictedAccess"
@@ -287,7 +290,6 @@ function Construction() {
                     placeholder="Enter special requirements"
                   />
                 </div>
-               
               </React.Fragment>
             )}
             {formStep === 3 && (
@@ -350,31 +352,9 @@ function Construction() {
           </form>
         </div>
       </div>
+      {sessionOut && <SessionOutModal />}
     </React.Fragment>
   );
 }
 
 export default Construction;
-
-{
-  /* <div className="form--checkbox--option">
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label htmlFor="vehicle1"> I have a bike</label>
-                  </div>
-                  <div className="checkbox--option">
-                    <input
-                      type="checkbox"
-                      id="vehicle2"
-                      name="vehicle2"
-                      value="Car"
-                    />
-                    <label htmlFor="vehicle2"> I have a car</label>
-                  </div>
-                </div> */
-}

@@ -8,6 +8,7 @@ import MyCart from "./MyCart";
 import SigninPopupModal from "./SigninPopupModal";
 import { firstChartByFullName } from "../Helper";
 
+
 const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
   const { cart } = useSelector((state: RootState) => state.product);
@@ -277,6 +278,7 @@ const Header = () => {
         </div>
       </header>
       <SigninPopupModal />
+      
     </>
   );
 };

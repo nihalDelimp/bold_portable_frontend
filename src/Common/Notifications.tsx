@@ -33,20 +33,22 @@ const Notifications = (props: any) => {
   }, []);
 
   const getAllNotifications = async () => {
-    setLoading(true);
+  //  setLoading(true);
     await authAxios()
       .get("/notification/get-cancel-order-notfications")
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            console.log(response.data.data);
             setAllNotifications(response.data.data);
           } else {
             toast.error(response.data.message);
           }
         },
         (error) => {
+          if(error.response.status === 401){
+            toast.warning("Your session has expired. Please sign in again")
+          }
           setLoading(false);
         }
       )

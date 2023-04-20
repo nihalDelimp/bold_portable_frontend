@@ -29,7 +29,7 @@ const Products = (props: any) => {
 
 
   const getProductsListData = async () => {
-      setLoading(true);
+    setLoading(true);
     await authAxios()
       .get("/product/get-products")
       .then(
@@ -41,7 +41,7 @@ const Products = (props: any) => {
           }
         },
         (error) => {
-          setLoading(false);
+         setLoading(false);
           toast.error(error.response.data.message);
         }
       )

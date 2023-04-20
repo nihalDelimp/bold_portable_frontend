@@ -259,3 +259,22 @@
         }
     }
 }
+
+.session--out--popup--main {
+    .default--popup--wrapper {
+        max-width: 500px;
+        .session--out--popup {
+            padding: clamp(20px, 3vw, 40px);
+            text-align: center;
+            h3 {
+                font-size: clamp(16px, 1.1vw, 18px);
+                margin-bottom: 20px;
+            }
+            .btn {
+                padding: clamp(10px, 1.1vw, 10px) clamp(30px, 2vw, 30px);
+                min-height: 40px;
+            }
+        }
+    }
+    
+}
