@@ -37,7 +37,6 @@ function SigninPopupModal() {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success("Logged in successfully");
-            console.log("resposnse Data", response.data.data);
             dispatch(setAccessToken(response.data.data.token));
             dispatch(setuser(response.data.data.user));
             dispatch(setIsAuthenticated(true));

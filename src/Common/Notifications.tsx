@@ -1,21 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
+import { saveNotification } from "../Redux/Reducers/notification";
 
 const Notifications = (props: any) => {
   const { setLoading } = props;
-  const [allNotifications, setAllNotifications] = useState<any>([]);
+  const dispatch = useDispatch()
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const { notifications } = useSelector(
+    (state: RootState) => state.notification
+  );
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   useEffect(() => {
-    if(accessToken){
+    if (accessToken) {
       getAllNotifications();
     }
   }, []);
@@ -35,21 +39,20 @@ const Notifications = (props: any) => {
   }, []);
 
   const getAllNotifications = async () => {
-  //  setLoading(true);
     await authAxios()
       .get("/notification/get-cancel-order-notfications")
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            setAllNotifications(response.data.data);
+            dispatch(saveNotification(response.data.data));
           } else {
             toast.error(response.data.message);
           }
         },
         (error) => {
-          if(error.response.status === 401){
-            toast.warning("Your session has expired. Please sign in again")
+          if (error.response.status === 401) {
+            toast.warning("Your session has expired. Please sign in again");
           }
           setLoading(false);
         }
@@ -67,7 +70,6 @@ const Notifications = (props: any) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            const resData = response.data.data;
             getAllNotifications();
           }
         },
@@ -89,7 +91,7 @@ const Notifications = (props: any) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-           // toast.success(response.data.message);
+            // toast.success(response.data.message);
             getAllNotifications();
           }
         },
@@ -119,9 +121,9 @@ const Notifications = (props: any) => {
               </li>
             </ul>
           </div>
-          {allNotifications && allNotifications.length > 0 && (
+          {notifications && notifications.length > 0 && (
             <div className="notification--body">
-              {allNotifications.map((item: any, index: any) => (
+              {notifications.map((item: any, index: any) => (
                 <ul>
                   <li key={item._id}>
                     <span className="icons">

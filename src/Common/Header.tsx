@@ -13,6 +13,10 @@ const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
   const { cart } = useSelector((state: RootState) => state.product);
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const { notifications } = useSelector(
+    (state: RootState) => state.notification
+  );
+
 
   const dispatch = useDispatch();
 
@@ -190,7 +194,7 @@ const Header = () => {
                 </div>
                 <div className="notifications">
                   <div className="notifications--wrapper">
-                    <span className="badge"></span>
+                    <span className={notifications && notifications.length > 0 ? "badge" : ""}>{notifications && notifications.length > 0 ? notifications.length : null}</span>
                     <img
                       src={
                         require("../asstes/image/notification--icon.svg")
