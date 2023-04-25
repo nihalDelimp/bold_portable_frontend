@@ -15,7 +15,9 @@ const Notifications = (props: any) => {
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   useEffect(() => {
-    getAllNotifications();
+    if(accessToken){
+      getAllNotifications();
+    }
   }, []);
 
   useEffect(() => {
@@ -66,7 +68,6 @@ const Notifications = (props: any) => {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            console.log("MarkReadALlNotifications_resData", resData);
             getAllNotifications();
           }
         },
@@ -88,7 +89,7 @@ const Notifications = (props: any) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success(response.data.message);
+           // toast.success(response.data.message);
             getAllNotifications();
           }
         },
