@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { removeItem } from "../Redux/Reducers/productSlice";
 import GoogleMapModal from "./GoogleMapModal";
+import { Link } from "react-router-dom";
+
 
 export default function MyCart() {
   const dispatch = useDispatch();
@@ -42,7 +44,7 @@ export default function MyCart() {
               {cart &&
                 cart.length > 0 &&
                 cart.map((item, index) => (
-                  <li>
+                  <li key={index+1}>
                     <div className="cart--dropdown--item">
                       <div className="product--thumbnuil">
                         <img
@@ -81,9 +83,9 @@ export default function MyCart() {
                   <span className="subtotal--price">${totalCounter(cart)}</span>
                 </div>
                 <div className="view--cart--btns">
-                  <a href="#" className="btn">
+                  <Link to="/cart-view" className="btn">
                     View Cart
-                  </a>
+                  </Link>
                   <a onClick={handleMapModal} href="#" className="btn">
                     Checkout
                   </a>

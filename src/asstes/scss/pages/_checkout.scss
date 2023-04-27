@@ -1,0 +1,206 @@
+.checkout--table {
+    .checkout--table--wrapper {
+        padding: clamp(40px, 6vw, 100px) 0;
+        display: flex;
+        gap: 30px;
+       @media(max-width:1024px) {
+        flex-wrap: wrap;
+        }
+        .billing--details {
+            width: 67%;
+            @media(max-width:1024px) {
+                width: 100%;
+            }
+            .billing--title {
+                h3 {
+                    font-size: clamp(18px, 1.8vw, 24px);
+                    font-weight: 500;
+                    padding-bottom: 15px;
+                    border-bottom: 1px solid lighten($black, 90%);
+                    margin-bottom: 40px;
+                }
+            }
+            form {
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                gap: 30px;
+                @media (max-width:767px) {
+                    grid-template-columns: repeat(1,1fr);
+                }
+                .form--group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    input, select {
+                        padding: 15px 0;
+                        border-bottom: 1px solid lighten($black, 90%);
+                    }
+                    textarea {
+                        padding: 8px 0;
+                        border-bottom: 1px solid lighten($black, 90%);
+                        resize: none;
+                    }
+                }
+                .form--checkbox {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    gap: 15px;
+                    @media (max-width:767px) {
+                        flex-wrap: wrap;
+                    }
+                    input[type=checkbox] {
+                        accent-color: $blue;
+                        width: 15px;
+                        height: 15px;
+                        position: relative;
+                        top: 1px;
+                    }
+                    .lost--password {
+                        a {
+                            &:hover {
+                                color: $blue;
+                            }
+                        }
+                    }    
+                }
+                .form--checkbox--option {
+                    display: flex;
+                    align-items: flex-start;
+                    gap:15px;
+                    border-bottom: 1px solid lighten($black, 90%);
+                    min-height: 80px;
+                    .checkbox--option {
+                        width: fit-content;
+                        input[type=checkbox] {
+                            accent-color: $blue;
+                            width: 15px;
+                            height: 15px;
+                            position: relative;
+                            top: 1px;
+                        }
+                    }
+                }
+                .form--radio--option {
+                    display: flex;
+                    align-items: flex-start;
+                    gap:15px;
+                    border-bottom: 1px solid lighten($black, 90%);
+                    min-height: 80px;
+                    .radio--option {
+                        width: fit-content;
+                        input[type=radio] {
+                            accent-color: $blue;
+                            width: 15px;
+                            height: 15px;
+                            position: relative;
+                            top: 1px;
+                        }
+                    }
+                }
+                .form--action {
+                    grid-column: span 2;
+                    @include flex();
+                    gap:15px;
+                    @media (max-width:767px) {
+                        grid-column: span 1;
+                    }
+                    .submit--from {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        .cart--totals {
+            width: 33%;
+            flex-grow: 1;
+            margin-left: auto;
+            padding: 30px;
+            border: 1px solid lighten($black, 90%);
+            margin-top: 50px;
+            @media(max-width:1024px) {
+                margin-top: 20px;
+                width: 100%; 
+                padding: 20px 15px;
+            }
+            .cart--total--table {
+                h3.order--title {
+                    font-size: clamp(18px, 1.8vw, 24px);
+                    font-weight: 500;
+                }
+                .product--details {
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    padding: 15px 0;
+                    border-bottom: 1px solid lighten($black, 90%);
+                    .product--thumbnuil {
+                        border: 1px solid lighten($black, 90%);
+                        padding: 5px;
+                        width: 100px;
+                        img {
+                            width: 100%;
+                            aspect-ratio: 1;
+                            object-fit: cover;
+                        }
+                    }
+                    .product--content {
+                        flex-grow: 1;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                        .pd--title {
+                            font-size: 14px;
+                            font-weight: 400;
+                        }
+                        .quantity--and--price {
+                            display: flex;
+                            gap: 3px;
+                            align-items: center;
+                            .price {
+                                font-weight: 600;
+                                color: $blue;
+                            }
+                            .quantity {
+                                font-size: 13px;
+                            }
+                        }
+                        .type {
+                            font-size: 14px;
+                            b {
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                    .delete--product {
+                        width: 25px;
+                        font-size: 20px;
+                        color: lighten($black, 60%);
+                        cursor: pointer;
+                    }
+                   }
+                ul {
+                    margin-top: 20px;
+                    li {
+                        display: flex;
+                        justify-content: space-between;
+                        border-bottom: 1px solid lighten($black, 90%);
+                        padding: 15px 0;
+                        span:last-child {
+                            font-weight: 500;
+                        }
+                        &:last-child {
+                            border: none;
+                        }
+                    }
+                }
+                .checkout--btn {
+                    margin-top: 20px;
+                    .btn {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

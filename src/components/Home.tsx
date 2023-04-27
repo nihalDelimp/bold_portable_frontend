@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../Common/Header";
 import HeroBanner from "../Common/HeroBanner";
 import AboutUs from "./AboutUs";
 import BestDescribe from "./BestDescribe";
@@ -10,7 +9,6 @@ import MaintenanceServices from "./MaintenanceServices";
 import Customers from "./Customers";
 import GoogleMaps from "./GoogleMaps";
 import Blog from "./Blog";
-import Footer from "../Common/Footer";
 import Products from "./Products";
 
 
@@ -22,7 +20,6 @@ AOS.init({once: true});
 const HomePage = () => {
   return (
     <>
-      <Header />
       <HeroBanner />
       <AboutUs />
       <BestDescribe />
@@ -34,7 +31,6 @@ const HomePage = () => {
       <Customers />
       <GoogleMaps />
       <Blog />
-      <Footer />
     </>
   );
 };

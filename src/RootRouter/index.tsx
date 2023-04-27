@@ -1,20 +1,24 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../components/Home";
+import Header from "../Common/Header";
+import Footer from "../Common/Footer";
 import PageNoteFound from "../components/PageNoteFound";
-
+import CartView from "../components/CartView";
 
 function RootRouter() {
-
   return (
     <div>
       <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<PageNoteFound />} />
-      </Routes>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<PageNoteFound />} />
+          <Route path="/cart-view" element={<CartView />} />
+        </Routes>
+        <Footer />
       </Router>
     </div>
   );
-  }
+}
 
 export default RootRouter;
