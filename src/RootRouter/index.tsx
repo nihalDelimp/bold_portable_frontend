@@ -12,8 +12,8 @@ function RootRouter() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="*" element={<PageNoteFound />} />
           <Route path="/cart-view" element={<CartView />} />
+          <Route path="*" element={<PageNoteFound />} />
         </Routes>
         <Footer />
       </Router>
