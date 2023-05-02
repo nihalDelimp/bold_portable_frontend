@@ -347,21 +347,6 @@ function Construction() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
-                <div className="form--group">
-                  <label>
-                    Special requirements <span className="required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={quotation.special_requirements}
-                    onChange={handleChangeQuotation}
-                    name="special_requirements"
-                    placeholder="Enter special requirements"
-                  />
-                </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                   Date till use<span className="required">*</span>
@@ -417,6 +402,19 @@ function Construction() {
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
+                </div>
+                <div className="form--group">
+                  <label>
+                    Special requirements <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={quotation.special_requirements}
+                    onChange={handleChangeQuotation}
+                    name="special_requirements"
+                    placeholder="Enter special requirements"
+                  />
                 </div>
 
               </React.Fragment>
