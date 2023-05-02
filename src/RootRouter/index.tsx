@@ -3,7 +3,8 @@ import Home from "../components/Home";
 import Header from "../Common/Header";
 import Footer from "../Common/Footer";
 import PageNoteFound from "../components/PageNoteFound";
-import CartView from "../components/CartView";
+import CartView from "../components/ViewCart";
+import Checkout from "../components/Checkout";
 
 function RootRouter() {
   return (
@@ -13,6 +14,7 @@ function RootRouter() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart-view" element={<CartView />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>
         <Footer />

@@ -7,6 +7,7 @@ import Notifications from "./Notifications";
 import MyCart from "./MyCart";
 import SigninPopupModal from "./SigninPopupModal";
 import { firstChartByFullName } from "../Helper";
+import { Link } from "react-router-dom";
 
 
 const Header = () => {
@@ -28,8 +29,8 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
+    
     // Login Dropdown
-
     $(".login--btn").click(function () {
       $(".user--dropdown").toggleClass("active--dropdown");
     });
@@ -64,7 +65,6 @@ const Header = () => {
     });
 
     // notification dropdown
-
     $(".notifications--wrapper").click(function () {
       $(".notifications--dropdown").toggleClass(
         "active--notifications--dropdown"
@@ -77,7 +77,6 @@ const Header = () => {
     });
 
     // cart dropdown
-
     $(".cart").click(function () {
       $(".cart--dropdown").toggleClass("active--cart--dropdown");
     });
@@ -86,7 +85,6 @@ const Header = () => {
     });
 
     // switcher--tabs form
-
     $(document).on("click", ".switcher--tabs li a", function (e) {
       e.preventDefault();
       $(this).parent().siblings().find("a").removeClass("active");
@@ -146,9 +144,9 @@ const Header = () => {
                 <nav className="nav--menu--layout">
                   <ul className="nav--menu">
                     <li className="nav--menu--item">
-                      <a href="#" className="menu--item">
+                      <Link to="/" className="menu--item">
                         Home
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav--menu--item">
                       <a href="#" className="menu--item">

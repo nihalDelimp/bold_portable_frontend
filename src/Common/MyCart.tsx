@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { removeItem } from "../Redux/Reducers/productSlice";
-import GoogleMapModal from "./GoogleMapModal";
 import { Link } from "react-router-dom";
 
 
@@ -10,7 +9,6 @@ export default function MyCart() {
   const dispatch = useDispatch();
   const { cart } = useSelector((state: RootState) => state.product);
   const { user } = useSelector((state: RootState) => state.auth);
-  const [mapModal, setMapModal] = useState(false);
 
   const totalCounter = (cart: any) => {
     var result = cart.reduce(function (acc: any, item: any) {
@@ -19,9 +17,7 @@ export default function MyCart() {
     return result;
   };
 
-  const handleMapModal = () => {
-    setMapModal(!mapModal);
-  };
+ 
 
   return (
     <React.Fragment>
@@ -62,7 +58,7 @@ export default function MyCart() {
                           </span>
                         </div>
                         <div className="type">
-                          <b>Type:</b> <span>Port</span>
+                          <b>Type:</b> <span>{item.product_type}</span>
                         </div>
                       </div>
                       <div
@@ -75,7 +71,6 @@ export default function MyCart() {
                   </li>
                 ))}
             </ul>
-
             {cart && cart.length > 0 && (
               <div className="view--cart--area">
                 <div className="subtotal">
@@ -83,12 +78,12 @@ export default function MyCart() {
                   <span className="subtotal--price">${totalCounter(cart)}</span>
                 </div>
                 <div className="view--cart--btns">
-                  <Link to="/cart-view" className="btn">
+                  <Link to="/cart-view" className="btn close--cart">
                     View Cart
                   </Link>
-                  <a onClick={handleMapModal} href="#" className="btn">
+                  <Link  to = "/checkout"className="btn close--cart">
                     Checkout
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}
@@ -108,9 +103,6 @@ export default function MyCart() {
           </div>
         </div>
       </div>
-      {mapModal && (
-        <GoogleMapModal mapModal={mapModal} handleMapModal={handleMapModal} />
-      )}
     </React.Fragment>
   );
 }

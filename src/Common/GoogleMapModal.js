@@ -12,15 +12,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
 import { removeAllItems } from "../Redux/Reducers/productSlice";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 function GoogleMapModal(props) {
-  const { mapModal, handleMapModal, closeCartModal } = props
+  const { mapModal, closeModal } = props
   const { cart } = useSelector((state) => state.product);
   const { user } = useSelector((state) => state.auth);
   const dispetch = useDispatch();
+  const navigate = useNavigate();
 
   const socket = useRef();
 
@@ -177,7 +179,8 @@ function GoogleMapModal(props) {
             }
             toast.success(response.data?.message);
             dispetch(removeAllItems());
-            handleMapModal()
+            closeModal()
+            navigate('/')
           } else {
             toast.error(response.data?.message);
           }
@@ -215,7 +218,7 @@ function GoogleMapModal(props) {
                 className="close"
                 data-dismiss="modal"
                 aria-label="Close"
-                onClick={handleMapModal}
+                onClick={closeModal}
               >
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -280,7 +283,7 @@ function GoogleMapModal(props) {
                   <div className="modal-footer border-top-0 d-flex justify-content-between">
                     <button
                       style={{ backgroundColor: "#8d99ae" }}
-                      onClick={() => handleMapModal()}
+                      onClick={() => closeModal()}
                       type="button"
                       className="btn btn-secondary"
                       data-dismiss="modal"
