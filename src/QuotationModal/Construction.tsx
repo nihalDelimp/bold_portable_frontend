@@ -37,6 +37,13 @@ function Construction() {
     useInWinter: "true",
     special_requirements: "",
     placementAddress: "",
+
+    designatedWorkers: "false",
+    workerTypes: "male",
+    handwashing: "true",
+    handSanitizerPump: "false",
+    twiceWeeklyService: "true",
+    dateTillUse: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -48,7 +55,6 @@ function Construction() {
     type: "Point",
     coordinates: [originPoint.lat, originPoint.lng],
   });
-
 
   const handleChangeCoordinator = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -112,6 +118,13 @@ function Construction() {
       useInWinter: "true",
       special_requirements: "",
       placementAddress: "",
+
+      designatedWorkers: "false",
+      workerTypes: "male",
+      handwashing: "true",
+      handSanitizerPump: "false",
+      twiceWeeklyService: "true",
+      dateTillUse: "",
     });
     setFormStep(1);
   };
@@ -163,8 +176,6 @@ function Construction() {
   const handlePreviousPage = () => {
     setFormStep((currentStep) => currentStep - 1);
   };
-
-
 
   return (
     <React.Fragment>
@@ -235,7 +246,7 @@ function Construction() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use in winter<span className="required">*</span>
+                    Use in winter<span className="required"></span>
                   </label>
                   <select
                     name="useInWinter"
@@ -249,7 +260,7 @@ function Construction() {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use at night<span className="required">*</span>
+                    Use at night<span className="required"></span>
                   </label>
                   <select
                     name="useAtNight"
@@ -260,6 +271,36 @@ function Construction() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Designated Workers<span className="required"></span>
+                  </label>
+                  <select
+                    name="designatedWorkers"
+                    onChange={handleSelectQuotation}
+                    value={quotation.designatedWorkers}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+
+                {quotation.designatedWorkers === "true" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      Worker Types<span className="required"></span>
+                    </label>
+                    <select
+                      name="workerTypes"
+                      onChange={handleSelectQuotation}
+                      value={quotation.workerTypes}
+                    >
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                )}
               </React.Fragment>
             )}
 
@@ -279,7 +320,6 @@ function Construction() {
                     placeholder="Enter max workers"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Weekly hours <span className="required">*</span>
@@ -294,10 +334,9 @@ function Construction() {
                     placeholder="Enter weekly hours"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
-                    Restricted access <span className="required">*</span>
+                    Restricted access <span className="required"></span>
                   </label>
                   <select
                     name="restrictedAccess"
@@ -322,6 +361,64 @@ function Construction() {
                     placeholder="Enter special requirements"
                   />
                 </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Date till use<span className="required">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    min={new Date().toISOString().split("T")[0]}
+                    value={quotation.dateTillUse}
+                    onChange={handleChangeQuotation}
+                    name="dateTillUse"
+                    placeholder="Select date till use"
+                  />
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Hand washing<span className="required"></span>
+                  </label>
+                  <select
+                    name="handwashing"
+                    onChange={handleSelectQuotation}
+                    value={quotation.handwashing}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Hand sanitizer pump<span className="required"></span>
+                  </label>
+                  <select
+                    name="handSanitizerPump"
+                    onChange={handleSelectQuotation}
+                    value={quotation.handSanitizerPump}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Twice weekly service<span className="required"></span>
+                  </label>
+                  <select
+                    name="twiceWeeklyService"
+                    onChange={handleSelectQuotation}
+                    value={quotation.twiceWeeklyService}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+
               </React.Fragment>
             )}
             {formStep === 3 && (
@@ -336,7 +433,6 @@ function Construction() {
                 />
               </div>
             )}
-
             <div className="form--action">
               {(formStep === 2 || formStep === 3) && (
                 <button
