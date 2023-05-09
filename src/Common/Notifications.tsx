@@ -16,7 +16,9 @@ const Notifications = (props: any) => {
   );
 
   const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+  socket.current = io(`${process.env.REACT_APP_SOCKET}` , { transports: ['polling'] });
+
+
 
   useEffect(() => {
     if (accessToken) {
@@ -52,7 +54,7 @@ const Notifications = (props: any) => {
         },
         (error) => {
           if (error.response.status === 401) {
-            toast.warning("Your session has expired. Please sign in again");
+            console.log("Your session has expired. Please sign in again");
           }
           setLoading(false);
         }

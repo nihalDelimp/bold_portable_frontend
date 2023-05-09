@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
-import SessionOutModal from "../Common/SessionOutModal";
 import { originPoint, originAddress } from "../Helper/constants";
 
 interface latlngPoint {
@@ -11,13 +10,42 @@ interface latlngPoint {
   lng: number;
 }
 
-function Construction() {
+interface quotationType {
+  maxWorkers: number;
+  weeklyHours: number;
+  placementDate: string;
+  restrictedAccess: boolean;
+  serviceCharge: number;
+  distanceFromKelowna: number;
+  deliveredPrice: number;
+  useAtNight: boolean;
+  useInWinter: boolean;
+  special_requirements: string;
+  placementAddress: string;
+  femaleWorkers: number;
+  femaleToilet : boolean ,
+  designatedWorkers: boolean;
+  workerTypes: string;
+  handwashing: boolean;
+  handSanitizerPump: boolean;
+  twiceWeeklyService: boolean;
+  dateTillUse: string;
+}
+
+const Construction: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
-  const [sessionOut, setSessionOut] = useState<boolean>(false);
 
   const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`, {
+    transports: ["polling"],
+  });
+
+  useEffect(() => {
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -25,24 +53,25 @@ function Construction() {
     cellNumber: "",
   });
 
-  const [quotation, setQuotation] = useState({
+  const [quotation, setQuotation] = useState<quotationType>({
     maxWorkers: 10,
-    weeklyHours: 40,
+    weeklyHours: 400,
     placementDate: "",
-    restrictedAccess: "true",
-    serviceCharge: undefined,
+    restrictedAccess: true,
+    serviceCharge: 0,
     distanceFromKelowna: 0,
     deliveredPrice: 0,
-    useAtNight: "true",
-    useInWinter: "true",
+    useAtNight: true,
+    useInWinter: true,
     special_requirements: "",
     placementAddress: "",
-
-    designatedWorkers: "false",
+    femaleWorkers: 0,
+    femaleToilet : false,
+    designatedWorkers: false,
     workerTypes: "male",
-    handwashing: "true",
-    handSanitizerPump: "false",
-    twiceWeeklyService: "true",
+    handwashing: true,
+    handSanitizerPump: true,
+    twiceWeeklyService: true,
     dateTillUse: "",
   });
 
@@ -77,10 +106,18 @@ function Construction() {
 
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setQuotation((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const boolValue = value === "true";
+    if (name === "workerTypes") {
+      setQuotation((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      setQuotation((prev) => ({
+        ...prev,
+        [name]: boolValue,
+      }));
+    }
   };
 
   const distanceCallBack = (distance: number) => {
@@ -108,22 +145,23 @@ function Construction() {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
       maxWorkers: 10,
-      weeklyHours: 40,
+      weeklyHours: 400,
       placementDate: "",
-      restrictedAccess: "true",
+      restrictedAccess: true,
+      serviceCharge: 0,
       distanceFromKelowna: 0,
-      serviceCharge: undefined,
       deliveredPrice: 0,
-      useAtNight: "true",
-      useInWinter: "true",
+      useAtNight: true,
+      useInWinter: true,
       special_requirements: "",
       placementAddress: "",
-
-      designatedWorkers: "false",
+      femaleWorkers: 0,
+      femaleToilet : false,
+      designatedWorkers: false,
       workerTypes: "male",
-      handwashing: "true",
-      handSanitizerPump: "false",
-      twiceWeeklyService: "true",
+      handwashing: true,
+      handSanitizerPump: true,
+      twiceWeeklyService: true,
       dateTillUse: "",
     });
     setFormStep(1);
@@ -159,7 +197,7 @@ function Construction() {
         (error) => {
           setLoading(false);
           if (error.response.status === 401) {
-            setSessionOut(true);
+            console.log("Not authorizesd");
           }
           toast.error(error.response.data.message);
         }
@@ -251,13 +289,12 @@ function Construction() {
                   <select
                     name="useInWinter"
                     onChange={handleSelectQuotation}
-                    value={quotation.useInWinter}
+                    value={quotation.useInWinter.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Use at night<span className="required"></span>
@@ -265,13 +302,12 @@ function Construction() {
                   <select
                     name="useAtNight"
                     onChange={handleSelectQuotation}
-                    value={quotation.useAtNight}
+                    value={quotation.useAtNight.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Designated Workers<span className="required"></span>
@@ -279,14 +315,13 @@ function Construction() {
                   <select
                     name="designatedWorkers"
                     onChange={handleSelectQuotation}
-                    value={quotation.designatedWorkers}
+                    value={quotation.designatedWorkers.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
-                {quotation.designatedWorkers === "true" && (
+                {quotation.designatedWorkers && (
                   <div className="form--group">
                     <label htmlFor="name">
                       Worker Types<span className="required"></span>
@@ -296,14 +331,44 @@ function Construction() {
                       onChange={handleSelectQuotation}
                       value={quotation.workerTypes}
                     >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                )}
+                {quotation.workerTypes === "female" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      Female workers<span className="required"></span>
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      required
+                      value={quotation.femaleWorkers}
+                      onChange={handleChangeQuotation}
+                      name="femaleWorkers"
+                      placeholder="How many female workers ?"
+                    />
+                  </div>
+                )}
+                {quotation.workerTypes === "female" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                    Do you need seperate toilet for ladies ?<span className="required"></span>
+                    </label>
+                    <select
+                      name="femaleToilet"
+                      onChange={handleSelectQuotation}
+                      value={quotation.femaleToilet.toString()}
+                    >
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                 )}
               </React.Fragment>
             )}
-
             {formStep === 2 && (
               <React.Fragment>
                 <div className="form--group">
@@ -341,7 +406,7 @@ function Construction() {
                   <select
                     name="restrictedAccess"
                     onChange={handleSelectQuotation}
-                    value={quotation.restrictedAccess}
+                    value={quotation.restrictedAccess.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
@@ -349,7 +414,7 @@ function Construction() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Date till use<span className="required">*</span>
+                    Date till use<span className="required">*</span>
                   </label>
                   <input
                     type="date"
@@ -361,43 +426,40 @@ function Construction() {
                     placeholder="Select date till use"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
-                  Hand washing<span className="required"></span>
+                    Hand washing<span className="required"></span>
                   </label>
                   <select
                     name="handwashing"
                     onChange={handleSelectQuotation}
-                    value={quotation.handwashing}
+                    value={quotation.handwashing.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
-                  Hand sanitizer pump<span className="required"></span>
+                    Hand sanitizer pump<span className="required"></span>
                   </label>
                   <select
                     name="handSanitizerPump"
                     onChange={handleSelectQuotation}
-                    value={quotation.handSanitizerPump}
+                    value={quotation.handSanitizerPump.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
-                  Twice weekly service<span className="required"></span>
+                    Twice weekly service<span className="required"></span>
                   </label>
                   <select
                     name="twiceWeeklyService"
                     onChange={handleSelectQuotation}
-                    value={quotation.twiceWeeklyService}
+                    value={quotation.twiceWeeklyService.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
@@ -416,7 +478,6 @@ function Construction() {
                     placeholder="Enter special requirements"
                   />
                 </div>
-
               </React.Fragment>
             )}
             {formStep === 3 && (
@@ -482,9 +543,8 @@ function Construction() {
           </form>
         </div>
       </div>
-      {sessionOut && <SessionOutModal />}
     </React.Fragment>
   );
-}
+};
 
 export default Construction;

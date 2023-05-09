@@ -34,9 +34,13 @@ function GoogleMapModal(props) {
   const [mapLoading, setMaptLoading] = useState(false)
 
 
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`,{ transports: ['polling'] });
 
-
+  useEffect(() => {
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
 
   var options = {
     enableHighAccuracy: true,
