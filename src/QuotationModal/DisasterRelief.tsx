@@ -1,34 +1,89 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
+import GoogleMaps from "./GoogleMaps";
+import { originPoint, originAddress } from "../Helper/constants";
 
-function DisasterRelief(props: any) {
+interface latlngPoint {
+  lat: number;
+  lng: number;
+}
+
+interface quotationType {
+  maxWorkers: number;
+  weeklyHours: number;
+  placementDate: string;
+  restrictedAccess: boolean;
+  serviceCharge: number;
+  distanceFromKelowna: number;
+  deliveredPrice: number;
+  useAtNight: boolean;
+  useInWinter: boolean;
+  special_requirements: string;
+  placementAddress: string;
+  femaleWorkers: number;
+  femaleToilet : boolean ,
+  designatedWorkers: boolean;
+  workerTypes: string;
+  handwashing: boolean;
+  handSanitizerPump: boolean;
+  twiceWeeklyService: boolean;
+  dateTillUse: string;
+
+  disasterNature : string,
+  hazards : string
+}
+
+interface coordinatorType {
+  name : string ,
+  email : string ,
+  cellNumber : number | string
+}
+
+const DisasterRelief: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
 
-
   const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`, {
+    transports: ["polling"],
+  });
 
+  useEffect(() => {
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
 
-  const [coordinator, setCoordinator] = useState({
+  const [coordinator, setCoordinator] = useState<coordinatorType>({
     name: "",
     email: "",
     cellNumber: "",
   });
 
-  const [quotation, setQuotation] = useState({
-    disasterNature: "",
-    maxWorkers: undefined,
-    weeklyHours: undefined,
+  const [quotation, setQuotation] = useState<quotationType>({
+    maxWorkers: 10,
+    weeklyHours: 400,
     placementDate: "",
-    distanceFromKelowna: undefined,
-    serviceCharge: undefined,
-    hazards: "",
-    useAtNight: "true",
-    useInWinter: "true",
+    restrictedAccess: true,
+    serviceCharge: 0,
+    distanceFromKelowna: 0,
+    deliveredPrice: 0,
+    useAtNight: true,
+    useInWinter: true,
     special_requirements: "",
+    placementAddress: "",
+    femaleWorkers: 0,
+    femaleToilet : false,
+    designatedWorkers: false,
+    workerTypes: "male",
+    handwashing: true,
+    handSanitizerPump: true,
+    twiceWeeklyService: true,
+    dateTillUse: "",
+    disasterNature : "",
+    hazards : ""
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -36,9 +91,9 @@ function DisasterRelief(props: any) {
     coordinates: [28.5722234, 7.3228051],
   });
 
-  const [originPoint, setOriginPoint] = useState({
+  const [originLocation] = useState({
     type: "Point",
-    coordinates: [28.58482, 77.3091888],
+    coordinates: [originPoint.lat, originPoint.lng],
   });
 
   const handleChangeCoordinator = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,19 +115,67 @@ function DisasterRelief(props: any) {
     }));
   };
 
+  const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const boolValue = value === "true";
+    if (name === "workerTypes") {
+      setQuotation((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      setQuotation((prev) => ({
+        ...prev,
+        [name]: boolValue,
+      }));
+    }
+  };
+
+  const distanceCallBack = (distance: number) => {
+    setQuotation((prev) => ({
+      ...prev,
+      distanceFromKelowna: distance,
+    }));
+  };
+
+  const placementLocationCallBack = (destination: latlngPoint) => {
+    setPlacementLocation((prev) => ({
+      ...prev,
+      coordinates: [destination.lat, destination.lng],
+    }));
+  };
+
+  const placementAddressCallBack = (address: string) => {
+    setQuotation((prev) => ({
+      ...prev,
+      placementAddress: address,
+    }));
+  };
+
   const resetForm = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
-      disasterNature: "",
-      maxWorkers: undefined,
-      weeklyHours: undefined,
+      maxWorkers: 10,
+      weeklyHours: 400,
       placementDate: "",
-      distanceFromKelowna: undefined,
-      serviceCharge: undefined,
-      hazards: "",
-      useAtNight: "true",
-      useInWinter: "true",
+      restrictedAccess: true,
+      serviceCharge: 0,
+      distanceFromKelowna: 0,
+      deliveredPrice: 0,
+      useAtNight: true,
+      useInWinter: true,
       special_requirements: "",
+      placementAddress: "",
+      femaleWorkers: 0,
+      femaleToilet : false,
+      designatedWorkers: false,
+      workerTypes: "male",
+      handwashing: true,
+      handSanitizerPump: true,
+      twiceWeeklyService: true,
+      dateTillUse: "",
+      disasterNature : "" ,
+      hazards : ""
     });
     setFormStep(1);
   };
@@ -83,7 +186,7 @@ function DisasterRelief(props: any) {
       coordinator,
       ...quotation,
       placementLocation,
-      originPoint,
+      originPoint: originLocation,
     };
     setLoading(true);
     await authAxios()
@@ -106,6 +209,9 @@ function DisasterRelief(props: any) {
         },
         (error) => {
           setLoading(false);
+          if (error.response.status === 401) {
+            console.log("Not authorizesd");
+          }
           toast.error(error.response.data.message);
         }
       )
@@ -129,12 +235,15 @@ function DisasterRelief(props: any) {
           <div className="form--title">
             <h3>Create Quotation for Disaster Relief</h3>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form
+            style={{ display: formStep === 3 ? "block" : "grid" }}
+            onSubmit={handleSubmit}
+          >
             {formStep === 1 && (
               <React.Fragment>
-                    <div className="form--group">
+                <div className="form--group">
                   <label htmlFor="name">
-                  Coordinator Name <span className="required">*</span>
+                    Coordinator Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -142,12 +251,12 @@ function DisasterRelief(props: any) {
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
-                    placeholder="Enter coordinator name"
+                    placeholder="Enter name"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Coordinator Email <span className="required">*</span>
+                    Coordinator Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -155,39 +264,124 @@ function DisasterRelief(props: any) {
                     value={coordinator.email}
                     onChange={handleChangeCoordinator}
                     name="email"
-                    placeholder="Enter coordinator email"
+                    placeholder="Enter email"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Coordinator Cell number <span className="required">*</span>
+                    Coordinator Cell number <span className="required">*</span>
                   </label>
                   <input
                     type="number"
-                    required
                     min={0}
+                    required
                     value={coordinator.cellNumber}
                     onChange={handleChangeCoordinator}
                     name="cellNumber"
-                    placeholder="Enter coordinator cell number"
+                    placeholder="Enter phone"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    disaster Nature <span className="required">*</span>
+                    Placement Date <span className="required">*</span>
                   </label>
                   <input
-                    type="text"
+                    type="date"
                     required
-                    value={quotation.disasterNature}
+                    min={new Date().toISOString().split("T")[0]}
+                    value={quotation.placementDate}
                     onChange={handleChangeQuotation}
-                    name="disasterNature"
-                    placeholder="Enter disaster nature"
+                    name="placementDate"
+                    placeholder="Select placement date"
                   />
                 </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Use in winter<span className="required"></span>
+                  </label>
+                  <select
+                    name="useInWinter"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useInWinter.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Use at night<span className="required"></span>
+                  </label>
+                  <select
+                    name="useAtNight"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useAtNight.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Do you need designated workers ?<span className="required"></span>
+                  </label>
+                  <select
+                    name="designatedWorkers"
+                    onChange={handleSelectQuotation}
+                    value={quotation.designatedWorkers.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                {quotation.designatedWorkers && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      Worker Types<span className="required"></span>
+                    </label>
+                    <select
+                      name="workerTypes"
+                      onChange={handleSelectQuotation}
+                      value={quotation.workerTypes}
+                    >
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                )}
+                {quotation.workerTypes === "female" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                    How many female worker need ?<span className="required"></span>
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      required
+                      value={quotation.femaleWorkers}
+                      onChange={handleChangeQuotation}
+                      name="femaleWorkers"
+                      placeholder="Female workers"
+                    />
+                  </div>
+                )}
+                {quotation.workerTypes === "female" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                    Do you need seperate toilet for female ?<span className="required"></span>
+                    </label>
+                    <select
+                      name="femaleToilet"
+                      onChange={handleSelectQuotation}
+                      value={quotation.femaleToilet.toString()}
+                    >
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                )}
               </React.Fragment>
             )}
-
             {formStep === 2 && (
               <React.Fragment>
                 <div className="form--group">
@@ -196,8 +390,8 @@ function DisasterRelief(props: any) {
                   </label>
                   <input
                     type="number"
-                    required
                     min={0}
+                    required
                     value={quotation.maxWorkers}
                     onChange={handleChangeQuotation}
                     name="maxWorkers"
@@ -220,53 +414,87 @@ function DisasterRelief(props: any) {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Placement Date <span className="required">*</span>
+                    Restricted access <span className="required"></span>
+                  </label>
+                  <select
+                    name="restrictedAccess"
+                    onChange={handleSelectQuotation}
+                    value={quotation.restrictedAccess.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Date till use <span className="required">*</span>
                   </label>
                   <input
                     type="date"
+                    required
                     min={new Date().toISOString().split("T")[0]}
-                    required
-                    value={quotation.placementDate}
+                    value={quotation.dateTillUse}
                     onChange={handleChangeQuotation}
-                    name="placementDate"
-                    placeholder="Select placement date"
+                    name="dateTillUse"
+                    placeholder="Select date till use"
                   />
                 </div>
                 <div className="form--group">
-                  <label htmlFor="Email">
-                    Distance from kelowna <span className="required">*</span>
+                  <label htmlFor="name">
+                    Hand washing<span className="required"></span>
                   </label>
-                  <input
-                    type="number"
-                    required
-                    value={quotation.distanceFromKelowna}
-                    onChange={handleChangeQuotation}
-                    name="distanceFromKelowna"
-                    placeholder="Enter distance from kelowna"
-                  />
+                  <select
+                    name="handwashing"
+                    onChange={handleSelectQuotation}
+                    value={quotation.handwashing.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
-              </React.Fragment>
-            )}
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Hand sanitizer pump<span className="required"></span>
+                  </label>
+                  <select
+                    name="handSanitizerPump"
+                    onChange={handleSelectQuotation}
+                    value={quotation.handSanitizerPump.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Twice weekly service<span className="required"></span>
+                  </label>
+                  <select
+                    name="twiceWeeklyService"
+                    onChange={handleSelectQuotation}
+                    value={quotation.twiceWeeklyService.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
 
-            {formStep === 3 && (
-              <React.Fragment>
                 <div className="form--group">
-                  <label htmlFor="password">
-                    Service charge <span className="required">*</span>
+                  <label>
+                  Disaster nature <span className="required"> *</span>
                   </label>
                   <input
-                    type="number"
-                    min={0}
+                    type="text"
                     required
-                    value={quotation.serviceCharge}
+                    value={quotation.disasterNature}
                     onChange={handleChangeQuotation}
-                    name="serviceCharge"
-                    placeholder="Enter service charge"
+                    name="disasterNature"
+                    placeholder="disaster nature"
                   />
                 </div>
                 <div className="form--group">
-                  <label htmlFor="password">
-                    Hazards <span className="required">*</span>
+                  <label>
+                  Hazards <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -274,57 +502,12 @@ function DisasterRelief(props: any) {
                     value={quotation.hazards}
                     onChange={handleChangeQuotation}
                     name="hazards"
-                    placeholder="Enter hazards"
+                    placeholder="hazards"
                   />
-                </div>
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useAtNight"
-                      value="true"
-                      checked={quotation.useAtNight === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use at night</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useAtNight"
-                      value="false"
-                      checked={quotation.useAtNight === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use at night</label>
-                  </div>
-                </div>
-
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useInWinter"
-                      value="true"
-                      checked={quotation.useInWinter === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use in winter</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="useInWinter"
-                      value="false"
-                      checked={quotation.useInWinter === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use in winter</label>
-                  </div>
                 </div>
                 <div className="form--group">
                   <label>
-                    Special requirements <span className="required">*</span>
+                    Special requirement <span className="required"></span>
                   </label>
                   <input
                     type="text"
@@ -332,10 +515,22 @@ function DisasterRelief(props: any) {
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"
-                    placeholder="Enter special requirements"
+                    placeholder="Special requirement"
                   />
                 </div>
               </React.Fragment>
+            )}
+            {formStep === 3 && (
+              <div className="google--map">
+                <label>
+                  Placement Location <span className="required">*</span>
+                </label>
+                <GoogleMaps
+                  distanceCallBack={distanceCallBack}
+                  placementLocationCallBack={placementLocationCallBack}
+                  placementAddressCallBack={placementAddressCallBack}
+                />
+              </div>
             )}
             <div className="form--action">
               {(formStep === 2 || formStep === 3) && (
@@ -356,7 +551,7 @@ function DisasterRelief(props: any) {
                     !coordinator.name ||
                     !coordinator.email ||
                     !coordinator.cellNumber ||
-                    !quotation.disasterNature
+                    !quotation.placementDate
                   }
                 >
                   Next
@@ -369,9 +564,10 @@ function DisasterRelief(props: any) {
                   className="submit--from btn"
                   disabled={
                     !quotation.maxWorkers ||
-                    !quotation.weeklyHours ||
-                    !quotation.placementDate ||
-                    !quotation.distanceFromKelowna
+                    !quotation.weeklyHours || 
+                    !quotation.dateTillUse || 
+                    !quotation.disasterNature || 
+                    !quotation.hazards
                   }
                 >
                   Next
@@ -381,11 +577,6 @@ function DisasterRelief(props: any) {
                 <button
                   type="submit"
                   className="submit--from submit--from--action btn"
-                  disabled={
-                    !quotation.serviceCharge ||
-                    !quotation.hazards ||
-                    !quotation.special_requirements
-                  }
                 >
                   {loading ? "Loading..." : "Submit"}
                 </button>
@@ -396,6 +587,6 @@ function DisasterRelief(props: any) {
       </div>
     </React.Fragment>
   );
-}
+};
 
 export default DisasterRelief;

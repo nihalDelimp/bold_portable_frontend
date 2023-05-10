@@ -1,3 +1,5 @@
+
+
 import React, { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
@@ -23,22 +25,23 @@ interface quotationType {
   special_requirements: string;
   placementAddress: string;
   femaleWorkers: number;
-  femaleToilet : boolean ,
+  femaleToilet: boolean;
   designatedWorkers: boolean;
   workerTypes: string;
   handwashing: boolean;
   handSanitizerPump: boolean;
   twiceWeeklyService: boolean;
   dateTillUse: string;
+  useType: string;
 }
 
 interface coordinatorType {
-  name : string ,
-  email : string ,
-  cellNumber : number | string
+  name: string;
+  email: string;
+  cellNumber: number | string;
 }
 
-const Construction: React.FC = () => {
+const FarmWinery: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
 
@@ -72,13 +75,14 @@ const Construction: React.FC = () => {
     special_requirements: "",
     placementAddress: "",
     femaleWorkers: 0,
-    femaleToilet : false,
+    femaleToilet: false,
     designatedWorkers: false,
     workerTypes: "male",
     handwashing: true,
     handSanitizerPump: true,
     twiceWeeklyService: true,
     dateTillUse: "",
+    useType: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -113,7 +117,7 @@ const Construction: React.FC = () => {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "workerTypes") {
+    if (name === "workerTypes" || name === "useType" ) {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
@@ -162,13 +166,14 @@ const Construction: React.FC = () => {
       special_requirements: "",
       placementAddress: "",
       femaleWorkers: 0,
-      femaleToilet : false,
+      femaleToilet: false,
       designatedWorkers: false,
       workerTypes: "male",
       handwashing: true,
       handSanitizerPump: true,
       twiceWeeklyService: true,
       dateTillUse: "",
+      useType: "",
     });
     setFormStep(1);
   };
@@ -183,7 +188,7 @@ const Construction: React.FC = () => {
     };
     setLoading(true);
     await authAxios()
-      .post("/quotation/create-quotation-for-construction", payload)
+      .post("/quotation/create-quotation-for-farm-orchard-winery", payload)
       .then(
         (response) => {
           setLoading(false);
@@ -223,10 +228,10 @@ const Construction: React.FC = () => {
 
   return (
     <React.Fragment>
-      <div className="default--form cat--1">
+      <div className="default--form cat--4">
         <div className="default--form--wrapper">
           <div className="form--title">
-            <h3>Create Quotation for Construction</h3>
+            <h3>Create Quotation for Farm, Winery or Orchad</h3>
           </div>
           <form
             style={{ display: formStep === 3 ? "block" : "grid" }}
@@ -345,7 +350,7 @@ const Construction: React.FC = () => {
                 {quotation.workerTypes === "female" && (
                   <div className="form--group">
                     <label htmlFor="name">
-                     How many female worker need ?<span className="required"></span>
+                    How many female worker need ?<span className="required"></span>
                     </label>
                     <input
                       type="number"
@@ -361,7 +366,8 @@ const Construction: React.FC = () => {
                 {quotation.workerTypes === "female" && (
                   <div className="form--group">
                     <label htmlFor="name">
-                    Do you need seperate toilet for female ?<span className="required"></span>
+                      Do you need seperate toilet for female ?
+                      <span className="required"></span>
                     </label>
                     <select
                       name="femaleToilet"
@@ -472,6 +478,21 @@ const Construction: React.FC = () => {
                   </select>
                 </div>
                 <div className="form--group">
+                  <label htmlFor="name">
+                    Use type <span className="required">*</span>
+                  </label>
+                  <select
+                    name="useType"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useType}
+                  >
+                    <option value="">Select use type</option>
+                    <option value="farm">Farm</option>
+                    <option value="winery">Winery</option>
+                    <option value="orchad">Orchad</option>
+                  </select>
+                </div>
+                <div className="form--group">
                   <label>
                     Special requirement <span className="required"></span>
                   </label>
@@ -530,8 +551,9 @@ const Construction: React.FC = () => {
                   className="submit--from btn"
                   disabled={
                     !quotation.maxWorkers ||
-                    !quotation.weeklyHours || 
-                    !quotation.dateTillUse 
+                    !quotation.weeklyHours ||
+                    !quotation.dateTillUse || 
+                    !quotation.useType
                   }
                 >
                   Next
@@ -553,4 +575,4 @@ const Construction: React.FC = () => {
   );
 };
 
-export default Construction;
+export default FarmWinery;

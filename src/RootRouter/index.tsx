@@ -5,6 +5,8 @@ import Footer from "../Common/Footer";
 import PageNoteFound from "../components/PageNoteFound";
 import CartView from "../components/ViewCart";
 import Checkout from "../components/Checkout";
+import Quotations from "../components/Quotations";
+import QuotationDetails from "../components/QuotationDetails";
 
 function RootRouter() {
   return (
@@ -15,6 +17,8 @@ function RootRouter() {
           <Route path="/" element={<Home />} />
           <Route path="/cart-view" element={<CartView />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/quotations" element={<Quotations />} />
+          <Route path="/quotation-details/:id" element={<QuotationDetails />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>
         <Footer />

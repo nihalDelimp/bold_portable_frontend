@@ -209,7 +209,7 @@ function SpecialEvents() {
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
-                    placeholder="Enter coordinator name"
+                    placeholder="Enter name"
                   />
                 </div>
                 <div className="form--group">
@@ -222,7 +222,7 @@ function SpecialEvents() {
                     value={coordinator.email}
                     onChange={handleChangeCoordinator}
                     name="email"
-                    placeholder="Enter coordinator email"
+                    placeholder="Enter email"
                   />
                 </div>
                 <div className="form--group">
@@ -236,7 +236,7 @@ function SpecialEvents() {
                     value={coordinator.cellNumber}
                     onChange={handleChangeCoordinator}
                     name="cellNumber"
-                    placeholder="Enter coordinator cell number"
+                    placeholder="Enter phone"
                   />
                 </div>
                 <div className="form--group">

@@ -3,8 +3,7 @@ import Construction from "../QuotationModal/Construction";
 import SpecialEvents from "../QuotationModal/SpecialEvents";
 import DisasterRelief from "../QuotationModal/DisasterRelief";
 import IndividualNeeds from "../QuotationModal/IndividualNeeds";
-import FarmaWinery from "../QuotationModal/FarmaWinery";
-
+import FarmWinery from "../QuotationModal/FarmWinery";
 import $ from "jquery";
 
 const BestDescribe = () => {
@@ -187,7 +186,7 @@ const BestDescribe = () => {
           <Construction />
           <SpecialEvents />
           <DisasterRelief />
-          <FarmaWinery />
+          <FarmWinery />
           <IndividualNeeds />
         </div>
       </section>

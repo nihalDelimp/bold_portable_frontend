@@ -1,31 +1,86 @@
-import React, { useState,  useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
+import GoogleMaps from "./GoogleMaps";
+import { originPoint, originAddress } from "../Helper/constants";
 
-function FarmaWinery(props: any) {
+interface latlngPoint {
+  lat: number;
+  lng: number;
+}
+
+interface quotationType {
+  maxWorkers: number;
+  weeklyHours: number;
+  placementDate: string;
+  restrictedAccess: boolean;
+  serviceCharge: number;
+  distanceFromKelowna: number;
+  deliveredPrice: number;
+  useAtNight: boolean;
+  useInWinter: boolean;
+  special_requirements: string;
+  placementAddress: string;
+  femaleWorkers: number;
+  femaleToilet: boolean;
+  designatedWorkers: boolean;
+  workerTypes: string;
+  handwashing: boolean;
+  handSanitizerPump: boolean;
+  twiceWeeklyService: boolean;
+  dateTillUse: string;
+  useType: string;
+}
+
+interface coordinatorType {
+  name: string;
+  email: string;
+  cellNumber: number | string;
+}
+
+const IndividualNeeds: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
 
   const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`, {
+    transports: ["polling"],
+  });
 
-  const [coordinator, setCoordinator] = useState({
+  useEffect(() => {
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
+
+  const [coordinator, setCoordinator] = useState<coordinatorType>({
     name: "",
     email: "",
     cellNumber: "",
   });
 
-  const [quotation, setQuotation] = useState({
-    useType: "",
-    maxWorkers: undefined,
-    weeklyHours: undefined,
-    placementDatetime: "",
-    distanceFromKelowna: undefined,
-    serviceCharge: undefined,
-    nightUse: "true",
-    winterUse: "true",
+  const [quotation, setQuotation] = useState<quotationType>({
+    maxWorkers: 10,
+    weeklyHours: 400,
+    placementDate: "",
+    restrictedAccess: true,
+    serviceCharge: 0,
+    distanceFromKelowna: 0,
+    deliveredPrice: 0,
+    useAtNight: true,
+    useInWinter: true,
     special_requirements: "",
+    placementAddress: "",
+    femaleWorkers: 0,
+    femaleToilet: false,
+    designatedWorkers: false,
+    workerTypes: "male",
+    handwashing: true,
+    handSanitizerPump: true,
+    twiceWeeklyService: true,
+    dateTillUse: "",
+    useType: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -33,9 +88,9 @@ function FarmaWinery(props: any) {
     coordinates: [28.5722234, 7.3228051],
   });
 
-  const [originPoint, setOriginPoint] = useState({
+  const [originLocation] = useState({
     type: "Point",
-    coordinates: [28.58482, 77.3091888],
+    coordinates: [originPoint.lat, originPoint.lng],
   });
 
   const handleChangeCoordinator = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +103,9 @@ function FarmaWinery(props: any) {
 
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log("Radiobutton Value Access", typeof value);
+    console.log("Radiobutton name Access", name);
+
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
@@ -56,24 +114,64 @@ function FarmaWinery(props: any) {
 
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
+    const boolValue = value === "true";
+    if (name === "workerTypes" || name === "useType" ) {
+      setQuotation((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      setQuotation((prev) => ({
+        ...prev,
+        [name]: boolValue,
+      }));
+    }
+  };
+
+  const distanceCallBack = (distance: number) => {
     setQuotation((prev) => ({
       ...prev,
-      [name]: value,
+      distanceFromKelowna: distance,
+    }));
+  };
+
+  const placementLocationCallBack = (destination: latlngPoint) => {
+    setPlacementLocation((prev) => ({
+      ...prev,
+      coordinates: [destination.lat, destination.lng],
+    }));
+  };
+
+  const placementAddressCallBack = (address: string) => {
+    setQuotation((prev) => ({
+      ...prev,
+      placementAddress: address,
     }));
   };
 
   const resetForm = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
-      useType: "",
-      maxWorkers: undefined,
-      weeklyHours: undefined,
-      placementDatetime: "",
-      distanceFromKelowna: undefined,
-      serviceCharge: undefined,
-      nightUse: "true",
-      winterUse: "true",
+      maxWorkers: 10,
+      weeklyHours: 400,
+      placementDate: "",
+      restrictedAccess: true,
+      serviceCharge: 0,
+      distanceFromKelowna: 0,
+      deliveredPrice: 0,
+      useAtNight: true,
+      useInWinter: true,
       special_requirements: "",
+      placementAddress: "",
+      femaleWorkers: 0,
+      femaleToilet: false,
+      designatedWorkers: false,
+      workerTypes: "male",
+      handwashing: true,
+      handSanitizerPump: true,
+      twiceWeeklyService: true,
+      dateTillUse: "",
+      useType: "",
     });
     setFormStep(1);
   };
@@ -83,8 +181,8 @@ function FarmaWinery(props: any) {
     const payload = {
       coordinator,
       ...quotation,
-      placement_location: placementLocation,
-      originPoint,
+      placementLocation,
+      originPoint: originLocation,
     };
     setLoading(true);
     await authAxios()
@@ -107,6 +205,9 @@ function FarmaWinery(props: any) {
         },
         (error) => {
           setLoading(false);
+          if (error.response.status === 401) {
+            console.log("Not authorizesd");
+          }
           toast.error(error.response.data.message);
         }
       )
@@ -130,7 +231,10 @@ function FarmaWinery(props: any) {
           <div className="form--title">
             <h3>Create Quotation for Individual Needs</h3>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form
+            style={{ display: formStep === 3 ? "block" : "grid" }}
+            onSubmit={handleSubmit}
+          >
             {formStep === 1 && (
               <React.Fragment>
                 <div className="form--group">
@@ -143,7 +247,7 @@ function FarmaWinery(props: any) {
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
-                    placeholder="Enter coordinator name"
+                    placeholder="Enter name"
                   />
                 </div>
                 <div className="form--group">
@@ -156,7 +260,7 @@ function FarmaWinery(props: any) {
                     value={coordinator.email}
                     onChange={handleChangeCoordinator}
                     name="email"
-                    placeholder="Enter coordinator email"
+                    placeholder="Enter email"
                   />
                 </div>
                 <div className="form--group">
@@ -170,23 +274,109 @@ function FarmaWinery(props: any) {
                     value={coordinator.cellNumber}
                     onChange={handleChangeCoordinator}
                     name="cellNumber"
-                    placeholder="Enter coordinator cell number"
+                    placeholder="Enter phone"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use type <span className="required">*</span>
+                    Placement Date <span className="required">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    min={new Date().toISOString().split("T")[0]}
+                    value={quotation.placementDate}
+                    onChange={handleChangeQuotation}
+                    name="placementDate"
+                    placeholder="Select placement date"
+                  />
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Use in winter<span className="required"></span>
                   </label>
                   <select
-                    name="useType"
+                    name="useInWinter"
                     onChange={handleSelectQuotation}
-                    value={quotation.useType}
+                    value={quotation.useInWinter.toString()}
                   >
-                    <option value="">Select use type</option>
-                    <option value="Personal">Personal</option>
-                    <option value="Business purpose">Businees purpose</option>
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
                   </select>
                 </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Use at night<span className="required"></span>
+                  </label>
+                  <select
+                    name="useAtNight"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useAtNight.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                  Do you need designated workers ?<span className="required"></span>
+                  </label>
+                  <select
+                    name="designatedWorkers"
+                    onChange={handleSelectQuotation}
+                    value={quotation.designatedWorkers.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                {quotation.designatedWorkers && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      Worker Types<span className="required"></span>
+                    </label>
+                    <select
+                      name="workerTypes"
+                      onChange={handleSelectQuotation}
+                      value={quotation.workerTypes}
+                    >
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                )}
+                {quotation.workerTypes === "female" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                    How many female worker need ?<span className="required"></span>
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      required
+                      value={quotation.femaleWorkers}
+                      onChange={handleChangeQuotation}
+                      name="femaleWorkers"
+                      placeholder="Female workers"
+                    />
+                  </div>
+                )}
+                {quotation.workerTypes === "female" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      Do you need seperate toilet for female ?
+                      <span className="required"></span>
+                    </label>
+                    <select
+                      name="femaleToilet"
+                      onChange={handleSelectQuotation}
+                      value={quotation.femaleToilet.toString()}
+                    >
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                )}
               </React.Fragment>
             )}
             {formStep === 2 && (
@@ -207,7 +397,7 @@ function FarmaWinery(props: any) {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Weekly Hours <span className="required">*</span>
+                    Weekly hours <span className="required">*</span>
                   </label>
                   <input
                     type="number"
@@ -221,96 +411,87 @@ function FarmaWinery(props: any) {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Placement Date <span className="required">*</span>
+                    Restricted access <span className="required"></span>
+                  </label>
+                  <select
+                    name="restrictedAccess"
+                    onChange={handleSelectQuotation}
+                    value={quotation.restrictedAccess.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Date till use <span className="required">*</span>
                   </label>
                   <input
                     type="date"
+                    required
                     min={new Date().toISOString().split("T")[0]}
-                    required
-                    value={quotation.placementDatetime}
+                    value={quotation.dateTillUse}
                     onChange={handleChangeQuotation}
-                    name="placementDatetime"
-                    placeholder="Select placement date"
+                    name="dateTillUse"
+                    placeholder="Select date till use"
                   />
                 </div>
                 <div className="form--group">
-                  <label htmlFor="Email">
-                    Distance from kelowna <span className="required">*</span>
+                  <label htmlFor="name">
+                    Hand washing<span className="required"></span>
                   </label>
-                  <input
-                    type="number"
-                    required
-                    value={quotation.distanceFromKelowna}
-                    onChange={handleChangeQuotation}
-                    name="distanceFromKelowna"
-                    placeholder="Enter distance from kelowna"
-                  />
+                  <select
+                    name="handwashing"
+                    onChange={handleSelectQuotation}
+                    value={quotation.handwashing.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
-              </React.Fragment>
-            )}
-            {formStep === 3 && (
-              <React.Fragment>
                 <div className="form--group">
-                  <label htmlFor="password">
-                    Service charge <span className="required">*</span>
+                  <label htmlFor="name">
+                    Hand sanitizer pump<span className="required"></span>
                   </label>
-                  <input
-                    type="number"
-                    min={0}
-                    required
-                    value={quotation.serviceCharge}
-                    onChange={handleChangeQuotation}
-                    name="serviceCharge"
-                    placeholder="Enter service charge"
-                  />
+                  <select
+                    name="handSanitizerPump"
+                    onChange={handleSelectQuotation}
+                    value={quotation.handSanitizerPump.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="nightUse"
-                      value="true"
-                      checked={quotation.nightUse === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use at night</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="nightUse"
-                      value="false"
-                      checked={quotation.nightUse === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use at night</label>
-                  </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Twice weekly service<span className="required"></span>
+                  </label>
+                  <select
+                    name="twiceWeeklyService"
+                    onChange={handleSelectQuotation}
+                    value={quotation.twiceWeeklyService.toString()}
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
                 </div>
-                <div className="form--radio--option">
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="winterUse"
-                      value="true"
-                      checked={quotation.winterUse === "true"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle1">Use in winter</label>
-                  </div>
-                  <div className="radio--option">
-                    <input
-                      type="radio"
-                      name="winterUse"
-                      value="false"
-                      checked={quotation.winterUse === "false"}
-                      onChange={handleChangeQuotation}
-                    />
-                    <label htmlFor="vehicle2">Not use in winter</label>
-                  </div>
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Use type <span className="required">*</span>
+                  </label>
+                  <select
+                    name="useType"
+                    onChange={handleSelectQuotation}
+                    value={quotation.useType}
+                  >
+                    <option value="">Select use type</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Business">Businees purpose</option>
+                  </select>
                 </div>
                 <div className="form--group">
                   <label>
-                    Special requirements <span className="required">*</span>
+                    Special requirement <span className="required"></span>
                   </label>
                   <input
                     type="text"
@@ -318,12 +499,23 @@ function FarmaWinery(props: any) {
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"
-                    placeholder="Enter special requirements"
+                    placeholder="Special requirement"
                   />
                 </div>
               </React.Fragment>
             )}
-
+            {formStep === 3 && (
+              <div className="google--map">
+                <label>
+                  Placement Location <span className="required">*</span>
+                </label>
+                <GoogleMaps
+                  distanceCallBack={distanceCallBack}
+                  placementLocationCallBack={placementLocationCallBack}
+                  placementAddressCallBack={placementAddressCallBack}
+                />
+              </div>
+            )}
             <div className="form--action">
               {(formStep === 2 || formStep === 3) && (
                 <button
@@ -343,7 +535,7 @@ function FarmaWinery(props: any) {
                     !coordinator.name ||
                     !coordinator.email ||
                     !coordinator.cellNumber ||
-                    !quotation.useType
+                    !quotation.placementDate
                   }
                 >
                   Next
@@ -357,8 +549,8 @@ function FarmaWinery(props: any) {
                   disabled={
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.placementDatetime ||
-                    !quotation.distanceFromKelowna
+                    !quotation.dateTillUse || 
+                    !quotation.useType
                   }
                 >
                   Next
@@ -368,9 +560,6 @@ function FarmaWinery(props: any) {
                 <button
                   type="submit"
                   className="submit--from submit--from--action btn"
-                  disabled={
-                    !quotation.serviceCharge || !quotation.special_requirements
-                  }
                 >
                   {loading ? "Loading..." : "Submit"}
                 </button>
@@ -381,6 +570,6 @@ function FarmaWinery(props: any) {
       </div>
     </React.Fragment>
   );
-}
+};
 
-export default FarmaWinery;
+export default IndividualNeeds;

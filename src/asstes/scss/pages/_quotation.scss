@@ -1,0 +1,58 @@
+
+.quotation--main {
+    padding: clamp(40px, 6vw, 100px) 0;
+    .grid {
+        display: flex;
+        .my--quotation {
+            .quotation--content--heading {
+                h3 {
+                    font-size: clamp(20px, 2vw, 30px);
+                    font-weight: 500;
+                    margin-bottom: 20px;
+                }
+            }
+            .table--wrapper {
+                overflow-x: auto;
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    thead {
+                        tr {
+                            th {
+                                text-align: left;
+                                padding:10px;
+                                border: 1px solid lighten($black, 90%);
+                                font-weight: 500;
+                                &.hidden {
+                                    display: none;
+                                }
+                            }
+
+                        }
+                    }
+                    tbody {
+                        tr {
+                            td {
+                                padding: 10px;
+                                border: 1px solid lighten($black, 90%);
+                                font-size: 14px;
+                                color: lighten($black, 30%);
+                                &.hidden {
+                                    display: none;
+                                }
+                                .btn {
+                                    padding: 8px 20px;
+                                    min-height: auto;
+                                    font-size: 12px;
+                                    border-radius: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+    
+}
