@@ -27,6 +27,7 @@ const Products = (props: any) => {
     getProductsListData();
   }, []);
 
+ 
 
   const getProductsListData = async () => {
     setLoading(true);
@@ -41,7 +42,7 @@ const Products = (props: any) => {
           }
         },
         (error) => {
-         setLoading(false);
+          setLoading(false);
           toast.error(error.response.data.message);
         }
       )
@@ -80,7 +81,7 @@ const Products = (props: any) => {
   };
 
   const addToCartHandler = (item: any) => {
-   console.log("Clicked Add To Cart")
+    console.log("Clicked Add To Cart");
     dispatch(addToCart(item));
   };
 
@@ -128,13 +129,17 @@ const Products = (props: any) => {
                     </div>
                     <div className="rentals--content">
                       <a href="#">
-                        <h3>{`${item?.title.substring(0, 20)} ${item.title.length > 20  ? "..." : '' } `}</h3>
+                        <h3>{`${item?.title.substring(0, 20)} ${
+                          item.title.length > 20 ? "..." : ""
+                        } `}</h3>
                       </a>
                       <p className="rentals--description">
-                        {` ${item?.description.substring(0, limitDesc)} ${item.description.length > limitDesc  ? "..." : '' }  `}
+                        {` ${item?.description.substring(0, limitDesc)} ${
+                          item.description.length > limitDesc ? "..." : ""
+                        }  `}
                       </p>
                       <div className="rentals--cart--data">
-                        <button 
+                        <button
                           onClick={() => addToCartHandler(item)}
                           className="add--to--cart"
                         >

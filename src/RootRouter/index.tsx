@@ -5,7 +5,7 @@ import Footer from "../Common/Footer";
 import PageNoteFound from "../components/PageNoteFound";
 import CartView from "../components/ViewCart";
 import Checkout from "../components/Checkout";
-import Quotations from "../components/Quotations";
+import Quotations from "../components/MyQuotations";
 import QuotationDetails from "../components/QuotationDetails";
 
 function RootRouter() {

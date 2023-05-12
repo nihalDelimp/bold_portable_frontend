@@ -64,21 +64,21 @@ const IndividualNeeds: React.FC = () => {
     maxWorkers: 10,
     weeklyHours: 400,
     placementDate: "",
-    restrictedAccess: true,
+    restrictedAccess: false,
     serviceCharge: 0,
     distanceFromKelowna: 0,
     deliveredPrice: 0,
-    useAtNight: true,
-    useInWinter: true,
+    useAtNight: false,
+    useInWinter: false,
     special_requirements: "",
     placementAddress: "",
     femaleWorkers: 0,
     femaleToilet: false,
     designatedWorkers: false,
     workerTypes: "male",
-    handwashing: true,
-    handSanitizerPump: true,
-    twiceWeeklyService: true,
+    handwashing: false,
+    handSanitizerPump: false,
+    twiceWeeklyService: false,
     dateTillUse: "",
     useType: "",
   });
@@ -115,7 +115,7 @@ const IndividualNeeds: React.FC = () => {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "workerTypes" || name === "useType" ) {
+    if (name === "workerTypes" || name === "useType") {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
@@ -155,21 +155,21 @@ const IndividualNeeds: React.FC = () => {
       maxWorkers: 10,
       weeklyHours: 400,
       placementDate: "",
-      restrictedAccess: true,
+      restrictedAccess: false,
       serviceCharge: 0,
       distanceFromKelowna: 0,
       deliveredPrice: 0,
-      useAtNight: true,
-      useInWinter: true,
+      useAtNight: false,
+      useInWinter: false,
       special_requirements: "",
       placementAddress: "",
       femaleWorkers: 0,
       femaleToilet: false,
       designatedWorkers: false,
       workerTypes: "male",
-      handwashing: true,
-      handSanitizerPump: true,
-      twiceWeeklyService: true,
+      handwashing: false,
+      handSanitizerPump: false,
+      twiceWeeklyService: false,
       dateTillUse: "",
       useType: "",
     });
@@ -319,7 +319,8 @@ const IndividualNeeds: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Do you need designated workers ?<span className="required"></span>
+                    Do you need designated workers ?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="designatedWorkers"
@@ -348,7 +349,8 @@ const IndividualNeeds: React.FC = () => {
                 {quotation.workerTypes === "female" && (
                   <div className="form--group">
                     <label htmlFor="name">
-                    How many female worker need ?<span className="required"></span>
+                      How many female worker need ?
+                      <span className="required"></span>
                     </label>
                     <input
                       type="number"
@@ -549,7 +551,7 @@ const IndividualNeeds: React.FC = () => {
                   disabled={
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.dateTillUse || 
+                    !quotation.dateTillUse ||
                     !quotation.useType
                   }
                 >

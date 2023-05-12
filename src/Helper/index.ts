@@ -45,3 +45,24 @@ export function calculateDistance(origin :latlngPoint, destination : latlngPoint
   let distance = (radius * c).toFixed(2); // Distance in km
   return parseInt(distance) ;
 }
+
+
+
+// function getDistanceByRoad(origin, destination, api_key) {
+//   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${api_key}`;
+
+//   return fetch(url)
+//     .then(response => response.json())
+//     .then(data => {
+//       if (data.rows.length > 0 && data.rows[0].elements.length > 0) {
+//         const distance = data.rows[0].elements[0].distance.text;
+//         return distance;
+//       } else {
+//         throw new Error('No distance found');
+//       }
+//     })
+//     .catch(error => {
+//       console.log(error);
+//       return null;
+//     });
+// }

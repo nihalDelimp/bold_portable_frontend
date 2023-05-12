@@ -63,21 +63,21 @@ const Construction: React.FC = () => {
     maxWorkers: 10,
     weeklyHours: 400,
     placementDate: "",
-    restrictedAccess: true,
+    restrictedAccess: false,
     serviceCharge: 0,
     distanceFromKelowna: 0,
     deliveredPrice: 0,
-    useAtNight: true,
-    useInWinter: true,
+    useAtNight: false,
+    useInWinter: false,
     special_requirements: "",
     placementAddress: "",
     femaleWorkers: 0,
     femaleToilet : false,
     designatedWorkers: false,
     workerTypes: "male",
-    handwashing: true,
-    handSanitizerPump: true,
-    twiceWeeklyService: true,
+    handwashing: false,
+    handSanitizerPump: false,
+    twiceWeeklyService: false,
     dateTillUse: "",
   });
 
@@ -153,21 +153,21 @@ const Construction: React.FC = () => {
       maxWorkers: 10,
       weeklyHours: 400,
       placementDate: "",
-      restrictedAccess: true,
+      restrictedAccess: false,
       serviceCharge: 0,
       distanceFromKelowna: 0,
       deliveredPrice: 0,
-      useAtNight: true,
-      useInWinter: true,
+      useAtNight: false,
+      useInWinter: false,
       special_requirements: "",
       placementAddress: "",
       femaleWorkers: 0,
       femaleToilet : false,
       designatedWorkers: false,
       workerTypes: "male",
-      handwashing: true,
-      handSanitizerPump: true,
-      twiceWeeklyService: true,
+      handwashing: false,
+      handSanitizerPump: false,
+      twiceWeeklyService: false,
       dateTillUse: "",
     });
     setFormStep(1);
@@ -314,6 +314,7 @@ const Construction: React.FC = () => {
                     <option value="true">Yes</option>
                   </select>
                 </div>
+
                 <div className="form--group">
                   <label htmlFor="name">
                   Do you need designated workers ?<span className="required"></span>
@@ -418,6 +419,7 @@ const Construction: React.FC = () => {
                     <option value="true">Yes</option>
                   </select>
                 </div>
+                
                 <div className="form--group">
                   <label htmlFor="name">
                     Date till use <span className="required">*</span>

@@ -270,6 +270,21 @@ const Header = () => {
                         </a>
                       </li>
                     )}
+                       {accessToken && (
+                      <li>
+                        <Link to  = "/quotations">
+                          <span className="icons">
+                            <img
+                              src={
+                                require("../asstes/image/Logout.svg").default
+                              }
+                              alt=""
+                            />
+                          </span>{" "}
+                          <span>My quotations</span>
+                        </Link>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -280,7 +295,7 @@ const Header = () => {
         </div>
       </header>
       <SigninPopupModal />
-      
+
     </>
   );
 };

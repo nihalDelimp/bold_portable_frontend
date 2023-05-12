@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function Quotations() {
+function MyQuotations() {
   return (
     <>
       <section className="quotation--main">
@@ -39,9 +40,9 @@ function Quotations() {
                         <td>3 units serviced once per week</td>
                         <td>No special Requirements</td>
                         <td>
-                          <a href="#" className="btn">
+                          <Link to = "/quotation-details/123" className="btn">
                             View
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                       <tr>
@@ -55,9 +56,9 @@ function Quotations() {
                         <td>3 units serviced once per week</td>
                         <td>No special Requirements</td>
                         <td>
-                          <a href="#" className="btn">
+                          <Link to = "/quotation-details/123" className="btn">
                             View
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                       <tr>
@@ -71,9 +72,9 @@ function Quotations() {
                         <td>3 units serviced once per week</td>
                         <td>No special Requirements</td>
                         <td>
-                          <a href="#" className="btn">
+                          <Link to = "/quotation-details/123" className="btn">
                             View
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                       <tr>
@@ -87,9 +88,9 @@ function Quotations() {
                         <td>3 units serviced once per week</td>
                         <td>No special Requirements</td>
                         <td>
-                          <a href="#" className="btn">
+                          <Link to = "/quotation-details/123" className="btn">
                             View
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                       <tr>
@@ -103,9 +104,9 @@ function Quotations() {
                         <td>3 units serviced once per week</td>
                         <td>No special Requirements</td>
                         <td>
-                          <a href="#" className="btn">
+                          <Link to = "/quotation-details/123" className="btn">
                             View
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                       <tr>
@@ -119,9 +120,9 @@ function Quotations() {
                         <td>3 units serviced once per week</td>
                         <td>No special Requirements</td>
                         <td>
-                          <a href="#" className="btn">
+                          <Link to = "/quotation-details/123" className="btn">
                             View
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                       <tr>
@@ -135,9 +136,9 @@ function Quotations() {
                         <td>3 units serviced once per week</td>
                         <td>No special Requirements</td>
                         <td>
-                          <a href="#" className="btn">
+                          <Link to = "/quotation-details/123" className="btn">
                             View
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     </tbody>
@@ -152,4 +153,4 @@ function Quotations() {
   );
 }
 
-export default Quotations;
+export default MyQuotations;
