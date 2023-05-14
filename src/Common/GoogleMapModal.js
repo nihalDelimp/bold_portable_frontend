@@ -34,7 +34,7 @@ function GoogleMapModal(props) {
   const [mapLoading, setMaptLoading] = useState(false)
 
 
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`,{ transports: ['polling'] });
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   useEffect(() => {
     return () => {

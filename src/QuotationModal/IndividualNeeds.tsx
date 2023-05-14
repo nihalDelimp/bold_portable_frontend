@@ -44,9 +44,7 @@ const IndividualNeeds: React.FC = () => {
   const [formStep, setFormStep] = useState<number>(1);
 
   const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`, {
-    transports: ["polling"],
-  });
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   useEffect(() => {
     return () => {
