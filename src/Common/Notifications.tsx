@@ -16,8 +16,7 @@ const Notifications = (props: any) => {
   );
 
   const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}` , { transports: ['polling'] });
-
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
 
   useEffect(() => {
@@ -25,14 +24,20 @@ const Notifications = (props: any) => {
       getAllNotifications();
     }
   }, []);
-
+  
   useEffect(() => {
     if (socket.current) {
       socket.current.on("cancel_order_received", (order) => {
         getAllNotifications();
         if (user._id === order.user) {
         }
-        console.log("cancel_order_received", order);
+      });
+      socket.current.on("update_quote", (quotation) => {
+        console.log("admin sent Invoice")
+        toast.success('Admin has updated your quotation on as per your request')
+        getAllNotifications();
+        if (user._id === quotation.user) {
+        }
       });
     }
     return () => {
