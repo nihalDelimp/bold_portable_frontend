@@ -1,0 +1,253 @@
+.my--account {
+    padding: clamp(40px, 6vw, 100px) 0;
+    .grid--my--acoount {
+        display: flex;
+        @media (max-width:1024px) {
+            flex-wrap: wrap;
+        }
+         & > .grid- {
+            width: 24%;
+            @media (max-width:1024px) {
+                width: calc(100%);
+            }
+         }
+         & > .grid--- {
+            width: 76%;
+            @media (max-width:1024px) {
+                width: calc(100%);
+            }
+         }
+    }
+    .my--profile {
+        .my--profile--wrapper {
+            @media (max-width:1024px) {
+                text-align: center;
+            }
+            .profile--thumbnuil {
+                img {
+                    width: 100px;
+                    aspect-ratio: 1;
+                    border-radius: 50%;
+                    outline: 2px solid $blue;
+                    outline-offset: 5px;
+                }
+            }
+            .profile--details {
+                padding-top: 20px;
+                h3 {
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+    .acoout--tab--wrapper {
+        padding: 30px;
+        border: 1px solid $blue;
+        border-radius: 5px;
+        .account--tab--list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            li {
+                &:not(:last-child) {
+                    border-bottom: 1px solid $blue;
+                }
+                a {
+                    padding: 10px 5px;
+                    &.active {
+                        color: $blue;
+                    }
+                    &:hover {
+                        color: $blue;
+                    }
+                    i {
+                        color: $blue;
+                        width: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .account--tab--content {
+        .account---dashboard--content {
+            h3 {
+                font-size: clamp(20px, 2vw, 30px);
+                font-weight: 500;
+                margin-bottom: 20px;
+            }
+        }
+        .my--order, .my--quotations {
+            .account--content--heading {
+                h3 {
+                    font-size: clamp(20px, 2vw, 30px);
+                    font-weight: 500;
+                    margin-bottom: 20px;
+                }
+            }
+            .table--wrapper {
+                overflow-x: auto;
+                &::-webkit-scrollbar {
+                    height: 4px;
+                  }
+                  &::-webkit-scrollbar-track {
+                    background: lighten($black, 90%);
+                  }
+                  &::-webkit-scrollbar-thumb {
+                    background: $blue;
+                  }
+                  &::-webkit-scrollbar-thumb:hover {
+                    background: $blue;
+                  }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    thead {
+                        background-color: $blue;
+                        tr {
+                            th {
+                                text-align: left;
+                                padding:10px;
+                                border: 1px solid lighten($black, 90%);
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                    tbody {
+                        tr {
+                            &:nth-child(even) {
+                                background-color: lighten($black, 95%);
+                            }
+                            td {
+                                padding: 10px;
+                                border: 1px solid lighten($black, 90%);
+                                .btn {
+                                    padding: 8px 20px;
+                                    min-height: auto;
+                                    font-size: 12px;
+                                    border-radius: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        .account--details {
+            .default--form--wrapper {
+                .form--title {
+                   h3 {
+                    font-size: clamp(20px, 2vw, 30px);
+                    font-weight: 500;
+                    margin-bottom: 20px;
+                    @include flex(space-between);
+                    i {
+                        color: $blue;
+                        cursor: pointer;
+                    }
+                   }
+                }
+                form {
+                    display: grid;
+                    grid-template-columns: repeat(2,1fr);
+                    gap: 30px;
+                    @media (max-width:767px) {
+                        grid-template-columns: repeat(1,1fr);
+                    }
+                    .form--group {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        &.span--2 {
+                            grid-column: span 2;
+                        }
+                        @media (max-width:767px) {
+                            grid-column: span 2;
+                        }
+                        input, select {
+                            padding: 15px 0;
+                            border-bottom: 1px solid $black;
+                            &:read-only {
+                                border-bottom: 1px solid lighten($black, 90%);
+                            }
+                        }
+                        textarea {
+                            padding: 8px 0;
+                            border-bottom: 1px solid $black;
+                            resize: none;
+                        }
+                    }
+                    .form--checkbox {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        gap: 15px;
+                        @media (max-width:767px) {
+                            flex-wrap: wrap;
+                        }
+                        input[type=checkbox] {
+                            accent-color: $blue;
+                            width: 15px;
+                            height: 15px;
+                            position: relative;
+                            top: 1px;
+                        }
+                        .lost--password {
+                            a {
+                                &:hover {
+                                    color: $blue;
+                                }
+                            }
+                        }    
+                    }
+                    .form--checkbox--option {
+                        display: flex;
+                        align-items: flex-start;
+                        gap:15px;
+                        border-bottom: 1px solid $black;
+                        min-height: 80px;
+                        .checkbox--option {
+                            width: fit-content;
+                            input[type=checkbox] {
+                                accent-color: $blue;
+                                width: 15px;
+                                height: 15px;
+                                position: relative;
+                                top: 1px;
+                            }
+                        }
+                    }
+                    .form--radio--option {
+                        display: flex;
+                        align-items: flex-start;
+                        gap:15px;
+                        border-bottom: 1px solid $black;
+                        min-height: 80px;
+                        .radio--option {
+                            width: fit-content;
+                            input[type=radio] {
+                                accent-color: $blue;
+                                width: 15px;
+                                height: 15px;
+                                position: relative;
+                                top: 1px;
+                            }
+                        }
+                    }
+                    .form--action {
+                        grid-column: span 2;
+                        @include flex();
+                        gap:15px;
+                        @media (max-width:767px) {
+                            grid-column: span 1;
+                        }
+                        .submit--from {
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

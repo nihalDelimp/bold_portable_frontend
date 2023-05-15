@@ -7,6 +7,7 @@ import CartView from "../components/ViewCart";
 import Checkout from "../components/Checkout";
 import Quotations from "../components/MyQuotations";
 import QuotationDetails from "../components/QuotationDetails";
+import MyAccount from "../components/MyAccount";
 
 function RootRouter() {
   return (
@@ -18,6 +19,7 @@ function RootRouter() {
           <Route path="/cart-view" element={<CartView />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/quotations" element={<Quotations />} />
+          <Route path="/my-account" element={<MyAccount />} />
           <Route path="/quotation-details/:id" element={<QuotationDetails />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>

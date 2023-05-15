@@ -18,7 +18,13 @@ import SimpleImageSlider from "react-simple-image-slider";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { limitDesc } from "../Helper/constants";
 
-const Products = (props: any) => {
+
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+
+const Products = (props: MyComponentProps) => {
   const { setLoading } = props;
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);

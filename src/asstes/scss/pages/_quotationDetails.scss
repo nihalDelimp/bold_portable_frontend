@@ -4,7 +4,7 @@
         
         .quotation--details--body{
             padding: 30px;
-            border: 1px solid lighten($black, 90%);
+            border: 1px solid $blue;
             @media (max-width:767px) {
                 padding: 20px 15px;
             }
@@ -22,26 +22,32 @@
                 tr {
                     @include flex(flex-start);
                     gap: 30px;
-                    border-bottom: 1px solid lighten($black, 90%);
+                    &:not(:last-child) {
+                        border-bottom: 1px solid $blue;
+                    }
+
+                    &:nth-child(odd) {
+                        background-color: lighten($black, 95%);
+                    }
                     @media (max-width:600px) {
                         flex-direction: column;
                         gap:0px;
                         align-items: flex-start;
-                        margin-bottom: 10px;
+                       
                     }
                     th {
                         text-align: left;
-                        min-width: 200px;
-                        padding: 15px 0;
+                        width: 260px;
+                        padding: 15px 10px;
                         font-weight: 600;
                         @media (max-width:600px) { 
-                            padding: 7px 0 0;
+                            padding: 7px 10px 0;
                         }
                     }
                     td {
                         padding: 15px;
                         @media (max-width:600px) { 
-                            padding: 7px 0;
+                            padding: 7px 10px 7px;
                         }
                     }
                 }

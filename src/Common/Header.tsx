@@ -7,8 +7,7 @@ import Notifications from "./Notifications";
 import MyCart from "./MyCart";
 import SigninPopupModal from "./SigninPopupModal";
 import { firstChartByFullName } from "../Helper";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation ,useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
@@ -17,9 +16,24 @@ const Header = () => {
   const { notifications } = useSelector(
     (state: RootState) => state.notification
   );
-
-
+  const navigate = useNavigate()
   const dispatch = useDispatch();
+  const location = useLocation();
+  const pathName = location.pathname;
+
+  console.log("pathName", pathName);
+
+
+  if(pathName !== '/'){
+    document.querySelector("body")?.classList.add("other--template");
+    document.querySelector(".header")?.classList.add("header--dark");
+  }
+  else {
+    document.querySelector("body")?.classList.remove("other--template");
+    document.querySelector(".header")?.classList.remove("header--dark");
+  }
+
+
 
   useEffect(() => {
     $(".hamburger").click(function () {
@@ -29,7 +43,6 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    
     // Login Dropdown
     $(".login--btn").click(function () {
       $(".user--dropdown").toggleClass("active--dropdown");
@@ -115,11 +128,16 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout(false));
+    navigate("/")
   };
 
   return (
     <>
-      <header className="header" data-aos="fade" data-aos-duration="2000">
+      <header
+        className="header"
+        data-aos="fade"
+        data-aos-duration="2000"
+      >
         <div className="header--container">
           <div className="header--wrapper">
             <div className="site--logo">
@@ -192,7 +210,15 @@ const Header = () => {
                 </div>
                 <div className="notifications">
                   <div className="notifications--wrapper">
-                    <span className={notifications && notifications.length > 0 ? "badge" : ""}>{notifications && notifications.length > 0 ? notifications.length : null}</span>
+                    <span
+                      className={
+                        notifications && notifications.length > 0 ? "badge" : ""
+                      }
+                    >
+                      {notifications && notifications.length > 0
+                        ? notifications.length
+                        : null}
+                    </span>
                     <img
                       src={
                         require("../asstes/image/notification--icon.svg")
@@ -204,8 +230,17 @@ const Header = () => {
                 </div>
                 <div className="login--btn--wrapper">
                   <a href="#" className="login--btn">
-                  <img src= {require("../asstes/image/Profile.svg").default } alt=""/><span><b>{accessToken ? firstChartByFullName(user?.name) : "Join Us"} </b></span>
-                  
+                    <img
+                      src={require("../asstes/image/Profile.svg").default}
+                      alt=""
+                    />
+                    <span>
+                      <b>
+                        {accessToken
+                          ? firstChartByFullName(user?.name)
+                          : "Join Us"}{" "}
+                      </b>
+                    </span>
                   </a>
                 </div>
               </div>
@@ -242,7 +277,7 @@ const Header = () => {
                     )}
                     {accessToken && (
                       <li>
-                        <a href="#">
+                        <Link to="/my-account">
                           <span className="icons">
                             <img
                               src={
@@ -252,7 +287,7 @@ const Header = () => {
                             />
                           </span>{" "}
                           <span>Account</span>
-                        </a>
+                        </Link>
                       </li>
                     )}
                     {accessToken && (
@@ -270,21 +305,6 @@ const Header = () => {
                         </a>
                       </li>
                     )}
-                       {accessToken && (
-                      <li>
-                        <Link to  = "/quotations">
-                          <span className="icons">
-                            <img
-                              src={
-                                require("../asstes/image/Logout.svg").default
-                              }
-                              alt=""
-                            />
-                          </span>{" "}
-                          <span>My quotations</span>
-                        </Link>
-                      </li>
-                    )}
                   </ul>
                 </div>
               </div>
@@ -295,7 +315,6 @@ const Header = () => {
         </div>
       </header>
       <SigninPopupModal />
-
     </>
   );
 };
