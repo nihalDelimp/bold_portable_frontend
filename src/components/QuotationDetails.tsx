@@ -17,7 +17,6 @@ function QuotationDetails(props: MyComponentProps) {
   const [quotationDetails, setQuotationDetails] = useState<any>({});
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
 
-  console.log("QuotationsDetails", quotationDetails);
 
   useEffect(() => {
     getProductDetailsData();
@@ -58,6 +57,7 @@ function QuotationDetails(props: MyComponentProps) {
       product_description: "Big size potty box1",
       interval: "month",
       shipping_amount: 2,
+      success_url : `${window.location.origin}/payment-success`
     };
     setLoading(true);
     await authAxios()
