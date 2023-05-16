@@ -3,15 +3,19 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/rootReducer";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
+  isLoading: boolean;
 }
 
 function QuotationDetails(props: MyComponentProps) {
-  const { setLoading } = props;
+  const { isLoading, setLoading } = props;
   const params = useParams();
   const [quotationDetails, setQuotationDetails] = useState<any>({});
+  const { user, accessToken } = useSelector((state: RootState) => state.auth);
 
   console.log("QuotationsDetails", quotationDetails);
 
@@ -41,6 +45,72 @@ function QuotationDetails(props: MyComponentProps) {
         console.log("errorrrr", error);
       });
   };
+
+  const openInNewTab = (url: string): void => {
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    if (newWindow) newWindow.opener = null;
+  };
+
+  const CreateCheckoutSession = async () => {
+    const payload = {
+      price: 10,
+      product_name: "Potty box1",
+      product_description: "Big size potty box1",
+      interval: "month",
+      shipping_amount: 2,
+    };
+    setLoading(true);
+    await authAxios()
+      .post("/payment/checkout-session", payload)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            console.log("checkout-session", response.data);
+            const resData = response.data.data;
+            openInNewTab(resData.url);
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response?.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const CreateCustomer = async () => {
+    setLoading(true);
+    await authAxios()
+      .post("/payment/create-customer")
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            console.log("create-customer", response.data);
+            CreateCheckoutSession();
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response?.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const subscriptionPayment = () => {
+    CreateCustomer();
+  };
+
   return (
     <>
       <section className="quotation--details">
@@ -95,21 +165,15 @@ function QuotationDetails(props: MyComponentProps) {
                     </tr>
                     <tr>
                       <th>Hand Washing Cost:</th>
-                      <td>
-                        {quotationDetails?.costDetails?.handWashingCost}
-                      </td>
+                      <td>{quotationDetails?.costDetails?.handWashingCost}</td>
                     </tr>
                     <tr>
                       <th>Use At Night Cost:</th>
-                      <td>
-                        {quotationDetails?.costDetails?.useAtNightCost}
-                      </td>
+                      <td>{quotationDetails?.costDetails?.useAtNightCost}</td>
                     </tr>
                     <tr>
                       <th>Use In Winter Cost:</th>
-                      <td>
-                        {quotationDetails?.costDetails?.useInWinterCost}
-                      </td>
+                      <td>{quotationDetails?.costDetails?.useInWinterCost}</td>
                     </tr>
                     <tr>
                       <th>Number Of Units Cost:</th>
@@ -119,12 +183,19 @@ function QuotationDetails(props: MyComponentProps) {
                     </tr>
                     <tr>
                       <th>Pickup Price:</th>
-                      <td>
-                        {quotationDetails?.costDetails?.pickUpPrice}
-                      </td>
+                      <td>{quotationDetails?.costDetails?.pickUpPrice}</td>
                     </tr>
                   </tbody>
                 </table>
+              </div>
+              <div className="pt-3">
+                <button
+                  onClick={subscriptionPayment}
+                  disabled={isLoading}
+                  className="btn btn-primary"
+                >
+                  Pay Now
+                </button>
               </div>
             </div>
           </div>

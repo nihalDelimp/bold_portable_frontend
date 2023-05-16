@@ -8,6 +8,7 @@ import Checkout from "../components/Checkout";
 import Quotations from "../components/MyQuotations";
 import QuotationDetails from "../components/QuotationDetails";
 import MyAccount from "../components/MyAccount";
+import PaymentDetails from "../components/PaymentDetails";
 
 function RootRouter() {
   return (
@@ -21,6 +22,7 @@ function RootRouter() {
           <Route path="/quotations" element={<Quotations />} />
           <Route path="/my-account" element={<MyAccount />} />
           <Route path="/quotation-details/:id" element={<QuotationDetails />} />
+          <Route path="/subscription-payment-details/:id" element={<PaymentDetails />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>
         <Footer />

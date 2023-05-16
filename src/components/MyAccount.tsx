@@ -19,6 +19,7 @@ function MyAccount(props: MyComponentProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(100);
   const [myQuotations, setMyQuotations] = useState<any[]>([]);
+  const [mySubscriptions, setMySubscriptions] = useState<any[]>([]);
   const [activeSidebar, setActiveSidebar] = useState<string>("DASHBOARD");
   const [isEditAble, setEditAble] = useState<boolean>(false);
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
@@ -31,8 +32,6 @@ function MyAccount(props: MyComponentProps) {
     confirm_new_password: "",
   });
 
-  useEffect(() => {});
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev) => ({
@@ -42,8 +41,11 @@ function MyAccount(props: MyComponentProps) {
   };
 
   console.log("myQuotations", myQuotations);
+  console.log("mySubscriptions", mySubscriptions);
+
   useEffect(() => {
     getMyQuotationsData();
+    getMySubscriptionsData();
   }, []);
 
   const getMyQuotationsData = async () => {
@@ -58,8 +60,30 @@ function MyAccount(props: MyComponentProps) {
           if (response.data.status === 1) {
             const resData = response.data.data;
             setMyQuotations(resData.quotations);
-          } else {
-            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          if (error.response.status === 401) {
+            console.log("Your session has expired. Please sign in again");
+          }
+          setLoading(false);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const getMySubscriptionsData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(`/payment/subscription`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setMySubscriptions(resData.subscriptions);
           }
         },
         (error) => {
@@ -78,8 +102,6 @@ function MyAccount(props: MyComponentProps) {
     dispatch(logout(false));
     navigate("/");
   };
-
-  console.log("userData.mobile" , typeof userData.mobile)
 
   return (
     <>
@@ -114,15 +136,6 @@ function MyAccount(props: MyComponentProps) {
                   </li>
                   <li>
                     <a
-                      onClick={() => setActiveSidebar("MY_ORDERS")}
-                      className={activeSidebar === "MY_ORDERS" ? "active" : ""}
-                    >
-                      <i className="fa-solid fa-cart-shopping"></i>{" "}
-                      <span>Order</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
                       onClick={() => setActiveSidebar("MY_QUOTATIONS")}
                       className={
                         activeSidebar === "MY_QUOTATIONS" ? "active" : ""
@@ -130,6 +143,17 @@ function MyAccount(props: MyComponentProps) {
                     >
                       <i className="fa-solid fa-envelope-open-text"></i>{" "}
                       <span>Quotation</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      onClick={() => setActiveSidebar("MY_SUBSCRIPTIONS")}
+                      className={
+                        activeSidebar === "MY_SUBSCRIPTIONS" ? "active" : ""
+                      }
+                    >
+                      <i className="fa-solid fa-cart-shopping"></i>{" "}
+                      <span>Subscriptions</span>
                     </a>
                   </li>
                   <li>
@@ -164,7 +188,7 @@ function MyAccount(props: MyComponentProps) {
                     </div>
                   )}
                 </div>
-                {activeSidebar === "MY_ORDERS" && (
+                {activeSidebar === "MY_SUBSCRIPTIONS" && (
                   <div className="my--order">
                     <div className="account--content--heading">
                       <h3>Hello {user.name} !</h3>
@@ -173,58 +197,36 @@ function MyAccount(props: MyComponentProps) {
                       <table>
                         <thead>
                           <tr>
-                            <th>Order</th>
+                            <th>Customer ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
                             <th>Date</th>
                             <th>Status</th>
-                            <th>Total</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>#1357</td>
-                            <td>March 45, 2023</td>
-                            <td>Processing</td>
-                            <td>$125.00 for 2 item</td>
-                            <td>
-                              <a href="#" className="btn">
-                                View
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>#1357</td>
-                            <td>March 45, 2023</td>
-                            <td>Processing</td>
-                            <td>$125.00 for 2 item</td>
-                            <td>
-                              <a href="#" className="btn">
-                                View
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>#1357</td>
-                            <td>March 45, 2023</td>
-                            <td>Processing</td>
-                            <td>$125.00 for 2 item</td>
-                            <td>
-                              <a href="#" className="btn">
-                                View
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>#1357</td>
-                            <td>March 45, 2023</td>
-                            <td>Processing</td>
-                            <td>$125.00 for 2 item</td>
-                            <td>
-                              <a href="#" className="btn">
-                                View
-                              </a>
-                            </td>
-                          </tr>
+                          {mySubscriptions &&
+                            mySubscriptions.length > 0 &&
+                            mySubscriptions.map((item) => (
+                              <tr key={item._id}>
+                                <td>{item?.user?.stripe_customer_id}</td>
+                                <td>{item?.user?.name}</td>
+                                <td>{item?.user?.email}</td>
+                                <td>{item?.user?.mobile}</td>
+                                <td>{getFormatedDate(item.createdAt)}</td>
+                                <td>{item.status}</td>
+                                <td>
+                                  <Link
+                                    to={`/subscription-payment-details/${item._id}`}
+                                    className="btn"
+                                  >
+                                    View
+                                  </Link>
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
                       </table>
                     </div>
