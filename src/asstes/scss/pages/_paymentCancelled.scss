@@ -1,21 +1,21 @@
-.order--sucsess--message {
+.payment--cancel--message {
    // padding: clamp(40px, 6vw, 100px) 15px;
 
-    .order--message--container {
+    .payment--message--container {
         max-width: 800px;
         min-height: calc(100vh - calc(clamp(40px, 6vw, 100px) * 2));
         width: 100%;
         @include flex();
         margin: 0 auto;
-        .order--message--body {
-            padding: 80px;
+        .payment--message--body {
+            padding: 100px;
             background-color: lighten($black, 95%);
             box-shadow: 2px 2px 8px rgba(000,000,000,0.15);
             @media (max-width:767px) {
                 padding: 20px 15px;
             }
             h3 {
-                color: green;
+                color: red;
                 font-weight: 500;
             }
             table {

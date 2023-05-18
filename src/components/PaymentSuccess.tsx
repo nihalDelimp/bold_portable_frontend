@@ -10,7 +10,7 @@ function PaymentSuccess() {
       <section className="order--sucsess--message">
         <div className="order--message--container">
           <div className="order--message--body">
-            <h3>Thank you. Your payment has been successfull.</h3>
+            <h3>Thank you. Your payment has successfull.</h3>
             <table>
               <tbody>
                 <tr>

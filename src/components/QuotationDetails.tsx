@@ -49,7 +49,7 @@ function QuotationDetails(props: MyComponentProps) {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;
   };
-
+  
   const CreateCheckoutSession = async () => {
     const payload = {
       price: 10,
@@ -57,7 +57,8 @@ function QuotationDetails(props: MyComponentProps) {
       product_description: "Big size potty box1",
       interval: "month",
       shipping_amount: 2,
-      success_url : `${window.location.origin}/payment-success`
+      success_url : `${window.location.origin}/payment-success`,
+      cancel_url : `${window.location.origin}/payment-cancel`
     };
     setLoading(true);
     await authAxios()

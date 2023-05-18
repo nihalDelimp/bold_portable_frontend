@@ -7,7 +7,7 @@ import Notifications from "./Notifications";
 import MyCart from "./MyCart";
 import SigninPopupModal from "./SigninPopupModal";
 import { firstChartByFullName } from "../Helper";
-import { Link, useLocation ,useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
@@ -16,7 +16,7 @@ const Header = () => {
   const { notifications } = useSelector(
     (state: RootState) => state.notification
   );
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const pathName = location.pathname;
@@ -24,16 +24,15 @@ const Header = () => {
   console.log("pathName", pathName);
 
 
-  if(pathName !== '/'){
-    document.querySelector("body")?.classList.add("other--template");
-    document.querySelector(".header")?.classList.add("header--dark");
-  }
-  else {
-    document.querySelector("body")?.classList.remove("other--template");
-    document.querySelector(".header")?.classList.remove("header--dark");
-  }
-
-
+  useEffect(() => {
+    if (pathName !== "/") {
+      document.querySelector("body")?.classList.add("other--template");
+      document.querySelector(".header")?.classList.add("header--dark");
+    } else {
+      document.querySelector("body")?.classList.remove("other--template");
+      document.querySelector(".header")?.classList.remove("header--dark");
+    }
+  }, [pathName]);
 
   useEffect(() => {
     $(".hamburger").click(function () {
@@ -128,16 +127,12 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout(false));
-    navigate("/")
+    navigate("/");
   };
 
   return (
     <>
-      <header
-        className="header"
-        data-aos="fade"
-        data-aos-duration="2000"
-      >
+      <header className="header" data-aos="fade" data-aos-duration="2000">
         <div className="header--container">
           <div className="header--wrapper">
             <div className="site--logo">
