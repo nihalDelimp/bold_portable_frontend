@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SignupPopupModal from "./SignupPopupModal";
 import {
   setAccessToken,
@@ -11,12 +11,28 @@ import { withoutAuthAxios } from "../config/config";
 
 function SigninPopupModal() {
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const dispatch = useDispatch();
 
   const [userInput, setUserInput] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("rememberedEmail");
+    const storedPassword = localStorage.getItem("rememberedPassword");
+    const storedRememberMe = localStorage.getItem("rememberMe");
+    
+    if (storedRememberMe === "true" && storedEmail && storedPassword) {
+      setUserInput((prev) => ({
+        ...prev,
+        email: storedEmail,
+        password: storedPassword,
+      }));
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,6 +45,17 @@ function SigninPopupModal() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = userInput;
+
+    if (rememberMe) {
+      localStorage.setItem("rememberedEmail", payload.email);
+      localStorage.setItem("rememberedPassword", payload.password);
+      localStorage.setItem("rememberMe", "true");
+    } else {
+      localStorage.removeItem("rememberedEmail");
+      localStorage.removeItem("rememberedPassword");
+      localStorage.removeItem("rememberMe");
+    }
+
     setLoading(true);
     await withoutAuthAxios()
       .post("/auth/login", payload)
@@ -120,6 +147,8 @@ function SigninPopupModal() {
                       name="rememberme"
                       type="checkbox"
                       id="rememberme"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
                     />{" "}
                     <span>Remember me</span>
                   </label>
