@@ -19,6 +19,8 @@ function SigninPopupModal() {
     password: "",
   });
 
+  let storedRemember =  localStorage.getItem("rememberMe")
+
   useEffect(() => {
     const storedEmail = localStorage.getItem("rememberedEmail");
     const storedPassword = localStorage.getItem("rememberedPassword");
@@ -32,7 +34,7 @@ function SigninPopupModal() {
       }));
       setRememberMe(true);
     }
-  }, []);
+  }, [storedRemember]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
