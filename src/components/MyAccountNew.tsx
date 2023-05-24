@@ -6,14 +6,18 @@ import { toast } from "react-toastify";
 import { logout } from "../Redux/Reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
-import { getFormatedDate } from "../Helper";
+import { setFormatDate } from "../Helper";
+import QuotationDetails from "./QuotationDetails";
+import PaymentDetails from "./PaymentDetails";
+import TrackQuotation from "./TrackQuotation";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
+  isLoading: boolean;
 }
 
 function MyAccountNew(props: MyComponentProps) {
-  const { setLoading } = props;
+  const { setLoading, isLoading } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -23,6 +27,10 @@ function MyAccountNew(props: MyComponentProps) {
   const [activeSidebar, setActiveSidebar] = useState<string>("DASHBOARD");
   const [isEditAble, setEditAble] = useState<boolean>(false);
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const [updateSubscription, setupdateSubscription] = useState(false);
+  const [quotationID, setquotationID] = useState<string>("");
+  const [quotationType, setquotationType] = useState<string>("");
+  const [subscriptionID, setsubscriptionID] = useState<string>("");
 
   const [userData, setUserData] = useState({
     name: user.name,
@@ -103,6 +111,52 @@ function MyAccountNew(props: MyComponentProps) {
     navigate("/");
   };
 
+  const setStyleForStatus = (status: string) => {
+    if (status === "pending") {
+      return "processing";
+    } else if (status === "cancel") {
+      return "cancel";
+    } else {
+      return "active";
+    }
+  };
+
+  const updateProfile = async (event: React.FormEvent) => {
+    event.preventDefault()
+    setLoading(true);
+    const {name , mobile , new_password , confirm_new_password } = userData
+    if(new_password !== confirm_new_password){
+      toast.error("Confirm password does not match")
+    }
+    const payload = {
+      name: name,
+      mobile: mobile,
+      password: new_password,
+    };
+    await authAxios()
+      .post(`/user/save-profile` , payload)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success('Profile updated successfully')
+          }
+          else{
+            toast.error(response.data?.messsage)
+          }
+        },
+        (error) => {
+          if (error.response.status === 401) {
+            console.log("Your session has expired. Please sign in again");
+          }
+          setLoading(false);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
   return (
     <>
       <section className="user--dashboard">
@@ -152,7 +206,11 @@ function MyAccountNew(props: MyComponentProps) {
                       <a
                         onClick={() => setActiveSidebar("MY_QUOTATIONS")}
                         className={
-                          activeSidebar === "MY_QUOTATIONS" ? "active" : ""
+                          activeSidebar === "MY_QUOTATIONS" ||
+                          activeSidebar === "VIEW_QUOTATION" ||
+                          activeSidebar === "TRACK_ORDER"
+                            ? "active"
+                            : ""
                         }
                       >
                         {" "}
@@ -167,7 +225,10 @@ function MyAccountNew(props: MyComponentProps) {
                       <a
                         onClick={() => setActiveSidebar("MY_SUBSCRIPTIONS")}
                         className={
-                          activeSidebar === "MY_SUBSCRIPTIONS" ? "active" : ""
+                          activeSidebar === "MY_SUBSCRIPTIONS" ||
+                          activeSidebar === "VIEW_PAYMENT"
+                            ? "active"
+                            : ""
                         }
                       >
                         {" "}
@@ -231,7 +292,9 @@ function MyAccountNew(props: MyComponentProps) {
                       <div className="table--title">
                         <span>Quotation</span>{" "}
                         <span>
-                          <a href="#">View All</a>
+                          <a onClick={() => setActiveSidebar("MY_QUOTATIONS")}>
+                            View All
+                          </a>
                         </span>
                       </div>
                       <table>
@@ -247,71 +310,48 @@ function MyAccountNew(props: MyComponentProps) {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>+0 1234567890</td>
-                            <td>15/05/2023</td>
-                            <td>Events</td>
-                            <td>once per week</td>
-                            <td className="active">Active</td>
-                            <td>
-                              <button
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>+0 1234567890</td>
-                            <td>15/05/2023</td>
-                            <td>Events</td>
-                            <td>once per week</td>
-                            <td className="processing">Active</td>
-                            <td>
-                              <button
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>+0 1234567890</td>
-                            <td>15/05/2023</td>
-                            <td>Events</td>
-                            <td>once per week</td>
-                            <td className="cancel">Active</td>
-                            <td>
-                              <button
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>+0 1234567890</td>
-                            <td>15/05/2023</td>
-                            <td>Events</td>
-                            <td>once per week</td>
-                            <td className="active">Active</td>
-                            <td>
-                              <button
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
+                          {myQuotations &&
+                            myQuotations.length > 0 &&
+                            myQuotations.map((item: any) => (
+                              <tr key={item._id}>
+                                <td>{item._id.slice(14)}</td>
+                                <td>{item.coordinator.cellNumber}</td>
+                                <td>
+                                  {setFormatDate(
+                                    item.placementDate || item.createdAt
+                                  )}
+                                </td>
+                                <td>{item.quotationType}</td>
+                                <td>{item.serviceFrequency}</td>
+                                <td className={setStyleForStatus(item.status)}>
+                                  {item.status}
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      setquotationID(item._id);
+                                      setquotationType(item.type);
+                                      setActiveSidebar("VIEW_QUOTATION");
+                                    }}
+                                    type="button"
+                                    className="action--table"
+                                  ></button>
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
                       </table>
                     </div>
                     <div className="dashboard--notification">
                       <div className="notification--wrapper">
                         <div className="table--title">
-                          <span>Quotation</span>{" "}
+                          <span>Notifications</span>{" "}
                           <span>
-                            <a href="#">View All</a>
+                            <a
+                              onClick={() => setActiveSidebar("NOTIFICATIONS")}
+                            >
+                              View All
+                            </a>
                           </span>
                         </div>
                         <div className="notification--list">
@@ -396,15 +436,17 @@ function MyAccountNew(props: MyComponentProps) {
                         <span>Notifications</span>
                       </h2>
                     </div>
-                    <div className="subcription--update">
-                      <div className="subcription--message">
-                        <h3>Subscription Update</h3>
-                        <p>Complete your payment </p>
+                    {updateSubscription && (
+                      <div className="subcription--update">
+                        <div className="subcription--message">
+                          <h3>Subscription Update</h3>
+                          <p>Complete your payment </p>
+                        </div>
+                        <div className="pay--now">
+                          <a href="#">Pay Now</a>
+                        </div>
                       </div>
-                      <div className="pay--now">
-                        <a href="#">Pay Now</a>
-                      </div>
-                    </div>
+                    )}
                     <div className="dashboard--notification">
                       <div className="notification--wrapper">
                         <div className="table--title">
@@ -413,7 +455,12 @@ function MyAccountNew(props: MyComponentProps) {
                         <div className="notification--list">
                           <ul>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -435,7 +482,12 @@ function MyAccountNew(props: MyComponentProps) {
                               </div>
                             </li>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -457,7 +509,12 @@ function MyAccountNew(props: MyComponentProps) {
                               </div>
                             </li>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -486,7 +543,12 @@ function MyAccountNew(props: MyComponentProps) {
                         <div className="notification--list">
                           <ul>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -508,7 +570,12 @@ function MyAccountNew(props: MyComponentProps) {
                               </div>
                             </li>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -530,7 +597,12 @@ function MyAccountNew(props: MyComponentProps) {
                               </div>
                             </li>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -559,7 +631,12 @@ function MyAccountNew(props: MyComponentProps) {
                         <div className="notification--list">
                           <ul>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -581,7 +658,12 @@ function MyAccountNew(props: MyComponentProps) {
                               </div>
                             </li>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -603,7 +685,12 @@ function MyAccountNew(props: MyComponentProps) {
                               </div>
                             </li>
                             <li>
-                              <div className="notification--list--item">
+                              <div
+                                onClick={() =>
+                                  setupdateSubscription(!updateSubscription)
+                                }
+                                className="notification--list--item"
+                              >
                                 <div className="thumbnuil">
                                   <img
                                     src={require("../asstes/image/nt--img.png")}
@@ -653,122 +740,50 @@ function MyAccountNew(props: MyComponentProps) {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>+0 1234567890</td>
-                            <td>15/05/2023</td>
-                            <td>Events</td>
-                            <td>once per week</td>
-                            <td className="active">Active</td>
-                            <td>
-                              <button
-                                onClick={() => setActiveSidebar("TRACK_ORDER")}
-                                type="button"
-                                className="track--order"
-                              >
-                                <img
-                                  src={require("../asstes/image/track.png")}
-                                  alt=""
-                                />
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  setActiveSidebar("VIEW_QUOTATION")
-                                }
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>+0 1234567890</td>
-                            <td>15/05/2023</td>
-                            <td>Events</td>
-                            <td>once per week</td>
-                            <td className="processing">Active</td>
-                            <td>
-                              <button
-                                onClick={() => setActiveSidebar("TRACK_ORDER")}
-                                type="button"
-                                className="track--order"
-                              >
-                                <img
-                                  src={require("../asstes/image/track.png")}
-                                  alt=""
-                                />
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  setActiveSidebar("VIEW_QUOTATION")
-                                }
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>+0 1234567890</td>
-                            <td>15/05/2023</td>
-                            <td>Events</td>
-                            <td>once per week</td>
-                            <td className="cancel">Active</td>
-                            <td>
-                              <button
-                                onClick={() => setActiveSidebar("TRACK_ORDER")}
-                                type="button"
-                                className="track--order"
-                              >
-                                <img
-                                  src={require("../asstes/image/track.png")}
-                                  alt=""
-                                />
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  setActiveSidebar("VIEW_QUOTATION")
-                                }
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>+0 1234567890</td>
-                            <td>15/05/2023</td>
-                            <td>Events</td>
-                            <td>once per week</td>
-                            <td className="active">Active</td>
-                            <td>
-                              <button
-                                onClick={() => setActiveSidebar("TRACK_ORDER")}
-                                type="button"
-                                className="track--order"
-                              >
-                                <img
-                                  src={require("../asstes/image/track.png")}
-                                  alt=""
-                                />
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  setActiveSidebar("VIEW_QUOTATION")
-                                }
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
+                          {myQuotations &&
+                            myQuotations.length > 0 &&
+                            myQuotations.map((item: any) => (
+                              <tr key={item._id}>
+                                <td>{item._id.slice(14)}</td>
+                                <td>{item.coordinator.cellNumber}</td>
+                                <td>
+                                  {setFormatDate(
+                                    item.placementDate || item.createdAt
+                                  )}
+                                </td>
+                                <td>{item.quotationType}</td>
+                                <td>{item.serviceFrequency}</td>
+                                <td className={setStyleForStatus(item.status)}>
+                                  {item.status}
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      setquotationID(item._id);
+                                      setquotationType(item.type);
+                                      setActiveSidebar("TRACK_ORDER");
+                                    }}
+                                    type="button"
+                                    className="track--order"
+                                  >
+                                    <img
+                                      src={require("../asstes/image/track.png")}
+                                      alt=""
+                                    />
+                                  </button>
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      setquotationID(item._id);
+                                      setActiveSidebar("VIEW_QUOTATION");
+                                    }}
+                                    type="button"
+                                    className="action--table"
+                                  ></button>
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
                       </table>
                     </div>
@@ -788,164 +803,6 @@ function MyAccountNew(props: MyComponentProps) {
                     </div>
                   </div>
                 )}
-                {activeSidebar === "TRACK_ORDER" && (
-                  <div className="track--order--content">
-                    <div className="dashboard--content--title">
-                      <h2>
-                        <span className="back--btn--wrapper">
-                          <span>
-                            <a href="#" className="back--btn">
-                              <img
-                                src={require("../asstes/image/arrow--left.png")}
-                                alt=""
-                              />
-                            </a>
-                          </span>{" "}
-                          <span>Quotation - 1234567889123 -Track</span>
-                        </span>
-                      </h2>
-                    </div>
-                    <div className="track--order--wrapper">
-                      <div className="order--id">
-                        <h3>Track Order - 1234567889123</h3>
-                      </div>
-                      <div className="order--status">
-                        <span>Status - </span>{" "}
-                        <span className="order--status--corrent">Pending</span>
-                      </div>
-                      <div className="order--tracking--bar">
-                        <ul>
-                          <li className="active">
-                            <span className="track--circle"></span>
-                            <div className="track--detail">
-                              <h4>Order Placed</h4>
-                              <p>Tue, 15 May</p>
-                            </div>
-                          </li>
-                          <li className="active">
-                            <span className="track--circle"></span>
-                            <div className="track--detail">
-                              <h4>Order Shipped</h4>
-                              <p>Tue, 15 May</p>
-                            </div>
-                          </li>
-                          <li>
-                            <span className="track--circle"></span>
-                            <div className="track--detail">
-                              <h4>Out for the Station</h4>
-                              <p>Tue, 15 May</p>
-                            </div>
-                          </li>
-                          <li>
-                            <span className="track--circle"></span>
-                            <div className="track--detail">
-                              <h4>Order Placed at Station</h4>
-                              <p>Tue, 15 May</p>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="user--address">
-                        <h3>Delivery Address</h3>
-                        <ul>
-                          <li>Jhon Smith</li>
-                          <li> | </li>
-                          <li>+0 1234 5678900</li>
-                        </ul>
-                        <p>
-                          112/296 ABCD adipiscing elit, sed diam nonummy
-                          Place\Location Street Area City - Pincode State
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {activeSidebar === "VIEW_QUOTATION" && (
-                  <div className="quotations--details--content">
-                    <div className="dashboard--content--title">
-                      <h2>
-                        <span className="back--btn--wrapper">
-                          <span>
-                            <a href="#" className="back--btn">
-                              <img
-                                src={require("../asstes/image/arrow--left.png")}
-                                alt=""
-                              />
-                            </a>
-                          </span>{" "}
-                          <span>sQuotation - 1234567889123 -View</span>
-                        </span>
-                      </h2>
-                    </div>
-                    <div className="table--wrapper">
-                      <table>
-                        <tbody>
-                          <tr>
-                            <th>Name</th>
-                            <td>Jhon Smith</td>
-                          </tr>
-                          <tr>
-                            <th>Email Address </th>
-                            <td>jhonsmith@gmail.com</td>
-                          </tr>
-                          <tr>
-                            <th>Phone Number</th>
-                            <td>+0 1234 5678900</td>
-                          </tr>
-                          <tr>
-                            <th>Status</th>
-                            <td className="status">Pending</td>
-                          </tr>
-                          <tr>
-                            <th>Delivered Price</th>
-                            <td>$0</td>
-                          </tr>
-                          <tr>
-                            <th>Distance From Kelowna</th>
-                            <td>20 KM</td>
-                          </tr>
-                          <tr>
-                            <th>Max Workers</th>
-                            <td>30</td>
-                          </tr>
-                          <tr>
-                            <th>Service Frequency</th>
-                            <td>3 Unites once per week</td>
-                          </tr>
-                          <tr>
-                            <th>Weekly Hours</th>
-                            <td>40</td>
-                          </tr>
-                          <tr>
-                            <th>Hand Sanitizer Pump Cost</th>
-                            <td>$0</td>
-                          </tr>
-                          <tr>
-                            <th>Use At Night Cost</th>
-                            <td>$0</td>
-                          </tr>
-                          <tr>
-                            <th>Use In Winter Cost</th>
-                            <td>$0</td>
-                          </tr>
-                          <tr>
-                            <th>Number Of Units Cost</th>
-                            <td>$0</td>
-                          </tr>
-                          <tr>
-                            <th>Pickup Price</th>
-                            <td>$0</td>
-                          </tr>
-                          <tr>
-                            <th>Total Cost</th>
-                            <td>$350</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
 
                 {activeSidebar === "MY_SUBSCRIPTIONS" && (
                   <div className="quotations--content subscription--content">
@@ -958,78 +815,85 @@ function MyAccountNew(props: MyComponentProps) {
                       <table>
                         <thead>
                           <tr>
-                            <th>Order ID</th>
+                            <th>Subscription ID</th>
                             <th>Start Date</th>
-                            <th>End Date</th>
                             <th>Price</th>
                             <th>Status</th>
                             <th>View</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>22/12/2022</td>
-                            <td>15/05/2023</td>
-                            <td>$ 100</td>
-                            <td className="active">Active</td>
-                            <td>
-                              <button
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>22/12/2022</td>
-                            <td>15/05/2023</td>
-                            <td>$ 100</td>
-                            <td className="active">Active</td>
-                            <td>
-                              <button
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>22/12/2022</td>
-                            <td>15/05/2023</td>
-                            <td>$ 100</td>
-                            <td className="active">Active</td>
-                            <td>
-                              <button
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1234567889123</td>
-                            <td>22/12/2022</td>
-                            <td>15/05/2023</td>
-                            <td>$ 100</td>
-                            <td className="active">Active</td>
-                            <td>
-                              <button
-                                type="button"
-                                className="action--table"
-                              ></button>
-                            </td>
-                          </tr>
+                          {mySubscriptions &&
+                            mySubscriptions.length > 0 &&
+                            mySubscriptions.map((item) => (
+                              <tr key={item._id}>
+                                <td>{item.subscription.slice(15)}</td>
+                                <td>{setFormatDate(item.createdAt)}</td>
+                                <td>$ 100</td>
+                                <td
+                                  className={`${
+                                    item.status === "ACTIVE"
+                                      ? "active"
+                                      : "cancel"
+                                  }`}
+                                >
+                                  {item.status}
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      setsubscriptionID(item._id);
+                                      setActiveSidebar("VIEW_PAYMENT");
+                                    }}
+                                    type="button"
+                                    className="action--table"
+                                  ></button>
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
                       </table>
                     </div>
                   </div>
                 )}
+
+                {activeSidebar === "TRACK_ORDER" && (
+                  <TrackQuotation
+                    quotationID={quotationID}
+                    quotationType={quotationType}
+                    isLoading={isLoading}
+                    setLoading={setLoading}
+                    setActiveSidebar={setActiveSidebar}
+                  />
+                )}
+
+                {activeSidebar === "VIEW_QUOTATION" && (
+                  <QuotationDetails
+                    quotationID={quotationID}
+                    isLoading={isLoading}
+                    setLoading={setLoading}
+                    setActiveSidebar={setActiveSidebar}
+                  />
+                )}
+
+                {activeSidebar === "VIEW_PAYMENT" && (
+                  <PaymentDetails
+                    subscriptionID={subscriptionID}
+                    isLoading={isLoading}
+                    setLoading={setLoading}
+                    setActiveSidebar={setActiveSidebar}
+                  />
+                )}
+
                 {activeSidebar === "MY_ACCOUNT" && (
                   <div className="setting--content">
                     <div className="dashboard--content--title">
                       <h2>
                         <span>Settings</span>{" "}
-                        <span className="edit--setting">
+                        <span
+                          onClick={() => setEditAble(!isEditAble)}
+                          className="edit--setting"
+                        >
                           <i className="fa-solid fa-user-pen"></i>
                         </span>
                       </h2>
@@ -1050,23 +914,46 @@ function MyAccountNew(props: MyComponentProps) {
                         </div>
                       </div>
                       <div className="user--profile--form">
-                        <form action="">
+                        <form  onSubmit={updateProfile}>
                           <div className="form--wrapper">
                             <div className="form--group">
                               <label htmlFor="">Name</label>
-                              <input type="text" value="Jhon" />
-                            </div>
-                            <div className="form--group">
-                              <label htmlFor="">Last Name</label>
-                              <input type="text" value="Carter" />
+                              <input
+                                required
+                                minLength={3}
+                                disabled={!isEditAble}
+                                type="text"
+                                placeholder="Name"
+                                value={userData.name}
+                                name="name"
+                                onChange={handleChange}
+                              />
                             </div>
                             <div className="form--group">
                               <label htmlFor="">Email</label>
-                              <input type="email" value="jhon@gmail.com" />
+                              <input
+                                required
+                                disabled
+                                type="email"
+                                placeholder="Email"
+                                value={userData.email}
+                                name="email"
+                                onChange={handleChange}
+                              />
                             </div>
                             <div className="form--group">
-                              <label htmlFor="">Last Name</label>
-                              <input type="tel" value="+9199990000" />
+                              <label htmlFor="">Phone</label>
+                              <input
+                                required
+                                min={0}
+                                minLength={4}
+                                disabled={!isEditAble}
+                                type="number"
+                                placeholder="Phone"
+                                value={userData.mobile}
+                                name="mobile"
+                                onChange={handleChange}
+                              />
                             </div>
                             <div className="table--title span--2">
                               <span>Change Password</span>
@@ -1074,21 +961,29 @@ function MyAccountNew(props: MyComponentProps) {
                             <div className="form--group">
                               <label htmlFor="">New Password</label>
                               <input
+                                disabled={!isEditAble}
                                 type="password"
-                                value=""
-                                placeholder="Enter Password"
+                                placeholder="Password"
+                                value={userData.new_password}
+                                name="new_password"
+                                onChange={handleChange}
                               />
                             </div>
                             <div className="form--group">
                               <label htmlFor="">Re-Enter Password</label>
                               <input
+                                disabled={!isEditAble}
                                 type="password"
-                                value=""
-                                placeholder="Enter Password"
+                                placeholder="Confirm Password"
+                                value={userData.confirm_new_password}
+                                name="confirm_new_password"
+                                onChange={handleChange}
                               />
                             </div>
                             <div className="form--group action--from span--2">
-                              <button className="btn">Save Changes</button>
+                              <button disabled={!isEditAble} className="btn">
+                                Save Changes
+                              </button>
                             </div>
                           </div>
                         </form>

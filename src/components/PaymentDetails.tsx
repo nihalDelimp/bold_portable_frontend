@@ -10,12 +10,14 @@ import { getFormatedDate } from "../Helper";
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   isLoading: boolean;
+  subscriptionID: string;
+  setActiveSidebar: (activeSidebarMenu: string) => void;
 }
 
 function PaymentDetails(props: MyComponentProps) {
-  const { isLoading, setLoading } = props;
+  const { isLoading, setLoading, subscriptionID, setActiveSidebar } = props;
   const params = useParams();
-  const [paymentDetail, setPaymentDetail] = useState<any>({});
+  const [paymentDetail, setPaymentDetail] = useState<any>();
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const [subscription, setSubscription] = useState<any>({});
 
@@ -28,7 +30,7 @@ function PaymentDetails(props: MyComponentProps) {
   const getsubscriptionDetails = async () => {
     setLoading(true);
     await authAxios()
-      .get(`/payment/subscription/${params.id}`)
+      .get(`/payment/subscription/${subscriptionID}`)
       .then(
         (response) => {
           setLoading(false);
@@ -84,70 +86,81 @@ function PaymentDetails(props: MyComponentProps) {
 
   return (
     <>
-      <section className="quotation--details">
-        <div className="grid--container">
-          <div className="grid">
-            <div className="grid----">
-              <div className="quotation--details--body">
-                <h3>Subscription Payment Details</h3>
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Customer ID :</th>
-                      <td>{subscription?.user?.stripe_customer_id}</td>
-                    </tr>
-                    <tr>
-                      <th>Name :</th>
-                      <td>{subscription?.user?.name}</td>
-                    </tr>
-                    <tr>
-                      <th>Email Address :</th>
-                      <td>{subscription?.user?.email}</td>
-                    </tr>
-                    <tr>
-                      <th>Phone Number :</th>
-                      <td>{subscription?.user?.mobile}</td>
-                    </tr>
-                    <tr>
-                      <th>Status :</th>
-                      <td>{subscription?.status}</td>
-                    </tr>
-                    <tr>
-                      <th>Created AT :</th>
-                      <td>{getFormatedDate(subscription?.createdAt)}</td>
-                    </tr>
-                    <tr>
-                      <th>Amount Due :</th>
-                      <td>{paymentDetail?.amount_due}</td>
-                    </tr>
-                    <tr>
-                      <th>Amount Paid :</th>
-                      <td>{paymentDetail?.amount_paid}</td>
-                    </tr>
-                    <tr>
-                      <th>Amount Remaining :</th>
-                      <td>{paymentDetail?.amount_remaining}</td>
-                    </tr>
-                    <tr>
-                      <th>Amount Shipping :</th>
-                      <td>{paymentDetail?.amount_shipping}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="pt-3">
-                <button
-                  onClick={endSubscriptionPayment}
-                  disabled={isLoading}
-                  className="btn btn-primary"
+      <div className="quotations--details--content">
+        <div className="dashboard--content--title">
+          <h2>
+            <span className="back--btn--wrapper">
+              <span>
+                <a
+                  onClick={() => setActiveSidebar("MY_QUOTATIONS")}
+                  className="back--btn"
                 >
-                  End Subscription
-                </button>
-              </div>
-            </div>
-          </div>
+                  <img
+                    src={require("../asstes/image/arrow--left.png")}
+                    alt=""
+                  />
+                </a>
+              </span>{" "}
+              <span>Payment Details :</span>
+            </span>
+          </h2>
         </div>
-      </section>
+        <div className="table--wrapper">
+          <table>
+            <tbody>
+              <tr>
+                <th>Customer ID :</th>
+                <td>{subscription?.user?.stripe_customer_id}</td>
+              </tr>
+              <tr>
+                <th>Name :</th>
+                <td>{subscription?.user?.name}</td>
+              </tr>
+              <tr>
+                <th>Email Address :</th>
+                <td>{subscription?.user?.email}</td>
+              </tr>
+              <tr>
+                <th>Phone Number :</th>
+                <td>{subscription?.user?.mobile}</td>
+              </tr>
+              <tr>
+                <th>Status :</th>
+                <td>{subscription?.status}</td>
+              </tr>
+              <tr>
+                <th>Created AT :</th>
+                <td>{getFormatedDate(subscription?.createdAt)}</td>
+              </tr>
+              <tr>
+                <th>Amount Due :</th>
+                <td>{paymentDetail?.amount_due}</td>
+              </tr>
+              <tr>
+                <th>Amount Paid :</th>
+                <td>{paymentDetail?.amount_paid}</td>
+              </tr>
+              <tr>
+                <th>Amount Remaining :</th>
+                <td>{paymentDetail?.amount_remaining}</td>
+              </tr>
+              <tr>
+                <th>Amount Shipping :</th>
+                <td>{paymentDetail?.amount_shipping}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="pt-3">
+          <button
+            onClick={endSubscriptionPayment}
+            disabled={isLoading || !paymentDetail}
+            className="btn btn-primary"
+          >
+            Pay Now
+          </button>
+        </div>
+      </div>
     </>
   );
 }

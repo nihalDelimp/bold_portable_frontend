@@ -14,6 +14,14 @@ export function getFormatedDate(date : string) {
      return formatedDateTime;
 }
 
+export function setFormatDate(date : string) {
+  if(!date){
+   return 'NA'
+  }
+   let formatedDateTime = moment(date).format('DD/MM/YYYY');
+   return formatedDateTime;
+}
+
 export function firstChartByFullName (fullName : any){ 
   var str = fullName
   str = str.split(" "); 

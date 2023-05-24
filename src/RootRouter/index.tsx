@@ -6,8 +6,8 @@ import PageNoteFound from "../components/PageNoteFound";
 import CartView from "../components/ViewCart";
 import Checkout from "../components/Checkout";
 import Quotations from "../components/MyQuotations";
-import QuotationDetails from "../components/QuotationDetails";
-import MyAccount from "../components/MyAccount";
+// import QuotationDetails from "../components/QuotationDetails";
+import MyAccount from "../components/MyAccountNew";
 import PaymentDetails from "../components/PaymentDetails";
 import PaymentSuccess from "../components/PaymentSuccess";
 import PaymentCancel from "../components/PaymentCancel";
@@ -26,7 +26,7 @@ function RootRouter() {
           <Route path="/my-account" element={<MyAccount />} />
           <Route path="/payment-success" element={<PaymentSuccess/>} />
           <Route path="/payment-cancel" element={<PaymentCancel/>} />
-          <Route path="/quotation-details/:id" element={<QuotationDetails />} />
+          {/* <Route path="/quotation-details/:id" element={<QuotationDetails />} /> */}
           <Route path="/subscription-payment-details/:id" element={<PaymentDetails />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>

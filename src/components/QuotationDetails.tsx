@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   isLoading: boolean;
+  quotationID: string;
+  setActiveSidebar: (activeSidebarMenu: string) => void;
 }
 
 function QuotationDetails(props: MyComponentProps) {
-  const { isLoading, setLoading } = props;
-  const params = useParams();
-  const [quotationDetails, setQuotationDetails] = useState<any>({});
+  const { isLoading, setLoading, setActiveSidebar, quotationID } = props;
+  const [quotation, setQuotation] = useState<any>(null);
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
 
-
   useEffect(() => {
-    getProductDetailsData();
-  }, []);
+    if (quotationID) {
+      getProductDetailsData();
+    }
+  }, [quotationID]);
 
   const getProductDetailsData = async () => {
     setLoading(true);
-    const payload = { quote_id: params.id };
+    const payload = { quote_id: quotationID };
     await authAxios()
       .post("/quotation/get-specific-quotation-from-all-collection", payload)
       .then(
@@ -32,7 +32,7 @@ function QuotationDetails(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data.quotation;
-            setQuotationDetails(resData);
+            setQuotation(resData);
           }
         },
         (error) => {
@@ -49,16 +49,18 @@ function QuotationDetails(props: MyComponentProps) {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;
   };
-  
+
   const CreateCheckoutSession = async () => {
     const payload = {
       price: 10,
       product_name: "Potty box1",
       product_description: "Big size potty box1",
       interval: "month",
-      shipping_amount: 2,
-      success_url : `${window.location.origin}/payment-success`,
-      cancel_url : `${window.location.origin}/payment-cancel`
+      shipping_amount: 2, 
+      quotationId: quotationID,
+      quotationType: quotation.type,
+      success_url: `${window.location.origin}/payment-success`,
+      cancel_url: `${window.location.origin}/payment-cancel`,
     };
     setLoading(true);
     await authAxios()
@@ -114,95 +116,110 @@ function QuotationDetails(props: MyComponentProps) {
 
   return (
     <>
-      <section className="quotation--details">
-        <div className="grid--container">
-          <div className="grid">
-            <div className="grid----">
-              <div className="quotation--details--body">
-                <h3>Quotation Details</h3>
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Name:</th>
-                      <td>{quotationDetails?.coordinator?.name}</td>
-                    </tr>
-                    <tr>
-                      <th>Email Address:</th>
-                      <td>{quotationDetails?.coordinator?.email}</td>
-                    </tr>
-                    <tr>
-                      <th>Phone Number:</th>
-                      <td>{quotationDetails?.coordinator?.cellNumber}</td>
-                    </tr>
-                    <tr>
-                      <th>Status:</th>
-                      <td>{quotationDetails?.status}</td>
-                    </tr>
-                    <tr>
-                      <th>Delivered Price:</th>
-                      <td>${quotationDetails?.costDetails?.deliveryPrice}</td>
-                    </tr>
-                    <tr>
-                      <th>Distance From Kelowna:</th>
-                      <td>{quotationDetails?.distanceFromKelowna}</td>
-                    </tr>
-                    <tr>
-                      <th>Max Workers:</th>
-                      <td>{quotationDetails?.maxWorkers}</td>
-                    </tr>
-                    <tr>
-                      <th>Service Frequency:</th>
-                      <td>{quotationDetails?.serviceFrequency}</td>
-                    </tr>
-                    <tr>
-                      <th>Weekly Hours:</th>
-                      <td>{quotationDetails?.weeklyHours}</td>
-                    </tr>
-                    <tr>
-                      <th>Hand Sanitizer Pump Cost:</th>
-                      <td>
-                        {quotationDetails?.costDetails?.handSanitizerPumpCost}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Hand Washing Cost:</th>
-                      <td>{quotationDetails?.costDetails?.handWashingCost}</td>
-                    </tr>
-                    <tr>
-                      <th>Use At Night Cost:</th>
-                      <td>{quotationDetails?.costDetails?.useAtNightCost}</td>
-                    </tr>
-                    <tr>
-                      <th>Use In Winter Cost:</th>
-                      <td>{quotationDetails?.costDetails?.useInWinterCost}</td>
-                    </tr>
-                    <tr>
-                      <th>Number Of Units Cost:</th>
-                      <td>
-                        {quotationDetails?.costDetails?.numberOfUnitsCost}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Pickup Price:</th>
-                      <td>{quotationDetails?.costDetails?.pickUpPrice}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="pt-3">
-                <button
-                  onClick={subscriptionPayment}
-                  disabled={isLoading}
-                  className="btn btn-primary"
+      <div className="quotations--details--content">
+        <div className="dashboard--content--title">
+          <h2>
+            <span className="back--btn--wrapper">
+              <span>
+                <a
+                  onClick={() => setActiveSidebar("MY_QUOTATIONS")}
+                  className="back--btn"
                 >
-                  Pay Now
-                </button>
-              </div>
-            </div>
-          </div>
+                  <img
+                    src={require("../asstes/image/arrow--left.png")}
+                    alt=""
+                  />
+                </a>
+              </span>{" "}
+              <span>Quotation Details :</span>
+            </span>
+          </h2>
         </div>
-      </section>
+        <div className="table--wrapper">
+          <table>
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{quotation?.coordinator?.name}</td>
+              </tr>
+              <tr>
+                <th>Email Address </th>
+                <td>{quotation?.coordinator?.email}</td>
+              </tr>
+              <tr>
+                <th>Phone Number</th>
+                <td>{quotation?.coordinator?.cellNumber}</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td className="status">{quotation?.status}</td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>{quotation?.type}</td>
+              </tr>
+              <tr>
+                <th>Delivered Price</th>
+                <td>${quotation?.costDetails?.deliveryPrice}</td>
+              </tr>
+              <tr>
+                <th>Distance From Kelowna</th>
+                <td>{quotation?.distanceFromKelowna} KM</td>
+              </tr>
+              <tr>
+                <th>Max Workers</th>
+                <td>{quotation?.maxWorkers}</td>
+              </tr>
+              <tr>
+                <th>Service Frequency:</th>
+                <td>{quotation?.serviceFrequency}</td>
+              </tr>
+              <tr>
+                <th>Weekly Hours:</th>
+                <td>{quotation?.weeklyHours}</td>
+              </tr>
+              <tr>
+                <th>Hand Sanitizer Pump Cost:</th>
+                <td>{quotation?.costDetails?.handSanitizerPumpCost}</td>
+              </tr>
+              <tr>
+                <th>Hand Washing Cost:</th>
+                <td>{quotation?.costDetails?.handWashingCost}</td>
+              </tr>
+              <tr>
+                <th>Use At Night Cost:</th>
+                <td>{quotation?.costDetails?.useAtNightCost}</td>
+              </tr>
+              <tr>
+                <th>Use In Winter Cost:</th>
+                <td>{quotation?.costDetails?.useInWinterCost}</td>
+              </tr>
+              <tr>
+                <th>Number Of Units Cost:</th>
+                <td>{quotation?.costDetails?.numberOfUnitsCost}</td>
+              </tr>
+              <tr>
+                <th>Pickup Price:</th>
+                <td>{quotation?.costDetails?.pickUpPrice}</td>
+              </tr>
+              <tr>
+                <th>Total Cost</th>
+                <td>$350</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="pt-3">
+          <button
+            onClick={subscriptionPayment}
+            disabled={isLoading || !quotation}
+            className="btn btn-primary"
+          >
+            Pay Now
+          </button>
+        </div>
+      </div>
     </>
   );
 }
-export default IsLoadingHOC(QuotationDetails);
+export default QuotationDetails;
