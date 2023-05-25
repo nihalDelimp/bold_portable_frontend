@@ -6,10 +6,11 @@ import { toast } from "react-toastify";
 import { logout } from "../Redux/Reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
-import { setFormatDate } from "../Helper";
+import { CapitalizeFirstLetter, setFormatDate } from "../Helper";
 import QuotationDetails from "./QuotationDetails";
 import PaymentDetails from "./PaymentDetails";
 import TrackQuotation from "./TrackQuotation";
+import ProfileSetting from "./ProfileSetting";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -25,31 +26,10 @@ function MyAccountNew(props: MyComponentProps) {
   const [myQuotations, setMyQuotations] = useState<any[]>([]);
   const [mySubscriptions, setMySubscriptions] = useState<any[]>([]);
   const [activeSidebar, setActiveSidebar] = useState<string>("DASHBOARD");
-  const [isEditAble, setEditAble] = useState<boolean>(false);
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const [updateSubscription, setupdateSubscription] = useState(false);
   const [quotationID, setquotationID] = useState<string>("");
   const [quotationType, setquotationType] = useState<string>("");
   const [subscriptionID, setsubscriptionID] = useState<string>("");
-
-  const [userData, setUserData] = useState({
-    name: user.name,
-    email: user.email,
-    mobile: user.mobile,
-    new_password: "",
-    confirm_new_password: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  console.log("myQuotations", myQuotations);
-  console.log("mySubscriptions", mySubscriptions);
 
   useEffect(() => {
     getMyQuotationsData();
@@ -119,42 +99,6 @@ function MyAccountNew(props: MyComponentProps) {
     } else {
       return "active";
     }
-  };
-
-  const updateProfile = async (event: React.FormEvent) => {
-    event.preventDefault()
-    setLoading(true);
-    const {name , mobile , new_password , confirm_new_password } = userData
-    if(new_password !== confirm_new_password){
-      toast.error("Confirm password does not match")
-    }
-    const payload = {
-      name: name,
-      mobile: mobile,
-      password: new_password,
-    };
-    await authAxios()
-      .post(`/user/save-profile` , payload)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            toast.success('Profile updated successfully')
-          }
-          else{
-            toast.error(response.data?.messsage)
-          }
-        },
-        (error) => {
-          if (error.response.status === 401) {
-            console.log("Your session has expired. Please sign in again");
-          }
-          setLoading(false);
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
   };
 
   return (
@@ -248,9 +192,9 @@ function MyAccountNew(props: MyComponentProps) {
                   <ul>
                     <li>
                       <a
-                        onClick={() => setActiveSidebar("MY_ACCOUNT")}
+                        onClick={() => setActiveSidebar("PROFILE_SETTING")}
                         className={
-                          activeSidebar === "MY_ACCOUNT" ? "active" : ""
+                          activeSidebar === "PROFILE_SETTING" ? "active" : ""
                         }
                       >
                         {" "}
@@ -314,14 +258,14 @@ function MyAccountNew(props: MyComponentProps) {
                             myQuotations.length > 0 &&
                             myQuotations.map((item: any) => (
                               <tr key={item._id}>
-                                <td>{item._id.slice(14)}</td>
+                                <td>{item._id?.slice(14)}</td>
                                 <td>{item.coordinator.cellNumber}</td>
                                 <td>
                                   {setFormatDate(
                                     item.placementDate || item.createdAt
                                   )}
                                 </td>
-                                <td>{item.quotationType}</td>
+                                <td>{CapitalizeFirstLetter(item.type)}</td>
                                 <td>{item.serviceFrequency}</td>
                                 <td className={setStyleForStatus(item.status)}>
                                   {item.status}
@@ -330,7 +274,9 @@ function MyAccountNew(props: MyComponentProps) {
                                   <button
                                     onClick={() => {
                                       setquotationID(item._id);
-                                      setquotationType(item.type);
+                                      setquotationType(
+                                        CapitalizeFirstLetter(item.type)
+                                      );
                                       setActiveSidebar("VIEW_QUOTATION");
                                     }}
                                     type="button"
@@ -744,14 +690,14 @@ function MyAccountNew(props: MyComponentProps) {
                             myQuotations.length > 0 &&
                             myQuotations.map((item: any) => (
                               <tr key={item._id}>
-                                <td>{item._id.slice(14)}</td>
+                                <td>{item._id?.slice(14)}</td>
                                 <td>{item.coordinator.cellNumber}</td>
                                 <td>
                                   {setFormatDate(
                                     item.placementDate || item.createdAt
                                   )}
                                 </td>
-                                <td>{item.quotationType}</td>
+                                <td>{CapitalizeFirstLetter(item.type)}</td>
                                 <td>{item.serviceFrequency}</td>
                                 <td className={setStyleForStatus(item.status)}>
                                   {item.status}
@@ -760,7 +706,9 @@ function MyAccountNew(props: MyComponentProps) {
                                   <button
                                     onClick={() => {
                                       setquotationID(item._id);
-                                      setquotationType(item.type);
+                                      setquotationType(
+                                        CapitalizeFirstLetter(item.type)
+                                      );
                                       setActiveSidebar("TRACK_ORDER");
                                     }}
                                     type="button"
@@ -776,6 +724,9 @@ function MyAccountNew(props: MyComponentProps) {
                                   <button
                                     onClick={() => {
                                       setquotationID(item._id);
+                                      setquotationType(
+                                        CapitalizeFirstLetter(item.type)
+                                      );
                                       setActiveSidebar("VIEW_QUOTATION");
                                     }}
                                     type="button"
@@ -817,7 +768,7 @@ function MyAccountNew(props: MyComponentProps) {
                           <tr>
                             <th>Subscription ID</th>
                             <th>Start Date</th>
-                            <th>Price</th>
+                            <th>Quotation Type</th>
                             <th>Status</th>
                             <th>View</th>
                           </tr>
@@ -827,9 +778,9 @@ function MyAccountNew(props: MyComponentProps) {
                             mySubscriptions.length > 0 &&
                             mySubscriptions.map((item) => (
                               <tr key={item._id}>
-                                <td>{item.subscription.slice(15)}</td>
+                                <td>{item.subscription?.slice(15)}</td>
                                 <td>{setFormatDate(item.createdAt)}</td>
-                                <td>$ 100</td>
+                                <td>{item.quotationType}</td>
                                 <td
                                   className={`${
                                     item.status === "ACTIVE"
@@ -870,6 +821,7 @@ function MyAccountNew(props: MyComponentProps) {
                 {activeSidebar === "VIEW_QUOTATION" && (
                   <QuotationDetails
                     quotationID={quotationID}
+                    quotationType={quotationType}
                     isLoading={isLoading}
                     setLoading={setLoading}
                     setActiveSidebar={setActiveSidebar}
@@ -885,111 +837,11 @@ function MyAccountNew(props: MyComponentProps) {
                   />
                 )}
 
-                {activeSidebar === "MY_ACCOUNT" && (
-                  <div className="setting--content">
-                    <div className="dashboard--content--title">
-                      <h2>
-                        <span>Settings</span>{" "}
-                        <span
-                          onClick={() => setEditAble(!isEditAble)}
-                          className="edit--setting"
-                        >
-                          <i className="fa-solid fa-user-pen"></i>
-                        </span>
-                      </h2>
-                    </div>
-                    <div className="setting--content--wrapper">
-                      <div className="table--title">
-                        <span>Profile Details</span>
-                      </div>
-                      <div className="user--profile">
-                        <div className="user--image">
-                          <img
-                            src={require("../asstes/image/author1.png")}
-                            alt=""
-                          />
-                        </div>
-                        <div className="change--profile--link">
-                          <a href="#">Change Image</a>
-                        </div>
-                      </div>
-                      <div className="user--profile--form">
-                        <form  onSubmit={updateProfile}>
-                          <div className="form--wrapper">
-                            <div className="form--group">
-                              <label htmlFor="">Name</label>
-                              <input
-                                required
-                                minLength={3}
-                                disabled={!isEditAble}
-                                type="text"
-                                placeholder="Name"
-                                value={userData.name}
-                                name="name"
-                                onChange={handleChange}
-                              />
-                            </div>
-                            <div className="form--group">
-                              <label htmlFor="">Email</label>
-                              <input
-                                required
-                                disabled
-                                type="email"
-                                placeholder="Email"
-                                value={userData.email}
-                                name="email"
-                                onChange={handleChange}
-                              />
-                            </div>
-                            <div className="form--group">
-                              <label htmlFor="">Phone</label>
-                              <input
-                                required
-                                min={0}
-                                minLength={4}
-                                disabled={!isEditAble}
-                                type="number"
-                                placeholder="Phone"
-                                value={userData.mobile}
-                                name="mobile"
-                                onChange={handleChange}
-                              />
-                            </div>
-                            <div className="table--title span--2">
-                              <span>Change Password</span>
-                            </div>
-                            <div className="form--group">
-                              <label htmlFor="">New Password</label>
-                              <input
-                                disabled={!isEditAble}
-                                type="password"
-                                placeholder="Password"
-                                value={userData.new_password}
-                                name="new_password"
-                                onChange={handleChange}
-                              />
-                            </div>
-                            <div className="form--group">
-                              <label htmlFor="">Re-Enter Password</label>
-                              <input
-                                disabled={!isEditAble}
-                                type="password"
-                                placeholder="Confirm Password"
-                                value={userData.confirm_new_password}
-                                name="confirm_new_password"
-                                onChange={handleChange}
-                              />
-                            </div>
-                            <div className="form--group action--from span--2">
-                              <button disabled={!isEditAble} className="btn">
-                                Save Changes
-                              </button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
+                {activeSidebar === "PROFILE_SETTING" && (
+                  <ProfileSetting
+                    setLoading={setLoading}
+                    isLoading={isLoading}
+                  />
                 )}
               </div>
             </div>

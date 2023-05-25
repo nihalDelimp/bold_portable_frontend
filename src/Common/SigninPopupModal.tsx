@@ -19,13 +19,13 @@ function SigninPopupModal() {
     password: "",
   });
 
-  let storedRemember =  localStorage.getItem("rememberMe")
+  let storedRemember = localStorage.getItem("rememberMe");
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("rememberedEmail");
     const storedPassword = localStorage.getItem("rememberedPassword");
     const storedRememberMe = localStorage.getItem("rememberMe");
-    
+
     if (storedRememberMe === "true" && storedEmail && storedPassword) {
       setUserInput((prev) => ({
         ...prev,
@@ -74,12 +74,20 @@ function SigninPopupModal() {
               .querySelector(".custom--popup")
               ?.classList.remove("active--popup");
           } else {
-            toast.error(response.data.message);
+            toast.error(response.data?.message);
           }
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data.message);
+          if (error.response.data.message) {
+            toast.error(error.response.data.message);
+          } else {
+            const obj = error.response.data.errors[0];
+            const errormsg = Object.values(obj) || [];
+            if (errormsg && errormsg.length > 0) {
+              toast.error(`${errormsg[0]}`);
+            }
+          }
         }
       )
       .catch((error) => {
@@ -135,6 +143,7 @@ function SigninPopupModal() {
                   </label>
                   <input
                     required
+                    minLength={8}
                     type="password"
                     value={userInput.password}
                     name="password"

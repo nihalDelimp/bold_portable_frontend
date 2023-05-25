@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { getFormatedDate } from "../Helper";
@@ -16,12 +15,11 @@ interface MyComponentProps {
 
 function PaymentDetails(props: MyComponentProps) {
   const { isLoading, setLoading, subscriptionID, setActiveSidebar } = props;
-  const params = useParams();
-  const [paymentDetail, setPaymentDetail] = useState<any>();
+  const [paymentDetail, setPaymentDetail] = useState<any>({});
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const [subscription, setSubscription] = useState<any>({});
 
-  console.log("QuotationsDetails", paymentDetail);
+  console.log("Subscription Details", paymentDetail);
 
   useEffect(() => {
     getsubscriptionDetails();
@@ -57,7 +55,7 @@ function PaymentDetails(props: MyComponentProps) {
 
   const endSubscriptionPayment = async () => {
     const payload = {
-      subscriptionID: params.id,
+      subscriptionID: subscriptionID,
       pickup_charge: 1,
       product_name: "potty box",
     };
@@ -92,7 +90,7 @@ function PaymentDetails(props: MyComponentProps) {
             <span className="back--btn--wrapper">
               <span>
                 <a
-                  onClick={() => setActiveSidebar("MY_QUOTATIONS")}
+                  onClick={() => setActiveSidebar("MY_SUBSCRIPTIONS")}
                   className="back--btn"
                 >
                   <img
@@ -109,8 +107,8 @@ function PaymentDetails(props: MyComponentProps) {
           <table>
             <tbody>
               <tr>
-                <th>Customer ID :</th>
-                <td>{subscription?.user?.stripe_customer_id}</td>
+                <th>Subscription ID :</th>
+                <td>{subscription?.subscription?.slice(15)}</td>
               </tr>
               <tr>
                 <th>Name :</th>

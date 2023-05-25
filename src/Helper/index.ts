@@ -55,6 +55,16 @@ export function calculateDistance(origin :latlngPoint, destination : latlngPoint
 }
 
 
+export const CapitalizeFirstLetter = (data : any) => {
+  if(data) {
+    const str = data.charAt(0).toUpperCase() + data.slice(1);
+    return str
+  }
+}
+
+
+
+
 
 // function getDistanceByRoad(origin, destination, api_key) {
 //   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${api_key}`;

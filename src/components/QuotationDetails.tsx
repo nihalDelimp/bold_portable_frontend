@@ -3,16 +3,18 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
+import { CapitalizeFirstLetter } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   isLoading: boolean;
   quotationID: string;
+  quotationType : string
   setActiveSidebar: (activeSidebarMenu: string) => void;
 }
 
 function QuotationDetails(props: MyComponentProps) {
-  const { isLoading, setLoading, setActiveSidebar, quotationID } = props;
+  const { isLoading, setLoading, setActiveSidebar, quotationID , quotationType } = props;
   const [quotation, setQuotation] = useState<any>(null);
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
 
@@ -58,7 +60,7 @@ function QuotationDetails(props: MyComponentProps) {
       interval: "month",
       shipping_amount: 2, 
       quotationId: quotationID,
-      quotationType: quotation.type,
+      quotationType: quotationType,
       success_url: `${window.location.origin}/payment-success`,
       cancel_url: `${window.location.origin}/payment-cancel`,
     };
@@ -156,7 +158,7 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Type</th>
-                <td>{quotation?.type}</td>
+                <td>{quotationType}</td>
               </tr>
               <tr>
                 <th>Delivered Price</th>
