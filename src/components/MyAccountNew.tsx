@@ -220,7 +220,7 @@ function MyAccountNew(props: MyComponentProps) {
               </div>
               <div className="put--quoats">
                 <img src={require("../asstes/image/put--quots.png")} alt="" />
-                <a href="#">Put Quotes</a>
+                <Link to="/">Put Quotes</Link>
               </div>
             </div>
             <div className="user--dashboard--content">
