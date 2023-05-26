@@ -1,7 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { authAxios } from "../config/config";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { toast } from "react-toastify";
 
-function MyQuotations() {
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+function MyQuotations(props: MyComponentProps) {
+  const { setLoading } = props;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemPerPage] = useState<number>(100);
+  const [myQuotations, setMyQuotations] = useState([]);
+
+  console.log("myQuotations", myQuotations);
+  useEffect(() => {
+    getMyQuotationsData();
+  }, []);
+
+  const getMyQuotationsData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `quotation/get-quotation-for-specific-user?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setMyQuotations(resData.quotations);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          if (error.response.status === 401) {
+            console.log("Your session has expired. Please sign in again");
+          }
+          setLoading(false);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
   return (
     <>
       <section className="quotation--main">
@@ -22,6 +67,7 @@ function MyQuotations() {
                         <th>Delivered Price</th>
                         <th>Distance From Kelowna</th>
                         <th>Max Workers</th>
+                        <th>Type</th>
                         <th className="hidden">Hidden</th>
                         <th>Service Frequency</th>
                         <th>Special Requirements</th>
@@ -29,118 +75,30 @@ function MyQuotations() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>tahseem</td>
-                        <td>admin@delimp.com</td>
-                        <td>982773833</td>
-                        <td>$300</td>
-                        <td>40</td>
-                        <td>22</td>
-                        <td className="hidden">hidden</td>
-                        <td>3 units serviced once per week</td>
-                        <td>No special Requirements</td>
-                        <td>
-                          <Link to = "/quotation-details/123" className="btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>tahseem</td>
-                        <td>admin@delimp.com</td>
-                        <td>982773833</td>
-                        <td>$300</td>
-                        <td>40</td>
-                        <td>22</td>
-                        <td className="hidden">hidden</td>
-                        <td>3 units serviced once per week</td>
-                        <td>No special Requirements</td>
-                        <td>
-                          <Link to = "/quotation-details/123" className="btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>tahseem</td>
-                        <td>admin@delimp.com</td>
-                        <td>982773833</td>
-                        <td>$300</td>
-                        <td>40</td>
-                        <td>22</td>
-                        <td className="hidden">hidden</td>
-                        <td>3 units serviced once per week</td>
-                        <td>No special Requirements</td>
-                        <td>
-                          <Link to = "/quotation-details/123" className="btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>tahseem</td>
-                        <td>admin@delimp.com</td>
-                        <td>982773833</td>
-                        <td>$300</td>
-                        <td>40</td>
-                        <td>22</td>
-                        <td className="hidden">hidden</td>
-                        <td>3 units serviced once per week</td>
-                        <td>No special Requirements</td>
-                        <td>
-                          <Link to = "/quotation-details/123" className="btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>tahseem</td>
-                        <td>admin@delimp.com</td>
-                        <td>982773833</td>
-                        <td>$300</td>
-                        <td>40</td>
-                        <td>22</td>
-                        <td className="hidden">hidden</td>
-                        <td>3 units serviced once per week</td>
-                        <td>No special Requirements</td>
-                        <td>
-                          <Link to = "/quotation-details/123" className="btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>tahseem</td>
-                        <td>admin@delimp.com</td>
-                        <td>982773833</td>
-                        <td>$300</td>
-                        <td>40</td>
-                        <td>22</td>
-                        <td className="hidden">hidden</td>
-                        <td>3 units serviced once per week</td>
-                        <td>No special Requirements</td>
-                        <td>
-                          <Link to = "/quotation-details/123" className="btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>tahseem</td>
-                        <td>admin@delimp.com</td>
-                        <td>982773833</td>
-                        <td>$300</td>
-                        <td>40</td>
-                        <td>22</td>
-                        <td className="hidden">hidden</td>
-                        <td>3 units serviced once per week</td>
-                        <td>No special Requirements</td>
-                        <td>
-                          <Link to = "/quotation-details/123" className="btn">
-                            View
-                          </Link>
-                        </td>
-                      </tr>
+                      {myQuotations &&
+                        myQuotations.length > 0 &&
+                        myQuotations.map((item: any) => (
+                          <tr key={item._id}>
+                            <td>{item.coordinator.name}</td>
+                            <td>{item.coordinator.email}</td>
+                            <td>{item.coordinator.cellNumber}</td>
+                            <td>${item.costDetails.deliveryPrice}</td>
+                            <td>{item.distanceFromKelowna}</td>
+                            <td>{item.maxWorkers}</td>
+                            <td>{item.quotationType}</td>
+                            <td className="hidden">hidden</td>
+                            <td>{item.serviceFrequency}</td>
+                            <td>{item.special_requirements}</td>
+                            <td>
+                              <Link
+                                to={`/quotation-details/${item._id}`}
+                                className="btn"
+                              >
+                                View
+                              </Link>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
@@ -153,4 +111,4 @@ function MyQuotations() {
   );
 }
 
-export default MyQuotations;
+export default IsLoadingHOC(MyQuotations);

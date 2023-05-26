@@ -1,0 +1,40 @@
+.payment--cancel--message {
+   // padding: clamp(40px, 6vw, 100px) 15px;
+
+    .payment--message--container {
+        max-width: 800px;
+        min-height: calc(100vh - calc(clamp(40px, 6vw, 100px) * 2));
+        width: 100%;
+        @include flex();
+        margin: 0 auto;
+        .payment--message--body {
+            padding: 100px;
+            background-color: lighten($black, 95%);
+            box-shadow: 2px 2px 8px rgba(000,000,000,0.15);
+            @media (max-width:767px) {
+                padding: 20px 15px;
+            }
+            h3 {
+                color: red;
+                font-weight: 500;
+            }
+            table {
+                padding-top: 30px;
+                tr {
+                    @media (max-width:450px) {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    th {
+                        text-align: left;
+                        min-width: 200px;
+                        padding: 5px;
+                    }
+                    td {
+                        padding: 5px;
+                    }
+                }
+            }
+        }
+    }
+}

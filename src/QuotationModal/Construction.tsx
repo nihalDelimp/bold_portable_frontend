@@ -176,6 +176,7 @@ const Construction: React.FC = () => {
     const payload = {
       coordinator,
       ...quotation,
+      quotationType : 'construction' ,
       placementLocation,
       originPoint: originLocation,
     };

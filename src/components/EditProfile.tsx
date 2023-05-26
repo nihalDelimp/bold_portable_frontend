@@ -73,27 +73,27 @@ function EditProfile(props: any) {
     let formData = new FormData();
     if (selectedImage) {
       formData.append("profile_picture", selectedImage);
-    }
-    setLoading(true);
-    await authAxios()
-      .put("/auth/update-profile-image", formData)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            toast.success("Profile updated successfully");
-          } else {
-            toast.error(response.data.message);
+      setLoading(true);
+      await authAxios()
+        .put("/auth/update-profile-image", formData)
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              toast.success("Profile updated successfully");
+            } else {
+              toast.error(response.data.message);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            toast.error(error.response.data.message);
           }
-        },
-        (error) => {
-          setLoading(false);
-          toast.error(error.response.data.message);
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
+        )
+        .catch((error) => {
+          console.log("errorrrr", error);
+        });
+    }
   };
 
   const getuserProfileData = async () => {

@@ -10,8 +10,24 @@ export function getFormatedDate(date : string) {
     if(!date){
      return 'NA'
     }
-     let formatedDateTime = moment(date).format('MMMM Do YYYY, hh:mm:ss A');
+     let formatedDateTime = moment(date).format('MMMM Do YYYY, hh:mm A');
      return formatedDateTime;
+}
+
+export function getDateWithDay(date : string) {
+  if(!date){
+   return 'NA'
+  }
+   let formatedDateTime = moment(date).format('ddd, DD MMMM YYYY hh:mm A');
+   return formatedDateTime;
+}
+
+export function setFormatDate(date : string) {
+  if(!date){
+   return 'NA'
+  }
+   let formatedDateTime = moment(date).format('DD/MM/YYYY');
+   return formatedDateTime;
 }
 
 export function firstChartByFullName (fullName : any){ 
@@ -45,6 +61,16 @@ export function calculateDistance(origin :latlngPoint, destination : latlngPoint
   let distance = (radius * c).toFixed(2); // Distance in km
   return parseInt(distance) ;
 }
+
+
+export const CapitalizeFirstLetter = (data : any) => {
+  if(data) {
+    const str = data.charAt(0).toUpperCase() + data.slice(1);
+    return str
+  }
+}
+
+
 
 
 

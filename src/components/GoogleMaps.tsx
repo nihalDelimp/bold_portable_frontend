@@ -65,7 +65,7 @@ const GoogleMaps = (props: any) => {
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
-      setLoading(true);
+     // setLoading(true);
       navigator.geolocation.getCurrentPosition(
         successCallback,
         errorCallback,

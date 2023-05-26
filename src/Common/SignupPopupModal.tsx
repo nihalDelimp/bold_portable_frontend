@@ -35,13 +35,20 @@ function SignupPopupModal() {
             //   .querySelector(".custom--popup")
             //   ?.classList.remove("active--popup");
           } else {
-            toast.error(response.data.message);
+            toast.error(response.data?.message);
           }
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data.message);
-          console.log(error);
+          if (error.response.data.message) {
+            toast.error(error.response.data.message);
+          } else {
+            const obj = error.response.data.errors[0];
+            const errormsg = Object.values(obj) || [];
+            if (errormsg && errormsg.length > 0) {
+              toast.error(`${errormsg[0]}`);
+            }
+          }
         }
       )
       .catch((error) => {
@@ -68,6 +75,7 @@ function SignupPopupModal() {
               </label>
               <input
                 required
+                minLength={5}
                 value={user.name}
                 onChange={handleChange}
                 type="text"
@@ -94,6 +102,7 @@ function SignupPopupModal() {
               </label>
               <input
                 required
+                minLength={6}
                 value={user.mobile}
                 name="mobile"
                 onChange={handleChange}
@@ -107,6 +116,7 @@ function SignupPopupModal() {
               </label>
               <input
                 required
+                minLength={8}
                 type="password"
                 value={user.password}
                 name="password"
