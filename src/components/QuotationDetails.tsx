@@ -9,14 +9,20 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   isLoading: boolean;
   quotationID: string;
-  quotationType : string
+  quotationType: string;
   setActiveSidebar: (activeSidebarMenu: string) => void;
 }
 
 function QuotationDetails(props: MyComponentProps) {
-  const { isLoading, setLoading, setActiveSidebar, quotationID , quotationType } = props;
+  const {
+    isLoading,
+    setLoading,
+    setActiveSidebar,
+    quotationID,
+    quotationType,
+  } = props;
   const [quotation, setQuotation] = useState<any>(null);
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     if (quotationID) {
@@ -34,7 +40,50 @@ function QuotationDetails(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data.quotation;
+            const costDetails = resData.costDetails;
+            console.log("resDataForSubSSS>>costDetails", costDetails);
+            const {
+              activelyCleaned,
+              alcoholServed,
+              deliveryPrice,
+              fencedOff,
+              handSanitizerPump,
+              handSanitizerPumpCost,
+              handWashing,
+              handWashingCost,
+              numberOfUnitsCost,
+              payPerUse,
+              pickUpPrice,
+              serviceFrequencyCost,
+              specialRequirementsCost,
+              twiceWeeklyServicing,
+              useAtNightCost,
+              useInWinterCost,
+              weeklyHoursCost,
+              workersCost,
+            } = costDetails;
+
             setQuotation(resData);
+            const totalAmount =
+              activelyCleaned +
+              alcoholServed +
+              deliveryPrice +
+              fencedOff +
+              handSanitizerPump +
+              handSanitizerPumpCost +
+              handWashing +
+              handWashingCost +
+              numberOfUnitsCost +
+              payPerUse +
+              pickUpPrice +
+              serviceFrequencyCost +
+              specialRequirementsCost +
+              twiceWeeklyServicing +
+              useAtNightCost +
+              useInWinterCost +
+              weeklyHoursCost +
+              workersCost;
+            setTotalPrice(totalAmount);
           }
         },
         (error) => {
@@ -54,11 +103,11 @@ function QuotationDetails(props: MyComponentProps) {
 
   const CreateCheckoutSession = async () => {
     const payload = {
-      price: 10,
+      price: totalPrice,
       product_name: "Potty box1",
       product_description: "Big size potty box1",
       interval: "month",
-      shipping_amount: 2, 
+      shipping_amount: quotation?.costDetails?.pickUpPrice || 10,
       quotationId: quotationID,
       quotationType: quotationType,
       success_url: `${window.location.origin}/payment-success`,
@@ -205,8 +254,8 @@ function QuotationDetails(props: MyComponentProps) {
                 <td>{quotation?.costDetails?.pickUpPrice}</td>
               </tr>
               <tr>
-                <th>Total Cost</th>
-                <td>$350</td>
+                <th>Total Amount</th>
+                <td>${totalPrice}</td>
               </tr>
             </tbody>
           </table>

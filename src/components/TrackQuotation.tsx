@@ -3,6 +3,7 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
+import { getDateWithDay } from "../Helper/index";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -21,7 +22,7 @@ function TrackQuotation(props: MyComponentProps) {
     quotationType,
   } = props;
   const [quotation, setQuotation] = useState<any>(null);
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   console.log("TrackQuotation>>Data", quotation);
 
@@ -33,7 +34,6 @@ function TrackQuotation(props: MyComponentProps) {
 
   const getOrderTrackingData = async () => {
     setLoading(true);
-    const payload = { quote_id: quotationID };
     await authAxios()
       .get(
         `/tracking/find-by-quotation?quotationId=${quotationID}&quotationType=${quotationType}&userId=${user._id}`
@@ -43,7 +43,9 @@ function TrackQuotation(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setQuotation(resData);
+            if (resData[0]) {
+              setQuotation(resData[0]);
+            }
           }
         },
         (error) => {
@@ -91,10 +93,23 @@ function TrackQuotation(props: MyComponentProps) {
                 <span className="track--circle"></span>
                 <div className="track--detail">
                   <h4>Order Placed</h4>
-                  <p>Tue, 15 May</p>
+                  <p>{quotation && getDateWithDay(quotation.createdAt)}</p>
                 </div>
               </li>
-              <li className="active">
+              {quotation &&
+                quotation.address &&
+                quotation.address.length > 0 &&
+                quotation.address.map((item: any, index: number) => (
+                  <li key={index + 1} className="active">
+                    <span className="track--circle"></span>
+                    <div className="track--detail">
+                      <h4>{item?.address}</h4>
+                      <p>{getDateWithDay(item?.timestamp)}</p>
+                    </div>
+                  </li>
+                ))}
+
+              {/* <li className="active">
                 <span className="track--circle"></span>
                 <div className="track--detail">
                   <h4>Order Shipped</h4>
@@ -114,10 +129,10 @@ function TrackQuotation(props: MyComponentProps) {
                   <h4>Order Placed at Station</h4>
                   <p>Tue, 15 May</p>
                 </div>
-              </li>
+              </li> */}
             </ul>
           </div>
-          <div className="user--address">
+          {/* <div className="user--address">
             <h3>Delivery Address</h3>
             <ul>
               <li>Jhon Smith</li>
@@ -128,7 +143,7 @@ function TrackQuotation(props: MyComponentProps) {
               112/296 ABCD adipiscing elit, sed diam nonummy Place\Location
               Street Area City - Pincode State
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

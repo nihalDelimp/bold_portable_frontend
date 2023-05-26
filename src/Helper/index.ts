@@ -10,8 +10,16 @@ export function getFormatedDate(date : string) {
     if(!date){
      return 'NA'
     }
-     let formatedDateTime = moment(date).format('MMMM Do YYYY, hh:mm:ss A');
+     let formatedDateTime = moment(date).format('MMMM Do YYYY, hh:mm A');
      return formatedDateTime;
+}
+
+export function getDateWithDay(date : string) {
+  if(!date){
+   return 'NA'
+  }
+   let formatedDateTime = moment(date).format('ddd, DD MMMM YYYY hh:mm A');
+   return formatedDateTime;
 }
 
 export function setFormatDate(date : string) {

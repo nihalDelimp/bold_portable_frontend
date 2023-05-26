@@ -56,7 +56,7 @@ function PaymentDetails(props: MyComponentProps) {
   const endSubscriptionPayment = async () => {
     const payload = {
       subscriptionID: subscriptionID,
-      pickup_charge: 1,
+      pickup_charge: 10,
       product_name: "potty box",
     };
     setLoading(true);
