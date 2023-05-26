@@ -28,7 +28,7 @@ function TrackQuotation(props: MyComponentProps) {
 
   useEffect(() => {
     if (quotationID) {
-      getOrderTrackingData();
+      // getOrderTrackingData();
     }
   }, [quotationID]);
 
@@ -81,7 +81,7 @@ function TrackQuotation(props: MyComponentProps) {
         </div>
         <div className="track--order--wrapper">
           <div className="order--id">
-            <h3>Track Order - 1234567889123</h3>
+            <h3>Track Order :</h3>
           </div>
           <div className="order--status">
             <span>Status - </span>{" "}
@@ -89,13 +89,15 @@ function TrackQuotation(props: MyComponentProps) {
           </div>
           <div className="order--tracking--bar">
             <ul>
-              <li className="active">
-                <span className="track--circle"></span>
-                <div className="track--detail">
-                  <h4>Order Placed</h4>
-                  <p>{quotation && getDateWithDay(quotation.createdAt)}</p>
-                </div>
-              </li>
+              {quotation && (
+                <li className="active">
+                  <span className="track--circle"></span>
+                  <div className="track--detail">
+                    <h4>Order Placed</h4>
+                    <p>{quotation && getDateWithDay(quotation.createdAt)}</p>
+                  </div>
+                </li>
+              )}
               {quotation &&
                 quotation.address &&
                 quotation.address.length > 0 &&
