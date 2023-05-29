@@ -62,13 +62,19 @@ export function calculateDistance(origin :latlngPoint, destination : latlngPoint
   return parseInt(distance) ;
 }
 
-
 export const CapitalizeFirstLetter = (data : any) => {
   if(data) {
     const str = data.charAt(0).toUpperCase() + data.slice(1);
     return str
   }
 }
+
+export function validateEmail(email: string) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+
 
 
 

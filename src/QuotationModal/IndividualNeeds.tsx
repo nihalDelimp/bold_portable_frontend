@@ -4,6 +4,7 @@ import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint, originAddress } from "../Helper/constants";
+import { validateEmail } from "../Helper";
 
 interface latlngPoint {
   lat: number;
@@ -215,9 +216,18 @@ const IndividualNeeds: React.FC = () => {
   };
 
   const handleNextPage = () => {
-    setFormStep((currentStep) => currentStep + 1);
+    if (formStep === 1) {
+      const isValid = validateEmail(coordinator.email);
+      if (isValid) {
+        setFormStep((currentStep) => currentStep + 1);
+      } else {
+        toast.error("Invalid email address");
+      }
+    } else {
+      setFormStep((currentStep) => currentStep + 1);
+    }
   };
-
+  
   const handlePreviousPage = () => {
     setFormStep((currentStep) => currentStep - 1);
   };

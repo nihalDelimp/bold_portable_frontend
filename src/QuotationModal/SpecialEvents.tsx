@@ -5,6 +5,7 @@ import io, { Socket } from "socket.io-client";
 import { usePickTimes } from "../Helper/constants";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint, originAddress } from "../Helper/constants";
+import { validateEmail } from "../Helper";
 
 interface latlngPoint {
   lat: number;
@@ -239,7 +240,7 @@ function SpecialEvents() {
       coordinator,
       ...quotation,
       placementLocation,
-      originPoint : originLocation,
+      originPoint: originLocation,
       vipSection,
     };
     setLoading(true);
@@ -272,7 +273,16 @@ function SpecialEvents() {
   };
 
   const handleNextPage = () => {
-    setFormStep((currentStep) => currentStep + 1);
+    if (formStep === 1) {
+      const isValid = validateEmail(coordinator.email);
+      if (isValid) {
+        setFormStep((currentStep) => currentStep + 1);
+      } else {
+        toast.error("Invalid email address");
+      }
+    } else {
+      setFormStep((currentStep) => currentStep + 1);
+    }
   };
 
   const handlePreviousPage = () => {
@@ -681,8 +691,8 @@ function SpecialEvents() {
               </React.Fragment>
             )}
 
-          <div className="form--action">
-              {(formStep === 2 || formStep === 3)  && (
+            <div className="form--action">
+              {(formStep === 2 || formStep === 3) && (
                 <button
                   type="button"
                   onClick={handlePreviousPage}
@@ -723,14 +733,12 @@ function SpecialEvents() {
                   Next
                 </button>
               )}
-               {formStep === 3 && (
+              {formStep === 3 && (
                 <button
                   type="button"
                   onClick={handleNextPage}
                   className="submit--from btn"
-                  disabled={
-                   !quotation.maxAttendees
-                  }
+                  disabled={!quotation.maxAttendees}
                 >
                   Next
                 </button>
@@ -770,7 +778,6 @@ function SpecialEvents() {
               </form>
             </div>
           )}
-
         </div>
       </div>
     </React.Fragment>
