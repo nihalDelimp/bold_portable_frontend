@@ -1,11 +1,19 @@
-import { configureStore, Action } from '@reduxjs/toolkit';
+import { configureStore, Action , getDefaultMiddleware } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
 import { useDispatch } from 'react-redux';
 import logger from 'redux-logger'
 import rootReducer, { RootState } from './rootReducer';
 import storage from "redux-persist/lib/storage";
-import { persistStore, persistReducer } from "redux-persist";
-
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 
 const persistConfig = {
   key: "bold_portable_webapp",
@@ -16,10 +24,15 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }).concat(logger),
+ // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 })
 
-if (process.env.NODE_ENV === 'development' && module.hot) {
+if (process.env.REACT_APP_NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./rootReducer', () => {
     const newRootReducer = require('./rootReducer').default
     store.replaceReducer(newRootReducer)

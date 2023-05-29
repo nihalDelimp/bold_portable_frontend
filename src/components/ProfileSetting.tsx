@@ -219,6 +219,7 @@ function ProfileSetting(props: MyComponentProps) {
             <div className="change--profile--link">
               <a href="#">
                 <input
+                  disabled={!isEditAble}
                   className="form-control"
                   onChange={handleChangeImage}
                   accept={acceptedFileTypes}

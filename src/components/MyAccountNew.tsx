@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authAxios } from "../config/config";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { toast } from "react-toastify";
 import { logout } from "../Redux/Reducers/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
+import { useDispatch } from "react-redux";
 import { CapitalizeFirstLetter, setFormatDate } from "../Helper";
 import QuotationDetails from "./QuotationDetails";
 import PaymentDetails from "./PaymentDetails";
 import TrackQuotation from "./TrackQuotation";
 import ProfileSetting from "./ProfileSetting";
+import $ from "jquery";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -30,6 +29,21 @@ function MyAccountNew(props: MyComponentProps) {
   const [quotationID, setquotationID] = useState<string>("");
   const [quotationType, setquotationType] = useState<string>("");
   const [subscriptionID, setsubscriptionID] = useState<string>("");
+
+
+  useEffect(()=> {
+    $(document).ready(function(){
+      if (window.matchMedia("(max-width: 1024px)").matches) {
+          $(".user--sidebar--container").slideUp();
+          $(document).on("click", "#user--dashboard", function(){
+              $(".user--sidebar--container").slideToggle();
+              $("#user--dashboard i").toggleClass("fa-bars").toggleClass("fa-xmark");
+          });
+      } 
+     
+  });
+
+  },[])
 
   useEffect(() => {
     getMyQuotationsData();
