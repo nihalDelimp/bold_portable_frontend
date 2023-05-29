@@ -12,6 +12,7 @@ const GoogleMaps = (props: any) => {
   const { distanceCallBack, placementLocationCallBack , placementAddressCallBack } = props;
   let [map, setMap] = useState(null);
   let autocompleteRef = useRef<any>(null);
+  const [markerPoint , setMarkerPoint] = useState(originPoint)
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
@@ -35,6 +36,7 @@ const GoogleMaps = (props: any) => {
   }
 
   async function onPlaceChanged() {
+    
     if (autocompleteRef?.current?.value === "") {
       return;
     }
@@ -50,6 +52,7 @@ const GoogleMaps = (props: any) => {
           distanceCallBack(distance);
           placementLocationCallBack(destination);
           placementAddressCallBack(autocompleteRef?.current?.value)
+          setMarkerPoint(destination)
         } else {
           alert(
             "Geocode was not successful for the following reason: " + status
@@ -99,7 +102,7 @@ const GoogleMaps = (props: any) => {
       <section style={{ paddingBottom: "15px" }} className="form--services">
         {isLoaded && (
           <GoogleMap
-            center={originPoint}
+            center={markerPoint}
             zoom={13}
             mapContainerStyle={mapContainerStyle}
             onLoad={handleLoad}
@@ -107,12 +110,12 @@ const GoogleMaps = (props: any) => {
             <MarkerF
               draggable
               onDragEnd={handleDragEnd}
-              position={originPoint}
+              position={markerPoint}
             />
             <Autocomplete onPlaceChanged={onPlaceChanged}>
               <div
-                style={{ top: "16%", left: "60%" }}
-                className="from--wrapper"
+               
+                className="from--wrapper" style={{maxWidth:"460px"}}
               >
                 <div className="from--tabs--content">
                   <div
@@ -121,7 +124,7 @@ const GoogleMaps = (props: any) => {
                     data-aos-duration="1000"
                   >
                     <input
-                      style={{ padding: "0px 30px" }}
+                      style={{ padding: "0px 12px" }}
                       type="search"
                       placeholder="Enter placement location"
                       ref={autocompleteRef}

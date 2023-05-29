@@ -23,7 +23,7 @@ interface quotationType {
   special_requirements: string;
   placementAddress: string;
   femaleWorkers: number;
-  femaleToilet : boolean ,
+  femaleToilet: boolean;
   designatedWorkers: boolean;
   workerTypes: string;
   handwashing: boolean;
@@ -33,9 +33,9 @@ interface quotationType {
 }
 
 interface coordinatorType {
-  name : string ,
-  email : string ,
-  cellNumber : number | string
+  name: string;
+  email: string;
+  cellNumber: number | string;
 }
 
 const Construction: React.FC = () => {
@@ -70,7 +70,7 @@ const Construction: React.FC = () => {
     special_requirements: "",
     placementAddress: "",
     femaleWorkers: 0,
-    femaleToilet : false,
+    femaleToilet: false,
     designatedWorkers: false,
     workerTypes: "male",
     handwashing: false,
@@ -160,7 +160,7 @@ const Construction: React.FC = () => {
       special_requirements: "",
       placementAddress: "",
       femaleWorkers: 0,
-      femaleToilet : false,
+      femaleToilet: false,
       designatedWorkers: false,
       workerTypes: "male",
       handwashing: false,
@@ -176,7 +176,7 @@ const Construction: React.FC = () => {
     const payload = {
       coordinator,
       ...quotation,
-      quotationType : 'construction' ,
+      quotationType: "construction",
       placementLocation,
       originPoint: originLocation,
     };
@@ -227,10 +227,7 @@ const Construction: React.FC = () => {
           <div className="form--title">
             <h3>Create Quotation for Construction</h3>
           </div>
-          <form
-            style={{ display: formStep === 3 ? "block" : "grid" }}
-            onSubmit={handleSubmit}
-          >
+          <form>
             {formStep === 1 && (
               <React.Fragment>
                 <div className="form--group">
@@ -316,7 +313,8 @@ const Construction: React.FC = () => {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                  Do you need designated workers ?<span className="required"></span>
+                    Do you need designated workers ?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="designatedWorkers"
@@ -345,7 +343,8 @@ const Construction: React.FC = () => {
                 {quotation.workerTypes === "female" && (
                   <div className="form--group">
                     <label htmlFor="name">
-                     How many female worker need ?<span className="required"></span>
+                      How many female worker need ?
+                      <span className="required"></span>
                     </label>
                     <input
                       type="number"
@@ -361,7 +360,8 @@ const Construction: React.FC = () => {
                 {quotation.workerTypes === "female" && (
                   <div className="form--group">
                     <label htmlFor="name">
-                    Do you need seperate toilet for female ?<span className="required"></span>
+                      Do you need seperate toilet for female ?
+                      <span className="required"></span>
                     </label>
                     <select
                       name="femaleToilet"
@@ -418,7 +418,7 @@ const Construction: React.FC = () => {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-                
+
                 <div className="form--group">
                   <label htmlFor="name">
                     Date till use <span className="required">*</span>
@@ -487,20 +487,9 @@ const Construction: React.FC = () => {
                 </div>
               </React.Fragment>
             )}
-            {formStep === 3 && (
-              <div className="google--map">
-                <label>
-                  Placement Location <span className="required">*</span>
-                </label>
-                <GoogleMaps
-                  distanceCallBack={distanceCallBack}
-                  placementLocationCallBack={placementLocationCallBack}
-                  placementAddressCallBack={placementAddressCallBack}
-                />
-              </div>
-            )}
+
             <div className="form--action">
-              {(formStep === 2 || formStep === 3) && (
+              {formStep === 2 && (
                 <button
                   type="button"
                   onClick={handlePreviousPage}
@@ -531,23 +520,47 @@ const Construction: React.FC = () => {
                   className="submit--from btn"
                   disabled={
                     !quotation.maxWorkers ||
-                    !quotation.weeklyHours || 
-                    !quotation.dateTillUse 
+                    !quotation.weeklyHours ||
+                    !quotation.dateTillUse
                   }
                 >
                   Next
                 </button>
               )}
-              {formStep === 3 && (
-                <button
-                  type="submit"
-                  className="submit--from submit--from--action btn"
-                >
-                  {loading ? "Loading..." : "Submit"}
-                </button>
-              )}
             </div>
           </form>
+          {formStep === 3 && (
+            <div>
+              <div className="google--map">
+                <label>
+                  Placement Location <span className="required">*</span>
+                </label>
+                <GoogleMaps
+                  distanceCallBack={distanceCallBack}
+                  placementLocationCallBack={placementLocationCallBack}
+                  placementAddressCallBack={placementAddressCallBack}
+                />
+              </div>
+              <form>
+                <div className="form--action">
+                  <button
+                    type="button"
+                    onClick={handlePreviousPage}
+                    className="submit--from btn"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    type="button"
+                    className="submit--from submit--from--action btn"
+                  >
+                    {loading ? "Loading..." : "Submit"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </React.Fragment>

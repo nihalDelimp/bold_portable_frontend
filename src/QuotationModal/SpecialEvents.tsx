@@ -286,10 +286,7 @@ function SpecialEvents() {
           <div className="form--title">
             <h3>Create Quotation for special events</h3>
           </div>
-          <form
-            onSubmit={handleSubmit}
-            style={{ display: formStep === 4 ? "block" : "grid" }}
-          >
+          <form>
             {formStep === 1 && (
               <React.Fragment>
                 <div className="form--group">
@@ -683,20 +680,9 @@ function SpecialEvents() {
                 </div>
               </React.Fragment>
             )}
-            {formStep === 4 && (
-              <div className="google--map">
-                <label>
-                  Placement Location <span className="required">*</span>
-                </label>
-                <GoogleMaps
-                  distanceCallBack={distanceCallBack}
-                  placementLocationCallBack={placementLocationCallBack}
-                  placementAddressCallBack={placementAddressCallBack}
-                />
-              </div>
-            )}
-            <div className="form--action">
-              {(formStep === 2 || formStep === 3 || formStep === 4) && (
+
+          <div className="form--action">
+              {(formStep === 2 || formStep === 3)  && (
                 <button
                   type="button"
                   onClick={handlePreviousPage}
@@ -737,26 +723,54 @@ function SpecialEvents() {
                   Next
                 </button>
               )}
-              {formStep === 3 && (
+               {formStep === 3 && (
                 <button
-                  type="submit"
-                  className="submit--from submit--from--action btn"
-                  disabled={!quotation.maxAttendees}
+                  type="button"
                   onClick={handleNextPage}
+                  className="submit--from btn"
+                  disabled={
+                   !quotation.maxAttendees
+                  }
                 >
                   Next
                 </button>
               )}
-              {formStep === 4 && (
-                <button
-                  type="submit"
-                  className="submit--from submit--from--action btn"
-                >
-                  {loading ? "Loading..." : "Submit"}
-                </button>
-              )}
             </div>
           </form>
+
+          {formStep === 4 && (
+            <div>
+              <div className="google--map">
+                <label>
+                  Placement Location <span className="required">*</span>
+                </label>
+                <GoogleMaps
+                  distanceCallBack={distanceCallBack}
+                  placementLocationCallBack={placementLocationCallBack}
+                  placementAddressCallBack={placementAddressCallBack}
+                />
+              </div>
+              <form>
+                <div className="form--action">
+                  <button
+                    type="button"
+                    onClick={handlePreviousPage}
+                    className="submit--from btn"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    type="button"
+                    className="submit--from submit--from--action btn"
+                  >
+                    {loading ? "Loading..." : "Submit"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
         </div>
       </div>
     </React.Fragment>

@@ -232,8 +232,6 @@ const FarmWinery: React.FC = () => {
             <h3>Create Quotation for Farm, Winery or Orchad</h3>
           </div>
           <form
-            style={{ display: formStep === 3 ? "block" : "grid" }}
-            onSubmit={handleSubmit}
           >
             {formStep === 1 && (
               <React.Fragment>
@@ -505,20 +503,9 @@ const FarmWinery: React.FC = () => {
                 </div>
               </React.Fragment>
             )}
-            {formStep === 3 && (
-              <div className="google--map">
-                <label>
-                  Placement Location <span className="required">*</span>
-                </label>
-                <GoogleMaps
-                  distanceCallBack={distanceCallBack}
-                  placementLocationCallBack={placementLocationCallBack}
-                  placementAddressCallBack={placementAddressCallBack}
-                />
-              </div>
-            )}
+
             <div className="form--action">
-              {(formStep === 2 || formStep === 3) && (
+              {formStep === 2 && (
                 <button
                   type="button"
                   onClick={handlePreviousPage}
@@ -550,23 +537,47 @@ const FarmWinery: React.FC = () => {
                   disabled={
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.dateTillUse || 
-                    !quotation.useType
+                    !quotation.dateTillUse
                   }
                 >
                   Next
                 </button>
               )}
-              {formStep === 3 && (
-                <button
-                  type="submit"
-                  className="submit--from submit--from--action btn"
-                >
-                  {loading ? "Loading..." : "Submit"}
-                </button>
-              )}
             </div>
           </form>
+          {formStep === 3 && (
+            <div>
+              <div className="google--map">
+                <label>
+                  Placement Location <span className="required">*</span>
+                </label>
+                <GoogleMaps
+                  distanceCallBack={distanceCallBack}
+                  placementLocationCallBack={placementLocationCallBack}
+                  placementAddressCallBack={placementAddressCallBack}
+                />
+              </div>
+              <form>
+                <div className="form--action">
+                  <button
+                    type="button"
+                    onClick={handlePreviousPage}
+                    className="submit--from btn"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    type="button"
+                    className="submit--from submit--from--action btn"
+                  >
+                    {loading ? "Loading..." : "Submit"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
         </div>
       </div>
     </React.Fragment>

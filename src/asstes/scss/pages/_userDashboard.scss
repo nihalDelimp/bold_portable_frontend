@@ -715,15 +715,28 @@
                                 border: 1px solid lighten($black, 90%);
                                 border-radius: 5px;
                                 overflow: hidden;
+                                
                                 img {
                                     width: 100%;
                                     object-fit: cover;
+                                    aspect-ratio: 1;
                                 }
                             }
                             .change--profile--link {
+                                position: relative;
                                 a {
+                                    min-height: 40px;
                                     color: $dark-blue;
                                     font-weight: 400;
+                                    input {
+                                        position: absolute;
+                                        left: 0;
+                                        top: 0;
+                                        padding: 0px;
+                                        min-height: 40px;
+                                        opacity: 0;
+                                        cursor: pointer;
+                                    }
                                 }
                             }
                         }

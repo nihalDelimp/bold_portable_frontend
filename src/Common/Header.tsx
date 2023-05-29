@@ -23,7 +23,6 @@ const Header = () => {
 
   console.log("pathName", pathName);
 
-
   useEffect(() => {
     if (pathName !== "/") {
       document.querySelector("body")?.classList.add("other--template");
@@ -35,7 +34,25 @@ const Header = () => {
   }, [pathName]);
 
   useEffect(() => {
-    $(".hamburger").click(function () {
+    // $(".nav--menu .menu--item").on("click", function(){
+    //   $(".hamburger").removeClass("active--hamburger");
+    //   $(".nav--menu--wrapper").removeClass("active--nav");
+    // });
+
+    var menu_ancor = document.querySelectorAll(".nav--menu .menu--item");
+
+    menu_ancor.forEach(function (item) {
+      item.addEventListener("click", function () {
+        document
+          .querySelector(".hamburger")
+          ?.classList.remove("active--hamburger");
+        document
+          .querySelector(".nav--menu--wrapper")
+          ?.classList.remove("active--nav");
+      });
+    });
+
+    $(".hamburger").on("click", function () {
       $(this).toggleClass("active--hamburger");
       $(".nav--menu--wrapper").toggleClass("active--nav");
     });
@@ -122,6 +139,10 @@ const Header = () => {
         $(".signin--tab--item").removeClass("active");
         $(".login--tab--item").addClass("active");
       }
+    });
+
+    $(".user--dropdown ul li  a").on("click", function () {
+      $(".user--dropdown").removeClass("active--dropdown");
     });
   }, []);
 
