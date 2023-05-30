@@ -22,7 +22,7 @@ function QuotationDetails(props: MyComponentProps) {
     quotationType,
   } = props;
   const [quotation, setQuotation] = useState<any>(null);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
     if (quotationID) {
@@ -210,7 +210,7 @@ function QuotationDetails(props: MyComponentProps) {
                 <td>{quotationType}</td>
               </tr>
               <tr>
-                <th>Delivered Price</th>
+                <th>Delivery Price</th>
                 <td>${quotation?.costDetails?.deliveryPrice}</td>
               </tr>
               <tr>
@@ -263,7 +263,7 @@ function QuotationDetails(props: MyComponentProps) {
         <div className="pt-3">
           <button
             onClick={subscriptionPayment}
-            disabled={isLoading || !quotation}
+            disabled={isLoading || !quotation || !totalPrice}
             className="btn btn-primary"
           >
             Pay Now
