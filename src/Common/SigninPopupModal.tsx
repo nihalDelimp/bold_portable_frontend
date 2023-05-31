@@ -8,6 +8,7 @@ import {
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { withoutAuthAxios } from "../config/config";
+import ForgotPassword from "./ForgotPassword";
 
 function SigninPopupModal() {
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,14 @@ function SigninPopupModal() {
       setRememberMe(true);
     }
   }, [storedRemember]);
+
+  useEffect(() => {
+    const reset_forms = document.getElementsByClassName("reset--form");
+    const reset_form = reset_forms[0] as HTMLElement;
+    if (reset_form) {
+      reset_form.style.display = "none";
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -95,6 +104,23 @@ function SigninPopupModal() {
       });
   };
 
+  const handleForgotPass = () => {
+    // const elements = document.getElementsByClassName("login--form--active");
+    // const element = elements[0] as HTMLElement;
+    // if (element) {
+    //   element.style.display = "none"; 
+    // }
+    
+    document.querySelector(".custom--popup")?.classList.remove("active--popup");
+    // document.getElementById("reset--password")?.style.display = "flex";
+const reset_passwords = document.getElementById("reset--password");
+    const element = reset_passwords as HTMLElement;
+    if (element) {
+      element.style.display = "flex"; 
+    }
+  };
+
+ 
   return (
     <>
       <section className="custom--popup">
@@ -121,7 +147,10 @@ function SigninPopupModal() {
               </li>
             </ul>
           </div>
-          <div className="login--form active--from" id="login--form">
+          <div
+            className="login--form active--from"
+            id="login--form"
+          >
             <div className="login--form--wrapper">
               <form onSubmit={handleSubmit}>
                 <div className="form--group">
@@ -137,6 +166,7 @@ function SigninPopupModal() {
                     placeholder="Email"
                   />
                 </div>
+
                 <div className="form--group">
                   <label htmlFor="password">
                     Password <span className="required">*</span>
@@ -163,8 +193,8 @@ function SigninPopupModal() {
                     />{" "}
                     <span>Remember me</span>
                   </label>
-                  <span className="lost--password">
-                    <a href="#">Lost your password?</a>
+                  <span data-category="forgot-pass" onClick={handleForgotPass} className="lost--password">
+                    <a>Lost your password?</a>
                   </span>
                 </div>
                 <div className="form--action">
@@ -178,6 +208,7 @@ function SigninPopupModal() {
           <SignupPopupModal />
         </div>
       </section>
+      <ForgotPassword />
     </>
   );
 }

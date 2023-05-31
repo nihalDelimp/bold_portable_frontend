@@ -91,6 +91,12 @@ const Header = () => {
       ) {
         $(".custom--popup").removeClass("active--popup");
       }
+      if (
+        $(e.target).closest(".static--popup--wrapper").length === 0 &&
+        $(e.target).closest(".lost--password").length === 0
+      ) {
+        $(".static--popup").css("display", "none");
+      }
     });
 
     // notification dropdown
