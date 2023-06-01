@@ -9,6 +9,7 @@ interface myComponentProps {
 function ResetPassword(props: myComponentProps) {
   const { userEmail } = props;
   const [loading, setLoading] = useState(false);
+  const [isSendingOTP, setSendingOTP] = useState(false);
   const [userData, setUserData] = useState({
     email: userEmail,
     otp: "",
@@ -78,12 +79,12 @@ function ResetPassword(props: myComponentProps) {
   const handleResendOTP = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = { email: userEmail };
-    setLoading(true);
+    setSendingOTP(true);
     await withoutAuthAxios()
       .post("/auth/send-otp", payload)
       .then(
         (response) => {
-          setLoading(false);
+          setSendingOTP(false);
           if (response.data.status === 1) {
             toast.success("OTP sent to your email address successfully");
           } else {
@@ -91,7 +92,7 @@ function ResetPassword(props: myComponentProps) {
           }
         },
         (error) => {
-          setLoading(false);
+          setSendingOTP(false);
           if (error.response.data.message) {
             toast.error(error.response.data.message);
           } else {
@@ -168,12 +169,12 @@ function ResetPassword(props: myComponentProps) {
         </div>
         <div className="form--action">
           <button type="submit" className="submit--from btn">
-            {loading ? "Loading.." : "Submit"}
+            {loading ? "Loading..." : "Submit"}
           </button>
         </div>
         <div className="form--group span--2 y--center back--form--btn">
           <span className="reset--back" onClick={handleResendOTP}>
-            Resend OTP
+            {isSendingOTP ? "Sending..." : "Resend OTP"}
           </span>
         </div>
       </form>
