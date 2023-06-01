@@ -92,7 +92,7 @@ const Header = () => {
       }
       if (
         $(e.target).closest(".static--popup--wrapper").length === 0 &&
-        $(e.target).closest(".lost--password").length === 0
+        $(e.target).closest(".lost--password").length === 0 && $(e.target).closest(".reset--back").length === 0
       ) {
         $(".static--popup").css("display", "none");
       }

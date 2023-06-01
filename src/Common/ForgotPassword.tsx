@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { withoutAuthAxios } from "../config/config";
 import { toast } from "react-toastify";
 import ResetPassword from "./ResetPassword";
+import { RootState } from "../Redux/rootReducer";
+import { useSelector, useDispatch } from "react-redux";
+import { setResetPassword } from "../Redux/Reducers/authSlice";
 
 function ForgotPassword() {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState({
-    email: "",
-  });
-
-  const [resetPassword, setResetPassword] = useState(true);
+  const [userData, setUserData] = useState({ email: "" });
+  const { isResetPassword } = useSelector((state: RootState) => state.auth);
+  const [userEmail, setUserEmail] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -17,20 +19,6 @@ function ForgotPassword() {
       ...prev,
       [name]: value,
     }));
-  };
-
-  const handleResetLogin = () => {
-    const elements = document.getElementsByClassName("login--form--active");
-    const element = elements[0] as HTMLElement;
-    if (element) {
-      element.style.display = "block";
-    }
-
-    const reset_forms = document.getElementsByClassName("reset--form");
-    const reset_form = reset_forms[0] as HTMLElement;
-    if (reset_form) {
-      reset_form.style.display = "none";
-    }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -43,8 +31,10 @@ function ForgotPassword() {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success(response.data.message);
-            setResetPassword(true);
+            toast.success("OTP sent to your email address successfully");
+            setUserEmail(response.data.data.email);
+            dispatch(setResetPassword(true));
+            setUserData({ email: "" });
           } else {
             toast.error(response.data?.message);
           }
@@ -67,6 +57,7 @@ function ForgotPassword() {
       });
   };
 
+ 
   return (
     <>
       <section id="reset--password" className="static--popup">
@@ -74,9 +65,11 @@ function ForgotPassword() {
           <div className="static--form active--from">
             <div className="static--form--wrapper">
               <div className="form--title">
-                <h2>{resetPassword ? 'Reset Password' : 'Forgot password ?'}</h2>
+                <h2>
+                  {isResetPassword ? "Reset Password" : "Forgot password ?"}
+                </h2>
               </div>
-              {!resetPassword && (
+              {!isResetPassword && (
                 <form onSubmit={handleSubmit}>
                   <div className="form--group span--2">
                     <label htmlFor="name">
@@ -98,12 +91,7 @@ function ForgotPassword() {
                   </div>
                 </form>
               )}
-              {resetPassword && (
-                <ResetPassword
-                  userEmail = {userData.email}
-                  hideResetPassword={(isResetForm) => setResetPassword(isResetForm)}
-                />
-              )}
+              {isResetPassword && <ResetPassword userEmail={userEmail} />}
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import SignupPopupModal from "./SignupPopupModal";
 import {
   setAccessToken,
   setIsAuthenticated,
+  setResetPassword,
   setuser,
 } from "../Redux/Reducers/authSlice";
 import { toast } from "react-toastify";
@@ -105,22 +106,15 @@ function SigninPopupModal() {
   };
 
   const handleForgotPass = () => {
-    // const elements = document.getElementsByClassName("login--form--active");
-    // const element = elements[0] as HTMLElement;
-    // if (element) {
-    //   element.style.display = "none"; 
-    // }
-    
+    dispatch(setResetPassword(false))
     document.querySelector(".custom--popup")?.classList.remove("active--popup");
-    // document.getElementById("reset--password")?.style.display = "flex";
-const reset_passwords = document.getElementById("reset--password");
+    const reset_passwords = document.getElementById("reset--password");
     const element = reset_passwords as HTMLElement;
     if (element) {
-      element.style.display = "flex"; 
+      element.style.display = "flex";
     }
   };
 
- 
   return (
     <>
       <section className="custom--popup">
@@ -147,10 +141,7 @@ const reset_passwords = document.getElementById("reset--password");
               </li>
             </ul>
           </div>
-          <div
-            className="login--form active--from"
-            id="login--form"
-          >
+          <div className="login--form active--from" id="login--form">
             <div className="login--form--wrapper">
               <form onSubmit={handleSubmit}>
                 <div className="form--group">
@@ -193,7 +184,11 @@ const reset_passwords = document.getElementById("reset--password");
                     />{" "}
                     <span>Remember me</span>
                   </label>
-                  <span data-category="forgot-pass" onClick={handleForgotPass} className="lost--password">
+                  <span
+                    data-category="forgot-pass"
+                    onClick={handleForgotPass}
+                    className="lost--password"
+                  >
                     <a>Lost your password?</a>
                   </span>
                 </div>

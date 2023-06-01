@@ -4,11 +4,10 @@ import { toast } from "react-toastify";
 
 interface myComponentProps {
   userEmail: string;
-  hideResetPassword: (isReset: boolean) => void;
 }
 
 function ResetPassword(props: myComponentProps) {
-  const { userEmail, hideResetPassword } = props;
+  const { userEmail } = props;
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState({
     email: userEmail,
@@ -25,43 +24,68 @@ function ResetPassword(props: myComponentProps) {
     }));
   };
 
-  const handleResetLogin = () => {
-    const elements = document.getElementsByClassName("login--form--active");
-    const element = elements[0] as HTMLElement;
-    if (element) {
-      element.style.display = "block";
-    }
-
-    const reset_forms = document.getElementsByClassName("reset--form");
-    const reset_form = reset_forms[0] as HTMLElement;
-    if (reset_form) {
-      reset_form.style.display = "none";
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const { password, confirm_password } = userData;
+    if (password && password.length < 8) {
+      toast.error("Password must be at least 8 characters");
+    } else if (password !== confirm_password) {
+      toast.error("Password did not match");
+    } else {
+      const payload = userData;
+      setLoading(true);
+      await withoutAuthAxios()
+        .post("/auth/reset-password", payload)
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              toast.success(response.data.message);
+              setUserData({
+                email: "",
+                otp: "",
+                password: "",
+                confirm_password: "",
+              });
+              const elements = document.getElementsByClassName("static--popup");
+              const element = elements[0] as HTMLElement;
+              if (element) {
+                element.style.display = "none";
+              }
+            } else {
+              toast.error(response.data?.message);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            if (error.response.data.message) {
+              toast.error(error.response.data.message);
+            } else {
+              const obj = error.response.data.errors[0];
+              const errormsg = Object.values(obj) || [];
+              if (errormsg && errormsg.length > 0) {
+                toast.error(`${errormsg[0]}`);
+              }
+            }
+          }
+        )
+        .catch((error) => {
+          console.log("errorrrr", error);
+        });
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleResendOTP = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = userData;
+    const payload = { email: userEmail };
     setLoading(true);
     await withoutAuthAxios()
-      .post("/auth/reset-otp", payload)
+      .post("/auth/send-otp", payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success(response.data.message);
-            setUserData({
-              email: "",
-              otp: "",
-              password: "",
-              confirm_password: "",
-            });
-            const elements = document.getElementsByClassName("static--popup");
-            const element = elements[0] as HTMLElement;
-            if (element) {
-              element.style.display = "none";
-            }
-            hideResetPassword(false);
+            toast.success("OTP sent to your email address successfully");
           } else {
             toast.error(response.data?.message);
           }
@@ -93,6 +117,7 @@ function ResetPassword(props: myComponentProps) {
           </label>
           <input
             required
+            disabled
             value={userData.email}
             onChange={handleChange}
             type="email"
@@ -145,6 +170,11 @@ function ResetPassword(props: myComponentProps) {
           <button type="submit" className="submit--from btn">
             {loading ? "Loading.." : "Submit"}
           </button>
+        </div>
+        <div className="form--group span--2 y--center back--form--btn">
+          <span className="reset--back" onClick={handleResendOTP}>
+            Resend OTP
+          </span>
         </div>
       </form>
     </>
