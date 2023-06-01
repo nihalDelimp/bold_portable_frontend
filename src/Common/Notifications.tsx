@@ -33,7 +33,6 @@ const Notifications = (props: any) => {
         }
       });
       socket.current.on("update_quote_received", (quotation) => {
-        console.log("admin sent Invoice")
         toast.success('Admin has updated your quotation on as per your request')
         getAllNotifications();
         if (user._id === quotation.user) {

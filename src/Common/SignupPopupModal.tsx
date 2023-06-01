@@ -14,7 +14,6 @@ function SignupPopupModal() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("user", user);
     const payload = user;
     setLoading(true);
     await withoutAuthAxios()

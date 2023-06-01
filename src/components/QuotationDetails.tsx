@@ -211,7 +211,7 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Delivery Price</th>
-                <td>${quotation?.costDetails?.deliveryPrice}</td>
+                <td>{quotation?.costDetails?.deliveryPrice}</td>
               </tr>
               <tr>
                 <th>Distance From Kelowna</th>

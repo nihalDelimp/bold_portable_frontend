@@ -9,7 +9,7 @@ function ForgotPassword() {
     email: "",
   });
 
-  const [resetForm, setResetForm] = useState(false);
+  const [resetPassword, setResetPassword] = useState(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,7 +44,7 @@ function ForgotPassword() {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data.message);
-            setResetForm(true);
+            setResetPassword(true);
           } else {
             toast.error(response.data?.message);
           }
@@ -74,10 +74,9 @@ function ForgotPassword() {
           <div className="static--form active--from">
             <div className="static--form--wrapper">
               <div className="form--title">
-                <h2>Reset Form</h2>
+                <h2>{resetPassword ? 'Reset Password' : 'Forgot password ?'}</h2>
               </div>
-
-              {!resetForm && (
+              {!resetPassword && (
                 <form onSubmit={handleSubmit}>
                   <div className="form--group span--2">
                     <label htmlFor="name">
@@ -94,15 +93,15 @@ function ForgotPassword() {
                   </div>
                   <div className="form--action">
                     <button type="submit" className="submit--from btn">
-                      {loading ? "Loading.." : "Reset"}
+                      {loading ? "Loading.." : "Reset password"}
                     </button>
                   </div>
                 </form>
               )}
-              {resetForm && (
+              {resetPassword && (
                 <ResetPassword
                   userEmail = {userData.email}
-                  hideResetForm={(isReset) => setResetForm(isReset)}
+                  hideResetPassword={(isResetForm) => setResetPassword(isResetForm)}
                 />
               )}
             </div>

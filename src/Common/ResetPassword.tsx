@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 
 interface myComponentProps {
   userEmail: string;
-  hideResetForm: (isReset: boolean) => void;
+  hideResetPassword: (isReset: boolean) => void;
 }
 
 function ResetPassword(props: myComponentProps) {
-  const { userEmail, hideResetForm } = props;
+  const { userEmail, hideResetPassword } = props;
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState({
     email: userEmail,
@@ -61,7 +61,7 @@ function ResetPassword(props: myComponentProps) {
             if (element) {
               element.style.display = "none";
             }
-            hideResetForm(false);
+            hideResetPassword(false);
           } else {
             toast.error(response.data?.message);
           }
@@ -97,7 +97,7 @@ function ResetPassword(props: myComponentProps) {
             onChange={handleChange}
             type="email"
             name="email"
-            placeholder="Enter your Email"
+            placeholder="Email"
           />
         </div>
         <div className="form--group span--2">
@@ -129,7 +129,7 @@ function ResetPassword(props: myComponentProps) {
         </div>
         <div className="form--group span--2">
           <label htmlFor="name">
-            OTP <span className="required">*</span>
+            Confirm password <span className="required">*</span>
           </label>
           <input
             required
