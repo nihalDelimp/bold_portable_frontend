@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withoutAuthAxios } from "../config/config";
 import { toast } from "react-toastify";
 
@@ -16,6 +16,13 @@ function ResetPassword(props: myComponentProps) {
     password: "",
     confirm_password: "",
   });
+
+  useEffect(() => {
+    setUserData((prev) => ({
+      ...prev,
+      email: userEmail,
+    }));
+  }, [userEmail]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
