@@ -36,7 +36,7 @@ interface quotationType {
 interface coordinatorType {
   name: string;
   email: string;
-  cellNumber: number | string;
+  cellNumber: any;
 }
 
 const Construction: React.FC = () => {
@@ -213,14 +213,19 @@ const Construction: React.FC = () => {
       });
   };
 
-
   const handleNextPage = () => {
     if (formStep === 1) {
       const isValid = validateEmail(coordinator.email);
-      if (isValid) {
-        setFormStep((currentStep) => currentStep + 1);
-      } else {
+      let validUsername = /^[a-zA-Z]+$/;
+      let validPhone = /^\d{9,12}$/;
+      if (!validUsername.test(coordinator.name)) {
+        toast.error("Name should only contain letters");
+      } else if (!validPhone.test(coordinator.cellNumber)) {
+        toast.error("Phone number must be a 9 to 12 digit number");
+      } else if (!isValid) {
         toast.error("Invalid email address");
+      } else {
+        setFormStep((currentStep) => currentStep + 1);
       }
     } else {
       setFormStep((currentStep) => currentStep + 1);
@@ -248,6 +253,7 @@ const Construction: React.FC = () => {
                   <input
                     type="text"
                     required
+                    minLength={3}
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"

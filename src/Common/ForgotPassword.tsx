@@ -5,6 +5,7 @@ import ResetPassword from "./ResetPassword";
 import { RootState } from "../Redux/rootReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { setResetPassword } from "../Redux/Reducers/authSlice";
+import { trimObjValues } from "../Helper";
 
 function ForgotPassword() {
   const dispatch = useDispatch();
@@ -23,10 +24,10 @@ function ForgotPassword() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = userData;
+    const requestPayload = trimObjValues(userData)
     setLoading(true);
     await withoutAuthAxios()
-      .post("/auth/send-otp", payload)
+      .post("/auth/send-otp", requestPayload)
       .then(
         (response) => {
           setLoading(false);

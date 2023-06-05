@@ -26,7 +26,7 @@ interface eventType {
 interface coordinatorType {
   name: string;
   email: string;
-  cellNumber: number | string;
+  cellNumber: any;
 }
 
 interface vipSectionType {
@@ -124,6 +124,16 @@ function SpecialEvents() {
   });
 
   const handleChangeEventDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEventDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSelectEventDetails = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setEventDetails((prev) => ({
       ...prev,
@@ -275,10 +285,16 @@ function SpecialEvents() {
   const handleNextPage = () => {
     if (formStep === 1) {
       const isValid = validateEmail(coordinator.email);
-      if (isValid) {
-        setFormStep((currentStep) => currentStep + 1);
-      } else {
+      let validUsername = /^[a-zA-Z]+$/;
+      let validPhone = /^\d{9,12}$/;
+      if (!validUsername.test(coordinator.name)) {
+        toast.error("Name should only contain letters");
+      } else if (!validPhone.test(coordinator.cellNumber)) {
+        toast.error("Phone number must be a 9 to 12 digit number");
+      } else if (!isValid) {
         toast.error("Invalid email address");
+      } else {
+        setFormStep((currentStep) => currentStep + 1);
       }
     } else {
       setFormStep((currentStep) => currentStep + 1);
@@ -306,6 +322,7 @@ function SpecialEvents() {
                   <input
                     type="text"
                     required
+                    minLength={3}
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
@@ -366,19 +383,23 @@ function SpecialEvents() {
                     placeholder="Select event date"
                   />
                 </div>
+
                 <div className="form--group">
                   <label htmlFor="name">
                     Event Type <span className="required">*</span>
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={eventDetails.eventType}
-                    onChange={handleChangeEventDetails}
+                  <select
                     name="eventType"
-                    placeholder="Enter event type"
-                  />
+                    onChange={handleSelectEventDetails}
+                    value={eventDetails.eventType}
+                  >
+                    <option value="">Select Event Type</option>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Function">Function</option>
+                    <option value="Comedy">Comedy</option>
+                  </select>
                 </div>
+
                 <div className="form--group">
                   <label htmlFor="name">
                     Do you need designated workers ?

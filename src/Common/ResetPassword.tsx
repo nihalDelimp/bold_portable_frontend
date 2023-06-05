@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withoutAuthAxios } from "../config/config";
 import { toast } from "react-toastify";
+import { trimObjValues } from "../Helper";
 
 interface myComponentProps {
   userEmail: string;
@@ -34,16 +35,16 @@ function ResetPassword(props: myComponentProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const { password, confirm_password } = userData;
+    const requestPayload = trimObjValues(userData)
+    const { password, confirm_password } = requestPayload;
     if (password && password.length < 8) {
       toast.error("Password must be at least 8 characters");
     } else if (password !== confirm_password) {
       toast.error("Password did not match");
     } else {
-      const payload = userData;
       setLoading(true);
       await withoutAuthAxios()
-        .post("/auth/reset-password", payload)
+        .post("/auth/reset-password", requestPayload)
         .then(
           (response) => {
             setLoading(false);

@@ -15,44 +15,53 @@ function SignupPopupModal() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = user;
-    setLoading(true);
-    await withoutAuthAxios()
-      .post("/auth/register", payload)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            toast.success("Registration successfully");
-            setUser({
-              name: "",
-              email: "",
-              password: "",
-              mobile: "",
-              user_type: "USER",
-            });
-            // document
-            //   .querySelector(".custom--popup")
-            //   ?.classList.remove("active--popup");
-          } else {
-            toast.error(response.data?.message);
-          }
-        },
-        (error) => {
-          setLoading(false);
-          if (error.response.data.message) {
-            toast.error(error.response.data.message);
-          } else {
-            const obj = error.response.data.errors[0];
-            const errormsg = Object.values(obj) || [];
-            if (errormsg && errormsg.length > 0) {
-              toast.error(`${errormsg[0]}`);
+    let validUsername = /^[a-zA-Z]+$/;
+    let validPhone = /^\d{9,12}$/;
+    if (!validUsername.test(user.name)) {
+      toast.error("Name should only contain letters");
+    } else if (!validPhone.test(user.mobile)) {
+      toast.error("Phone number must be a 9 to 12 digit number");
+    }
+     else {
+      setLoading(true);
+      await withoutAuthAxios()
+        .post("/auth/register", payload)
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              toast.success("Registration successfully");
+              setUser({
+                name: "",
+                email: "",
+                password: "",
+                mobile: "",
+                user_type: "USER",
+              });
+              // document
+              //   .querySelector(".custom--popup")
+              //   ?.classList.remove("active--popup");
+            } else {
+              toast.error(response.data?.message);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            if (error.response.data.message) {
+              toast.error(error.response.data.message);
+            } else {
+              const obj = error.response.data.errors[0];
+              const errormsg = Object.values(obj) || [];
+              if (errormsg && errormsg.length > 0) {
+                toast.error(`${errormsg[0]}`);
+              }
             }
           }
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
+        )
+        .catch((error) => {
+          console.log("errorrrr", error);
+        });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

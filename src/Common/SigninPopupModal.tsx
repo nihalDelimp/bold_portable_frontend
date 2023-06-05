@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { withoutAuthAxios } from "../config/config";
 import ForgotPassword from "./ForgotPassword";
+import { trimObjValues } from "../Helper";
 
 function SigninPopupModal() {
   const [loading, setLoading] = useState(false);
@@ -56,11 +57,11 @@ function SigninPopupModal() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = userInput;
+    const requestPayload = trimObjValues(userInput)
 
     if (rememberMe) {
-      localStorage.setItem("rememberedEmail", payload.email);
-      localStorage.setItem("rememberedPassword", payload.password);
+      localStorage.setItem("rememberedEmail", requestPayload.email);
+      localStorage.setItem("rememberedPassword", requestPayload.password);
       localStorage.setItem("rememberMe", "true");
     } else {
       localStorage.removeItem("rememberedEmail");
@@ -70,7 +71,7 @@ function SigninPopupModal() {
 
     setLoading(true);
     await withoutAuthAxios()
-      .post("/auth/login", payload)
+      .post("/auth/login", requestPayload)
       .then(
         (response) => {
           setLoading(false);

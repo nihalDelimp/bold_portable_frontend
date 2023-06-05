@@ -74,6 +74,16 @@ export function validateEmail(email: string) {
   return emailRegex.test(email);
 }
 
+export function trimObjValues(obj: any) {
+  return Object.keys(obj).reduce((acc:any, curr:any) => {
+      acc[curr] = obj[curr]
+      if (typeof obj[curr] === 'string') {
+          acc[curr] = obj[curr].trim()
+      }
+      return acc;
+  }, {});
+}
+
 
 
 

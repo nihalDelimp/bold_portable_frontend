@@ -20,8 +20,7 @@ function PaymentSuccess(props: MyComponentProps) {
     const params = new URLSearchParams(window.location.search);
     const quotationId = params.get("quotationId");
     const quotationType = params.get("quotationType");
-    getProductDetailsData(quotationId)
-  
+    getProductDetailsData(quotationId);
   }, []);
 
   const getProductDetailsData = async (quotationId: any) => {
@@ -34,47 +33,7 @@ function PaymentSuccess(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data.quotation;
-            const costDetails = resData.costDetails;
-            const {
-              activelyCleaned,
-              alcoholServed,
-              deliveryPrice,
-              fencedOff,
-              handSanitizerPump,
-              handSanitizerPumpCost,
-              handWashing,
-              handWashingCost,
-              numberOfUnitsCost,
-              payPerUse,
-              pickUpPrice,
-              serviceFrequencyCost,
-              specialRequirementsCost,
-              twiceWeeklyServicing,
-              useAtNightCost,
-              useInWinterCost,
-              weeklyHoursCost,
-              workersCost,
-            } = costDetails;
-            const totalAmount =
-              activelyCleaned +
-              alcoholServed +
-              deliveryPrice +
-              fencedOff +
-              handSanitizerPump +
-              handSanitizerPumpCost +
-              handWashing +
-              handWashingCost +
-              numberOfUnitsCost +
-              payPerUse +
-              pickUpPrice +
-              serviceFrequencyCost +
-              specialRequirementsCost +
-              twiceWeeklyServicing +
-              useAtNightCost +
-              useInWinterCost +
-              weeklyHoursCost +
-              workersCost;
-            setTotalAmount(totalAmount);
+            setTotalAmount(resData?.costDetailsSum);
           }
         },
         (error) => {
@@ -102,12 +61,12 @@ function PaymentSuccess(props: MyComponentProps) {
                 <tr>
                   <th>Date:</th>
                   <td>
-                    {moment(currentDate).format("MMMM Do YYYY, hh:mm:ss A")}
+                    {moment(currentDate).format("Do MMMM YYYY, hh:mm:ss A")}
                   </td>
                 </tr>
                 <tr>
                   <th>Total:</th>
-                  <td>${totalAmount}</td>
+                  <td>${totalAmount+10}</td>
                 </tr>
                 <tr>
                   <th>Payment method:</th>

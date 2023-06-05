@@ -18,8 +18,9 @@ function PaymentDetails(props: MyComponentProps) {
   const [paymentDetail, setPaymentDetail] = useState<any>({});
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const [subscription, setSubscription] = useState<any>({});
+  const [costDetails, setCostDetails] = useState<any>({});
+  const [totalPaid, setTotalPaid] = useState(null);
 
-  console.log("Subscription Details", paymentDetail);
 
   useEffect(() => {
     getsubscriptionDetails();
@@ -36,6 +37,27 @@ function PaymentDetails(props: MyComponentProps) {
             const resData = response.data.data;
             setPaymentDetail(resData.payments[0].payment);
             setSubscription(resData.payments[0].subscription);
+            const costDetail = resData.payments[1].costDetails;
+            const totalPaid =
+              costDetail.activelyCleaned +
+              costDetail.alcoholServed +
+              costDetail.deliveryPrice +
+              costDetail.fencedOff +
+              costDetail.handSanitizerPump +
+              costDetail.handSanitizerPumpCost +
+              costDetail.handWashing +
+              costDetail.handWashingCost +
+              costDetail.numberOfUnitsCost +
+              costDetail.payPerUse +
+              costDetail.pickUpPrice +
+              costDetail.serviceFrequencyCost +
+              costDetail.specialRequirementsCost +
+              costDetail.twiceWeeklyServicing +
+              costDetail.useAtNightCost +
+              costDetail.useInWinterCost +
+              costDetail.workersCost;
+            setTotalPaid(totalPaid);
+            setCostDetails(costDetail);
           }
         },
         (error) => {
@@ -56,7 +78,7 @@ function PaymentDetails(props: MyComponentProps) {
   const endSubscriptionPayment = async () => {
     const payload = {
       subscriptionID: subscriptionID,
-      pickup_charge: 10,
+      pickup_charge: costDetails?.pickUpPrice,
       product_name: "potty box",
     };
     setLoading(true);
@@ -131,20 +153,12 @@ function PaymentDetails(props: MyComponentProps) {
                 <td>{getFormatedDate(subscription?.createdAt)}</td>
               </tr>
               <tr>
-                <th>Amount Due :</th>
-                <td>{paymentDetail?.amount_due}</td>
-              </tr>
-              <tr>
                 <th>Amount Paid :</th>
-                <td>{paymentDetail?.amount_paid}</td>
+                <td>{totalPaid}</td>
               </tr>
               <tr>
-                <th>Amount Remaining :</th>
-                <td>{paymentDetail?.amount_remaining}</td>
-              </tr>
-              <tr>
-                <th>Amount Shipping :</th>
-                <td>{paymentDetail?.amount_shipping}</td>
+                <th>Pick up Price :</th>
+                <td>{costDetails && costDetails?.pickUpPrice}</td>
               </tr>
             </tbody>
           </table>

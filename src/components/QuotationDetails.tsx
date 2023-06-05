@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
-import { CapitalizeFirstLetter } from "../Helper";
+
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -22,7 +20,6 @@ function QuotationDetails(props: MyComponentProps) {
     quotationType,
   } = props;
   const [quotation, setQuotation] = useState<any>(null);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
     if (quotationID) {
@@ -40,50 +37,7 @@ function QuotationDetails(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data.quotation;
-            const costDetails = resData.costDetails;
-            console.log("resDataForSubSSS>>costDetails", costDetails);
-            const {
-              activelyCleaned,
-              alcoholServed,
-              deliveryPrice,
-              fencedOff,
-              handSanitizerPump,
-              handSanitizerPumpCost,
-              handWashing,
-              handWashingCost,
-              numberOfUnitsCost,
-              payPerUse,
-              pickUpPrice,
-              serviceFrequencyCost,
-              specialRequirementsCost,
-              twiceWeeklyServicing,
-              useAtNightCost,
-              useInWinterCost,
-              weeklyHoursCost,
-              workersCost,
-            } = costDetails;
-
             setQuotation(resData);
-            const totalAmount =
-              activelyCleaned +
-              alcoholServed +
-              deliveryPrice +
-              fencedOff +
-              handSanitizerPump +
-              handSanitizerPumpCost +
-              handWashing +
-              handWashingCost +
-              numberOfUnitsCost +
-              payPerUse +
-              pickUpPrice +
-              serviceFrequencyCost +
-              specialRequirementsCost +
-              twiceWeeklyServicing +
-              useAtNightCost +
-              useInWinterCost +
-              weeklyHoursCost +
-              workersCost;
-            setTotalPrice(totalAmount);
           }
         },
         (error) => {
@@ -103,11 +57,11 @@ function QuotationDetails(props: MyComponentProps) {
 
   const CreateCheckoutSession = async () => {
     const payload = {
-      price: totalPrice,
+      price: quotation?.costDetailsSum,
       product_name: "Potty box1",
       product_description: "Big size potty box1",
       interval: "month",
-      shipping_amount: quotation?.costDetails?.pickUpPrice || 10,
+      shipping_amount: quotation?.costDetails?.pickUpPrice,
       quotationId: quotationID,
       quotationType: quotationType,
       success_url: `${window.location.origin}/payment-success`,
@@ -255,7 +209,7 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Total Amount</th>
-                <td>${totalPrice}</td>
+                <td>${quotation?.costDetailsSum}</td>
               </tr>
             </tbody>
           </table>
@@ -263,7 +217,7 @@ function QuotationDetails(props: MyComponentProps) {
         <div className="pt-3">
           <button
             onClick={subscriptionPayment}
-            disabled={isLoading || !quotation || !totalPrice}
+            disabled={isLoading || !quotation || !quotation?.costDetailsSum}
             className="btn btn-primary"
           >
             Pay Now
