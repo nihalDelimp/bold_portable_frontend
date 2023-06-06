@@ -68,7 +68,7 @@ const BestDescribe = () => {
                       data-aos="fade-up"
                       data-aos-duration="1000"
                     >
-                      <h2>best describes your needs?</h2>
+                      <h2>What do you Need?</h2>
                     </div>
                   </div>
                   <div className="describe-category--wrapper">
@@ -132,6 +132,28 @@ const BestDescribe = () => {
                     </div>
                     <div
                       className="describe--categorys--item"
+                      data-category="cat--4"
+                    >
+                      <h3>Orchad, Farm, Winery</h3>
+                      <p>
+                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
+                        dolor sit.
+                      </p>
+                      <a className="btn--arrow"></a>
+                    </div>
+                    <div
+                      className="describe--categorys--item"
+                      data-category="cat--5"
+                    >
+                      <h3>Individual Needs</h3>
+                      <p>
+                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
+                        dolor sit.
+                      </p>
+                      <a className="btn--arrow"></a>
+                    </div>
+                    <div
+                      className="describe--categorys--item"
                       data-category="cat--2"
                     >
                       <h3>Special Events</h3>
@@ -151,28 +173,6 @@ const BestDescribe = () => {
                         dolor sit.
                       </p>
                       <a className="btn--arrow "></a>
-                    </div>
-                    <div
-                      className="describe--categorys--item"
-                      data-category="cat--4"
-                    >
-                      <h3>Farm, Winery or Orchad</h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
-                        dolor sit.
-                      </p>
-                      <a className="btn--arrow"></a>
-                    </div>
-                    <div
-                      className="describe--categorys--item"
-                      data-category="cat--5"
-                    >
-                      <h3>Individual Needs</h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
-                        dolor sit.
-                      </p>
-                      <a className="btn--arrow"></a>
                     </div>
                   </div>
                 </div>

@@ -100,9 +100,6 @@ const Construction: React.FC = () => {
 
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Radiobutton Value Access", typeof value);
-    console.log("Radiobutton name Access", name);
-
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
@@ -216,7 +213,7 @@ const Construction: React.FC = () => {
   const handleNextPage = () => {
     if (formStep === 1) {
       const isValid = validateEmail(coordinator.email);
-      let validUsername = /^[a-zA-Z]+$/;
+      let validUsername = /^[A-Za-z\s]+$/;
       let validPhone = /^\d{9,12}$/;
       if (!validUsername.test(coordinator.name)) {
         toast.error("Name should only contain letters");
@@ -571,9 +568,10 @@ const Construction: React.FC = () => {
                   <button
                     onClick={handleSubmit}
                     type="button"
+                    disabled = {!quotation.placementAddress}
                     className="submit--from submit--from--action btn"
                   >
-                    {loading ? "Loading..." : "Submit"}
+                    {loading ? "Loading..." : "Book Now"}
                   </button>
                 </div>
               </form>

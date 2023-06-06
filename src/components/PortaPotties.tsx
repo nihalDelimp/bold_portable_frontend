@@ -23,7 +23,7 @@ const PortaPotties = () => {
                     <div className="grid--wrapper">
                         <div className="port--types--top">
                             <div className="bold--heading--wrapper" data-aos="fade-up" data-aos-duration="1000">
-                                <h2>Types of Porta Potties</h2>
+                                <h2>Types of Portable Toilets</h2>
                             </div>
                             <div className="port--types-category--wrapper">
                                 <div className="port--types--category--items" data-aos="fade-up" data-aos-duration="1000">
@@ -33,7 +33,7 @@ const PortaPotties = () => {
                                         </div>
                                         <div className="content--wrapper">
                                             <a href="#" className="btn--arrow"></a>
-                                            <p>Solar porta potties utilize
+                                            <p>Solar portable toilet utilize
                                                 solar-powered lighting to prevent the need for electricity.
                                             </p>
                                         </div>
@@ -91,15 +91,15 @@ const PortaPotties = () => {
                                 <div className="port--types--categorys--item" data-category="portcat--2">
                                     <h3>Standard With Sink</h3>
                                 </div>
-                                <div className="port--types--categorys--item active--item" data-category="portcat--3">
-                                    <h3>Flushing</h3>
-                                </div>
                                 <div className="port--types--categorys--item" data-category="portcat--4">
-                                    <h3>Wheelchair Accessible</h3>
+                                    <h3>Wheel Chair Accessible</h3>
                                 </div>
-                                <div className="port--types--categorys--item" data-category="portcat--5">
+                                <div className="port--types--categorys--item active--item" data-category="portcat--3">
+                                    <h3>High rise capable</h3>
+                                </div>
+                                {/* <div className="port--types--categorys--item" data-category="portcat--5">
                                     <h3>Restroom Trailer</h3>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ const Test = () => {
                     <div className="grid--wrapper">
                         <div className="port--types--top">
                             <div className="bold--heading--wrapper">
-                                <h2>Types of Porta Potties</h2>
+                                <h2>Types of Portable Toilets</h2>
                             </div>
                             <div className="port--types-category--wrapper">
                                 <div className="port--types--category--items">

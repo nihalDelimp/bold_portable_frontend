@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { withoutAuthAxios } from "../config/config";
 import { toast } from "react-toastify";
+import { trimObjValues } from "../Helper";
 
 function SignupPopupModal() {
   const [loading, setLoading] = useState(false);
@@ -14,12 +15,12 @@ function SignupPopupModal() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = user;
-    let validUsername = /^[a-zA-Z]+$/;
+    const payload = trimObjValues(user)
+    let validUsername = /^[A-Za-z\s]+$/;
     let validPhone = /^\d{9,12}$/;
-    if (!validUsername.test(user.name)) {
+    if (!validUsername.test(payload.name)) {
       toast.error("Name should only contain letters");
-    } else if (!validPhone.test(user.mobile)) {
+    } else if (!validPhone.test(payload.mobile)) {
       toast.error("Phone number must be a 9 to 12 digit number");
     }
      else {

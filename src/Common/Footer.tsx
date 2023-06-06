@@ -33,10 +33,10 @@ const Footer = () => {
                             <div className="social--list" data-aos="fade-up" data-aos-duration="1000">
                                 <ul>
                                     <li>
-                                        <a href="#">IG</a>
+                                        <a href="https://www.polyjohn.com" target='_blank'>PG</a>
                                     </li>
                                     <li>
-                                        <a href="#">FB</a>
+                                        <a href="https://www.psai.in/" target='_blank'>PSI</a>
                                     </li>
                                 </ul>
                             </div>

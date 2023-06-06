@@ -38,7 +38,7 @@ const HeroBanner = () => {
             <img src={require("../asstes/image/hero--banner.jpg")} alt="" />
           </div>
           <div className="item">
-            <img src={require("../asstes/image/hero--slider-2.png")} alt="" />
+            <img src={require("../asstes/image/hero--slider-2.jpg")} alt="" />
           </div>
           <div className="item">
             <img src={require("../asstes/image/hero--banner.jpg")} alt="" />
@@ -53,7 +53,7 @@ const HeroBanner = () => {
             data-aos-duration="1000"
           >
             <a href="#" className="btn btn--hero">
-              Request A Quote
+              Book Now
             </a>
           </div>
           <div
@@ -61,7 +61,7 @@ const HeroBanner = () => {
             data-aos="fade-up"
             data-aos-duration="1000"
           >
-            <p>Porta Potty Rentals & More From</p>
+            <p>Portable toilet</p>
           </div>
         </div>
         <div className="hero--marquee" data-aos="fade" data-aos-duration="1000">

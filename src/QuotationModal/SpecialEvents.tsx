@@ -57,6 +57,7 @@ interface quotationType {
   handSanitizerPump: boolean;
   twiceWeeklyService: boolean;
   dateTillUse: string;
+  placementAddress: string;
 }
 
 function SpecialEvents() {
@@ -111,6 +112,7 @@ function SpecialEvents() {
     handSanitizerPump: false,
     twiceWeeklyService: false,
     dateTillUse: "",
+    placementAddress: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -229,6 +231,7 @@ function SpecialEvents() {
       handSanitizerPump: false,
       twiceWeeklyService: false,
       dateTillUse: "",
+      placementAddress : ""
     });
     setEventDetails({
       eventName: "",
@@ -285,7 +288,7 @@ function SpecialEvents() {
   const handleNextPage = () => {
     if (formStep === 1) {
       const isValid = validateEmail(coordinator.email);
-      let validUsername = /^[a-zA-Z]+$/;
+      let validUsername = /^[A-Za-z\s]+$/;
       let validPhone = /^\d{9,12}$/;
       if (!validUsername.test(coordinator.name)) {
         toast.error("Name should only contain letters");
@@ -791,9 +794,10 @@ function SpecialEvents() {
                   <button
                     onClick={handleSubmit}
                     type="button"
+                    disabled={!quotation.placementAddress}
                     className="submit--from submit--from--action btn"
                   >
-                    {loading ? "Loading..." : "Submit"}
+                    {loading ? "Loading..." : "Book Now"}
                   </button>
                 </div>
               </form>

@@ -10,6 +10,7 @@ import PaymentDetails from "./PaymentDetails";
 import TrackQuotation from "./TrackQuotation";
 import ProfileSetting from "./ProfileSetting";
 import $ from "jquery";
+import { toast } from "react-toastify";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -102,6 +103,7 @@ function MyAccountNew(props: MyComponentProps) {
 
   const handleLogout = () => {
     dispatch(logout(false));
+    toast.success('Logged out successfully')
     navigate("/");
   };
 

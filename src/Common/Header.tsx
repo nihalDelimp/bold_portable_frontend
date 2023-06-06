@@ -8,6 +8,7 @@ import MyCart from "./MyCart";
 import SigninPopupModal from "./SigninPopupModal";
 import { firstChartByFullName } from "../Helper";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
@@ -21,7 +22,6 @@ const Header = () => {
   const location = useLocation();
   const pathName = location.pathname;
 
- 
   useEffect(() => {
     if (pathName !== "/") {
       document.querySelector("body")?.classList.add("other--template");
@@ -92,7 +92,8 @@ const Header = () => {
       }
       if (
         $(e.target).closest(".static--popup--wrapper").length === 0 &&
-        $(e.target).closest(".lost--password").length === 0 && $(e.target).closest(".reset--back").length === 0
+        $(e.target).closest(".lost--password").length === 0 &&
+        $(e.target).closest(".reset--back").length === 0
       ) {
         $(".static--popup").css("display", "none");
       }
@@ -153,6 +154,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout(false));
+    toast.success("Logged out successfully");
     navigate("/");
   };
 
@@ -163,7 +165,7 @@ const Header = () => {
           <div className="header--wrapper">
             <div className="site--logo">
               <a href="#">
-                <img src={require("../asstes/image/site--logo.png")} alt="" />
+                <img src={require("../asstes/image/site--logo.jpg")} alt="" />
               </a>
             </div>
             <div className="main--menu">
@@ -256,11 +258,12 @@ const Header = () => {
                       alt=""
                     />
                     <span>
-                      <b>
+                      {/* <b>
                         {accessToken
                           ? firstChartByFullName(user?.name)
                           : "Join Us"}{" "}
-                      </b>
+                      </b> */}
+                      <b>Customer portal</b>
                     </span>
                   </a>
                 </div>

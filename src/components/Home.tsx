@@ -27,7 +27,7 @@ const HomePage = () => {
       <Process />
       {/* <Products /> */}
       <Whyus />
-      <MaintenanceServices />
+      {/* <MaintenanceServices /> */}
       <Customers />
       <GoogleMaps />
       <Blog />

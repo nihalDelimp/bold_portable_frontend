@@ -45,25 +45,26 @@ const Customers = () => {
         <div className="customer--logo">
           {" "}
           <img
-            src={require("../asstes/image/customers/customer--icon--1.png")}
+            src={require("../asstes/image/customers/Custom-Vac.png")}
             alt=""
           />
         </div>
         <div className="customer--logo">
           {" "}
           <img
-            src={require("../asstes/image/customers/customer--icon--2.png")}
+            src={require("../asstes/image/customers/Poly-John.png")}
             alt=""
           />
         </div>
         <div className="customer--logo">
           {" "}
           <img
-            src={require("../asstes/image/customers/customer--icon--3.png")}
+            src={require("../asstes/image/customers/PSAI.png")}
             alt=""
           />
         </div>
-        <div className="customer--logo">
+
+        {/* <div className="customer--logo">
           {" "}
           <img
             src={require("../asstes/image/customers/customer--icon--4.png")}
@@ -104,7 +105,7 @@ const Customers = () => {
             src={require("../asstes/image/customers/customer--icon--8.png")}
             alt=""
           />
-        </div>
+        </div> */}
       </OwlCarousel>
     </section>
   );
