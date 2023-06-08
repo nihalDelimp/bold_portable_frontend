@@ -39,7 +39,7 @@ function ProfileSetting(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            const userFields = ["name", "email", "mobile"];
+            const userFields = ["name", "email", "mobile" , "address"];
             userFields.forEach((field) => {
               setUserData((prev) => ({
                 ...prev,
@@ -65,6 +65,7 @@ function ProfileSetting(props: MyComponentProps) {
     name: "",
     email: "",
     mobile: "",
+    address : "" ,
     new_password: "",
     confirm_password: "",
   });
@@ -139,7 +140,7 @@ function ProfileSetting(props: MyComponentProps) {
 
   const updateProfileData = async (event: React.FormEvent) => {
     event.preventDefault();
-    const { name, mobile, new_password, confirm_password } = userData;
+    const { name, mobile, address , new_password, confirm_password } = userData;
     if (new_password && new_password.length < 8) {
       toast.error("Password must be at least 8 characters");
     } else if (new_password !== confirm_password) {
@@ -148,6 +149,7 @@ function ProfileSetting(props: MyComponentProps) {
       const payload = {
         name: name,
         mobile: mobile,
+        address : address ,
         password: new_password,
       };
       setLoading(true);
@@ -268,6 +270,19 @@ function ProfileSetting(props: MyComponentProps) {
                     placeholder="Phone"
                     value={userData.mobile}
                     name="mobile"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form--group">
+                  <label htmlFor="">Address</label>
+                  <input
+                    required
+                    minLength={10}
+                    disabled={!isEditAble}
+                    type="text"
+                    placeholder="Address"
+                    value={userData.address}
+                    name="address"
                     onChange={handleChange}
                   />
                 </div>

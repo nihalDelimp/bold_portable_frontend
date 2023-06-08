@@ -10,6 +10,7 @@ function SignupPopupModal() {
     email: "",
     password: "",
     mobile: "",
+    address : "" ,
     user_type: "USER",
   });
 
@@ -37,6 +38,7 @@ function SignupPopupModal() {
                 email: "",
                 password: "",
                 mobile: "",
+                address : "" ,
                 user_type: "USER",
               });
               // document
@@ -117,6 +119,20 @@ function SignupPopupModal() {
                 onChange={handleChange}
                 type="number"
                 placeholder="Phone"
+              />
+            </div>
+            <div className="form--group">
+              <label htmlFor="address">
+              Address <span className="required">*</span>
+              </label>
+              <input
+                required
+                minLength={10}
+                type="text"
+                value={user.address}
+                name="address"
+                onChange={handleChange}
+                placeholder="Address"
               />
             </div>
             <div className="form--group">
