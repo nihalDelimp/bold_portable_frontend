@@ -147,7 +147,7 @@ function MyAccountNew(props: MyComponentProps) {
                         <span>Dashboard</span>
                       </a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a
                         onClick={() => setActiveSidebar("NOTIFICATIONS")}
                         className={
@@ -161,7 +161,7 @@ function MyAccountNew(props: MyComponentProps) {
                         />{" "}
                         <span>Notification</span>
                       </a>
-                    </li>
+                    </li> */}
                     <li>
                       <a
                         onClick={() => setActiveSidebar("MY_QUOTATIONS")}
@@ -304,7 +304,8 @@ function MyAccountNew(props: MyComponentProps) {
                         </tbody>
                       </table>
                     </div>
-                    <div className="dashboard--notification">
+
+                    {/* <div className="dashboard--notification">
                       <div className="notification--wrapper">
                         <div className="table--title">
                           <span>Notifications</span>{" "}
@@ -387,11 +388,12 @@ function MyAccountNew(props: MyComponentProps) {
                           alt=""
                         />
                       </div>
-                    </div>
+                    </div> */}
+
                   </div>
                 )}
 
-                {activeSidebar === "NOTIFICATIONS" && (
+                {/* {activeSidebar === "NOTIFICATIONS" && (
                   <div className="notification--content">
                     <div className="dashboard--content--title">
                       <h2>
@@ -678,7 +680,7 @@ function MyAccountNew(props: MyComponentProps) {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
 
                 {activeSidebar === "MY_QUOTATIONS" && (
                   <div className="quotations--content">

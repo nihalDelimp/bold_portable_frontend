@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 
-
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   isLoading: boolean;
@@ -215,13 +214,17 @@ function QuotationDetails(props: MyComponentProps) {
           </table>
         </div>
         <div className="pt-3">
-          <button
-            onClick={subscriptionPayment}
-            disabled={isLoading || !quotation || !quotation?.costDetailsSum}
-            className="btn btn-primary"
-          >
-            Pay Now
-          </button>
+          {quotation && quotation?.subscription ? (
+            <button className="btn btn-success">Subscribed</button>
+          ) : (
+            <button
+              onClick={subscriptionPayment}
+              disabled={isLoading || !quotation || !quotation?.costDetailsSum}
+              className="btn btn-primary"
+            >
+              Pay Now
+            </button>
+          )}
         </div>
       </div>
     </>

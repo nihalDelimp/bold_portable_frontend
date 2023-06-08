@@ -29,14 +29,11 @@ const Notifications = (props: any) => {
     if (socket.current) {
       socket.current.on("cancel_order_received", (order) => {
         getAllNotifications();
-        if (user._id === order.user) {
-        }
+        
       });
       socket.current.on("update_quote_received", (quotation) => {
-        toast.success('Admin has updated your quotation on as per your request')
+        console.log("update_quote_received" ,quotation)
         getAllNotifications();
-        if (user._id === quotation.user) {
-        }
       });
     }
     return () => {
@@ -46,7 +43,7 @@ const Notifications = (props: any) => {
 
   const getAllNotifications = async () => {
     await authAxios()
-      .get("/notification/get-cancel-order-notfications")
+      .get("/notification/get-specific-user-notfications")
       .then(
         (response) => {
           setLoading(false);
@@ -137,7 +134,7 @@ const Notifications = (props: any) => {
                     </span>
                     <div className="notification--content">
                       <span>
-                        Admin has cancelled your {item.order.products.length}{" "}
+                        Admin has updated your order{" "}
                         order
                       </span>
                     </div>
