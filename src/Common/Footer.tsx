@@ -74,8 +74,29 @@ const Footer = (props: MyComponentProps) => {
                   <li data-aos="fade-up" data-aos-duration="1000">
                     <a href="mailto:bold@example.com">Bold@example.com</a>
                   </li>
-                  <li  data-aos="fade-up" data-aos-duration="1000">
-                  {base64QRCode && <QRCode size={200} value={base64QRCode} />}
+                  <li data-aos="fade-up" data-aos-duration="1000">
+                    <div
+                      style={{
+                        height: "auto",
+                        margin: "0 auto",
+                        maxWidth: 300,
+                        width: "100%",
+                        background: 'white', padding: '10px'
+                      }}
+                    >
+                      {base64QRCode && (
+                        <QRCode
+                          size={200}
+                          style={{
+                            height: "auto",
+                            maxWidth: "100%",
+                            width: "100%",
+                          }}
+                          value={base64QRCode}
+                          viewBox={`0 0 256 256`}
+                        />
+                      )}
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -90,7 +111,7 @@ const Footer = (props: MyComponentProps) => {
                     alt=""
                   />
                 </div>
-               
+
                 <div
                   className="social--list"
                   data-aos="fade-up"
