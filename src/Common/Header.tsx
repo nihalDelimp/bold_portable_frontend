@@ -33,31 +33,6 @@ const Header = () => {
   }, [pathName]);
 
   useEffect(() => {
-    // $(".nav--menu .menu--item").on("click", function(){
-    //   $(".hamburger").removeClass("active--hamburger");
-    //   $(".nav--menu--wrapper").removeClass("active--nav");
-    // });
-
-    var menu_ancor = document.querySelectorAll(".nav--menu .menu--item");
-
-    menu_ancor.forEach(function (item) {
-      item.addEventListener("click", function () {
-        document
-          .querySelector(".hamburger")
-          ?.classList.remove("active--hamburger");
-        document
-          .querySelector(".nav--menu--wrapper")
-          ?.classList.remove("active--nav");
-      });
-    });
-
-    $(".hamburger").on("click", function () {
-      $(this).toggleClass("active--hamburger");
-      $(".nav--menu--wrapper").toggleClass("active--nav");
-    });
-  }, []);
-
-  useEffect(() => {
     // Login Dropdown
     $(".login--btn").click(function () {
       $(".user--dropdown").toggleClass("active--dropdown");
@@ -164,9 +139,9 @@ const Header = () => {
         <div className="header--container">
           <div className="header--wrapper">
             <div className="site--logo">
-              <a href="#">
+              <Link to="/">
                 <img src={require("../asstes/image/site--logo.jpg")} alt="" />
-              </a>
+              </Link>
             </div>
             <div className="main--menu">
               <div
@@ -185,19 +160,31 @@ const Header = () => {
                 <nav className="nav--menu--layout">
                   <ul className="nav--menu">
                     <li className="nav--menu--item">
-                      <Link to="/" className="menu--item">
+                      <Link
+                        to="/"
+                        onClick={() => setIsToggle(!isToggleMenu)}
+                        className="menu--item"
+                      >
                         Home
                       </Link>
                     </li>
                     <li className="nav--menu--item">
-                      <a href="#" className="menu--item">
+                      <Link
+                        onClick={() => setIsToggle(!isToggleMenu)}
+                        to="/services"
+                        className="menu--item"
+                      >
                         Services
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav--menu--item">
-                      <a href="#" className="menu--item">
+                      <Link
+                        to="/about-us"
+                        onClick={() => setIsToggle(!isToggleMenu)}
+                        className="menu--item"
+                      >
                         About
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav--menu--item">
                       <a href="#" className="menu--item">
