@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "./IsLoadingHOC";
 // import { QRCode } from "react-qr-svg";
 import QRCode from "react-qr-code";
+import { Link } from "react-router-dom";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -81,7 +82,8 @@ const Footer = (props: MyComponentProps) => {
                         margin: "0 auto",
                         maxWidth: 300,
                         width: "100%",
-                        background: 'white', padding: '10px'
+                        background: "white",
+                        padding: "10px",
                       }}
                     >
                       {base64QRCode && (
@@ -119,9 +121,9 @@ const Footer = (props: MyComponentProps) => {
                 >
                   <ul>
                     <li>
-                      <a href="https://www.polyjohn.com" target="_blank">
-                        PG
-                      </a>
+                      <Link to="https://www.polyjohn.com" target="_blank">
+                        <img src="https://www.polyjohn.com/static/version1684318870/frontend/Ecom/polyjohn/en_US/images/logo.svg" alt="polyjohn" />
+                      </Link>
                     </li>
                     <li>
                       <a href="https://www.psai.in/" target="_blank">

@@ -6,12 +6,11 @@ import PageNoteFound from "../components/PageNoteFound";
 import CartView from "../components/ViewCart";
 import Checkout from "../components/Checkout";
 import Quotations from "../components/MyQuotations";
-import MyAccount from "../components/MyAccountNew";
-import PaymentDetails from "../components/PaymentDetails";
+import MyAccount from "../components/MyAccount";
 import PaymentSuccess from "../components/PaymentSuccess";
 import PaymentCancel from "../components/PaymentCancel";
 import AboutUsMenu from "../components/AboutUsMenu";
-
+import Services from "../components/Services";
 
 function RootRouter() {
   return (
@@ -24,10 +23,10 @@ function RootRouter() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/quotations" element={<Quotations />} />
           <Route path="/my-account" element={<MyAccount />} />
-          <Route path="/payment-success" element={<PaymentSuccess/>} />
-          <Route path="/payment-cancel" element={<PaymentCancel/>} />
-          <Route path="/about-us" element={<AboutUsMenu/>} />
-          <Route path="/subscription-payment-details/:id" element={<PaymentDetails />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-cancel" element={<PaymentCancel />} />
+          <Route path="/about-us" element={<AboutUsMenu />} />
+          <Route path="/services" element={<Services />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>
         <Footer />

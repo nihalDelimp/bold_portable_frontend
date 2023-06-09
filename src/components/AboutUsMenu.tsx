@@ -7,8 +7,7 @@ function AboutUsMenu() {
         <div className="banner--thumbnuil">
           <img
             src={require("../asstes/image/about--banner.jpg")}
-            alt="About Us"
-            loading="lazy"
+            alt="AboutUs"
           />
         </div>
         <div className="banner--heading">
@@ -44,8 +43,7 @@ function AboutUsMenu() {
                 <div className="about--banner">
                   <img
                     src={require("../asstes/image/about--port.jpg")}
-                    alt=" About Us"
-                    loading="lazy"
+                    alt=" Aboutport"
                   />
                 </div>
               </div>
@@ -84,7 +82,7 @@ function AboutUsMenu() {
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Efficiency.png")}
-                          alt=""
+                          alt="Efficiency"
                         />
                       </div>
                       <div className="we--commited--text">
@@ -103,7 +101,7 @@ function AboutUsMenu() {
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Simplicity.png")}
-                          alt=""
+                          alt="Simplicity"
                         />
                       </div>
                       <div className="we--commited--text">
@@ -122,7 +120,7 @@ function AboutUsMenu() {
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Technology.png")}
-                          alt=""
+                          alt="Technology"
                         />
                       </div>
                       <div className="we--commited--text">
