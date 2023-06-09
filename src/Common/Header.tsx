@@ -258,12 +258,11 @@ const Header = () => {
                       alt=""
                     />
                     <span>
-                      {/* <b>
+                      <b>
                         {accessToken
                           ? firstChartByFullName(user?.name)
-                          : "Join Us"}{" "}
-                      </b> */}
-                      <b>Customer portal</b>
+                          : "Customer portal"}{" "}
+                      </b>
                     </span>
                   </a>
                 </div>

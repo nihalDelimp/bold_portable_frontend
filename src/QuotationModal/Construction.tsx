@@ -4,7 +4,16 @@ import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint, originAddress } from "../Helper/constants";
-import { validateEmail } from "../Helper";
+import { trimObjValues, validateEmail } from "../Helper";
+import {
+  maxFemaleWorkers,
+  maxTotalWorkers,
+  maxUserNameLength,
+  maxUserPhoneLength,
+  maxWeeklyHours,
+  minUserNameLength,
+  minUserPhoneLength,
+} from "../Constants";
 
 interface latlngPoint {
   lat: number;
@@ -212,12 +221,15 @@ const Construction: React.FC = () => {
 
   const handleNextPage = () => {
     if (formStep === 1) {
-      const isValid = validateEmail(coordinator.email);
+      const payload = trimObjValues(coordinator);
+      const isValid = validateEmail(payload.email);
       let validUsername = /^[A-Za-z\s]+$/;
       let validPhone = /^\d{9,12}$/;
-      if (!validUsername.test(coordinator.name)) {
+      if (payload.name.length < 5) {
+        toast.error("Name must be at least 5 characters long");
+      } else if (!validUsername.test(payload.name)) {
         toast.error("Name should only contain letters");
-      } else if (!validPhone.test(coordinator.cellNumber)) {
+      } else if (!validPhone.test(payload.cellNumber)) {
         toast.error("Phone number must be a 9 to 12 digit number");
       } else if (!isValid) {
         toast.error("Invalid email address");
@@ -250,7 +262,8 @@ const Construction: React.FC = () => {
                   <input
                     type="text"
                     required
-                    minLength={3}
+                    minLength={minUserNameLength}
+                    maxLength={maxUserNameLength}
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
@@ -277,6 +290,8 @@ const Construction: React.FC = () => {
                   <input
                     type="number"
                     min={0}
+                    minLength={minUserPhoneLength}
+                    maxLength={maxUserPhoneLength}
                     required
                     value={coordinator.cellNumber}
                     onChange={handleChangeCoordinator}
@@ -324,7 +339,6 @@ const Construction: React.FC = () => {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Do you need designated workers ?
@@ -363,6 +377,7 @@ const Construction: React.FC = () => {
                     <input
                       type="number"
                       min={0}
+                      max={maxFemaleWorkers}
                       required
                       value={quotation.femaleWorkers}
                       onChange={handleChangeQuotation}
@@ -398,6 +413,7 @@ const Construction: React.FC = () => {
                   <input
                     type="number"
                     min={0}
+                    max={maxTotalWorkers}
                     required
                     value={quotation.maxWorkers}
                     onChange={handleChangeQuotation}
@@ -412,6 +428,7 @@ const Construction: React.FC = () => {
                   <input
                     type="number"
                     min={0}
+                    max={maxWeeklyHours}
                     required
                     value={quotation.weeklyHours}
                     onChange={handleChangeQuotation}
@@ -432,7 +449,6 @@ const Construction: React.FC = () => {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Date till use <span className="required">*</span>
@@ -568,7 +584,7 @@ const Construction: React.FC = () => {
                   <button
                     onClick={handleSubmit}
                     type="button"
-                    disabled = {!quotation.placementAddress}
+                    disabled={!quotation.placementAddress}
                     className="submit--from submit--from--action btn"
                   >
                     {loading ? "Loading..." : "Book Now"}

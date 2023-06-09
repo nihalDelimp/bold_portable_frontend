@@ -2,6 +2,18 @@ import React, { useState } from "react";
 import { withoutAuthAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { trimObjValues } from "../Helper";
+import {
+  maxUserAddressLength,
+  maxUserEmailLength,
+  maxUserNameLength,
+  maxUserPasswordLength,
+  maxUserPhoneLength,
+  minUserAddressLength,
+  minUserEmailLength,
+  minUserNameLength,
+  minUserPasswordLength,
+  minUserPhoneLength,
+} from "../Constants";
 
 function SignupPopupModal() {
   const [loading, setLoading] = useState(false);
@@ -10,21 +22,20 @@ function SignupPopupModal() {
     email: "",
     password: "",
     mobile: "",
-    address : "" ,
+    address: "",
     user_type: "USER",
   });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = trimObjValues(user)
+    const payload = trimObjValues(user);
     let validUsername = /^[A-Za-z\s]+$/;
     let validPhone = /^\d{9,12}$/;
     if (!validUsername.test(payload.name)) {
       toast.error("Name should only contain letters");
     } else if (!validPhone.test(payload.mobile)) {
       toast.error("Phone number must be a 9 to 12 digit number");
-    }
-     else {
+    } else {
       setLoading(true);
       await withoutAuthAxios()
         .post("/auth/register", payload)
@@ -38,7 +49,7 @@ function SignupPopupModal() {
                 email: "",
                 password: "",
                 mobile: "",
-                address : "" ,
+                address: "",
                 user_type: "USER",
               });
               // document
@@ -86,7 +97,8 @@ function SignupPopupModal() {
               </label>
               <input
                 required
-                minLength={5}
+                minLength={minUserNameLength}
+                maxLength={maxUserNameLength}
                 value={user.name}
                 onChange={handleChange}
                 type="text"
@@ -100,6 +112,8 @@ function SignupPopupModal() {
               </label>
               <input
                 required
+                minLength={minUserEmailLength}
+                maxLength={maxUserEmailLength}
                 value={user.email}
                 onChange={handleChange}
                 type="email"
@@ -113,7 +127,8 @@ function SignupPopupModal() {
               </label>
               <input
                 required
-                minLength={6}
+                minLength={minUserPhoneLength}
+                maxLength={maxUserPhoneLength}
                 value={user.mobile}
                 name="mobile"
                 onChange={handleChange}
@@ -123,11 +138,12 @@ function SignupPopupModal() {
             </div>
             <div className="form--group">
               <label htmlFor="address">
-              Address <span className="required">*</span>
+                Address <span className="required">*</span>
               </label>
               <input
                 required
-                minLength={10}
+                minLength={minUserAddressLength}
+                maxLength={maxUserAddressLength}
                 type="text"
                 value={user.address}
                 name="address"
@@ -141,7 +157,8 @@ function SignupPopupModal() {
               </label>
               <input
                 required
-                minLength={8}
+                minLength={minUserPasswordLength}
+                maxLength={maxUserPasswordLength}
                 type="password"
                 value={user.password}
                 name="password"

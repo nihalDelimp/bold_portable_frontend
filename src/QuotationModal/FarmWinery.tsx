@@ -6,7 +6,7 @@ import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint, originAddress } from "../Helper/constants";
-import { validateEmail } from "../Helper";
+import { trimObjValues, validateEmail } from "../Helper";
 
 interface latlngPoint {
   lat: number;
@@ -219,12 +219,15 @@ const FarmWinery: React.FC = () => {
 
   const handleNextPage = () => {
     if (formStep === 1) {
-      const isValid = validateEmail(coordinator.email);
+      const payload = trimObjValues(coordinator);
+      const isValid = validateEmail(payload.email);
       let validUsername = /^[A-Za-z\s]+$/;
       let validPhone = /^\d{9,12}$/;
-      if (!validUsername.test(coordinator.name)) {
+      if (payload.name.length < 5) {
+        toast.error("Name must be at least 5 characters long");
+      } else if (!validUsername.test(payload.name)) {
         toast.error("Name should only contain letters");
-      } else if (!validPhone.test(coordinator.cellNumber)) {
+      } else if (!validPhone.test(payload.cellNumber)) {
         toast.error("Phone number must be a 9 to 12 digit number");
       } else if (!isValid) {
         toast.error("Invalid email address");

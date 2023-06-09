@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { authAxios } from "../config/config";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { toast } from "react-toastify";
-import { logout } from "../Redux/Reducers/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
-import { CapitalizeFirstLetter, setFormatDate } from "../Helper";
+import { trimObjValues } from "../Helper";
 import {
   acceptedFileTypes,
   acceptedFileTypesArray,
   imageMaxSize,
 } from "../Helper/constants";
+import {
+  maxUserAddressLength,
+  maxUserEmailLength,
+  maxUserNameLength,
+  maxUserPasswordLength,
+  maxUserPhoneLength,
+  minUserAddressLength,
+  minUserEmailLength,
+  minUserNameLength,
+  minUserPasswordLength,
+  minUserPhoneLength,
+} from "../Constants";
+import { setuser } from "../Redux/Reducers/authSlice";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -19,11 +29,11 @@ interface MyComponentProps {
 }
 
 function ProfileSetting(props: MyComponentProps) {
+  const dispatch = useDispatch();
   const { setLoading, isLoading } = props;
   const [isEditAble, setEditAble] = useState<boolean>(false);
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   const [currentImage, setCurrentImage] = useState("");
-  const [selectedImage, setSelectedImage] = useState<File>();
   const [prevImage, setPrevImage] = useState("");
 
   useEffect(() => {
@@ -39,7 +49,7 @@ function ProfileSetting(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            const userFields = ["name", "email", "mobile" , "address"];
+            const userFields = ["name", "email", "mobile", "address"];
             userFields.forEach((field) => {
               setUserData((prev) => ({
                 ...prev,
@@ -65,7 +75,7 @@ function ProfileSetting(props: MyComponentProps) {
     name: "",
     email: "",
     mobile: "",
-    address : "" ,
+    address: "",
     new_password: "",
     confirm_password: "",
   });
@@ -140,8 +150,15 @@ function ProfileSetting(props: MyComponentProps) {
 
   const updateProfileData = async (event: React.FormEvent) => {
     event.preventDefault();
-    const { name, mobile, address , new_password, confirm_password } = userData;
-    if (new_password && new_password.length < 8) {
+    let payloadData = trimObjValues(userData);
+    let { name, mobile, address, new_password, confirm_password } = payloadData;
+    let validUsername = /^[A-Za-z\s]+$/;
+    let validPhone = /^\d{9,12}$/;
+    if (!validUsername.test(name)) {
+      toast.error("Name should only contain letters");
+    } else if (!validPhone.test(mobile)) {
+      toast.error("Phone number must be a 9 to 12 digit number");
+    } else if (new_password && new_password.length < 8) {
       toast.error("Password must be at least 8 characters");
     } else if (new_password !== confirm_password) {
       toast.error("Password did not match");
@@ -149,7 +166,7 @@ function ProfileSetting(props: MyComponentProps) {
       const payload = {
         name: name,
         mobile: mobile,
-        address : address ,
+        address: address,
         password: new_password,
       };
       setLoading(true);
@@ -160,6 +177,7 @@ function ProfileSetting(props: MyComponentProps) {
             setLoading(false);
             if (response.data.status === 1) {
               toast.success("Profile updated successfully");
+              dispatch(setuser(response.data.data));
               setUserData((prev) => ({
                 ...prev,
                 new_password: "",
@@ -221,7 +239,6 @@ function ProfileSetting(props: MyComponentProps) {
             <div className="change--profile--link">
               <a href="#">
                 <input
-                  disabled={!isEditAble}
                   className="form-control"
                   onChange={handleChangeImage}
                   accept={acceptedFileTypes}
@@ -238,7 +255,8 @@ function ProfileSetting(props: MyComponentProps) {
                   <label htmlFor="">Name</label>
                   <input
                     required
-                    minLength={5}
+                    minLength={minUserNameLength}
+                    maxLength={maxUserNameLength}
                     disabled={!isEditAble}
                     type="text"
                     placeholder="Name"
@@ -252,6 +270,8 @@ function ProfileSetting(props: MyComponentProps) {
                   <input
                     required
                     disabled
+                    minLength={minUserEmailLength}
+                    maxLength={maxUserEmailLength}
                     type="email"
                     placeholder="Email"
                     value={userData.email}
@@ -264,7 +284,8 @@ function ProfileSetting(props: MyComponentProps) {
                   <input
                     required
                     min={0}
-                    minLength={5}
+                    minLength={minUserPhoneLength}
+                    maxLength={maxUserPhoneLength}
                     disabled={!isEditAble}
                     type="number"
                     placeholder="Phone"
@@ -277,7 +298,8 @@ function ProfileSetting(props: MyComponentProps) {
                   <label htmlFor="">Address</label>
                   <input
                     required
-                    minLength={10}
+                    minLength={minUserAddressLength}
+                    maxLength={maxUserAddressLength}
                     disabled={!isEditAble}
                     type="text"
                     placeholder="Address"
@@ -294,7 +316,8 @@ function ProfileSetting(props: MyComponentProps) {
                   <input
                     disabled={!isEditAble}
                     type="password"
-                    minLength={8}
+                    minLength={minUserPasswordLength}
+                    maxLength={maxUserPasswordLength}
                     placeholder="Password"
                     value={userData.new_password}
                     name="new_password"
@@ -306,7 +329,8 @@ function ProfileSetting(props: MyComponentProps) {
                   <input
                     disabled={!isEditAble}
                     type="password"
-                    minLength={8}
+                    minLength={minUserPasswordLength}
+                    maxLength={maxUserPasswordLength}
                     placeholder="Confirm Password"
                     value={userData.confirm_password}
                     name="confirm_password"
@@ -314,7 +338,7 @@ function ProfileSetting(props: MyComponentProps) {
                   />
                 </div>
                 <div className="form--group action--from span--2">
-                  <button disabled={!isEditAble} className="btn">
+                  <button disabled={!isEditAble || isLoading} className="btn">
                     Save Changes
                   </button>
                 </div>
