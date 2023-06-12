@@ -107,6 +107,17 @@ const Construction: React.FC = () => {
     }));
   };
 
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
+    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+      setCoordinator((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
+      }));
+    }
+  };
+
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setQuotation((prev) => ({
@@ -224,13 +235,12 @@ const Construction: React.FC = () => {
       const payload = trimObjValues(coordinator);
       const isValid = validateEmail(payload.email);
       let validUsername = /^[A-Za-z\s]+$/;
-      let validPhone = /^\d{9,12}$/;
       if (payload.name.length < 5) {
         toast.error("Name must be at least 5 characters long");
       } else if (!validUsername.test(payload.name)) {
         toast.error("Name should only contain letters");
-      } else if (!validPhone.test(payload.cellNumber)) {
-        toast.error("Phone number must be a 9 to 12 digit number");
+      } else if (payload.cellNumber.length < 9) {
+        toast.error("Phone number must be at least 9 digit");
       } else if (!isValid) {
         toast.error("Invalid email address");
       } else {
@@ -288,13 +298,13 @@ const Construction: React.FC = () => {
                     Coordinator Cell number <span className="required">*</span>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     min={0}
                     minLength={minUserPhoneLength}
                     maxLength={maxUserPhoneLength}
                     required
                     value={coordinator.cellNumber}
-                    onChange={handleChangeCoordinator}
+                    onChange={handleChangePhone}
                     name="cellNumber"
                     placeholder="Enter phone"
                   />

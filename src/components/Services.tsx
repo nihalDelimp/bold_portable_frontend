@@ -14,7 +14,7 @@ function Services() {
         <h1>Our Services</h1>
       </div>
     </section>
-    <section className="about--portable">
+    {/* <section className="about--portable">
       <div className="grid--container">
         <div className="grid">
           <div className="grid----">
@@ -50,8 +50,8 @@ function Services() {
           </div>
         </div>
       </div>
-    </section>
-    <section className="we--committed">
+    </section> */}
+    {/* <section className="we--committed">
       <div className="grid--container">
         <div className="grid">
           <div className="grid--">
@@ -139,7 +139,7 @@ function Services() {
           </div>
         </div>
       </div>
-    </section>
+    </section> */}
   </>
   )
 }

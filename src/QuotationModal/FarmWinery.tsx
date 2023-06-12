@@ -1,5 +1,3 @@
-
-
 import React, { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
@@ -102,6 +100,17 @@ const FarmWinery: React.FC = () => {
     }));
   };
 
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
+    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+      setCoordinator((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
+      }));
+    }
+  };
+
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log("Radiobutton Value Access", typeof value);
@@ -116,7 +125,7 @@ const FarmWinery: React.FC = () => {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "workerTypes" || name === "useType" ) {
+    if (name === "workerTypes" || name === "useType") {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
@@ -154,25 +163,25 @@ const FarmWinery: React.FC = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
       maxWorkers: 10,
-    weeklyHours: 400,
-    placementDate: "",
-    restrictedAccess: false,
-    serviceCharge: 0,
-    distanceFromKelowna: 0,
-    deliveredPrice: 0,
-    useAtNight: false,
-    useInWinter: false,
-    special_requirements: "",
-    placementAddress: "",
-    femaleWorkers: 0,
-    femaleToilet: false,
-    designatedWorkers: false,
-    workerTypes: "male",
-    handwashing: false,
-    handSanitizerPump: false,
-    twiceWeeklyService: false,
-    dateTillUse: "",
-    useType: "",
+      weeklyHours: 400,
+      placementDate: "",
+      restrictedAccess: false,
+      serviceCharge: 0,
+      distanceFromKelowna: 0,
+      deliveredPrice: 0,
+      useAtNight: false,
+      useInWinter: false,
+      special_requirements: "",
+      placementAddress: "",
+      femaleWorkers: 0,
+      femaleToilet: false,
+      designatedWorkers: false,
+      workerTypes: "male",
+      handwashing: false,
+      handSanitizerPump: false,
+      twiceWeeklyService: false,
+      dateTillUse: "",
+      useType: "",
     });
     setFormStep(1);
   };
@@ -222,13 +231,12 @@ const FarmWinery: React.FC = () => {
       const payload = trimObjValues(coordinator);
       const isValid = validateEmail(payload.email);
       let validUsername = /^[A-Za-z\s]+$/;
-      let validPhone = /^\d{9,12}$/;
       if (payload.name.length < 5) {
         toast.error("Name must be at least 5 characters long");
       } else if (!validUsername.test(payload.name)) {
         toast.error("Name should only contain letters");
-      } else if (!validPhone.test(payload.cellNumber)) {
-        toast.error("Phone number must be a 9 to 12 digit number");
+      } else if (payload.cellNumber.length < 9) {
+        toast.error("Phone number must be at least 9 digit");
       } else if (!isValid) {
         toast.error("Invalid email address");
       } else {
@@ -250,8 +258,7 @@ const FarmWinery: React.FC = () => {
           <div className="form--title">
             <h3>Create Quotation for Farm, Winery or Orchad</h3>
           </div>
-          <form
-          >
+          <form>
             {formStep === 1 && (
               <React.Fragment>
                 <div className="form--group">
@@ -286,11 +293,11 @@ const FarmWinery: React.FC = () => {
                     Coordinator Cell number <span className="required">*</span>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     min={0}
                     required
                     value={coordinator.cellNumber}
-                    onChange={handleChangeCoordinator}
+                    onChange={handleChangePhone}
                     name="cellNumber"
                     placeholder="Enter phone"
                   />
@@ -337,7 +344,8 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Do you need designated workers ?<span className="required"></span>
+                    Do you need designated workers ?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="designatedWorkers"
@@ -366,7 +374,8 @@ const FarmWinery: React.FC = () => {
                 {quotation.workerTypes === "female" && (
                   <div className="form--group">
                     <label htmlFor="name">
-                    How many female worker need ?<span className="required"></span>
+                      How many female worker need ?
+                      <span className="required"></span>
                     </label>
                     <input
                       type="number"
@@ -589,7 +598,7 @@ const FarmWinery: React.FC = () => {
                   <button
                     onClick={handleSubmit}
                     type="button"
-                    disabled = {!quotation.placementAddress}
+                    disabled={!quotation.placementAddress}
                     className="submit--from submit--from--action btn"
                   >
                     {loading ? "Loading..." : "Book Now"}
@@ -598,7 +607,6 @@ const FarmWinery: React.FC = () => {
               </form>
             </div>
           )}
-
         </div>
       </div>
     </React.Fragment>
