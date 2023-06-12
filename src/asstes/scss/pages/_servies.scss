@@ -1,0 +1,90 @@
+
+.servies--portable {
+    padding: clamp(40px, 6vw, 100px) 0;
+    .about--portable--wrapper {
+        display: flex;
+        gap: clamp(25px, 4vw,75px);
+        align-items: center;
+        .about--portable--data {
+            width: 100%;
+            @media (max-width:767px) {
+                width: 100%;
+            }
+            h2 {    
+                margin-top: 40px;
+                @media (max-width:767px) {
+                    margin-top: 0px;
+                }
+            }
+            .highlight--text {
+                font-size: clamp(18px, 1.3vw, 24px);
+                color: $black;
+                line-height: 1.6;
+                margin-bottom: 30px;
+                text-align: justify;
+            }
+            p {
+                text-align: justify;
+            }
+        }
+        
+    }
+}
+
+.services--tabs {
+    padding-bottom: clamp(40px, 6vw, 100px);
+    .servies--list--tab {
+        ul {
+            display: flex;
+            flex-flow: column;
+            gap: 15px;
+            li {
+                a {
+                    border: 1px solid lighten($black, 0%);
+                    border-radius: 5px;
+                   @include flex();
+                    min-height: 60px;
+                    font-size: clamp(16px, 1.1vw, 18px);
+                    transition: $transition;
+                    &:hover, &.active {
+                        background-color: $blue;
+                        border: 1px solid lighten($blue, 0%);
+                    }
+                }
+            }
+        }
+    }
+    .servies--list--content {
+        background-color: $blue;
+        padding: clamp(20px, 2.5vw, 45px);
+        border-radius: 5px;
+        .services--list--content--item {
+            p {
+                color: $black;
+            }
+            ul {
+                display: flex;
+                flex-flow: column;
+                gap: 15px;
+                max-width: 200px;
+                @media (max-width:767px) {
+                    max-width: 100%;
+                 }
+                li {
+                    a {
+                        border: 1px solid lighten($white, 0%);
+                        border-radius: 5px;
+                       @include flex();
+                        min-height: 50px;
+                        font-size: clamp(16px, 1.1vw, 18px);
+                        transition: $transition;
+                        &:hover {
+                            background-color: $white;
+                            border: 1px solid lighten($white, 0%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

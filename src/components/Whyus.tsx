@@ -5,8 +5,13 @@ const Whyus = () => {
     <section className="why--us">
       <div className="grid--container">
         <div className="grid">
-          <div className="grid-- order--tab--1">
+          <div className="grid---- order--tab--1">
             <div className="grid--wrapper">
+            <div className="why--us--content">
+                <h3 data-aos="fade-up" data-aos-duration="1000">
+                  Why Us?
+                </h3>
+              </div>
               <div className="why--us--grid">
                 <div
                   className="why--us--grid--item"
@@ -75,24 +80,6 @@ const Whyus = () => {
                     cleanliness, simplicity and efficiency in communication.
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="grid-- y--center">
-            <div className="grid--wrapper">
-              <div className="why--us--content">
-                <h3 data-aos="fade-up" data-aos-duration="1000">
-                  Why Us?
-                </h3>
-                {/* <h2 data-aos="fade-up" data-aos-duration="1000">Lorem ipsum dolor sit am!</h2> */}
-                <h2 data-aos="fade-up" data-aos-duration="1000">
-                  Expansion on the simple points of home page and about us
-                </h2>
-                <p data-aos="fade-up" data-aos-duration="1000">
-                  GetLorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                  sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                  magna aliquam erat volutpat. Ut wisi enim ad minim veniam.
-                </p>
               </div>
             </div>
           </div>

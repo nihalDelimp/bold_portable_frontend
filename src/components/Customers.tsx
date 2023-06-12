@@ -2,6 +2,7 @@ import React from "react";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import { Link } from "react-router-dom";
 
 
 const Customers = () => {
@@ -44,24 +45,30 @@ const Customers = () => {
       >
         <div className="customer--logo">
           {" "}
-          <img
-            src={require("../asstes/image/customers/Custom-Vac.png")}
-            alt=""
-          />
+          <Link to={`#`}>          
+            <img
+              src={require("../asstes/image/customers/Custom-Vac.png")}
+              alt=""
+            />
+          </Link>
         </div>
         <div className="customer--logo">
           {" "}
+          <Link to={`#`}> 
           <img
             src={require("../asstes/image/customers/Poly-John.png")}
             alt=""
           />
+          </Link>
         </div>
         <div className="customer--logo">
           {" "}
+          <Link to={`#`}> 
           <img
             src={require("../asstes/image/customers/PSAI.png")}
             alt=""
           />
+          </Link>
         </div>
 
         {/* <div className="customer--logo">

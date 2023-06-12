@@ -56,6 +56,9 @@ const HeroBanner = () => {
               Book Now
             </a>
           </div>
+          <div className="hero--content--midheading">
+            <h2>Lorem Lorem Lorem</h2>
+          </div>
           <div
             className="btn--hero--righttext"
             data-aos="fade-up"

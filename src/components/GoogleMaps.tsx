@@ -6,6 +6,7 @@ import {
   Autocomplete,
 } from "@react-google-maps/api";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { Link } from "react-router-dom";
 
 const GoogleMaps = (props: any) => {
   const { setLoading } = props;
@@ -231,6 +232,9 @@ const GoogleMaps = (props: any) => {
                             />
                           </span>
                           <h5>Use my current location</h5>
+                        </div>
+                        <div className="location--buttons">
+                          <Link to={`#`} className="btn">Get Now</Link>
                         </div>
                       </div>
                     </div>
