@@ -88,6 +88,17 @@ function ProfileSetting(props: MyComponentProps) {
     }));
   };
 
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
+    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+      setUserData((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
+      }));
+    }
+  };
+
   const updateProfileImage = async (profileImage: any) => {
     if (profileImage) {
       let formData = new FormData();
@@ -153,11 +164,10 @@ function ProfileSetting(props: MyComponentProps) {
     let payloadData = trimObjValues(userData);
     let { name, mobile, address, new_password, confirm_password } = payloadData;
     let validUsername = /^[A-Za-z\s]+$/;
-    let validPhone = /^\d{9,12}$/;
     if (!validUsername.test(name)) {
       toast.error("Name should only contain letters");
-    } else if (!validPhone.test(mobile)) {
-      toast.error("Phone number must be a 9 to 12 digit number");
+    } else if (mobile < 9) {
+      toast.error("Phone number must be at least 9 digit");
     } else if (new_password && new_password.length < 8) {
       toast.error("Password must be at least 8 characters");
     } else if (new_password !== confirm_password) {
@@ -287,11 +297,11 @@ function ProfileSetting(props: MyComponentProps) {
                     minLength={minUserPhoneLength}
                     maxLength={maxUserPhoneLength}
                     disabled={!isEditAble}
-                    type="number"
+                    type="text"
                     placeholder="Phone"
                     value={userData.mobile}
                     name="mobile"
-                    onChange={handleChange}
+                    onChange={handleChangePhone}
                   />
                 </div>
                 <div className="form--group">

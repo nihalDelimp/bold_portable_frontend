@@ -84,6 +84,25 @@ export function trimObjValues(obj: any) {
   }, {});
 }
 
+  export function getDaysBetweenDates(date1 : any, date2 : any) {
+  const oneDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+
+  // Convert the input dates to JavaScript Date objects
+  const d1 = new Date(date1);
+  const d2 = new Date(date2);
+
+  // Set the time of both dates to midnight
+  d1.setHours(0, 0, 0, 0);
+  d2.setHours(0, 0, 0, 0);
+
+  // Calculate the difference in days
+  const diffInTime = Math.abs(d2.getTime() - d1.getTime());
+  const diffInDays = Math.ceil(diffInTime / oneDay);
+  console.log(typeof  diffInDays)
+  console.log(diffInDays , 'diffInDays')
+  return diffInDays;
+}
+
 
 
 

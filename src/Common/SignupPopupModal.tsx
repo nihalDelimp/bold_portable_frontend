@@ -30,11 +30,10 @@ function SignupPopupModal() {
     event.preventDefault();
     const payload = trimObjValues(user);
     let validUsername = /^[A-Za-z\s]+$/;
-    let validPhone = /^\d{9,12}$/;
     if (!validUsername.test(payload.name)) {
       toast.error("Name should only contain letters");
-    } else if (!validPhone.test(payload.mobile)) {
-      toast.error("Phone number must be a 9 to 12 digit number");
+    } else if (payload.mobile < 9) {
+      toast.error("Phone number must be at least 9 digit");
     } else {
       setLoading(true);
       await withoutAuthAxios()
@@ -86,6 +85,17 @@ function SignupPopupModal() {
     }));
   };
 
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
+    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+      setUser((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
+      }));
+    }
+  };
+
   return (
     <>
       <div className="login--form" id="signin--form">
@@ -131,8 +141,8 @@ function SignupPopupModal() {
                 maxLength={maxUserPhoneLength}
                 value={user.mobile}
                 name="mobile"
-                onChange={handleChange}
-                type="number"
+                onChange={handleChangePhone}
+                type="text"
                 placeholder="Phone"
               />
             </div>

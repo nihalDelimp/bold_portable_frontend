@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
+import { getDaysBetweenDates, setFormatDate } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -19,14 +20,17 @@ function QuotationDetails(props: MyComponentProps) {
     quotationType,
   } = props;
   const [quotation, setQuotation] = useState<any>(null);
+  const [totalServicesDays, setTotalServicesDays] = useState<any>("");
+
+  console.log("totalServicesDays", totalServicesDays);
 
   useEffect(() => {
     if (quotationID) {
-      getProductDetailsData();
+      getSpecificQuotationDetails();
     }
   }, [quotationID]);
 
-  const getProductDetailsData = async () => {
+  const getSpecificQuotationDetails = async () => {
     setLoading(true);
     const payload = { quote_id: quotationID };
     await authAxios()
@@ -37,6 +41,11 @@ function QuotationDetails(props: MyComponentProps) {
           if (response.data.status === 1) {
             const resData = response.data.data.quotation;
             setQuotation(resData);
+            const servicesDays = getDaysBetweenDates(
+              resData.placementDate,
+              resData.dateTillUse
+            );
+            setTotalServicesDays(servicesDays);
           }
         },
         (error) => {
@@ -169,6 +178,14 @@ function QuotationDetails(props: MyComponentProps) {
               <tr>
                 <th>Distance From Kelowna</th>
                 <td>{quotation?.distanceFromKelowna} KM</td>
+              </tr>
+              <tr>
+                <th>Placement Date</th>
+                <td>{setFormatDate(quotation?.placementDate)}</td>
+              </tr>
+              <tr>
+                <th>Date till use</th>
+                <td>{setFormatDate(quotation?.dateTillUse)}</td>
               </tr>
               <tr>
                 <th>Max Workers</th>
