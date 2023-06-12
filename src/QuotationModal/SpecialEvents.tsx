@@ -165,7 +165,7 @@ function SpecialEvents() {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "peakTimeSlot") {
+    if (name === "peakTimeSlot" || name === "workerTypes") {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
@@ -333,7 +333,7 @@ function SpecialEvents() {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Name <span className="required">*</span>
+                    Project Manager Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -347,7 +347,7 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Email <span className="required">*</span>
+                    Project Manager Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -360,7 +360,7 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Cell number <span className="required">*</span>
+                    Project Manager Phone<span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -399,7 +399,6 @@ function SpecialEvents() {
                     placeholder="Select event date"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Event Type <span className="required">*</span>
@@ -418,7 +417,8 @@ function SpecialEvents() {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                    Do you need designated workers ?
+                    Many construction site offering gender specifics toilets,
+                    would you like to offer this ?
                     <span className="required"></span>
                   </label>
                   <select
@@ -604,7 +604,6 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 {quotation.peakUseTimes && (
                   <div className="form--group">
                     <label htmlFor="name">
@@ -640,7 +639,6 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Use in winter<span className="required"></span>
@@ -654,7 +652,6 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label>
                     Special requirements <span className="required"></span>
@@ -668,7 +665,6 @@ function SpecialEvents() {
                     placeholder="Requirements"
                   />
                 </div>
-
                 <div className="form--group">
                   <label>
                     Max Attendees <span className="required">*</span>
@@ -683,7 +679,6 @@ function SpecialEvents() {
                     placeholder="Enetr max attendees"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Pay Per Use<span className="required"></span>
@@ -697,7 +692,6 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Actively Cleaned<span className="required"></span>
@@ -711,7 +705,6 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Fenced Off<span className="required"></span>
@@ -727,7 +720,6 @@ function SpecialEvents() {
                 </div>
               </React.Fragment>
             )}
-
             <div className="form--action">
               {(formStep === 2 || formStep === 3) && (
                 <button
@@ -782,7 +774,6 @@ function SpecialEvents() {
               )}
             </div>
           </form>
-
           {formStep === 4 && (
             <div>
               <div className="google--map">

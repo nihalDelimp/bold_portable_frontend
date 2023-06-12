@@ -263,7 +263,7 @@ const FarmWinery: React.FC = () => {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Name <span className="required">*</span>
+                    Project Manager Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -277,7 +277,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Email <span className="required">*</span>
+                    Project Manager Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -290,7 +290,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Cell number <span className="required">*</span>
+                    Project Manager Phone <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -344,7 +344,8 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Do you need designated workers ?
+                    Many construction site offering gender specifics toilets,
+                    would you like to offer this ?
                     <span className="required"></span>
                   </label>
                   <select
