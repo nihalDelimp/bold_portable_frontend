@@ -64,7 +64,7 @@ const HeroBanner = () => {
             data-aos="fade-up"
             data-aos-duration="1000"
           >
-            <p>Portable toilet</p>
+            <p>Bolt Portable Rental</p>
           </div>
         </div>
         <div className="hero--marquee" data-aos="fade" data-aos-duration="1000">
