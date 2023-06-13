@@ -86,6 +86,33 @@ const Footer = (props: MyComponentProps) => {
                         padding: "10px",
                       }}
                     >
+                      <h5 className="text-center">Outer QR Code</h5>
+                      {base64QRCode && (
+                        <QRCode
+                          size={200}
+                          style={{
+                            height: "auto",
+                            maxWidth: "100%",
+                            width: "100%",
+                          }}
+                          value={base64QRCode}
+                          viewBox={`0 0 256 256`}
+                        />
+                      )}
+                    </div>
+                  </li>
+                  <li data-aos="fade-up" data-aos-duration="1000">
+                    <div
+                      style={{
+                        height: "auto",
+                        margin: "0 auto",
+                        maxWidth: 300,
+                        width: "100%",
+                        background: "white",
+                        padding: "10px",
+                      }}
+                    >
+                      <h5 className="text-center">Inner QR Code</h5>
                       {base64QRCode && (
                         <QRCode
                           size={200}
