@@ -113,7 +113,6 @@ const Footer = (props: MyComponentProps) => {
                     alt=""
                   />
                 </div>
-
                 <div
                   className="social--list"
                   data-aos="fade-up"
@@ -121,12 +120,20 @@ const Footer = (props: MyComponentProps) => {
                 >
                   <ul>
                     <li>
-                      <Link to="https://www.polyjohn.com" target="_blank">
-                        <img src="https://www.polyjohn.com/static/version1684318870/frontend/Ecom/polyjohn/en_US/images/logo.svg" alt="polyjohn" />
-                      </Link>
+                      <a
+                        href="https://www.polyjohn.com"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        PJ
+                      </a>
                     </li>
                     <li>
-                      <a href="https://www.psai.in/" target="_blank">
+                      <a
+                        href="https://www.psai.in/"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         PSI
                       </a>
                     </li>
