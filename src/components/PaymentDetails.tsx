@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
 import { getFormatedDate } from "../Helper";
 
 interface MyComponentProps {
@@ -16,11 +14,9 @@ interface MyComponentProps {
 function PaymentDetails(props: MyComponentProps) {
   const { isLoading, setLoading, subscriptionID, setActiveSidebar } = props;
   const [paymentDetail, setPaymentDetail] = useState<any>({});
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const [subscription, setSubscription] = useState<any>({});
   const [costDetails, setCostDetails] = useState<any>({});
   const [totalPaid, setTotalPaid] = useState(null);
-
 
   useEffect(() => {
     getsubscriptionDetails();
@@ -79,7 +75,9 @@ function PaymentDetails(props: MyComponentProps) {
     const payload = {
       subscriptionID: subscriptionID,
       pickup_charge: costDetails?.pickUpPrice,
-      product_name: "potty box",
+      product_name: subscription?.quotationType,
+      success_url: `${window.location.origin}/payment-success`,
+      cancel_url: `${window.location.origin}/payment-cancel`,
     };
     setLoading(true);
     await authAxios()
@@ -149,7 +147,11 @@ function PaymentDetails(props: MyComponentProps) {
                 <td>{subscription?.status}</td>
               </tr>
               <tr>
-                <th>Created AT :</th>
+                <th>Type :</th>
+                <td>{subscription?.quotationType}</td>
+              </tr>
+              <tr>
+                <th>Created At :</th>
                 <td>{getFormatedDate(subscription?.createdAt)}</td>
               </tr>
               <tr>

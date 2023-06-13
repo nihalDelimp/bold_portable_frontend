@@ -49,7 +49,7 @@ function MyAccountNew(props: MyComponentProps) {
   useEffect(() => {
     getMyQuotationsData();
     getMySubscriptionsData();
-  }, []);
+  }, [activeSidebar]);
 
   const getMyQuotationsData = async () => {
     setLoading(true);
