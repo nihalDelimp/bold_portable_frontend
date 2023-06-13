@@ -165,15 +165,23 @@ function PaymentDetails(props: MyComponentProps) {
             </tbody>
           </table>
         </div>
-        <div className="pt-3">
-          <button
-            onClick={endSubscriptionPayment}
-            disabled={isLoading || !paymentDetail}
-            className="btn btn-primary"
-          >
-            Pay Now
-          </button>
-        </div>
+        {subscription && subscription.status && (
+          <div className="pt-3">
+            {subscription.status === "INACTIVE" ? (
+              <button disabled className="btn btn-success">
+                Completed
+              </button>
+            ) : (
+              <button
+                onClick={endSubscriptionPayment}
+                disabled={isLoading || !paymentDetail}
+                className="btn btn-primary"
+              >
+                Pay Now
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </>
   );

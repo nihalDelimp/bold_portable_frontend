@@ -230,19 +230,21 @@ function QuotationDetails(props: MyComponentProps) {
             </tbody>
           </table>
         </div>
-        <div className="pt-3">
-          {quotation && quotation?.subscription ? (
-            <button className="btn btn-success">Subscribed</button>
-          ) : (
-            <button
-              onClick={subscriptionPayment}
-              disabled={isLoading || !quotation || !quotation?.costDetailsSum}
-              className="btn btn-primary"
-            >
-              Pay Now
-            </button>
-          )}
-        </div>
+        {quotation && (
+          <div className="pt-3">
+            {quotation?.subscription ? (
+              <button className="btn btn-success">Paid</button>
+            ) : (
+              <button
+                onClick={subscriptionPayment}
+                disabled={isLoading || !quotation || !quotation?.costDetailsSum}
+                className="btn btn-primary"
+              >
+                Subscribe
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
