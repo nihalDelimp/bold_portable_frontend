@@ -405,13 +405,13 @@ function SpecialEvents() {
                     onChange={handleSelectEventDetails}
                     value={eventDetails.eventType}
                   >
-                    <option value="">Select Event Type</option>
+                    <option value="">Select event type</option>
                     <option value="Wedding">Wedding</option>
-                    <option value="Function">Function</option>
-                    <option value="Comedy">Comedy</option>
+                    <option value="Event Evening">Event Evening</option>
+                    <option value="Lorem Ispum">Lorem Ispum</option>
+                    <option value="Doller Sit">Doller Sit</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Many construction site offering gender specifics toilets,
