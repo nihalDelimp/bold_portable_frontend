@@ -38,14 +38,13 @@ interface vipSectionType {
 interface quotationType {
   maxWorkers: number;
   weeklyHours: number;
-  placement_datetime: string;
-  placement_location: string;
+  placementDate: string;
   distanceFromKelowna: number;
   serviceCharge: number;
   peakUseTimes: boolean;
   peakTimeSlot: string;
-  night_use: boolean;
-  winter_use: boolean;
+  useAtNight: boolean;
+  useInWinter: boolean;
   special_requirements: string;
   alcoholServed: boolean;
   maxAttendees: undefined;
@@ -93,14 +92,13 @@ function SpecialEvents() {
   const [quotation, setQuotation] = useState<quotationType>({
     maxWorkers: 10,
     weeklyHours: 400,
-    placement_datetime: "",
-    placement_location: "",
+    placementDate: "",
     distanceFromKelowna: 0,
     serviceCharge: 0,
     peakUseTimes: false,
     peakTimeSlot: "",
-    night_use: false,
-    winter_use: false,
+    useAtNight: false,
+    useInWinter: false,
     special_requirements: "",
     alcoholServed: false,
     maxAttendees: undefined,
@@ -223,14 +221,13 @@ function SpecialEvents() {
     setQuotation({
       maxWorkers: 10,
       weeklyHours: 400,
-      placement_datetime: "",
-      placement_location: "",
+      placementDate: "",
       distanceFromKelowna: 0,
       serviceCharge: 0,
       peakUseTimes: false,
       peakTimeSlot: "",
-      night_use: false,
-      winter_use: false,
+      useAtNight: false,
+      useInWinter: false,
       special_requirements: "",
       alcoholServed: false,
       maxAttendees: undefined,
@@ -519,9 +516,9 @@ function SpecialEvents() {
                     type="date"
                     required
                     min={new Date().toISOString().split("T")[0]}
-                    value={quotation.placement_datetime}
+                    value={quotation.placementDate}
                     onChange={handleChangeQuotation}
-                    name="placement_datetime"
+                    name="placementDate"
                     placeholder="Select placement date"
                   />
                 </div>
@@ -631,9 +628,9 @@ function SpecialEvents() {
                     Use at night<span className="required"></span>
                   </label>
                   <select
-                    name="night_use"
+                    name="useAtNight"
                     onChange={handleSelectQuotation}
-                    value={quotation.night_use.toString()}
+                    value={quotation.useAtNight.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
@@ -644,9 +641,9 @@ function SpecialEvents() {
                     Use in winter<span className="required"></span>
                   </label>
                   <select
-                    name="winter_use"
+                    name="useInWinter"
                     onChange={handleSelectQuotation}
-                    value={quotation.winter_use.toString()}
+                    value={quotation.useInWinter.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
@@ -755,7 +752,7 @@ function SpecialEvents() {
                   disabled={
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.placement_datetime ||
+                    !quotation.placementDate ||
                     !quotation.dateTillUse
                   }
                 >
