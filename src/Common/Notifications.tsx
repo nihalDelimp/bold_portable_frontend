@@ -1,15 +1,17 @@
-import React, {useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
-import { useSelector , useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { saveNotification } from "../Redux/Reducers/notification";
+import { Link, useNavigate } from "react-router-dom";
 
 const Notifications = (props: any) => {
   const { setLoading } = props;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const { notifications } = useSelector(
     (state: RootState) => state.notification
@@ -18,21 +20,19 @@ const Notifications = (props: any) => {
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
-
   useEffect(() => {
     if (accessToken) {
       getAllNotifications();
     }
   }, []);
-  
+
   useEffect(() => {
     if (socket.current) {
       socket.current.on("cancel_order_received", (order) => {
         getAllNotifications();
-        
       });
       socket.current.on("update_quote_received", (quotation) => {
-        console.log("update_quote_received" ,quotation)
+        console.log("update_quote_received", quotation);
         getAllNotifications();
       });
     }
@@ -108,6 +108,11 @@ const Notifications = (props: any) => {
       });
   };
 
+  const handleChangeRoute = (_id: string) => {
+    markSpecificNotificationSeen(_id);
+    navigate("/my-account");
+  };
+
   return (
     <React.Fragment>
       <div className="notifications--dropdown">
@@ -129,14 +134,17 @@ const Notifications = (props: any) => {
               {notifications.map((item: any, index: any) => (
                 <ul>
                   <li key={item._id}>
-                    <span className="icons">
+                    <span
+                      onClick={() => handleChangeRoute(item._id)}
+                      className="icons"
+                    >
                       <i className="fa-sharp fa-solid fa-cart-shopping"></i>
                     </span>
-                    <div className="notification--content">
-                      <span>
-                        Admin has updated your order{" "}
-                        order
-                      </span>
+                    <div
+                      onClick={() => handleChangeRoute(item._id)}
+                      className="notification--content"
+                    >
+                      <span>Admin has updated your order order</span>
                     </div>
                     <div
                       onClick={() => markSpecificNotificationSeen(item._id)}
