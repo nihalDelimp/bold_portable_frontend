@@ -31,20 +31,19 @@ function MyAccountNew(props: MyComponentProps) {
   const [quotationType, setquotationType] = useState<string>("");
   const [subscriptionID, setsubscriptionID] = useState<string>("");
 
-
-  useEffect(()=> {
-    $(document).ready(function(){
+  useEffect(() => {
+    $(document).ready(function () {
       if (window.matchMedia("(max-width: 1024px)").matches) {
-          $(".user--sidebar--container").slideUp();
-          $(document).on("click", "#user--dashboard", function(){
-              $(".user--sidebar--container").slideToggle();
-              $("#user--dashboard i").toggleClass("fa-bars").toggleClass("fa-xmark");
-          });
-      } 
-     
-  });
-
-  },[])
+        $(".user--sidebar--container").slideUp();
+        $(document).on("click", "#user--dashboard", function () {
+          $(".user--sidebar--container").slideToggle();
+          $("#user--dashboard i")
+            .toggleClass("fa-bars")
+            .toggleClass("fa-xmark");
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     getMyQuotationsData();
@@ -103,7 +102,7 @@ function MyAccountNew(props: MyComponentProps) {
 
   const handleLogout = () => {
     dispatch(logout(false));
-    toast.success('Logged out successfully')
+    toast.success("Logged out successfully");
     navigate("/");
   };
 
@@ -274,7 +273,7 @@ function MyAccountNew(props: MyComponentProps) {
                             myQuotations.length > 0 &&
                             myQuotations.map((item: any) => (
                               <tr key={item._id}>
-                                <td>{item._id?.slice(14)}</td>
+                                <td>{item._id?.slice(-8)?.toUpperCase()}</td>
                                 <td>{item.coordinator.cellNumber}</td>
                                 <td>
                                   {setFormatDate(
@@ -389,7 +388,6 @@ function MyAccountNew(props: MyComponentProps) {
                         />
                       </div>
                     </div> */}
-
                   </div>
                 )}
 
@@ -708,7 +706,7 @@ function MyAccountNew(props: MyComponentProps) {
                             myQuotations.length > 0 &&
                             myQuotations.map((item: any) => (
                               <tr key={item._id}>
-                                <td>{item._id?.slice(14)}</td>
+                                <td>{item._id?.slice(-8)?.toUpperCase()}</td>
                                 <td>{item.coordinator.cellNumber}</td>
                                 <td>
                                   {setFormatDate(
@@ -796,7 +794,9 @@ function MyAccountNew(props: MyComponentProps) {
                             mySubscriptions.length > 0 &&
                             mySubscriptions.map((item) => (
                               <tr key={item._id}>
-                                <td>{item.subscription?.slice(15)}</td>
+                                <td>
+                                  {item.subscription?.slice(-8)?.toUpperCase()}
+                                </td>
                                 <td>{setFormatDate(item.createdAt)}</td>
                                 <td>{item.quotationType}</td>
                                 <td

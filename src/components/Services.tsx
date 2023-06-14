@@ -1,10 +1,85 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { authAxios } from "../config/config";
+import { toast } from "react-toastify";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 
-function Services() {
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+  isLoading: boolean;
+}
+
+function Services(props: MyComponentProps) {
+  const { setLoading } = props;
+  const [services, setServices] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemPerPage] = useState<number>(10);
+
+  console.log("Service", services);
+
+  useEffect(() => {
+    getServicesListData();
+  }, [currentPage, itemsPerPage]);
+
+  const getServicesListData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(`/service/list?page=${currentPage}&limit=${itemsPerPage}`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setServices(resData);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const payload = {};
+    setLoading(true);
+    await authAxios()
+      .post("/quotation/send-quotations-request", payload)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success("Request sent Successfully");
+            const resData = response.data.data;
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          if (error.response.data.message) {
+            toast.error(error.response.data.message);
+          } else {
+            const obj = error.response.data.errors[0];
+            const errormsg = Object.values(obj) || [];
+            if (errormsg && errormsg.length > 0) {
+              toast.error(`${errormsg[0]}`);
+            }
+          }
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
   return (
     <>
-    <section className="default--top--banner">
+      <section className="default--top--banner">
         <div className="banner--thumbnuil">
           <img
             src={require("../asstes/image/about--banner.jpg")}
@@ -22,7 +97,12 @@ function Services() {
               <div className="about--portable--wrapper">
                 <div className="about--portable--data">
                   <p className="highlight--text">
-                  GetLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniamGetLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                    GetLorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                    magna aliquam erat volutpat. Ut wisi enim ad minim
+                    veniamGetLorem ipsum dolor sit amet, consectetuer adipiscing
+                    elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+                    dolore magna aliquam erat volutpat.
                   </p>
                   <p>
                     Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
@@ -43,53 +123,59 @@ function Services() {
           </div>
         </div>
       </section>
-      <section className='services--tabs'>
-          <div className='grid--container'>
-              <div className='grid'>
-                  <div className='grid-'>
-                      <div className='servies--list--tab'>
-                          <ul>
-                              <li>
-                                <Link to={`#`}>Construction</Link>
-                              </li>
-                              <li>
-                                <Link to={`#`} className='active'>Special Events</Link>
-                              </li>
-                              <li>
-                                <Link to={`#`}>Disaster Relief</Link>
-                              </li>
-                              <li>
-                                <Link to={`#`}>Long Term</Link>
-                              </li>
-                              <li>
-                                <Link to={`#`}>Individual Needs</Link>
-                              </li>
-                          </ul>
-                      </div>
-                  </div>  
-                  <div className='grid---'>
-                      <div className='servies--list--content'>
-                          <div className='services--list--content--item'>
-                            <p>GetLorem ipsum dolor sit amet, consadaectetuer adipisciaang elit, sed daiam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi </p>
-                            <ul className='servies--inner--links'>
-                               <li>
-                                <Link to={`#`}>Wedding</Link>
-                               </li>
-                               <li>
-                                <Link to={`#`}>Event Evening</Link>
-                               </li>
-                               <li>
-                                <Link to={`#`}>Lorem Ispum</Link>
-                               </li>
-                               <li>
-                                <Link to={`#`}>Doller Sit</Link>
-                               </li>
-                            </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>  
-          </div>  
+      <section className="services--tabs">
+        <div className="grid--container">
+          <div className="grid">
+            <div className="grid-">
+              <div className="servies--list--tab">
+                <ul>
+                  <li>
+                    <Link to={`#`}>Construction</Link>
+                  </li>
+                  <li>
+                    <Link to={`#`} className="active">
+                      Special Events
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`#`}>Disaster Relief</Link>
+                  </li>
+                  <li>
+                    <Link to={`#`}>Long Term</Link>
+                  </li>
+                  <li>
+                    <Link to={`#`}>Individual Needs</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="grid---">
+              <div className="servies--list--content">
+                <div className="services--list--content--item">
+                  <p>
+                    GetLorem ipsum dolor sit amet, consadaectetuer adipisciaang
+                    elit, sed daiam nonummy nibh euismod tincidunt ut laoreet
+                    dolore magna aliquam erat volutpat. Ut wisi{" "}
+                  </p>
+                  <ul className="servies--inner--links">
+                    <li>
+                      <Link to={`#`}>Wedding</Link>
+                    </li>
+                    <li>
+                      <Link to={`#`}>Event Evening</Link>
+                    </li>
+                    <li>
+                      <Link to={`#`}>Lorem Ispum</Link>
+                    </li>
+                    <li>
+                      <Link to={`#`}>Doller Sit</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
       <section className="we--committed">
         <div className="grid--container">
@@ -180,8 +266,8 @@ function Services() {
           </div>
         </div>
       </section>
-  </>
-  )
+    </>
+  );
 }
 
-export default Services
+export default IsLoadingHOC(Services);

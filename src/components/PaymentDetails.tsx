@@ -128,7 +128,7 @@ function PaymentDetails(props: MyComponentProps) {
             <tbody>
               <tr>
                 <th>Subscription ID :</th>
-                <td>{subscription?.subscription?.slice(15)}</td>
+                <td>{subscription?.subscription?.slice(-8)?.toUpperCase()}</td>
               </tr>
               <tr>
                 <th>Name :</th>
