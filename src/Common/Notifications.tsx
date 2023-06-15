@@ -66,7 +66,7 @@ const Notifications = (props: any) => {
   };
 
   const markAllNotificationsSeen = async () => {
-    setLoading(true);
+   // setLoading(true);
     await authAxios()
       .put(`/notification/mark-all-notfications-true`)
       .then(
@@ -87,7 +87,7 @@ const Notifications = (props: any) => {
   };
 
   const markSpecificNotificationSeen = async (_id: string) => {
-    setLoading(true);
+    //setLoading(true);
     await authAxios()
       .patch(`/notification/${_id}/mark-specific-notification-as-seen`)
       .then(
