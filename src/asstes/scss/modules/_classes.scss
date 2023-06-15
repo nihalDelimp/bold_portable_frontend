@@ -12,6 +12,13 @@
     overflow: hidden;
     transition: $transition;
     z-index: 1;
+    &.white--btn {
+        background-color: $white;
+    }
+    &.black--btn {
+        background-color: $black;
+        color: $white;
+    }
     &::before{
         content: "";
         width: 100%;

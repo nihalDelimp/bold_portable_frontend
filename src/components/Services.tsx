@@ -14,6 +14,10 @@ function Services(props: MyComponentProps) {
   const [services, setServices] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
+  const [checked, setChecked] = useState(false)
+  const handleClick = () => {
+    setChecked(!checked)
+  }
 
   console.log("Service", services);
 
@@ -159,18 +163,45 @@ function Services(props: MyComponentProps) {
                   </p>
                   <ul className="servies--inner--links">
                     <li>
-                      <Link to={`#`}>Wedding</Link>
+                    <label htmlFor="Wedding" className="service--label">
+                        <input type="checkbox" id="Wedding" name="Wedding" />
+                        <span>Wedding</span>
+                    </label>
                     </li>
                     <li>
-                      <Link to={`#`}>Event Evening</Link>
+                        <label htmlFor="EventEvening" className="service--label">
+                            <input type="checkbox" id="EventEvening" name="EventEvening" />
+                            <span>Event Evening</span>
+                        </label>
                     </li>
                     <li>
-                      <Link to={`#`}>Lorem Ispum</Link>
+                        <label htmlFor="LoremIspum" className="service--label">
+                            <input type="checkbox" id="LoremIspum" name="LoremIspum" />
+                            <span>Lorem Ispum</span>
+                        </label>
                     </li>
                     <li>
-                      <Link to={`#`}>Doller Sit</Link>
+                        <label htmlFor="DollerSit" className="service--label">
+                            <input type="checkbox" id="DollerSit" name="DollerSit" />
+                            <span>Doller Sit</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label htmlFor="other" className="service--label">
+                            <input onClick={handleClick} checked={checked} type="checkbox" id="other" name="other" />
+                            <span>Other</span>
+                        </label>
                     </li>
                   </ul>
+                  <div className="service--action">
+                      <div className="service--action--wrapper">
+                       {  
+                        checked && <input type="text" placeholder="Add" />
+                       }
+                        
+                        <button className={checked ? "btn black--btn btn--radius" : "btn black--btn"}>Submit</button>
+                      </div>
+                  </div>
                 </div>
               </div>
             </div>
