@@ -20,7 +20,7 @@ function QuotationDetails(props: MyComponentProps) {
     quotationType,
   } = props;
   const [quotation, setQuotation] = useState<any>(null);
-  const [totalServicesDays, setTotalServicesDays] = useState<any>("");
+  const [totalServicesDays, setTotalServicesDays] = useState<number>(0);
 
   console.log("totalServicesDays", totalServicesDays);
 
@@ -64,11 +64,17 @@ function QuotationDetails(props: MyComponentProps) {
   };
 
   const CreateCheckoutSession = async () => {
+    let intervalService = "day";
+    if (totalServicesDays >= 30 && totalServicesDays < 365) {
+      intervalService = "month";
+    } else if (totalServicesDays >= 365) {
+      intervalService = "year";
+    }
     const payload = {
       price: quotation?.costDetailsSum,
-      product_name: "Potty box1",
+      product_name: quotationType,
       product_description: "Big size potty box1",
-      interval: "month",
+      interval: intervalService,
       shipping_amount: quotation?.costDetails?.pickUpPrice,
       quotationId: quotationID,
       quotationType: quotationType,

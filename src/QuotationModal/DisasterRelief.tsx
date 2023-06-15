@@ -469,7 +469,7 @@ const DisasterRelief: React.FC = () => {
                   <input
                     type="date"
                     required
-                    min={new Date().toISOString().split("T")[0]}
+                    min={quotation.placementDate}
                     value={quotation.dateTillUse}
                     onChange={handleChangeQuotation}
                     name="dateTillUse"

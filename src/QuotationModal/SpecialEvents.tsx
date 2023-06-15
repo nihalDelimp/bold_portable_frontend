@@ -529,7 +529,7 @@ function SpecialEvents() {
                   <input
                     type="date"
                     required
-                    min={new Date().toISOString().split("T")[0]}
+                    min={quotation.placementDate ? quotation.placementDate : new Date().toISOString().split("T")[0]}
                     value={quotation.dateTillUse}
                     onChange={handleChangeQuotation}
                     name="dateTillUse"
