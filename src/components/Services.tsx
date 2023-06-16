@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import io, { Socket } from "socket.io-client";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -11,11 +12,36 @@ interface MyComponentProps {
 
 function Services(props: MyComponentProps) {
   const { setLoading } = props;
-  const [services, setServices] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemPerPage] = useState<number>(10);
+  const [service, setService] = useState<any[]>([]);
   const [isOtherService, setOtherService] = useState<boolean>(false);
   const [otherServiceName, setOtherServiceName] = useState<string>("");
+  const [serviceTypes, setServiceTypes] = useState<string[]>([]);
+  const [quotationId, setquotationId] = useState<string | null>("");
+  const [quotationType, setquotationType] = useState<string | null>("");
+  const [serviceName, setServiceName] = useState<string>("");
+
+  const socket = useRef<Socket>();
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+
+  useEffect(() => {
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    // Get the URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const quotation_Id = params.get("quotationId");
+    const quotation_Type = params.get("quotationType");
+    if (quotation_Id) {
+      setquotationId(quotation_Id);
+    }
+    if (quotation_Type) {
+      setServiceName(quotation_Type);
+      setquotationType(quotation_Type?.toLowerCase());
+    }
+  }, []);
 
   const toggleOtherService = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOtherService(event.target.checked);
@@ -25,28 +51,33 @@ function Services(props: MyComponentProps) {
   };
 
   const handleSelectService = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-    if (!event.target.checked) {
-      setOtherServiceName("");
+    let dummyServices: string[] = [...serviceTypes];
+    if (event.target.checked) {
+      dummyServices.push(event.target.value);
+      setServiceTypes(dummyServices);
+    } else {
+      var index = dummyServices.indexOf(event.target.value);
+      if (index !== -1) {
+        dummyServices.splice(index, 1);
+        setServiceTypes(dummyServices);
+      }
     }
   };
 
-  console.log("Service", services);
-
   useEffect(() => {
-    getServicesListData();
-  }, [currentPage, itemsPerPage]);
+    //  getServiceData();
+  }, []);
 
-  const getServicesListData = async () => {
+  const getServiceData = async () => {
     setLoading(true);
     await authAxios()
-      .get(`/service/list?page=${currentPage}&limit=${itemsPerPage}`)
+      .get(`/service/list`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setServices(resData);
+            setService(resData);
           }
         },
         (error) => {
@@ -61,16 +92,30 @@ function Services(props: MyComponentProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = {};
+    let allServiceType = [...serviceTypes];
+    if (isOtherService && otherServiceName) {
+      allServiceType.push(otherServiceName);
+    }
+    const payload = {
+      service: serviceName,
+      serviceTypes: allServiceType,
+      quotationId: quotationId,
+      quotationType: quotationType,
+    };
     setLoading(true);
     await authAxios()
-      .post("/quotation/send-quotations-request", payload)
+      .post("/user-service/save", payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success("Request sent Successfully");
-            const resData = response.data.data;
+            if (socket.current) {
+              socket.current.emit("user_request_service", response.data.data);
+            }
+            toast.success(response.data.message);
+            setOtherService(false);
+            setOtherServiceName("");
+            setServiceTypes([]);
           } else {
             toast.error(response.data?.message);
           }
@@ -146,21 +191,52 @@ function Services(props: MyComponentProps) {
               <div className="servies--list--tab">
                 <ul>
                   <li>
-                    <Link to={`#`}>Construction</Link>
+                    <Link
+                      to={`#`}
+                      className={`${
+                        quotationType === "construction" ? "active" : ""
+                      }`}
+                    >
+                      Construction
+                    </Link>
                   </li>
                   <li>
-                    <Link to={`#`} className="active">
+                    <Link
+                      to={`#`}
+                      className={`${quotationType === "event" ? "active" : ""}`}
+                    >
                       Special Events
                     </Link>
                   </li>
                   <li>
-                    <Link to={`#`}>Disaster Relief</Link>
+                    <Link
+                      to={`#`}
+                      className={`${
+                        quotationType === "disaster-relief" ? "active" : ""
+                      }`}
+                    >
+                      Disaster Relief
+                    </Link>
                   </li>
                   <li>
-                    <Link to={`#`}>Long Term</Link>
+                    <Link
+                      to={`#`}
+                      className={`${
+                        quotationType === "farm-orchard-winery" ? "active" : ""
+                      }`}
+                    >
+                      Farm Orchard Winery
+                    </Link>
                   </li>
                   <li>
-                    <Link to={`#`}>Individual Needs</Link>
+                    <Link
+                      to={`#`}
+                      className={`${
+                        quotationType === "personal-or-business" ? "active" : ""
+                      }`}
+                    >
+                      Individual Needs
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -179,21 +255,25 @@ function Services(props: MyComponentProps) {
                         <input
                           type="checkbox"
                           id="Wedding"
-                          onChange={handleSelectService}
                           name="Wedding"
+                          value="Wedding"
+                          onChange={handleSelectService}
+                          checked={serviceTypes.includes("Wedding")}
                         />
                         <span>Wedding</span>
                       </label>
                     </li>
                     <li>
-                      <label htmlFor="EventEvening" className="service--label">
+                      <label htmlFor="Clean" className="service--label">
                         <input
                           type="checkbox"
-                          id="EventEvening"
-                          name="EventEvening"
+                          id="Clean"
+                          name="Clean"
+                          value="Clean"
                           onChange={handleSelectService}
+                          checked={serviceTypes.includes("Clean")}
                         />
-                        <span>Event Evening</span>
+                        <span>Clean</span>
                       </label>
                     </li>
                     <li>
@@ -202,7 +282,9 @@ function Services(props: MyComponentProps) {
                           type="checkbox"
                           id="LoremIspum"
                           name="LoremIspum"
+                          value="LoremIspum"
                           onChange={handleSelectService}
+                          checked={serviceTypes.includes("LoremIspum")}
                         />
                         <span>Lorem Ispum</span>
                       </label>
@@ -213,7 +295,9 @@ function Services(props: MyComponentProps) {
                           type="checkbox"
                           id="DollerSit"
                           name="DollerSit"
+                          value="DollerSit"
                           onChange={handleSelectService}
+                          checked={serviceTypes.includes("DollerSit")}
                         />
                         <span>Doller Sit</span>
                       </label>
@@ -249,6 +333,11 @@ function Services(props: MyComponentProps) {
                             ? "btn black--btn btn--radius"
                             : "btn black--btn"
                         }
+                        type="button"
+                        disabled={
+                          serviceTypes.length === 0 && !otherServiceName
+                        }
+                        onClick={handleSubmit}
                       >
                         Submit
                       </button>
