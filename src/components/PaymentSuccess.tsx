@@ -51,27 +51,12 @@ function PaymentSuccess(props: MyComponentProps) {
       <section className="order--sucsess--message">
         <div className="order--message--container">
           <div className="order--message--body">
-            <h3>Thank you. Your payment has successfull.</h3>
+            <h3 >Thank you for subscribing!</h3>
             <table>
               <tbody>
-                {/* <tr>
-                  <th>Order number:</th>
-                  <td>1812</td>
-                </tr> */}
-                <tr>
-                  <th>Date:</th>
-                  <td>
-                    {moment(currentDate).format("Do MMMM YYYY, hh:mm:ss A")}
-                  </td>
-                </tr>
-                <tr>
-                  <th>Total:</th>
-                  <td>${totalAmount+10}</td>
-                </tr>
-                <tr>
-                  <th>Payment method:</th>
-                  <td>Direct bank transfer</td>
-                </tr>
+                <h5 style={{ paddingTop: "15px" }} >
+                  You have successfully subscribed to our list.
+                </h5>
               </tbody>
             </table>
           </div>
