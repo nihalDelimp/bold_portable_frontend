@@ -17,7 +17,9 @@ function Services(props: MyComponentProps) {
   const [otherServiceName, setOtherServiceName] = useState<string>("");
   const [serviceTypes, setServiceTypes] = useState<string[]>([]);
   const [quotationId, setquotationId] = useState<string | null>("");
-  const [quotationType, setquotationType] = useState<string | null>("");
+  const [quotationType, setquotationType] = useState<string | null>(
+    "construction"
+  );
   const [serviceName, setServiceName] = useState<string>("");
 
   const socket = useRef<Socket>();
@@ -148,7 +150,7 @@ function Services(props: MyComponentProps) {
           />
         </div>
         <div className="banner--heading">
-          <h1>Servies</h1>
+          <h1>Services</h1>
         </div>
       </section>
       <section className="servies--portable ">
@@ -254,52 +256,52 @@ function Services(props: MyComponentProps) {
                       <label htmlFor="Wedding" className="service--label">
                         <input
                           type="checkbox"
-                          id="Wedding"
-                          name="Wedding"
-                          value="Wedding"
+                          id="Option-1"
+                          name="Option-1"
+                          value="Option-1"
                           onChange={handleSelectService}
-                          checked={serviceTypes.includes("Wedding")}
+                          checked={serviceTypes.includes("Option-1")}
                         />
-                        <span>Wedding</span>
+                        <span>Option-1</span>
                       </label>
                     </li>
                     <li>
                       <label htmlFor="Clean" className="service--label">
                         <input
                           type="checkbox"
-                          id="Clean"
-                          name="Clean"
-                          value="Clean"
+                          id="Option-2"
+                          name="Option-2"
+                          value="Option-2"
                           onChange={handleSelectService}
-                          checked={serviceTypes.includes("Clean")}
+                          checked={serviceTypes.includes("Option-2")}
                         />
-                        <span>Clean</span>
+                        <span>Option-2</span>
                       </label>
                     </li>
                     <li>
                       <label htmlFor="LoremIspum" className="service--label">
                         <input
                           type="checkbox"
-                          id="LoremIspum"
-                          name="LoremIspum"
-                          value="LoremIspum"
+                          id="Option-3"
+                          name="Option-3"
+                          value="Option-3"
                           onChange={handleSelectService}
-                          checked={serviceTypes.includes("LoremIspum")}
+                          checked={serviceTypes.includes("Option-3")}
                         />
-                        <span>Lorem Ispum</span>
+                        <span>Option-3</span>
                       </label>
                     </li>
                     <li>
                       <label htmlFor="DollerSit" className="service--label">
                         <input
                           type="checkbox"
-                          id="DollerSit"
-                          name="DollerSit"
-                          value="DollerSit"
+                          id="Option-4"
+                          name="Option-4"
+                          value="Option-4"
                           onChange={handleSelectService}
-                          checked={serviceTypes.includes("DollerSit")}
+                          checked={serviceTypes.includes("Option-4")}
                         />
-                        <span>Doller Sit</span>
+                        <span>Option-4</span>
                       </label>
                     </li>
                     <li>
@@ -311,7 +313,7 @@ function Services(props: MyComponentProps) {
                           id="other"
                           name="other"
                         />
-                        <span>Other</span>
+                        <span>Other Service</span>
                       </label>
                     </li>
                   </ul>
@@ -335,7 +337,8 @@ function Services(props: MyComponentProps) {
                         }
                         type="button"
                         disabled={
-                          serviceTypes.length === 0 && !otherServiceName
+                          (serviceTypes.length === 0 && !otherServiceName) ||
+                          !quotationId
                         }
                         onClick={handleSubmit}
                       >
