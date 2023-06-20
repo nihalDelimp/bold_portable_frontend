@@ -241,7 +241,7 @@ function QuotationDetails(props: MyComponentProps) {
           </table>
         </div>
         {quotation && (
-          <div className="pt-3">
+          <div className="pt--15">
             {quotation?.subscription ? (
               <button className="btn btn-success">Paid</button>
             ) : (
