@@ -26,7 +26,7 @@ function QuotationDetails(props: MyComponentProps) {
   const [quotation, setQuotation] = useState<any>(null);
   const [totalServicesDays, setTotalServicesDays] = useState<number>(0);
 
-  console.log("totalServicesDays", totalServicesDays);
+  console.log("quotationDetailsDDDD", quotation);
 
   useEffect(() => {
     if (quotationID) {
@@ -81,7 +81,7 @@ function QuotationDetails(props: MyComponentProps) {
       interval: intervalService,
       shipping_amount: quotation?.costDetails?.pickUpPrice,
       quotationId: quotationID,
-      quotationType: quotationType,
+      quotationType: quotation?.quotationType,
       success_url: `${window.location.origin}/payment-success`,
       cancel_url: `${window.location.origin}/payment-cancel`,
     };
