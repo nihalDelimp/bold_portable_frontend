@@ -169,7 +169,7 @@ function PaymentDetails(props: MyComponentProps) {
           <div className="pt--15">
             {subscription.status === "INACTIVE" ? (
               <button disabled className="btn btn-success">
-                Completed
+                Ended
               </button>
             ) : (
               <button
@@ -177,7 +177,7 @@ function PaymentDetails(props: MyComponentProps) {
                 disabled={isLoading || !paymentDetail}
                 className="btn btn-primary"
               >
-                Pay Now
+                End Now
               </button>
             )}
           </div>
