@@ -53,7 +53,7 @@ function PaymentSuccess(props: MyComponentProps) {
         <div className="order--message--container">
           <div className="order--message--body">
               <div className="sucsess--check">
-                <img src={require("../asstes/image/check--right.png")} alt="" />
+                <img src={require("../asstes/image/check--right.png")} alt="" loading="lazy" />
               </div>
               <h3 >Thank you for subscribing!</h3>
               <p>
