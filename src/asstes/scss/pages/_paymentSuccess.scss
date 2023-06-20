@@ -2,38 +2,45 @@
    // padding: clamp(40px, 6vw, 100px) 15px;
 
     .order--message--container {
-        max-width: 800px;
+        max-width: 480px;
+        padding:  0 15px;
         min-height: calc(100vh - calc(clamp(40px, 6vw, 100px) * 2));
         width: 100%;
         @include flex();
         margin: 0 auto;
         .order--message--body {
-            padding: 80px;
-            background-color: lighten($black, 95%);
-            box-shadow: 2px 2px 8px rgba(000,000,000,0.15);
+            padding: clamp(25px, 3.1vw, 50px);
+            border: 7px solid $blue;
+            border-radius: 30px;
+            @include flex();
+            flex-direction: column;
+            text-align: center;
             @media (max-width:767px) {
                 padding: 20px 15px;
             }
-            h3 {
-                color: green;
-                font-weight: 500;
-            }
-            table {
-                padding-top: 30px;
-                tr {
-                    @media (max-width:450px) {
-                        display: flex;
-                        flex-direction: column;
-                    }
-                    th {
-                        text-align: left;
-                        min-width: 200px;
-                        padding: 5px;
-                    }
-                    td {
-                        padding: 5px;
-                    }
+            .sucsess--check {
+                width: 120px;
+                aspect-ratio: 1;
+                border: 7px solid $yellow;
+                border-radius: 50%;
+                @include flex();
+                @media (max-width:767px) {
+                    width: 80px;
                 }
+                img {
+                    width: 50%;
+                }
+            }
+            h3 {
+                margin-top: 30px;
+                font-weight: 500;
+                font-size: clamp(20px,1.5vw, 24px);
+            }
+            a {
+                margin-top: 15px;
+                max-height: 30px;
+                line-height: 1;
+                min-width: 170px;
             }
         }
     }

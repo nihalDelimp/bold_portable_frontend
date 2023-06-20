@@ -4,6 +4,7 @@ import moment from "moment";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { Link } from "react-router-dom";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -51,14 +52,14 @@ function PaymentSuccess(props: MyComponentProps) {
       <section className="order--sucsess--message">
         <div className="order--message--container">
           <div className="order--message--body">
-            <h3 >Thank you for subscribing!</h3>
-            <table>
-              <tbody>
-                <h5 style={{ paddingTop: "15px" }} >
-                  You have successfully subscribed to our list.
-                </h5>
-              </tbody>
-            </table>
+              <div className="sucsess--check">
+                <img src={require("../asstes/image/check--right.png")} alt="" />
+              </div>
+              <h3 >Thank you for subscribing!</h3>
+              <p>
+                You have successfully subscribed to our list.
+              </p>
+              <Link to={"/"} className="btn">Close</Link>
           </div>
         </div>
       </section>
