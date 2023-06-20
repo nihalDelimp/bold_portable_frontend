@@ -4,7 +4,11 @@ import { authAxios } from "../config/config";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { logout } from "../Redux/Reducers/authSlice";
 import { useDispatch } from "react-redux";
-import { CapitalizeFirstLetter, setFormatDate } from "../Helper";
+import {
+  CapitalizeFirstLetter,
+  replaceHyphenCapitolize,
+  setFormatDate,
+} from "../Helper";
 import QuotationDetails from "./QuotationDetails";
 import PaymentDetails from "./PaymentDetails";
 import TrackQuotation from "./TrackQuotation";
@@ -280,7 +284,7 @@ function MyAccountNew(props: MyComponentProps) {
                                     item.placementDate || item.createdAt
                                   )}
                                 </td>
-                                <td>{CapitalizeFirstLetter(item.type)}</td>
+                                <td>{replaceHyphenCapitolize(item.type)}</td>
                                 <td>{item.serviceFrequency}</td>
                                 <td className={setStyleForStatus(item.status)}>
                                   {item.status}
@@ -713,7 +717,7 @@ function MyAccountNew(props: MyComponentProps) {
                                     item.placementDate || item.createdAt
                                   )}
                                 </td>
-                                <td>{CapitalizeFirstLetter(item.type)}</td>
+                                <td>{replaceHyphenCapitolize(item.type)}</td>
                                 <td>{item.serviceFrequency}</td>
                                 <td className={setStyleForStatus(item.status)}>
                                   {item.status}
@@ -798,7 +802,9 @@ function MyAccountNew(props: MyComponentProps) {
                                   {item.subscription?.slice(-8)?.toUpperCase()}
                                 </td>
                                 <td>{setFormatDate(item.createdAt)}</td>
-                                <td>{item.quotationType}</td>
+                                <td>
+                                  {replaceHyphenCapitolize(item.quotationType)}
+                                </td>
                                 <td
                                   className={`${
                                     item.status === "ACTIVE"

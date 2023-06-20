@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { getDaysBetweenDates, setFormatDate } from "../Helper";
+import {
+  getDaysBetweenDates,
+  replaceHyphenCapitolize,
+  setFormatDate,
+} from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -175,7 +179,7 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Type</th>
-                <td>{quotationType}</td>
+                <td>{replaceHyphenCapitolize(quotationType)}</td>
               </tr>
               <tr>
                 <th>Delivery Price</th>

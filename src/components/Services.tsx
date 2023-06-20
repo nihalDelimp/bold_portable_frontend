@@ -12,7 +12,7 @@ interface MyComponentProps {
 
 function Services(props: MyComponentProps) {
   const { setLoading } = props;
-  const [service, setService] = useState<any[]>([]);
+  const [requestServices, setRequestServices] = useState<any[]>([]);
   const [isOtherService, setOtherService] = useState<boolean>(false);
   const [otherServiceName, setOtherServiceName] = useState<string>("");
   const [serviceTypes, setServiceTypes] = useState<string[]>([]);
@@ -67,19 +67,22 @@ function Services(props: MyComponentProps) {
   };
 
   useEffect(() => {
-    //  getServiceData();
-  }, []);
+    if (quotationType) {
+      getServiceData();
+    }
+  }, [quotationType]);
 
   const getServiceData = async () => {
+    const payload = { name: quotationType };
     setLoading(true);
     await authAxios()
-      .get(`/service/list`)
+      .post(`/service/find-by-name`, payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setService(resData);
+            setRequestServices(resData?.categories);
           }
         },
         (error) => {
@@ -252,58 +255,23 @@ function Services(props: MyComponentProps) {
                     dolore magna aliquam erat volutpat. Ut wisi{" "}
                   </p>
                   <ul className="servies--inner--links">
-                    <li>
-                      <label htmlFor="Wedding" className="service--label">
-                        <input
-                          type="checkbox"
-                          id="Option-1"
-                          name="Option-1"
-                          value="Option-1"
-                          onChange={handleSelectService}
-                          checked={serviceTypes.includes("Option-1")}
-                        />
-                        <span>Option-1</span>
-                      </label>
-                    </li>
-                    <li>
-                      <label htmlFor="Clean" className="service--label">
-                        <input
-                          type="checkbox"
-                          id="Option-2"
-                          name="Option-2"
-                          value="Option-2"
-                          onChange={handleSelectService}
-                          checked={serviceTypes.includes("Option-2")}
-                        />
-                        <span>Option-2</span>
-                      </label>
-                    </li>
-                    <li>
-                      <label htmlFor="LoremIspum" className="service--label">
-                        <input
-                          type="checkbox"
-                          id="Option-3"
-                          name="Option-3"
-                          value="Option-3"
-                          onChange={handleSelectService}
-                          checked={serviceTypes.includes("Option-3")}
-                        />
-                        <span>Option-3</span>
-                      </label>
-                    </li>
-                    <li>
-                      <label htmlFor="DollerSit" className="service--label">
-                        <input
-                          type="checkbox"
-                          id="Option-4"
-                          name="Option-4"
-                          value="Option-4"
-                          onChange={handleSelectService}
-                          checked={serviceTypes.includes("Option-4")}
-                        />
-                        <span>Option-4</span>
-                      </label>
-                    </li>
+                    {requestServices &&
+                      requestServices.length > 0 &&
+                      requestServices.map((item, index) => (
+                        <li key={index + 1}>
+                          <label htmlFor="Wedding" className="service--label">
+                            <input
+                              type="checkbox"
+                              name={item}
+                              value={item}
+                              onChange={handleSelectService}
+                              checked={serviceTypes.includes(item)}
+                            />
+                            <span>{item}</span>
+                          </label>
+                        </li>
+                      ))}
+
                     <li>
                       <label htmlFor="other" className="service--label">
                         <input

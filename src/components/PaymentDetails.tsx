@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { getFormatedDate } from "../Helper";
+import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -148,7 +148,7 @@ function PaymentDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Type :</th>
-                <td>{subscription?.quotationType}</td>
+                <td>{replaceHyphenCapitolize(subscription?.quotationType)}</td>
               </tr>
               <tr>
                 <th>Created At :</th>

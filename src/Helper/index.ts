@@ -69,6 +69,14 @@ export const CapitalizeFirstLetter = (data : any) => {
   }
 }
 
+export function replaceHyphenCapitolize (strData : string){
+  if(strData){
+    const newStr = strData.charAt(0).toUpperCase() + strData.slice(1);
+    let replacedWord = newStr.replace(/-/g, ' ');
+    return replacedWord
+  }
+}
+
 export function validateEmail(email: string) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
