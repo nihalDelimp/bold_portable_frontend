@@ -251,7 +251,7 @@ function MyAccountNew(props: MyComponentProps) {
                     <div className="dashboard--content--title">
                       <h2>
                         <span>Dashboard</span>{" "}
-                        <span>{CapitalizeFirstLetter(user.name)}</span>
+                        <span>Hi {CapitalizeFirstLetter(user.name)} !</span>
                       </h2>
                     </div>
                     <div className="table--wrapper">
@@ -296,9 +296,7 @@ function MyAccountNew(props: MyComponentProps) {
                                   <button
                                     onClick={() => {
                                       setquotationID(item._id);
-                                      setquotationType(
-                                        CapitalizeFirstLetter(item.type)
-                                      );
+                                      setquotationType(item.type);
                                       setActiveSidebar("VIEW_QUOTATION");
                                     }}
                                     type="button"
@@ -729,9 +727,7 @@ function MyAccountNew(props: MyComponentProps) {
                                   <button
                                     onClick={() => {
                                       setquotationID(item._id);
-                                      setquotationType(
-                                        CapitalizeFirstLetter(item.type)
-                                      );
+                                      setquotationType(item.type);
                                       setActiveSidebar("TRACK_ORDER");
                                     }}
                                     type="button"
@@ -747,9 +743,7 @@ function MyAccountNew(props: MyComponentProps) {
                                   <button
                                     onClick={() => {
                                       setquotationID(item._id);
-                                      setquotationType(
-                                        CapitalizeFirstLetter(item.type)
-                                      );
+                                      setquotationType(item.type);
                                       setActiveSidebar("VIEW_QUOTATION");
                                     }}
                                     type="button"
