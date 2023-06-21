@@ -1,6 +1,8 @@
 import React from "react";
+import { useEffect } from "react";
 
 const Process = () => {
+
   return (
     <section className="how--to--process">
       <div className="grid--container">
@@ -26,7 +28,8 @@ const Process = () => {
                     </p>
                   </div>
                   <a
-                    href="#"
+                    href="#best--describes"
+                    id="process--book--now"
                     className="btn--process"
                     data-aos="fade"
                     data-aos-duration="1000"

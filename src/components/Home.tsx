@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import HeroBanner from "../Common/HeroBanner";
 import AboutUs from "./AboutUs";
 import BestDescribe from "./BestDescribe";
@@ -10,6 +11,7 @@ import Customers from "./Customers";
 import GoogleMaps from "./GoogleMaps";
 import Blog from "./Blog";
 import Products from "./Products";
+import $ from "jquery";
 
 
 import AOS from 'aos';
@@ -18,6 +20,40 @@ AOS.init({once: true});
 
 
 const HomePage = () => {
+
+  useEffect(() => {
+    function smoothScroll(target: any) {
+      const element = document.querySelector(target);
+    
+      if (element) {
+        window.scrollTo({
+          top: element.offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    }
+    
+    // Usage example
+    const link = document.querySelector('#btn--hero') as HTMLAnchorElement; 
+    
+    link.addEventListener('click', (event) => {
+      event.preventDefault(); 
+      const target = link.getAttribute('href'); 
+      if (target) {
+        smoothScroll(target); 
+      }
+    });
+    const link2 = document.querySelector('#process--book--now') as HTMLAnchorElement; 
+    
+    link2.addEventListener('click', (event) => {
+      event.preventDefault(); 
+      const target = link2.getAttribute('href'); 
+      if (target) {
+        smoothScroll(target); 
+      }
+    });
+  }, [])
+
   return (
     <>
       <HeroBanner />
