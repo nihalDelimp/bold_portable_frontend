@@ -31,13 +31,15 @@
                        display: flex;
                      }
                      img {
-                        min-width: 220px;
+                        min-width: 180px;
+                        width: 180px;
                         @media (max-width:1024px) {
-                            min-width: 150px;
+                            min-width: 135px;
+                            width: 135px;
                          }
                         @media (max-width:767px) {
                             min-width: 70px;
-                           max-width: 100px;
+                            width: 70px;
                         }
                     }
                 }

@@ -140,7 +140,7 @@ const Header = () => {
           <div className="header--wrapper">
             <div className="site--logo">
               <Link to="/">
-                <img src={require("../asstes/image/site--logo.jpg")} alt="" />
+                <img src={require("../asstes/image/site--logo.png")} alt="" />
               </Link>
             </div>
             <div className="main--menu">
@@ -203,7 +203,7 @@ const Header = () => {
 
             <div className="login--cart--container">
               <div className="login--cart--wrapper">
-                <div className="cart">
+                {/* <div className="cart">
                   <div className="cart--wrapper">
                     <div className="cart--icon">
                       <span
@@ -217,7 +217,7 @@ const Header = () => {
                       />
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="notifications">
                   <div className="notifications--wrapper">
                     <span
