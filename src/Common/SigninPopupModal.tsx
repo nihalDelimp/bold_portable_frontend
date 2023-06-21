@@ -55,10 +55,9 @@ function SigninPopupModal() {
     }));
   };
 
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const requestPayload = trimObjValues(userInput)
+    const requestPayload = trimObjValues(userInput);
 
     if (rememberMe) {
       localStorage.setItem("rememberedEmail", requestPayload.email);
@@ -77,15 +76,23 @@ function SigninPopupModal() {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success("Logged in successfully");
-            dispatch(setAccessToken(response.data.data.token));
-            dispatch(setuser(response.data.data.user));
-            dispatch(setIsAuthenticated(true));
-            setUserInput({ email: "", password: "" });
-            document
-              .querySelector(".custom--popup")
-              ?.classList.remove("active--popup");
-          } else {
+            const resData = response.data.data
+            const userType = resData.user.user_type;
+            if(userType === "ADMIN"){
+              toast.error("You don't have authorization!!")
+            }
+            else {
+              toast.success("Logged in successfully");
+              dispatch(setAccessToken(resData.token));
+              dispatch(setuser(resData.user));
+              dispatch(setIsAuthenticated(true));
+              setUserInput({ email: "", password: "" });
+              document
+                .querySelector(".custom--popup")
+                ?.classList.remove("active--popup");
+            }
+          }
+           else {
             toast.error(response.data?.message);
           }
         },
@@ -108,7 +115,7 @@ function SigninPopupModal() {
   };
 
   const handleForgotPass = () => {
-    dispatch(setResetPassword(false))
+    dispatch(setResetPassword(false));
     document.querySelector(".custom--popup")?.classList.remove("active--popup");
     const reset_passwords = document.getElementById("reset--password");
     const element = reset_passwords as HTMLElement;
