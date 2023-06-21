@@ -21,7 +21,7 @@ function PaymentSuccess(props: MyComponentProps) {
     const params = new URLSearchParams(window.location.search);
     const quotationId = params.get("quotationId");
     const quotationType = params.get("quotationType");
-    getProductDetailsData(quotationId);
+   // getProductDetailsData(quotationId);
   }, []);
 
   const getProductDetailsData = async (quotationId: any) => {
