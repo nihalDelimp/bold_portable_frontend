@@ -113,10 +113,10 @@ function MyAccountNew(props: MyComponentProps) {
   const setStyleForStatus = (status: string) => {
     if (status === "pending") {
       return "processing";
+    } else if (status === "active") {
+      return "active";
     } else if (status === "cancel") {
       return "cancel";
-    } else {
-      return "active";
     }
   };
 
@@ -287,7 +287,7 @@ function MyAccountNew(props: MyComponentProps) {
                                 <td>{replaceHyphenCapitolize(item.type)}</td>
                                 <td>{item.serviceFrequency}</td>
                                 <td className={setStyleForStatus(item.status)}>
-                                  {item.status}
+                                  {CapitalizeFirstLetter(item.status)}
                                 </td>
                                 <td>
                                   <button
@@ -720,7 +720,7 @@ function MyAccountNew(props: MyComponentProps) {
                                 <td>{replaceHyphenCapitolize(item.type)}</td>
                                 <td>{item.serviceFrequency}</td>
                                 <td className={setStyleForStatus(item.status)}>
-                                  {item.status}
+                                  {CapitalizeFirstLetter(item.status)}
                                 </td>
                                 <td>
                                   <button
