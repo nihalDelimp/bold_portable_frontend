@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { authAxios } from "../config/config";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { logout } from "../Redux/Reducers/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   CapitalizeFirstLetter,
   replaceHyphenCapitolize,
@@ -15,6 +15,7 @@ import TrackQuotation from "./TrackQuotation";
 import ProfileSetting from "./ProfileSetting";
 import $ from "jquery";
 import { toast } from "react-toastify";
+import { RootState } from "../Redux/rootReducer";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -34,6 +35,7 @@ function MyAccountNew(props: MyComponentProps) {
   const [quotationID, setquotationID] = useState<string>("");
   const [quotationType, setquotationType] = useState<string>("");
   const [subscriptionID, setsubscriptionID] = useState<string>("");
+  const { user, accessToken } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     $(document).ready(function () {
@@ -248,7 +250,8 @@ function MyAccountNew(props: MyComponentProps) {
                   <div className="dashboard--content">
                     <div className="dashboard--content--title">
                       <h2>
-                        <span>Dashboard</span> <span>Hello Jhon!</span>
+                        <span>Dashboard</span>{" "}
+                        <span>{CapitalizeFirstLetter(user.name)}</span>
                       </h2>
                     </div>
                     <div className="table--wrapper">
