@@ -36,6 +36,7 @@ function MyAccountNew(props: MyComponentProps) {
   const [quotationType, setquotationType] = useState<string>("");
   const [subscriptionID, setsubscriptionID] = useState<string>("");
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const [qoutStatus, setQuotStatus] = useState("pending");
 
   useEffect(() => {
     $(document).ready(function () {
@@ -117,7 +118,9 @@ function MyAccountNew(props: MyComponentProps) {
       return "processing";
     } else if (status === "active") {
       return "active";
-    } else if (status === "cancel") {
+    } else if (status === "completed") {
+      return "active";
+    } else if (status === "cancelled") {
       return "cancel";
     }
   };
@@ -728,6 +731,7 @@ function MyAccountNew(props: MyComponentProps) {
                                     onClick={() => {
                                       setquotationID(item._id);
                                       setquotationType(item.type);
+                                      setQuotStatus(item.status);
                                       setActiveSidebar("TRACK_ORDER");
                                     }}
                                     type="button"
@@ -831,6 +835,7 @@ function MyAccountNew(props: MyComponentProps) {
 
                 {activeSidebar === "TRACK_ORDER" && (
                   <TrackQuotation
+                    qoutStatus={qoutStatus}
                     quotationID={quotationID}
                     quotationType={quotationType}
                     isLoading={isLoading}

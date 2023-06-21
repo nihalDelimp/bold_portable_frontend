@@ -176,7 +176,9 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Status</th>
-                <td className="status">{CapitalizeFirstLetter(quotation?.status)}</td>
+                <td className="status">
+                  {CapitalizeFirstLetter(quotation?.status)}
+                </td>
               </tr>
               <tr>
                 <th>Type</th>
@@ -243,9 +245,7 @@ function QuotationDetails(props: MyComponentProps) {
         </div>
         {quotation && (
           <div className="pt--15">
-            {quotation?.status === 'active' ? (
-              <button className="btn btn-success">Paid</button>
-            ) : (
+            {quotation?.status === "pending" ? (
               <button
                 onClick={subscriptionPayment}
                 disabled={isLoading || !quotation || !quotation?.costDetailsSum}
@@ -253,6 +253,8 @@ function QuotationDetails(props: MyComponentProps) {
               >
                 Subscribe
               </button>
+            ) : (
+              <button className="btn btn-success">Paid</button>
             )}
           </div>
         )}
