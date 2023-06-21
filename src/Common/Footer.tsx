@@ -75,7 +75,7 @@ const Footer = (props: MyComponentProps) => {
                   <li data-aos="fade-up" data-aos-duration="1000">
                     <a href="mailto:bold@example.com">Bold@example.com</a>
                   </li>
-                  <li data-aos="fade-up" data-aos-duration="1000">
+                  {/* <li data-aos="fade-up" data-aos-duration="1000">
                     <div
                       style={{
                         height: "auto",
@@ -126,7 +126,7 @@ const Footer = (props: MyComponentProps) => {
                         />
                       )}
                     </div>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
               <div className="footer--social">

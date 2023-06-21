@@ -18,8 +18,37 @@
         min-height: calc(100vh);
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        padding-bottom: clamp(50px, 10vw, 100px);
+        justify-content: center;
+        padding-block: clamp(50px, 10vw, 100px);
+        .hero--content--data {
+            padding: 0px 15px;
+            text-align: center;
+            h1 {
+                font-size: clamp(36px, 5.7vw, 90px);
+                color: $white;
+            }
+            h3 {
+                font-size: clamp(18px, 2vw, 24px);
+                color: $white;
+                font-weight: 400;
+                margin: 30px 0px;
+                @media (max-width:767px) {
+                    margin: 20px 0px;
+                }
+            }
+            a {
+                background-color: $green;
+                    padding: 17px 40px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                    color: $white;
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                    @media (max-width:767px) {
+                        padding: 12px 30px;
+                    }
+            }
+        }
         .btn--content {
             display: flex;
             justify-content: space-between;

@@ -56,7 +56,7 @@ const BestDescribe = () => {
 
   return (
     <>
-      <section className="best--describes">
+      <section className="best--describes" id="best--describes">
         <div className="grid--container">
           <div className="grid">
             <div className="grid----">

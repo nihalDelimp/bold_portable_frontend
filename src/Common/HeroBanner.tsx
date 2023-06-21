@@ -46,7 +46,17 @@ const HeroBanner = () => {
         </OwlCarousel>
       </div>
       <div className="hero--content-wrapper">
-        <div className="btn--content">
+        <div className="hero--content--data">
+          <h1 data-aos="fade-up"
+            data-aos-duration="1000" >Bold Portables</h1>
+          <h3 data-aos="fade-up"
+            data-aos-duration="1000" data-aos-delay="200" >Revolutionizing the portable bathroom industry through technological innovation.</h3>
+          <a href="#best--describes" className="btn btn--hero" data-aos="fade-up"
+            data-aos-duration="1000" data-aos-delay="400">
+              Book Now
+          </a>
+        </div>
+        {/* <div className="btn--content">
           <div
             className="btn--wrapper"
             data-aos="fade-up"
@@ -74,7 +84,7 @@ const HeroBanner = () => {
             <h2>Bold Portable -</h2>
             <h2>Bold Portable -</h2>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

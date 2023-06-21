@@ -4,7 +4,7 @@
         &::before {
             @extend %before_content;
             background-color: rgba(000,000,000,0.3);
-            height: calc(100%);
+            height: calc(100% - 8px);
         }
         img {
             aspect-ratio: 1/ .35;
