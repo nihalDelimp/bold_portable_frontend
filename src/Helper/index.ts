@@ -41,8 +41,6 @@ export function firstChartByFullName (fullName : any){
   return str; 
 };
 
-
-
 function deg2rad(deg: number) {
   return deg * (Math.PI / 180);
 }
@@ -69,7 +67,7 @@ export const CapitalizeFirstLetter = (data : any) => {
   }
 }
 
-export function replaceHyphenCapitolize (strData : string){
+export function replaceHyphenCapitolize (strData : any){
   if(strData){
     const newStr = strData.charAt(0).toUpperCase() + strData.slice(1);
     let replacedWord = newStr.replace(/-/g, ' ');

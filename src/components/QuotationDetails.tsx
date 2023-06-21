@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import {
+  CapitalizeFirstLetter,
   getDaysBetweenDates,
   replaceHyphenCapitolize,
   setFormatDate,
@@ -175,7 +176,7 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Status</th>
-                <td className="status">{quotation?.status}</td>
+                <td className="status">{CapitalizeFirstLetter(quotation?.status)}</td>
               </tr>
               <tr>
                 <th>Type</th>
@@ -242,7 +243,7 @@ function QuotationDetails(props: MyComponentProps) {
         </div>
         {quotation && (
           <div className="pt--15">
-            {quotation?.subscription ? (
+            {quotation?.status === 'active' ? (
               <button className="btn btn-success">Paid</button>
             ) : (
               <button
