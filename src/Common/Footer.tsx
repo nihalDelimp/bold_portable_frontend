@@ -61,6 +61,7 @@ const Footer = (props: MyComponentProps) => {
                 data-aos-duration="1000"
               >
                 <div className="form--group">
+                  <input type="email" placeholder="Email" />
                   <input type="text" placeholder="Message" />
                   <div className="submit--btn">
                     <button type="button">{}</button>
