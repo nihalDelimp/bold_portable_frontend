@@ -7,10 +7,11 @@ function AboutUsMenu() {
         <div className="banner--thumbnuil">
           <img
             src={require("../asstes/image/about--banner.jpg")}
-            alt="AboutUs"
+            alt="AboutUs" loading="lazy"
           />
         </div>
-        <div className="banner--heading">
+        <div className="banner--heading" data-aos="fade-up"
+                          data-aos-duration="1000">
           <h1>About Us</h1>
         </div>
       </section>
@@ -20,13 +21,16 @@ function AboutUsMenu() {
             <div className="grid----">
               <div className="about--portable--wrapper">
                 <div className="about--portable--data">
-                  <h2>Bold Portable</h2>
-                  <p className="highlight--text">
+                  <h2 data-aos="fade-up"
+                          data-aos-duration="1000">Bold Portable</h2>
+                  <p className="highlight--text" data-aos="fade-up"
+                          data-aos-duration="1000">
                     GetLorem ipsum dolor sit amet, consectetuer adipiscing elit,
                     sed diam nonummy nibh euismod tincidunt ut laoreet dolore
                     magna aliquam erat volutpat. Ut wisi enim ad minim veniam
                   </p>
-                  <p>
+                  <p data-aos="fade-up"
+                          data-aos-duration="1000">
                     Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
                     sed diam nonummy nibh euismod tincidunt ut laoreet dolore
                     magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
@@ -43,7 +47,8 @@ function AboutUsMenu() {
                 <div className="about--banner">
                   <img
                     src={require("../asstes/image/about--port.jpg")}
-                    alt=" Aboutport"
+                    alt=" Aboutport" data-aos="fade-in"
+                    data-aos-duration="500" loading="lazy"
                   />
                 </div>
               </div>
@@ -56,8 +61,10 @@ function AboutUsMenu() {
           <div className="grid">
             <div className="grid--">
               <div className="we--commited--data">
-                <h2>Bold Portable</h2>
-                <p>
+                <h2 data-aos="fade-up"
+                          data-aos-duration="1000">Bold Portable</h2>
+                <p data-aos="fade-up"
+                          data-aos-duration="1000">
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
                   diam nonummy nibh euismod tincidunt ut laoreet dolore magna
                   aliquam erat volutpat. Ut wisi enim ad minim veniam, Lorem
@@ -66,7 +73,8 @@ function AboutUsMenu() {
                   erat volutpat. Ut wisi enim ad minim veniam, Lorem ipsum dolor
                   sit amet, consectetuer adipiscing elit.
                 </p>
-                <p>
+                <p data-aos="fade-up"
+                          data-aos-duration="1000">
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
                   diam nonummy nibh euismod tincidunt ut laoreet dolore magna
                   aliquam erat volutpat. Ut wisi enim ad minim veniam, Lorem
@@ -77,12 +85,13 @@ function AboutUsMenu() {
             <div className="grid--">
               <div className="we--commited--list">
                 <ul>
-                  <li>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Efficiency.png")}
-                          alt="Efficiency"
+                          alt="Efficiency" loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">
@@ -96,12 +105,13 @@ function AboutUsMenu() {
                       </div>
                     </div>
                   </li>
-                  <li>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Simplicity.png")}
-                          alt="Simplicity"
+                          alt="Simplicity" loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">
@@ -115,12 +125,13 @@ function AboutUsMenu() {
                       </div>
                     </div>
                   </li>
-                  <li>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Technology.png")}
-                          alt="Technology"
+                          alt="Technology" loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">

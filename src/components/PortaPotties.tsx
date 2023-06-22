@@ -29,7 +29,7 @@ const PortaPotties = () => {
                                 <div className="port--types--category--items" data-aos="fade-up" data-aos-duration="1000">
                                     <div className="port--types--category--item" id="portcat--1">
                                         <div className="img--wrapper">
-                                        <img src={require('../asstes/image/deluxe-flush--1.png')} alt=""/>
+                                        <img src={require('../asstes/image/deluxe-flush--1.png')} alt="" loading="lazy"/>
                                         </div>
                                         <div className="content--wrapper">
                                             <a href="#" className="btn--arrow"></a>
@@ -40,7 +40,7 @@ const PortaPotties = () => {
                                     </div>
                                     <div className="port--types--category--item" id="portcat--2">
                                         <div className="img--wrapper">
-                                           <img src={require('../asstes/image/deluxe-flush--1.png')} alt=""/>
+                                           <img src={require('../asstes/image/deluxe-flush--1.png')} alt="" loading="lazy"/>
                                         </div>
                                         <div className="content--wrapper">
                                             <a href="#" className="btn--arrow"></a>
@@ -50,7 +50,7 @@ const PortaPotties = () => {
                                     </div>
                                     <div className="port--types--category--item active--port--type" id="portcat--3">
                                         <div className="img--wrapper">
-                                           <img src={require('../asstes/image/deluxe-flush--1.png')} alt=""/>
+                                           <img src={require('../asstes/image/deluxe-flush--1.png')} alt="" loading="lazy"/>
                                         </div>
                                         <div className="content--wrapper">
                                             <a href="#" className="btn--arrow"></a>
@@ -61,7 +61,7 @@ const PortaPotties = () => {
                                     </div>
                                     <div className="port--types--category--item" id="portcat--4">
                                         <div className="img--wrapper">
-                                           <img src={require('../asstes/image/deluxe-flush--1.png')} alt=""/>
+                                           <img src={require('../asstes/image/deluxe-flush--1.png')} alt="" loading="lazy"/>
                                         </div>
                                         <div className="content--wrapper">
                                             <a href="#" className="btn--arrow"></a>
@@ -71,7 +71,7 @@ const PortaPotties = () => {
                                     </div>
                                     <div className="port--types--category--item" id="portcat--5">
                                         <div className="img--wrapper">
-                                           <img src={require('../asstes/image/deluxe-flush--1.png')} alt=""/>
+                                           <img src={require('../asstes/image/deluxe-flush--1.png')} alt="" loading="lazy"/>
                                         </div>
                                         <div className="content--wrapper">
                                             <a href="#" className="btn--arrow"></a>

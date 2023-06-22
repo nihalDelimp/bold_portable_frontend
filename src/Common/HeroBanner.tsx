@@ -38,13 +38,13 @@ const HeroBanner = () => {
           {...options}
         >
           <div className="item">
-            <img src={require("../asstes/image/hero--banner.jpg")} alt="" />
+            <img src={require("../asstes/image/hero--banner.jpg")} alt="" loading="lazy" />
           </div>
           <div className="item">
-            <img src={require("../asstes/image/hero--slider-2.jpg")} alt="" />
+            <img src={require("../asstes/image/hero--slider-2.jpg")} alt="" loading="lazy" />
           </div>
           <div className="item">
-            <img src={require("../asstes/image/hero--banner.jpg")} alt="" />
+            <img src={require("../asstes/image/hero--banner.jpg")} alt="" loading="lazy" />
           </div>
         </OwlCarousel>
       </div>

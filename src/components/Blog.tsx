@@ -62,7 +62,7 @@ const Blog = () => {
                 <div className="thumbnuil">
                   <img
                     src={require("../asstes/image/post--1.jpg")}
-                    alt="post"
+                    alt="post" loading="lazy"
                   />
                 </div>
                 <div className="blog--content">
@@ -77,7 +77,7 @@ const Blog = () => {
                 <div className="thumbnuil">
                   <img
                     src={require("../asstes/image/post--1.jpg")}
-                    alt="post"
+                    alt="post" loading="lazy"
                   />
                 </div>
                 <div className="blog--content">
@@ -92,7 +92,7 @@ const Blog = () => {
                 <div className="thumbnuil">
                   <img
                     src={require("../asstes/image/post--1.jpg")}
-                    alt="post"
+                    alt="post" loading="lazy"
                   />
                 </div>
                 <div className="blog--content">
@@ -107,7 +107,7 @@ const Blog = () => {
                 <div className="thumbnuil">
                   <img
                     src={require("../asstes/image/post--1.jpg")}
-                    alt="post"
+                    alt="post" loading="lazy"
                   />
                 </div>
                 <div className="blog--content">
@@ -122,7 +122,7 @@ const Blog = () => {
                 <div className="thumbnuil">
                   <img
                     src={require("../asstes/image/post--1.jpg")}
-                    alt="post"
+                    alt="post" loading="lazy"
                   />
                 </div>
                 <div className="blog--content">
@@ -137,7 +137,7 @@ const Blog = () => {
                 <div className="thumbnuil">
                   <img
                     src={require("../asstes/image/post--1.jpg")}
-                    alt="post"
+                    alt="post" loading="lazy"
                   />
                 </div>
                 <div className="blog--content">

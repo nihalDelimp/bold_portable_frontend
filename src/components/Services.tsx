@@ -149,10 +149,11 @@ function Services(props: MyComponentProps) {
         <div className="banner--thumbnuil">
           <img
             src={require("../asstes/image/about--banner.jpg")}
-            alt="AboutUs"
+            alt="AboutUs" loading="lazy"
           />
         </div>
-        <div className="banner--heading">
+        <div className="banner--heading" data-aos="fade-up"
+                          data-aos-duration="1000">
           <h1>Services</h1>
         </div>
       </section>
@@ -162,7 +163,8 @@ function Services(props: MyComponentProps) {
             <div className="grid----">
               <div className="about--portable--wrapper">
                 <div className="about--portable--data">
-                  <p className="highlight--text">
+                  <p className="highlight--text" data-aos="fade-up"
+                          data-aos-duration="1000">
                     GetLorem ipsum dolor sit amet, consectetuer adipiscing elit,
                     sed diam nonummy nibh euismod tincidunt ut laoreet dolore
                     magna aliquam erat volutpat. Ut wisi enim ad minim
@@ -170,7 +172,8 @@ function Services(props: MyComponentProps) {
                     elit, sed diam nonummy nibh euismod tincidunt ut laoreet
                     dolore magna aliquam erat volutpat.
                   </p>
-                  <p>
+                  <p data-aos="fade-up"
+                          data-aos-duration="1000">
                     Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
                     sed diam nonummy nibh euismod tincidunt ut laoreet dolore
                     magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
@@ -189,7 +192,8 @@ function Services(props: MyComponentProps) {
           </div>
         </div>
       </section>
-      <section className="services--tabs">
+      <section className="services--tabs" data-aos="fade-up"
+                          data-aos-duration="1000">
         <div className="grid--container">
           <div className="grid">
             <div className="grid-">
@@ -254,6 +258,20 @@ function Services(props: MyComponentProps) {
                     elit, sed daiam nonummy nibh euismod tincidunt ut laoreet
                     dolore magna aliquam erat volutpat. Ut wisi{" "}
                   </p>
+                  <div className="servies--inner--form">
+                      <div className="form--group">
+                        <label htmlFor="name">Name</label>
+                        <input type="text" placeholder="Name" id="name"  />
+                      </div>
+                      <div className="form--group">
+                        <label htmlFor="email">Email</label>
+                        <input type="Email" id="email" placeholder="Email" />
+                      </div>
+                      <div className="form--group iframe--wrapper">
+                        <label htmlFor="email">Location</label>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83988654095!2d-0.2664029782833932!3d51.528739805082814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sin!4v1687426924908!5m2!1sen!2sin"  style={{border: "0px", width:"100%"}} allowFullScreen  loading="lazy"></iframe>
+                      </div>
+                  </div>
                   <ul className="servies--inner--links">
                     {requestServices &&
                       requestServices.length > 0 &&
@@ -325,8 +343,10 @@ function Services(props: MyComponentProps) {
           <div className="grid">
             <div className="grid--">
               <div className="we--commited--data">
-                <h2>Bold Portable</h2>
-                <p>
+                <h2 data-aos="fade-up"
+                          data-aos-duration="1000">Bold Portable</h2>
+                <p data-aos="fade-up"
+                          data-aos-duration="1000">
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
                   diam nonummy nibh euismod tincidunt ut laoreet dolore magna
                   aliquam erat volutpat. Ut wisi enim ad minim veniam, Lorem
@@ -335,7 +355,8 @@ function Services(props: MyComponentProps) {
                   erat volutpat. Ut wisi enim ad minim veniam, Lorem ipsum dolor
                   sit amet, consectetuer adipiscing elit.
                 </p>
-                <p>
+                <p data-aos="fade-up"
+                          data-aos-duration="1000">
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
                   diam nonummy nibh euismod tincidunt ut laoreet dolore magna
                   aliquam erat volutpat. Ut wisi enim ad minim veniam, Lorem
@@ -346,12 +367,13 @@ function Services(props: MyComponentProps) {
             <div className="grid--">
               <div className="we--commited--list">
                 <ul>
-                  <li>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Efficiency.png")}
-                          alt="Efficiency"
+                          alt="Efficiency" loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">
@@ -365,12 +387,13 @@ function Services(props: MyComponentProps) {
                       </div>
                     </div>
                   </li>
-                  <li>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Simplicity.png")}
-                          alt="Simplicity"
+                          alt="Simplicity" loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">
@@ -384,12 +407,13 @@ function Services(props: MyComponentProps) {
                       </div>
                     </div>
                   </li>
-                  <li>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Technology.png")}
-                          alt="Technology"
+                          alt="Technology" loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">

@@ -83,31 +83,31 @@ const BestDescribe = () => {
                       >
                         <img
                           src={require("../asstes/image/port--1.png")}
-                          alt=""
+                          alt="" loading="lazy"
                         />
                       </div>
                       <div className="describe--category--item" id="cat--2">
                         <img
                           src={require("../asstes/image/port--2.png")}
-                          alt=""
+                          alt="" loading="lazy"
                         />
                       </div>
                       <div className="describe--category--item" id="cat--3">
                         <img
                           src={require("../asstes/image/port--1.png")}
-                          alt=""
+                          alt="" loading="lazy"
                         />
                       </div>
                       <div className="describe--category--item" id="cat--4">
                         <img
                           src={require("../asstes/image/port--2.png")}
-                          alt=""
+                          alt="" loading="lazy"
                         />
                       </div>
                       <div className="describe--category--item" id="cat--5">
                         <img
                           src={require("../asstes/image/port--1.png")}
-                          alt=""
+                          alt="" loading="lazy"
                         />
                       </div>
                     </div>

@@ -48,7 +48,7 @@ const Customers = () => {
           <Link to={`#`}>          
             <img
               src={require("../asstes/image/customers/Custom-Vac.png")}
-              alt=""
+              alt="" loading="lazy"
             />
           </Link>
         </div>
@@ -57,7 +57,7 @@ const Customers = () => {
           <Link to={`#`}> 
           <img
             src={require("../asstes/image/customers/Poly-John.png")}
-            alt=""
+            alt="" loading="lazy"
           />
           </Link>
         </div>
@@ -66,7 +66,7 @@ const Customers = () => {
           <Link to={`#`}> 
           <img
             src={require("../asstes/image/customers/PSAI.png")}
-            alt=""
+            alt="" loading="lazy"
           />
           </Link>
         </div>

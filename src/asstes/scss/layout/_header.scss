@@ -223,7 +223,7 @@
                     position: relative;
                     cursor: pointer;
                     .badge {
-                        min-width: 13px;
+                        min-width: 24px;
                         background-color: $yellow;
                         aspect-ratio: 1;
                         font-size: 12px;
@@ -233,8 +233,8 @@
                         align-items: center;
                         color: $black;
                         position: absolute;
-                        right: 0px;
-                        top: -5px;
+                        right: -5px;
+                        top: -10px;
                         transform: scale(0.7);
                     }
                     img {
