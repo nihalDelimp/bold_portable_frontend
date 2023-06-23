@@ -344,7 +344,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Many construction site offering gender specifics toilets,
+                    Many Farm, Winery or Orchad site offering gender specifics toilets,
                     would you like to offer this ?
                     <span className="required"></span>
                   </label>
