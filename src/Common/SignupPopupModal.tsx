@@ -30,10 +30,12 @@ function SignupPopupModal() {
     event.preventDefault();
     const payload = trimObjValues(user);
     let validUsername = /^[A-Za-z\s]+$/;
-    if (!validUsername.test(payload.name)) {
+    if (!payload.name) {
+      toast.error("Name is required!");
+    } else if (payload.name.length < 5) {
+      toast.error("Name must be at least 5 characters long!");
+    } else if (!validUsername.test(payload.name)) {
       toast.error("Name should only contain letters");
-    } else if (payload.mobile < 9) {
-      toast.error("Phone number must be at least 9 digit");
     } else {
       setLoading(true);
       await withoutAuthAxios()

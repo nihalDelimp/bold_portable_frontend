@@ -4,6 +4,20 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import io, { Socket } from "socket.io-client";
+import {
+  useJsApiLoader,
+  GoogleMap,
+  MarkerF,
+  Autocomplete,
+} from "@react-google-maps/api";
+import {
+  maxUserEmailLength,
+  maxUserNameLength,
+  maxUserPhoneLength,
+  minUserEmailLength,
+  minUserNameLength,
+  minUserPhoneLength,
+} from "../Constants";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -21,11 +35,102 @@ function Services(props: MyComponentProps) {
     "construction"
   );
   const [serviceName, setServiceName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+  const [userPhone, setUserPhone] = useState<string>("");
+  const [userAddress, setUserAddress] = useState<string>("");
+  const [isMount, setMount] = useState(false);
+
+  const [currentLatLng, setCurrentLatLng] = useState<any[]>([]);
+
+  console.log("currentLatLng", currentLatLng);
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
+    libraries: ["places"],
+  });
+
+  const getAddressFromLatLng = (lat: number, lng: number) => {
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode(
+      { location: { lat, lng } },
+      (results: any, status: any) => {
+        if (status === "OK") {
+          if (results[0]) {
+            let currentAddress = results[0]?.formatted_address;
+            geocoder.geocode({ address: results[0]?.formatted_address });
+            setUserAddress(currentAddress);
+            console.log("CurrentAddrssByTTTTTT", results[0].formatted_address);
+          } else {
+            console.log("No results found");
+          }
+        } else {
+          console.log("Geocoder failed due to: " + status);
+        }
+      }
+    );
+  };
+
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 1000,
+    maximumAge: 0,
+  };
+
+  const successCallback = function () {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setCurrentLatLng([lat, lng]);
+          if (isMount) {
+            getAddressFromLatLng(lat, lng);
+          }
+          setLoading(false);
+        }
+      );
+    }
+  };
+
+  function errorCallback(error: any) {
+    setLoading(false);
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        alert("User denied the request for Geolocation.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        alert("Location information is unavailable.");
+        break;
+      case error.TIMEOUT:
+        alert("The request to get user location timed out.");
+        break;
+      case error.UNKNOWN_ERROR:
+        alert("An unknown error occurred.");
+        break;
+      default:
+        alert("Unknown error");
+    }
+  }
+
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      setLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        successCallback,
+        errorCallback,
+        options
+      );
+    } else {
+      alert("Geolocation is not supported by your browser");
+    }
+  };
+
   useEffect(() => {
+    setMount(!isMount);
     return () => {
       socket.current?.disconnect();
     };
@@ -63,6 +168,14 @@ function Services(props: MyComponentProps) {
         dummyServices.splice(index, 1);
         setServiceTypes(dummyServices);
       }
+    }
+  };
+
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
+    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+      setUserPhone(sanitizedValue);
     }
   };
 
@@ -106,41 +219,66 @@ function Services(props: MyComponentProps) {
       serviceTypes: allServiceType,
       quotationId: quotationId,
       quotationType: quotationType,
+      name: userName?.trim(),
+      email: userEmail?.trim(),
+      phone: userPhone?.trim(),
+      address: userAddress?.trim(),
+      coordinates: {
+        type: "Point",
+        coordinates: currentLatLng,
+      },
     };
-    setLoading(true);
-    await authAxios()
-      .post("/user-service/save", payload)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            if (socket.current) {
-              socket.current.emit("user_request_service", response.data.data);
+    let validUsername = /^[A-Za-z\s]+$/;
+    if (!payload.name) {
+      toast.error("Name is required!");
+    } else if (payload.name.length < 5) {
+      toast.error("Name must be at least 5 characters long!");
+    } else if (!validUsername.test(payload.name)) {
+      toast.error("Name should only contain letters");
+    } else if (!payload.address) {
+      toast.error("Current address is not found!");
+    } else if (currentLatLng.length === 0) {
+      toast.error("Current location is not found!");
+    } else if (payload.serviceTypes.length === 0) {
+      toast.error("No service request found!");
+    } else if (!quotationId) {
+      toast.error("Quotation ID is not found!");
+    } else {
+      setLoading(true);
+      await authAxios()
+        .post("/user-service/save", payload)
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              if (socket.current) {
+                socket.current.emit("user_request_service", response.data.data);
+              }
+              toast.success(response.data.message);
+              setOtherService(false);
+              setOtherServiceName("");
+              setServiceTypes([]);
+            } else {
+              toast.error(response.data?.message);
             }
-            toast.success(response.data.message);
-            setOtherService(false);
-            setOtherServiceName("");
-            setServiceTypes([]);
-          } else {
-            toast.error(response.data?.message);
-          }
-        },
-        (error) => {
-          setLoading(false);
-          if (error.response.data.message) {
-            toast.error(error.response.data.message);
-          } else {
-            const obj = error.response.data.errors[0];
-            const errormsg = Object.values(obj) || [];
-            if (errormsg && errormsg.length > 0) {
-              toast.error(`${errormsg[0]}`);
+          },
+          (error) => {
+            setLoading(false);
+            if (error.response.data.message) {
+              toast.error(error.response.data.message);
+            } else {
+              const obj = error.response.data.errors[0];
+              const errormsg = Object.values(obj) || [];
+              if (errormsg && errormsg.length > 0) {
+                toast.error(`${errormsg[0]}`);
+              }
             }
           }
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
+        )
+        .catch((error) => {
+          console.log("errorrrr", error);
+        });
+    }
   };
 
   return (
@@ -149,11 +287,15 @@ function Services(props: MyComponentProps) {
         <div className="banner--thumbnuil">
           <img
             src={require("../asstes/image/about--banner.jpg")}
-            alt="AboutUs" loading="lazy"
+            alt="AboutUs"
+            loading="lazy"
           />
         </div>
-        <div className="banner--heading" data-aos="fade-up"
-                          data-aos-duration="1000">
+        <div
+          className="banner--heading"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+        >
           <h1>Services</h1>
         </div>
       </section>
@@ -163,8 +305,11 @@ function Services(props: MyComponentProps) {
             <div className="grid----">
               <div className="about--portable--wrapper">
                 <div className="about--portable--data">
-                  <p className="highlight--text" data-aos="fade-up"
-                          data-aos-duration="1000">
+                  <p
+                    className="highlight--text"
+                    data-aos="fade-up"
+                    data-aos-duration="1000"
+                  >
                     GetLorem ipsum dolor sit amet, consectetuer adipiscing elit,
                     sed diam nonummy nibh euismod tincidunt ut laoreet dolore
                     magna aliquam erat volutpat. Ut wisi enim ad minim
@@ -172,8 +317,7 @@ function Services(props: MyComponentProps) {
                     elit, sed diam nonummy nibh euismod tincidunt ut laoreet
                     dolore magna aliquam erat volutpat.
                   </p>
-                  <p data-aos="fade-up"
-                          data-aos-duration="1000">
+                  <p data-aos="fade-up" data-aos-duration="1000">
                     Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
                     sed diam nonummy nibh euismod tincidunt ut laoreet dolore
                     magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
@@ -192,8 +336,11 @@ function Services(props: MyComponentProps) {
           </div>
         </div>
       </section>
-      <section className="services--tabs" data-aos="fade-up"
-                          data-aos-duration="1000">
+      <section
+        className="services--tabs"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+      >
         <div className="grid--container">
           <div className="grid">
             <div className="grid-">
@@ -253,89 +400,127 @@ function Services(props: MyComponentProps) {
             <div className="grid---">
               <div className="servies--list--content">
                 <div className="services--list--content--item">
-                  <p>
-                    GetLorem ipsum dolor sit amet, consadaectetuer adipisciaang
-                    elit, sed daiam nonummy nibh euismod tincidunt ut laoreet
-                    dolore magna aliquam erat volutpat. Ut wisi{" "}
-                  </p>
-                  <div className="servies--inner--form">
+                  <form onSubmit={handleSubmit}>
+                    <p>
+                      GetLorem ipsum dolor sit amet, consadaectetuer
+                      adipisciaang elit, sed daiam nonummy nibh euismod
+                      tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                      Ut wisi{" "}
+                    </p>
+                    <div className="servies--inner--form">
                       <div className="form--group">
                         <label htmlFor="name">Name</label>
-                        <input type="text" placeholder="Name" id="name"  />
+                        <input
+                          type="text"
+                          required
+                          minLength={minUserNameLength}
+                          maxLength={maxUserNameLength}
+                          placeholder="Name"
+                          value={userName}
+                          onChange={(e) => setUserName(e.target.value)}
+                          id="userName"
+                          name="userName"
+                        />
                       </div>
                       <div className="form--group">
                         <label htmlFor="email">Email</label>
-                        <input type="Email" id="email" placeholder="Email" />
+                        <input
+                          type="Email"
+                          id="email"
+                          required
+                          name="userEmail"
+                          minLength={minUserEmailLength}
+                          maxLength={maxUserEmailLength}
+                          value={userEmail}
+                          onChange={(e) => setUserEmail(e.target.value)}
+                          placeholder="Email"
+                        />
+                      </div>
+                      <div className="form--group">
+                        <label htmlFor="phone">Phone</label>
+                        <input
+                          type="text"
+                          required
+                          minLength={minUserPhoneLength}
+                          maxLength={maxUserPhoneLength}
+                          id="userPhone"
+                          value={userPhone}
+                          placeholder="Phone"
+                          name="userPhone"
+                          onChange={handleChangePhone}
+                        />
                       </div>
                       <div className="form--group get--location">
-                        <button type="button" className="btn black--btn">Get Current Location</button>
-                        <p>Address Text</p>
+                        <button
+                          type="button"
+                          className="btn black--btn"
+                          onClick={getCurrentLocation}
+                        >
+                          Get Current Location
+                        </button>
+                        <p>{userAddress}</p>
                       </div>
                       {/* <div className="form--group iframe--wrapper">
                         <label htmlFor="email">Location</label>
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83988654095!2d-0.2664029782833932!3d51.528739805082814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sin!4v1687426924908!5m2!1sen!2sin"  style={{border: "0px", width:"100%"}} allowFullScreen  loading="lazy"></iframe>
                       </div> */}
-                  </div>
-                  <ul className="servies--inner--links">
-                    {requestServices &&
-                      requestServices.length > 0 &&
-                      requestServices.map((item, index) => (
-                        <li key={index + 1}>
-                          <label htmlFor="Wedding" className="service--label">
-                            <input
-                              type="checkbox"
-                              name={item}
-                              value={item}
-                              onChange={handleSelectService}
-                              checked={serviceTypes.includes(item)}
-                            />
-                            <span>{item}</span>
-                          </label>
-                        </li>
-                      ))}
-
-                    <li>
-                      <label htmlFor="other" className="service--label">
-                        <input
-                          onChange={toggleOtherService}
-                          checked={isOtherService}
-                          type="checkbox"
-                          id="other"
-                          name="other"
-                        />
-                        <span>Other Service</span>
-                      </label>
-                    </li>
-                  </ul>
-                  <div className="service--action">
-                    <div className="service--action--wrapper">
-                      {isOtherService && (
-                        <input
-                          type="text"
-                          value={otherServiceName}
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>
-                          ) => setOtherServiceName(event.target.value)}
-                          placeholder="Add new service"
-                        />
-                      )}
-                      <button
-                        className={
-                          isOtherService
-                            ? "btn black--btn btn--radius"
-                            : "btn black--btn"
-                        }
-                        type="button"
-                        disabled={
-                          (serviceTypes.length === 0 && !otherServiceName) ||
-                          !quotationId
-                        }
-                        onClick={handleSubmit}
-                      >
-                        Submit
-                      </button>
                     </div>
-                  </div>
+                    <ul className="servies--inner--links">
+                      {requestServices &&
+                        requestServices.length > 0 &&
+                        requestServices.map((item, index) => (
+                          <li key={index + 1}>
+                            <label htmlFor="Wedding" className="service--label">
+                              <input
+                                type="checkbox"
+                                name={item}
+                                value={item}
+                                onChange={handleSelectService}
+                                checked={serviceTypes.includes(item)}
+                              />
+                              <span>{item}</span>
+                            </label>
+                          </li>
+                        ))}
+                      <li>
+                        <label htmlFor="other" className="service--label">
+                          <input
+                            onChange={toggleOtherService}
+                            checked={isOtherService}
+                            type="checkbox"
+                            id="other"
+                            name="other"
+                          />
+                          <span>Other Service</span>
+                        </label>
+                      </li>
+                    </ul>
+                    <div className="service--action">
+                      <div className="service--action--wrapper">
+                        {isOtherService && (
+                          <input
+                            type="text"
+                            value={otherServiceName}
+                            onChange={(
+                              event: React.ChangeEvent<HTMLInputElement>
+                            ) => setOtherServiceName(event.target.value)}
+                            placeholder="Add new service"
+                          />
+                        )}
+                        <button
+                          className={
+                            isOtherService
+                              ? "btn black--btn btn--radius"
+                              : "btn black--btn"
+                          }
+                          type="submit"
+                          disabled={!quotationId}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -347,10 +532,10 @@ function Services(props: MyComponentProps) {
           <div className="grid">
             <div className="grid--">
               <div className="we--commited--data">
-                <h2 data-aos="fade-up"
-                          data-aos-duration="1000">Bold Portable</h2>
-                <p data-aos="fade-up"
-                          data-aos-duration="1000">
+                <h2 data-aos="fade-up" data-aos-duration="1000">
+                  Bold Portable
+                </h2>
+                <p data-aos="fade-up" data-aos-duration="1000">
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
                   diam nonummy nibh euismod tincidunt ut laoreet dolore magna
                   aliquam erat volutpat. Ut wisi enim ad minim veniam, Lorem
@@ -359,8 +544,7 @@ function Services(props: MyComponentProps) {
                   erat volutpat. Ut wisi enim ad minim veniam, Lorem ipsum dolor
                   sit amet, consectetuer adipiscing elit.
                 </p>
-                <p data-aos="fade-up"
-                          data-aos-duration="1000">
+                <p data-aos="fade-up" data-aos-duration="1000">
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
                   diam nonummy nibh euismod tincidunt ut laoreet dolore magna
                   aliquam erat volutpat. Ut wisi enim ad minim veniam, Lorem
@@ -371,13 +555,13 @@ function Services(props: MyComponentProps) {
             <div className="grid--">
               <div className="we--commited--list">
                 <ul>
-                  <li data-aos="fade-up"
-                          data-aos-duration="1000">
+                  <li data-aos="fade-up" data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Efficiency.png")}
-                          alt="Efficiency" loading="lazy"
+                          alt="Efficiency"
+                          loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">
@@ -391,13 +575,13 @@ function Services(props: MyComponentProps) {
                       </div>
                     </div>
                   </li>
-                  <li data-aos="fade-up"
-                          data-aos-duration="1000">
+                  <li data-aos="fade-up" data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Simplicity.png")}
-                          alt="Simplicity" loading="lazy"
+                          alt="Simplicity"
+                          loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">
@@ -411,13 +595,13 @@ function Services(props: MyComponentProps) {
                       </div>
                     </div>
                   </li>
-                  <li data-aos="fade-up"
-                          data-aos-duration="1000">
+                  <li data-aos="fade-up" data-aos-duration="1000">
                     <div className="we--commited--item">
                       <div className="icons">
                         <img
                           src={require("../asstes/image/Technology.png")}
-                          alt="Technology" loading="lazy"
+                          alt="Technology"
+                          loading="lazy"
                         />
                       </div>
                       <div className="we--commited--text">
