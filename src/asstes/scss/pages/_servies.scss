@@ -63,24 +63,36 @@
             p {
                 color: $black;
             }
-            .servies--inner--form {
-                margin-top: 20px;
-                max-width: 400px;
-                @media (max-width:767px) {
-                    max-width: 100%;
+            .servies--inner--form--wrapper {
+                display: flex;
+                gap: 20px;
+                .servies--inner--form {
+                    margin-top: 20px;
+                    max-width: 400px;
+                    @media (max-width:767px) {
+                        max-width: 100%;
+                    }
+                    .form--group {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        margin-bottom: 15px;
+                        input {
+                            padding: 15px;
+                            border-radius: 5px;
+                            width: 100%;
+                        }
+                    }
                 }
-                .form--group {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                    margin-bottom: 15px;
-                    input {
-                        padding: 15px;
-                        border-radius: 5px;
-                        width: 100%;
+                .service--map {
+                    flex-grow: 1;
+                    padding-block: 25px;
+                    iframe {
+                        height: 100%;
                     }
                 }
             }
+            
             ul {
                 display: flex;
                 gap: 15px;
