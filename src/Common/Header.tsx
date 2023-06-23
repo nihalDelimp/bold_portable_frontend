@@ -192,9 +192,13 @@ const Header = () => {
                       </a>
                     </li>
                     <li className="nav--menu--item">
-                      <a href="#" className="menu--item">
+                        <Link
+                          to="/contact-us"
+                          onClick={() => setIsToggle(!isToggleMenu)}
+                          className="menu--item"
+                        >
                         Contact
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </nav>

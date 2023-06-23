@@ -11,7 +11,7 @@ import PaymentSuccess from "../components/PaymentSuccess";
 import PaymentCancel from "../components/PaymentCancel";
 import AboutUsMenu from "../components/AboutUsMenu";
 import Services from "../components/Services";
-
+import ContactUs from "../components/Contact";
 function RootRouter() {
   return (
     <div>
@@ -27,6 +27,7 @@ function RootRouter() {
           <Route path="/payment-cancel" element={<PaymentCancel />} />
           <Route path="/about-us" element={<AboutUsMenu />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/contact-us" element={<ContactUs />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>
         <Footer />
