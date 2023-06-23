@@ -144,7 +144,7 @@ const Notifications = (props: any) => {
                       onClick={() => handleChangeRoute(item._id)}
                       className="notification--content"
                     >
-                      <span>Admin has updated your order order</span>
+                      <span>Admin has approved your request</span>
                     </div>
                     <div
                       onClick={() => markSpecificNotificationSeen(item._id)}
