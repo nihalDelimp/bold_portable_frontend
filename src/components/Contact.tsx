@@ -21,7 +21,7 @@ function ContactUs() {
                 <div className="grid">
                     <div className="grid----">
                         <div className="contact--us--wrapper">
-                            <div className="contact--sidebar">
+                            <div className="contact--sidebar" data-aos="fade-up" data-aos-duration="1000">
                                 <h2>Get in touch</h2>
                                 <div className="contact--data">
                                     <ul>
@@ -102,7 +102,7 @@ function ContactUs() {
                                     </ul>    
                                 </div>        
                             </div>
-                            <div className="contact--us--form">
+                            <div className="contact--us--form" data-aos="fade-up" data-aos-duration="1000">
                                 <div className="default--form" >
                                     <div className="default--form--wrapper">
                                         <div className="form--title">
