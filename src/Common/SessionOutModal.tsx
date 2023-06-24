@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { logout } from "../Redux/Reducers/authSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function SessionOutModal() {
   const [modal, setModal] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     dispatch(logout(false));
     setModal(false);
+    navigate('/')
   };
 
   return (

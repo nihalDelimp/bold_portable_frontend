@@ -16,6 +16,7 @@ import ProfileSetting from "./ProfileSetting";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import { RootState } from "../Redux/rootReducer";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -878,4 +879,4 @@ function MyAccountNew(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(MyAccountNew);
+export default IsLoadingHOC(IsLoggedinHOC(MyAccountNew));
