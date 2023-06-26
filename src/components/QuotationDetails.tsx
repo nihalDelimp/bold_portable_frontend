@@ -7,6 +7,7 @@ import {
   replaceHyphenCapitolize,
   setFormatDate,
 } from "../Helper";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -262,4 +263,4 @@ function QuotationDetails(props: MyComponentProps) {
     </>
   );
 }
-export default QuotationDetails;
+export default IsLoggedinHOC(QuotationDetails);

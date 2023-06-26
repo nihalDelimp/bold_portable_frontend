@@ -5,7 +5,6 @@ import Footer from "../Common/Footer";
 import PageNoteFound from "../components/PageNoteFound";
 import CartView from "../components/ViewCart";
 import Checkout from "../components/Checkout";
-import Quotations from "../components/MyQuotations";
 import MyAccount from "../components/MyAccount";
 import PaymentSuccess from "../components/PaymentSuccess";
 import PaymentCancel from "../components/PaymentCancel";
@@ -21,7 +20,6 @@ function RootRouter() {
           <Route path="/" element={<Home />} />
           <Route path="/cart-view" element={<CartView />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/quotations" element={<Quotations />} />
           <Route path="/my-account" element={<MyAccount />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-cancel" element={<PaymentCancel />} />

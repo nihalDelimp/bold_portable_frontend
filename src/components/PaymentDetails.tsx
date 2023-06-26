@@ -3,6 +3,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -186,4 +187,4 @@ function PaymentDetails(props: MyComponentProps) {
     </>
   );
 }
-export default IsLoadingHOC(PaymentDetails);
+export default IsLoadingHOC(IsLoggedinHOC(PaymentDetails));

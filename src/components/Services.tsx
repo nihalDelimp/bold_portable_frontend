@@ -283,7 +283,7 @@ function Services(props: MyComponentProps) {
 
   const [modal, setModal] = useState(false);
   useEffect(() => {
-    setModal(true);
+  //  setModal(true);
   },[]);
 
   const handleAction = () => {

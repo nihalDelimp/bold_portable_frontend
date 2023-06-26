@@ -22,6 +22,7 @@ import {
   minUserPhoneLength,
 } from "../Constants";
 import { setuser } from "../Redux/Reducers/authSlice";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -361,4 +362,4 @@ function ProfileSetting(props: MyComponentProps) {
   );
 }
 
-export default ProfileSetting;
+export default IsLoggedinHOC(ProfileSetting);

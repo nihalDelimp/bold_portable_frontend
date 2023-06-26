@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { CapitalizeFirstLetter, getDateWithDay } from "../Helper/index";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -156,4 +157,4 @@ function TrackQuotation(props: MyComponentProps) {
   );
 }
 
-export default TrackQuotation;
+export default IsLoggedinHOC(TrackQuotation);
