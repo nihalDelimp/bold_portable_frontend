@@ -18,6 +18,7 @@ import {
   minUserNameLength,
   minUserPhoneLength,
 } from "../Constants";
+import { acceptedFileTypes } from "../Helper/constants";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -42,8 +43,9 @@ function Services(props: MyComponentProps) {
   const [isMount, setMount] = useState(false);
 
   const [currentLatLng, setCurrentLatLng] = useState<any[]>([]);
+  const [selectedImages, setSelectedImages] = useState<any>([]);
 
-  console.log("currentLatLng", currentLatLng);
+  console.log("selectedImages", selectedImages);
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
@@ -142,11 +144,11 @@ function Services(props: MyComponentProps) {
     const quotation_Id = params.get("quotationId");
     const quotation_Type = params.get("quotationType");
     if (quotation_Id) {
-      setquotationId(quotation_Id);
+      setquotationId(quotation_Id.toString());
     }
     if (quotation_Type) {
-      setServiceName(quotation_Type);
-      setquotationType(quotation_Type?.toLowerCase());
+      setServiceName(quotation_Type.toString());
+      setquotationType(quotation_Type?.toLowerCase().toString());
     }
   }, []);
 
@@ -178,6 +180,46 @@ function Services(props: MyComponentProps) {
       setUserPhone(sanitizedValue);
     }
   };
+
+  // const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name } = e.target;
+  //   const files = e.target.files;
+
+  //   console.log("filesfiles" , files)
+  //   if(Array.isArray(files)){
+  //     alert("TRUE")
+  //   }
+  //   else{
+  //     alert("not array")
+
+  //   }
+    
+  //   if (!files) {
+  //     return;
+  //   } else if (files.length > 3) {
+  //     toast.error("Maximum three files are allowed");
+  //   } else {
+  //     setSelectedImages(files);
+  //   }
+  // };
+
+
+
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+  
+    if (!files) {
+      return;
+    } else if (files.length > 3) {
+      toast.error("Maximum three files are allowed");
+    } else {
+      setSelectedImages(Array.from(files));
+    }
+  };
+
+
+
+
 
   useEffect(() => {
     if (quotationType) {
@@ -245,8 +287,31 @@ function Services(props: MyComponentProps) {
       toast.error("Quotation ID is not found!");
     } else {
       setLoading(true);
+      const serviceData = payload;
+      const formData = new FormData();
+      console.log(selectedImages[0])
+      selectedImages.map((file: any) => {
+        formData.append(`service_image`, file);
+      });
+      serviceData.serviceTypes.map((service_type: any) => {
+        formData.append(`serviceTypes`, service_type);
+      });
+      formData.append("service", payload.service);
+      if (payload.quotationId !== null) {
+        formData.append("quotationId", payload.quotationId);
+      }
+      if (payload.quotationType !== null) {
+        formData.append("quotationType", payload.quotationType);
+      }
+      formData.append("name", payload.name);
+      formData.append("email", payload.email);
+      formData.append("phone", payload.phone);
+      formData.append("address", payload.address);
+      formData.append("coordinates[type]", "Point");
+      formData.append("coordinates[coordinates][0]", currentLatLng[0]);
+      formData.append("coordinates[coordinates][1]", currentLatLng[1]);
       await authAxios()
-        .post("/user-service/save", payload)
+        .post("/user-service/save", formData)
         .then(
           (response) => {
             setLoading(false);
@@ -283,13 +348,12 @@ function Services(props: MyComponentProps) {
 
   const [modal, setModal] = useState(false);
   useEffect(() => {
-  //  setModal(true);
-  },[]);
+    //  setModal(true);
+  }, []);
 
   const handleAction = () => {
     setModal(false);
-  }
-  
+  };
 
   return (
     <>
@@ -417,69 +481,86 @@ function Services(props: MyComponentProps) {
                       tincidunt ut laoreet dolore magna aliquam erat volutpat.
                       Ut wisi{" "}
                     </p>
-                    
                     <div className="servies--inner--form--wrapper">
-                        <div className="servies--inner--form">
-                          <div className="form--group">
-                            <label htmlFor="name">Name</label>
-                            <input
-                              type="text"
-                              required
-                              minLength={minUserNameLength}
-                              maxLength={maxUserNameLength}
-                              placeholder="Name"
-                              value={userName}
-                              onChange={(e) => setUserName(e.target.value)}
-                              id="userName"
-                              name="userName"
-                            />
-                          </div>
-                          <div className="form--group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                              type="Email"
-                              id="email"
-                              required
-                              name="userEmail"
-                              minLength={minUserEmailLength}
-                              maxLength={maxUserEmailLength}
-                              value={userEmail}
-                              onChange={(e) => setUserEmail(e.target.value)}
-                              placeholder="Email"
-                            />
-                          </div>
-                          <div className="form--group">
-                            <label htmlFor="phone">Phone</label>
-                            <input
-                              type="text"
-                              required
-                              minLength={minUserPhoneLength}
-                              maxLength={maxUserPhoneLength}
-                              id="userPhone"
-                              value={userPhone}
-                              placeholder="Phone"
-                              name="userPhone"
-                              onChange={handleChangePhone}
-                            />
-                          </div>
-                          <div className="form--group get--location">
-                            <button
-                              type="button"
-                              className="btn black--btn"
-                              onClick={getCurrentLocation}
-                            >
-                              Get Current Location
-                            </button>
-                            <p>{userAddress}</p>
-                          </div>
-                          {/* <div className="form--group iframe--wrapper">
+                      <div className="servies--inner--form">
+                        <div className="form--group">
+                          <label htmlFor="name">Name</label>
+                          <input
+                            type="text"
+                            required
+                            minLength={minUserNameLength}
+                            maxLength={maxUserNameLength}
+                            placeholder="Name"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                            id="userName"
+                            name="userName"
+                          />
+                        </div>
+                        <div className="form--group">
+                          <label htmlFor="email">Email</label>
+                          <input
+                            type="Email"
+                            id="email"
+                            required
+                            name="userEmail"
+                            minLength={minUserEmailLength}
+                            maxLength={maxUserEmailLength}
+                            value={userEmail}
+                            onChange={(e) => setUserEmail(e.target.value)}
+                            placeholder="Email"
+                          />
+                        </div>
+                        <div className="form--group">
+                          <label htmlFor="phone">Phone</label>
+                          <input
+                            type="text"
+                            required
+                            minLength={minUserPhoneLength}
+                            maxLength={maxUserPhoneLength}
+                            id="userPhone"
+                            value={userPhone}
+                            placeholder="Phone"
+                            name="userPhone"
+                            onChange={handleChangePhone}
+                          />
+                        </div>
+                        <div className="form--group">
+                          <label htmlFor="service-iamge">Service image</label>
+                          <input
+                            type="file"
+                            required
+                            multiple
+                            id="service_image"
+                            name="service_image"
+                            placeholder="upload image"
+                            accept={acceptedFileTypes}
+                            onChange={handleChangeImage}
+                          />
+                        </div>
+                        <div className="form--group get--location">
+                          <button
+                            type="button"
+                            className="btn black--btn"
+                            onClick={getCurrentLocation}
+                          >
+                            Get Current Location
+                          </button>
+                          <p>{userAddress}</p>
+                        </div>
+                        {/* <div className="form--group iframe--wrapper">
                             <label htmlFor="email">Location</label>
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83988654095!2d-0.2664029782833932!3d51.528739805082814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sin!4v1687426924908!5m2!1sen!2sin"  style={{border: "0px", width:"100%"}} allowFullScreen  loading="lazy"></iframe>
                           </div> */}
-                        </div>
-                        <div className="service--map">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83988654095!2d-0.2664029782833932!3d51.528739805082814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sin!4v1687426924908!5m2!1sen!2sin"  style={{border: "0px", width:"100%"}} allowFullScreen  loading="lazy"></iframe>
-                        </div> 
+                      </div>
+                      <div className="service--map">
+                        <iframe
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83988654095!2d-0.2664029782833932!3d51.528739805082814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sin!4v1687426924908!5m2!1sen!2sin"
+                          style={{ border: "0px", width: "100%" }}
+                          allowFullScreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
                     </div>
                     <ul className="servies--inner--links">
                       {requestServices &&
@@ -647,18 +728,18 @@ function Services(props: MyComponentProps) {
             <h2>Title</h2>
             <ul>
               <li>
-                  <h3>Your session has expired. Please sign in again</h3>
-                  <p>Your session has expired.</p>
-                  <button onClick={handleAction} type="button" className="btn">
+                <h3>Your session has expired. Please sign in again</h3>
+                <p>Your session has expired.</p>
+                <button onClick={handleAction} type="button" className="btn">
                   yes
-                  </button>
+                </button>
               </li>
               <li>
-                  <h3>Your session has expired. Please sign in again</h3>
-                  <p>Your session has expired.</p>
-                  <button onClick={handleAction} type="button" className="btn">
+                <h3>Your session has expired. Please sign in again</h3>
+                <p>Your session has expired.</p>
+                <button onClick={handleAction} type="button" className="btn">
                   No
-                  </button>
+                </button>
               </li>
             </ul>
           </div>

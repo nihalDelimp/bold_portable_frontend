@@ -11,6 +11,7 @@ import PaymentCancel from "../components/PaymentCancel";
 import AboutUsMenu from "../components/AboutUsMenu";
 import Services from "../components/Services";
 import ContactUs from "../components/Contact";
+import PaymentEnded from "../components/PaymentEnded";
 function RootRouter() {
   return (
     <div>
@@ -22,6 +23,7 @@ function RootRouter() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/my-account" element={<MyAccount />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-ended" element={<PaymentEnded />} />
           <Route path="/payment-cancel" element={<PaymentCancel />} />
           <Route path="/about-us" element={<AboutUsMenu />} />
           <Route path="/services" element={<Services />} />

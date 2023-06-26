@@ -77,7 +77,7 @@ function PaymentDetails(props: MyComponentProps) {
       subscriptionID: subscriptionID,
       pickup_charge: costDetails?.pickUpPrice,
       product_name: subscription?.quotationType,
-      success_url: `${window.location.origin}/payment-success`,
+      success_url: `${window.location.origin}/payment-ended`,
       cancel_url: `${window.location.origin}/payment-cancel`,
     };
     setLoading(true);

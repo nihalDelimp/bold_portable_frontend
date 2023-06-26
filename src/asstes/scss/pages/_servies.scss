@@ -81,7 +81,16 @@
                             padding: 15px;
                             border-radius: 5px;
                             width: 100%;
+
+                            &[type='file']{
+                                padding: 15px;
+                                border-radius: 5px;
+                                width: 100%;
+                                background-color: #ffffff;
+                            }
+
                         }
+                        
                     }
                 }
                 .service--map {
