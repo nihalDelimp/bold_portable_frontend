@@ -421,52 +421,47 @@ function Services(props: MyComponentProps) {
               <div className="servies--list--tab">
                 <ul>
                   <li>
-                    <Link
-                      to={`#`}
+                   <a
                       className={`${
                         quotationType === "construction" ? "active" : ""
                       }`}
                     >
                       Construction
-                    </Link>
+                   </a>
                   </li>
                   <li>
-                    <Link
-                      to={`#`}
+                   <a
                       className={`${quotationType === "event" ? "active" : ""}`}
                     >
                       Special Events
-                    </Link>
+                   </a>
                   </li>
                   <li>
-                    <Link
-                      to={`#`}
+                   <a
                       className={`${
                         quotationType === "disaster-relief" ? "active" : ""
                       }`}
                     >
                       Disaster Relief
-                    </Link>
+                   </a>
                   </li>
                   <li>
-                    <Link
-                      to={`#`}
+                   <a
                       className={`${
                         quotationType === "farm-orchard-winery" ? "active" : ""
                       }`}
                     >
                       Farm Orchard Winery
-                    </Link>
+                   </a>
                   </li>
                   <li>
-                    <Link
-                      to={`#`}
+                   <a
                       className={`${
                         quotationType === "personal-or-business" ? "active" : ""
                       }`}
                     >
                       Individual Needs
-                    </Link>
+                   </a>
                   </li>
                 </ul>
               </div>
