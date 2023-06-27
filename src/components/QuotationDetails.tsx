@@ -80,7 +80,7 @@ function QuotationDetails(props: MyComponentProps) {
       price: quotation?.costDetailsSum,
       product_name: quotationType,
       product_description: "Big size potty box1",
-      interval: intervalService,
+      interval: "month",
       shipping_amount: quotation?.costDetails?.pickUpPrice,
       quotationId: quotationID,
       quotationType: quotation?.quotationType,
