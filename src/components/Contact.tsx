@@ -246,7 +246,7 @@ function ContactUs(props: MyComponentProps) {
                             required
                             minLength={3}
                             maxLength={35}
-                            placeholder="Fisrt Name"
+                            placeholder="First Name"
                             value={userData.first_name}
                             name="first_name"
                             onChange={handleChange}
