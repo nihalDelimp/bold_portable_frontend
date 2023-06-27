@@ -239,7 +239,7 @@ function ContactUs(props: MyComponentProps) {
                       <form onSubmit={handleSubmit}>
                         <div className="form--group">
                           <label htmlFor="name" hidden>
-                            Fisrt Name
+                            First Name
                           </label>
                           <input
                             type="text"
