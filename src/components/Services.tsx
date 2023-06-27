@@ -32,9 +32,7 @@ function Services(props: MyComponentProps) {
   const [otherServiceName, setOtherServiceName] = useState<string>("");
   const [serviceTypes, setServiceTypes] = useState<string[]>([]);
   const [quotationId, setquotationId] = useState<string | null>("");
-  const [quotationType, setquotationType] = useState<string | null>(
-    "construction"
-  );
+  const [quotationType, setquotationType] = useState<any>("");
   const [serviceName, setServiceName] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
@@ -193,7 +191,7 @@ function Services(props: MyComponentProps) {
   //     alert("not array")
 
   //   }
-    
+
   //   if (!files) {
   //     return;
   //   } else if (files.length > 3) {
@@ -203,11 +201,9 @@ function Services(props: MyComponentProps) {
   //   }
   // };
 
-
-
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-  
+
     if (!files) {
       return;
     } else if (files.length > 3) {
@@ -216,10 +212,6 @@ function Services(props: MyComponentProps) {
       setSelectedImages(Array.from(files));
     }
   };
-
-
-
-
 
   useEffect(() => {
     if (quotationType) {
@@ -289,7 +281,7 @@ function Services(props: MyComponentProps) {
       setLoading(true);
       const serviceData = payload;
       const formData = new FormData();
-      console.log(selectedImages[0])
+      console.log(selectedImages[0]);
       selectedImages.map((file: any) => {
         formData.append(`service_image`, file);
       });
@@ -421,47 +413,47 @@ function Services(props: MyComponentProps) {
               <div className="servies--list--tab">
                 <ul>
                   <li>
-                   <a
+                    <a
                       className={`${
                         quotationType === "construction" ? "active" : ""
                       }`}
                     >
                       Construction
-                   </a>
+                    </a>
                   </li>
                   <li>
-                   <a
+                    <a
                       className={`${quotationType === "event" ? "active" : ""}`}
                     >
                       Special Events
-                   </a>
+                    </a>
                   </li>
                   <li>
-                   <a
+                    <a
                       className={`${
                         quotationType === "disaster-relief" ? "active" : ""
                       }`}
                     >
                       Disaster Relief
-                   </a>
+                    </a>
                   </li>
                   <li>
-                   <a
+                    <a
                       className={`${
                         quotationType === "farm-orchard-winery" ? "active" : ""
                       }`}
                     >
                       Farm Orchard Winery
-                   </a>
+                    </a>
                   </li>
                   <li>
-                   <a
+                    <a
                       className={`${
                         quotationType === "personal-or-business" ? "active" : ""
                       }`}
                     >
                       Individual Needs
-                   </a>
+                    </a>
                   </li>
                 </ul>
               </div>
