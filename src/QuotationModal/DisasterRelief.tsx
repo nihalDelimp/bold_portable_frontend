@@ -31,6 +31,7 @@ interface quotationType {
   special_requirements: string;
   placementAddress: string;
   femaleWorkers: number;
+  maleWorkers: number;
   femaleToilet: boolean;
   designatedWorkers: boolean;
   workerTypes: string;
@@ -81,6 +82,7 @@ const DisasterRelief: React.FC = () => {
     special_requirements: "",
     placementAddress: "",
     femaleWorkers: 0,
+    maleWorkers: 0,
     femaleToilet: false,
     designatedWorkers: false,
     workerTypes: "male",
@@ -91,6 +93,17 @@ const DisasterRelief: React.FC = () => {
     disasterNature: "",
     hazards: "",
   });
+ 
+useEffect(() => {
+  const totalWorkers = +quotation.femaleWorkers + +quotation.maleWorkers;
+  const maxWorkers = totalWorkers > 0 ? totalWorkers : 10;
+
+  setQuotation((prevQuotation) => ({
+    ...prevQuotation,
+    maxWorkers: maxWorkers,
+  }));
+}, [quotation.femaleWorkers, quotation.maleWorkers]);
+
 
   const [placementLocation, setPlacementLocation] = useState({
     type: "Point",
@@ -181,6 +194,7 @@ const DisasterRelief: React.FC = () => {
       special_requirements: "",
       placementAddress: "",
       femaleWorkers: 0,
+      maleWorkers: 0,
       femaleToilet: false,
       designatedWorkers: false,
       workerTypes: "male",
@@ -378,7 +392,44 @@ const DisasterRelief: React.FC = () => {
                     >
                       <option value="male">Male</option>
                       <option value="female">Female</option>
+                      <option value="both">Both</option>
                     </select>
+                  </div>
+                )}
+                {quotation.workerTypes === "both" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      How many male worker need ?
+                      <span className="required"></span>
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      max={maxFemaleWorkers}
+                      required
+                      value={quotation.maleWorkers}
+                      onChange={handleChangeQuotation}
+                      name="maleWorkers"
+                      placeholder="male workers"
+                    />
+                  </div>
+                )}
+                {quotation.workerTypes === "both" && (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      How many female worker need ?
+                      <span className="required"></span>
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      max={maxFemaleWorkers}
+                      required
+                      value={quotation.femaleWorkers}
+                      onChange={handleChangeQuotation}
+                      name="femaleWorkers"
+                      placeholder="Female workers"
+                    />
                   </div>
                 )}
                 {quotation.workerTypes === "female" && (
