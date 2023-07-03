@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
@@ -114,7 +114,17 @@ function SpecialEvents() {
     dateTillUse: "",
     placementAddress: "",
   });
-
+  
+  useEffect(() => {
+    const totalWorkers = +quotation.femaleWorkers + +quotation.maleWorkers;
+    const maxWorkers = totalWorkers > 0 ? totalWorkers : 10;
+  
+    setQuotation((prevQuotation) => ({
+      ...prevQuotation,
+      maxWorkers: maxWorkers,
+    }));
+  }, [quotation.femaleWorkers, quotation.maleWorkers]);
+  
   const [placementLocation, setPlacementLocation] = useState({
     type: "Point",
     coordinates: [28.5722234, 7.3228051],
