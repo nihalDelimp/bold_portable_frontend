@@ -10,13 +10,19 @@
     .footer--form {
         .form--group {
             position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
             input {
-                width: 100%;
+                width: calc(50% - 20px);
                 border-bottom: 1px solid lighten($black, 30%);
                 background-color: transparent;
                 min-height: 60px;
                 font-size: 20px;
                 color: $white;
+                @media (max-width:767px) {
+                    width: calc(100%);
+                }
             }
             .submit--btn {
                 button {
@@ -26,7 +32,7 @@
                     border-radius: 50%;
                     position: absolute;
                     right: 0;
-                    transform: translate(-50px, -50%);
+                    transform: translate(-50px, calc(-50% - 20px));
                     background-image: url('../../image//arrow--thin.svg');
                     background-repeat: no-repeat;
                     background-position: center;
@@ -37,10 +43,15 @@
                     }
                     @media (max-width:767px) {
                         width: 70px;
-                        transform: translate(-15px, -50%);
+                        transform: none;
+                        left: 0;
+                        right: auto;
                     }
                     &:hover {
-                        transform: translate(0px, -50%);
+                        transform: translate(0px, calc(-50% - 20px));
+                        @media (max-width:767px) {
+                            transform: none;
+                        }
                     }
                 }
             }

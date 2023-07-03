@@ -106,13 +106,11 @@ function GoogleMapModal(props) {
 
 
   async function onPlaceChanged(place) {
-    console.log("originRef", autocompleteRef.current.value);
     if (autocompleteRef.current.value === "") {
       return;
     }
     // eslint-disable-next-line no-undef
     const geocoder = new google.maps.Geocoder();
-    console.log("geocoder", geocoder);
     geocoder.geocode(
       { address: autocompleteRef.current.value },
       function (results, status) {

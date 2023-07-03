@@ -72,7 +72,7 @@ const GoogleMaps = (props: any) => {
             if (autocompleteRef.current) {
               autocompleteRef.current.value = results[0].formatted_address;
               geocoder.geocode({ address: autocompleteRef?.current?.value });
-              placementAddressCallBack(results[0].formatted_addres)
+              placementAddressCallBack(autocompleteRef?.current?.value)
             }
           } else {
             console.log("No results found");

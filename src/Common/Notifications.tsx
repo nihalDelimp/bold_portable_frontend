@@ -1,15 +1,17 @@
-import React, {useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
-import { useSelector , useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { saveNotification } from "../Redux/Reducers/notification";
+import { Link, useNavigate } from "react-router-dom";
 
 const Notifications = (props: any) => {
   const { setLoading } = props;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const { notifications } = useSelector(
     (state: RootState) => state.notification
@@ -18,26 +20,20 @@ const Notifications = (props: any) => {
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
-
   useEffect(() => {
     if (accessToken) {
       getAllNotifications();
     }
   }, []);
-  
+
   useEffect(() => {
     if (socket.current) {
       socket.current.on("cancel_order_received", (order) => {
         getAllNotifications();
-        if (user._id === order.user) {
-        }
       });
       socket.current.on("update_quote_received", (quotation) => {
-        console.log("admin sent Invoice")
-        toast.success('Admin has updated your quotation on as per your request')
+        console.log("update_quote_received", quotation);
         getAllNotifications();
-        if (user._id === quotation.user) {
-        }
       });
     }
     return () => {
@@ -47,7 +43,7 @@ const Notifications = (props: any) => {
 
   const getAllNotifications = async () => {
     await authAxios()
-      .get("/notification/get-cancel-order-notfications")
+      .get("/notification/get-specific-user-notfications")
       .then(
         (response) => {
           setLoading(false);
@@ -70,7 +66,7 @@ const Notifications = (props: any) => {
   };
 
   const markAllNotificationsSeen = async () => {
-    setLoading(true);
+   // setLoading(true);
     await authAxios()
       .put(`/notification/mark-all-notfications-true`)
       .then(
@@ -91,7 +87,7 @@ const Notifications = (props: any) => {
   };
 
   const markSpecificNotificationSeen = async (_id: string) => {
-    setLoading(true);
+    //setLoading(true);
     await authAxios()
       .patch(`/notification/${_id}/mark-specific-notification-as-seen`)
       .then(
@@ -110,6 +106,11 @@ const Notifications = (props: any) => {
       .catch((error) => {
         console.log("errorrrr", error);
       });
+  };
+
+  const handleChangeRoute = (_id: string) => {
+    markSpecificNotificationSeen(_id);
+    navigate("/my-account");
   };
 
   return (
@@ -133,14 +134,17 @@ const Notifications = (props: any) => {
               {notifications.map((item: any, index: any) => (
                 <ul>
                   <li key={item._id}>
-                    <span className="icons">
+                    <span
+                      onClick={() => handleChangeRoute(item._id)}
+                      className="icons"
+                    >
                       <i className="fa-sharp fa-solid fa-cart-shopping"></i>
                     </span>
-                    <div className="notification--content">
-                      <span>
-                        Admin has cancelled your {item.order.products.length}{" "}
-                        order
-                      </span>
+                    <div
+                      onClick={() => handleChangeRoute(item._id)}
+                      className="notification--content"
+                    >
+                      <span>Admin has approved your request</span>
                     </div>
                     <div
                       onClick={() => markSpecificNotificationSeen(item._id)}

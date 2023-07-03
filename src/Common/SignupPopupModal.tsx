@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import { withoutAuthAxios } from "../config/config";
 import { toast } from "react-toastify";
+import { trimObjValues } from "../Helper";
+import {
+  maxUserAddressLength,
+  maxUserEmailLength,
+  maxUserNameLength,
+  maxUserPasswordLength,
+  maxUserPhoneLength,
+  minUserAddressLength,
+  minUserEmailLength,
+  minUserNameLength,
+  minUserPasswordLength,
+  minUserPhoneLength,
+} from "../Constants";
 
 function SignupPopupModal() {
   const [loading, setLoading] = useState(false);
@@ -9,51 +22,61 @@ function SignupPopupModal() {
     email: "",
     password: "",
     mobile: "",
+    address: "",
     user_type: "USER",
   });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("user", user);
-    const payload = user;
-    setLoading(true);
-    await withoutAuthAxios()
-      .post("/auth/register", payload)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            toast.success("Registration successfully");
-            setUser({
-              name: "",
-              email: "",
-              password: "",
-              mobile: "",
-              user_type: "USER",
-            });
-            // document
-            //   .querySelector(".custom--popup")
-            //   ?.classList.remove("active--popup");
-          } else {
-            toast.error(response.data?.message);
-          }
-        },
-        (error) => {
-          setLoading(false);
-          if (error.response.data.message) {
-            toast.error(error.response.data.message);
-          } else {
-            const obj = error.response.data.errors[0];
-            const errormsg = Object.values(obj) || [];
-            if (errormsg && errormsg.length > 0) {
-              toast.error(`${errormsg[0]}`);
+    const payload = trimObjValues(user);
+    let validUsername = /^[A-Za-z\s]+$/;
+    if (!payload.name) {
+      toast.error("Name is required!");
+    } else if (payload.name.length < 5) {
+      toast.error("Name must be at least 5 characters long!");
+    } else if (!validUsername.test(payload.name)) {
+      toast.error("Name should only contain letters");
+    } else {
+      setLoading(true);
+      await withoutAuthAxios()
+        .post("/auth/register", payload)
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              toast.success("Registration successfully");
+              setUser({
+                name: "",
+                email: "",
+                password: "",
+                mobile: "",
+                address: "",
+                user_type: "USER",
+              });
+              // document
+              //   .querySelector(".custom--popup")
+              //   ?.classList.remove("active--popup");
+            } else {
+              toast.error(response.data?.message);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            if (error.response.data.message) {
+              toast.error(error.response.data.message);
+            } else {
+              const obj = error.response.data.errors[0];
+              const errormsg = Object.values(obj) || [];
+              if (errormsg && errormsg.length > 0) {
+                toast.error(`${errormsg[0]}`);
+              }
             }
           }
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
+        )
+        .catch((error) => {
+          console.log("errorrrr", error);
+        });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +85,17 @@ function SignupPopupModal() {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
+    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+      setUser((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
+      }));
+    }
   };
 
   return (
@@ -75,7 +109,8 @@ function SignupPopupModal() {
               </label>
               <input
                 required
-                minLength={5}
+                minLength={minUserNameLength}
+                maxLength={maxUserNameLength}
                 value={user.name}
                 onChange={handleChange}
                 type="text"
@@ -89,6 +124,8 @@ function SignupPopupModal() {
               </label>
               <input
                 required
+                minLength={minUserEmailLength}
+                maxLength={maxUserEmailLength}
                 value={user.email}
                 onChange={handleChange}
                 type="email"
@@ -102,12 +139,28 @@ function SignupPopupModal() {
               </label>
               <input
                 required
-                minLength={6}
+                minLength={minUserPhoneLength}
+                maxLength={maxUserPhoneLength}
                 value={user.mobile}
                 name="mobile"
-                onChange={handleChange}
-                type="number"
+                onChange={handleChangePhone}
+                type="text"
                 placeholder="Phone"
+              />
+            </div>
+            <div className="form--group">
+              <label htmlFor="address">
+                Address <span className="required">*</span>
+              </label>
+              <input
+                required
+                minLength={minUserAddressLength}
+                maxLength={maxUserAddressLength}
+                type="text"
+                value={user.address}
+                name="address"
+                onChange={handleChange}
+                placeholder="Address"
               />
             </div>
             <div className="form--group">
@@ -116,7 +169,8 @@ function SignupPopupModal() {
               </label>
               <input
                 required
-                minLength={8}
+                minLength={minUserPasswordLength}
+                maxLength={maxUserPasswordLength}
                 type="password"
                 value={user.password}
                 name="password"

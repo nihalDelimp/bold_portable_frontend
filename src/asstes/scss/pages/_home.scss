@@ -4,7 +4,7 @@
     .hero--slider {
         .item {
             img {
-                min-height: 100vh;
+                height: 100vh;
                 object-fit: cover;
             }
         }
@@ -18,12 +18,42 @@
         min-height: calc(100vh);
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        padding-bottom: clamp(50px, 10vw, 100px);
+        justify-content: center;
+        padding-block: clamp(50px, 10vw, 100px);
+        .hero--content--data {
+            padding: 0px 15px;
+            text-align: center;
+            h1 {
+                font-size: clamp(36px, 5.7vw, 90px);
+                color: $white;
+            }
+            h3 {
+                font-size: clamp(18px, 2vw, 24px);
+                color: $white;
+                font-weight: 400;
+                margin: 30px 0px;
+                @media (max-width:767px) {
+                    margin: 20px 0px;
+                }
+            }
+            a {
+                background-color: $green;
+                    padding: 17px 40px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                    color: $white;
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                    @media (max-width:767px) {
+                        padding: 12px 30px;
+                    }
+            }
+        }
         .btn--content {
             display: flex;
             justify-content: space-between;
             padding: 15px 35px;
+            gap: 20px;
             @media (max-width:1024px) {
                 padding: 15px 15px;
             }
@@ -34,18 +64,29 @@
                 align-items: center;
             }
             .btn--wrapper {
+                width: max-content;
                 @media (max-width:767px) {
                     width: max-content;
                 }
                 a {
-                    background-color: $white;
+                    background-color: $green;
                     padding: 17px 40px;
                     font-size: 16px;
                     border-radius: 8px;
+                    color: $white;
                     text-transform: uppercase;
+                    white-space: nowrap;
                     @media (max-width:767px) {
                         padding: 12px 30px;
                     }
+                }
+            }
+            .hero--content--midheading {
+                h2 {
+                    color: $white;
+                    font-size: clamp(22px, 2.1vw, 30px);
+                    font-weight: 400;
+                    text-align: center;
                 }
             }
             .btn--hero--righttext {
@@ -68,7 +109,7 @@
                 animation: marquee 5s linear infinite;
                 transform: translate3d(calc(-25% + 20vw), 0, 0);
                 h2 {
-                    font-size: clamp(50px, 14vw, 250px);
+                    font-size: clamp(24px, 6vw, 100px);
                     white-space: nowrap;
                     color: $white;
                     font-weight: 400;
@@ -371,7 +412,7 @@
         }
         .port--types--categorys--list {
             display: grid;
-            grid-template-columns: repeat(5,1fr);
+            grid-template-columns: repeat(4,1fr);
             @media (max-width:767px) {
                 grid-template-columns: repeat(1,1fr);
             }
@@ -492,7 +533,7 @@
             .process--listing--items {
                 display:flex;
                 flex-direction: column;
-                gap: 110px;
+                gap: 60px;
                 max-width: 370px;
                 margin-left: auto;
                 @media (max-width:767px) {
@@ -502,27 +543,39 @@
                 .process--listing--item {
                     text-align: center;
                     border: 1px solid $blue;
-                    padding: 18px;
+                    padding: 13px;
                     border-radius: 10px;
                     text-transform: uppercase;
                     font-weight: 500;
-                    font-size: clamp(18px,2vw, 24px);
+                    font-size: clamp(14px, 1.2vw, 18px);
                     position: relative;
                     transition: $transition;
-                    &:hover {
+                    &:nth-child(1):hover {
                         border-color: $yellow;
+                    }
+                    &:nth-child(2):hover {
+                        border-color: $dark-blue;
+                    }
+                    &:nth-child(3):hover {
+                        border-color: $green;
+                    }
+                    &:nth-child(4):hover {
+                        border-color: $red;
+                    }
+                    &:nth-child(5):hover {
+                        border-color: $sky;
                     }
                     &:not(:last-child)::before {
                         content: "";
                         width: 22px;
                         height: 65px;
                         background-image: url("../../image/black--arrow.svg");
-                        background-size: 100%;
+                        background-size: 55%;
                         position: absolute;
                         background-repeat: no-repeat;
-                        bottom: -100%;
+                        top: 100%;
                         left: 50%;
-                        transform: translate(-50%, 15px);
+                        transform: translate(-50%, 10px);
                     }
                 }
             }
@@ -544,12 +597,13 @@
             text-transform: uppercase;
             color: $blue;
             font-size: 18px;
+            text-align: center;
+            padding-bottom: 60px;
+            @media (max-width:767px) {
+                padding-bottom: 20px;
+            }
         }
-        h2 {
-            font-size: clamp(24px, 3vw, 60px);
-            max-width: 500px;
-            line-height: 1.4;
-        }
+        
     }
     &--grid {
         display: grid;
@@ -639,7 +693,10 @@
 }
 
 .customers {
-    padding-bottom: clamp(50px, 7vw, 130px);
+    padding-block: clamp(50px, 7vw, 130px);
+    @media (max-width:767px) {
+        padding-top: 0px;
+    }
     .customer--slider {
         margin-top: clamp(30px, 4.5vw, 90px);
         .owl-stage-outer {
@@ -652,9 +709,15 @@
                     @include flex();
                     .customer--logo {
                         @include flex();
-                        img {
-                            max-width: 40%;
+                        a {
+                            @include flex();
+                            width: 100%;
+                            
+                            img {
+                                max-width: 40%;
+                            }
                         }
+                        
                     }
                     
                 }
@@ -670,6 +733,7 @@
             @extend %before_content;
             background-color: $black;
             opacity: 0.6;
+            z-index: 1;
         }
         iframe {
             min-height: 600px;
@@ -683,12 +747,13 @@
     }
     .from--wrapper {
         position: absolute;
-        top: 16%;
+        top: 50%;
         left: 50%;
         width: 100%;
         max-width: 780px;
         transform: translate(-50%,-50%);
         padding: 15px;
+        z-index: 1;
         .from--tabs {
             ul {
                 display: flex;
@@ -782,6 +847,13 @@
                     @media (max-width:767px) {
                         font-size: 16px;
                     }
+                }
+            }
+            .location--buttons {
+                margin-top: 20px;
+                @include flex();
+                a {
+                    background-color: $yellow;
                 }
             }
         }

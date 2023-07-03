@@ -5,7 +5,7 @@ import io, { Socket } from "socket.io-client";
 import { usePickTimes } from "../Helper/constants";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint, originAddress } from "../Helper/constants";
-import { validateEmail } from "../Helper";
+import { trimObjValues, validateEmail } from "../Helper";
 
 interface latlngPoint {
   lat: number;
@@ -26,7 +26,7 @@ interface eventType {
 interface coordinatorType {
   name: string;
   email: string;
-  cellNumber: number | string;
+  cellNumber: any;
 }
 
 interface vipSectionType {
@@ -38,14 +38,13 @@ interface vipSectionType {
 interface quotationType {
   maxWorkers: number;
   weeklyHours: number;
-  placement_datetime: string;
-  placement_location: string;
+  placementDate: string;
   distanceFromKelowna: number;
   serviceCharge: number;
   peakUseTimes: boolean;
   peakTimeSlot: string;
-  night_use: boolean;
-  winter_use: boolean;
+  useAtNight: boolean;
+  useInWinter: boolean;
   special_requirements: string;
   alcoholServed: boolean;
   maxAttendees: undefined;
@@ -57,6 +56,9 @@ interface quotationType {
   handSanitizerPump: boolean;
   twiceWeeklyService: boolean;
   dateTillUse: string;
+  placementAddress: string;
+  maleWorkers: number;
+  totalWorkers: number;
 }
 
 function SpecialEvents() {
@@ -92,14 +94,13 @@ function SpecialEvents() {
   const [quotation, setQuotation] = useState<quotationType>({
     maxWorkers: 10,
     weeklyHours: 400,
-    placement_datetime: "",
-    placement_location: "",
+    placementDate: "",
     distanceFromKelowna: 0,
     serviceCharge: 0,
     peakUseTimes: false,
     peakTimeSlot: "",
-    night_use: false,
-    winter_use: false,
+    useAtNight: false,
+    useInWinter: false,
     special_requirements: "",
     alcoholServed: false,
     maxAttendees: undefined,
@@ -111,6 +112,9 @@ function SpecialEvents() {
     handSanitizerPump: false,
     twiceWeeklyService: false,
     dateTillUse: "",
+    placementAddress: "",
+    maleWorkers: 0,
+    totalWorkers:0
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -131,6 +135,16 @@ function SpecialEvents() {
     }));
   };
 
+  const handleSelectEventDetails = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setEventDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleChangeCoordinator = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCoordinator((prev) => ({
@@ -139,10 +153,21 @@ function SpecialEvents() {
     }));
   };
 
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
+    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+      setCoordinator((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
+      }));
+    }
+  };
+
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "peakTimeSlot") {
+    if (name === "peakTimeSlot" || name === "workerTypes") {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
@@ -200,14 +225,13 @@ function SpecialEvents() {
     setQuotation({
       maxWorkers: 10,
       weeklyHours: 400,
-      placement_datetime: "",
-      placement_location: "",
+      placementDate: "",
       distanceFromKelowna: 0,
       serviceCharge: 0,
       peakUseTimes: false,
       peakTimeSlot: "",
-      night_use: false,
-      winter_use: false,
+      useAtNight: false,
+      useInWinter: false,
       special_requirements: "",
       alcoholServed: false,
       maxAttendees: undefined,
@@ -219,6 +243,9 @@ function SpecialEvents() {
       handSanitizerPump: false,
       twiceWeeklyService: false,
       dateTillUse: "",
+      placementAddress: "",
+      maleWorkers: 0,
+    totalWorkers:0
     });
     setEventDetails({
       eventName: "",
@@ -274,11 +301,19 @@ function SpecialEvents() {
 
   const handleNextPage = () => {
     if (formStep === 1) {
-      const isValid = validateEmail(coordinator.email);
-      if (isValid) {
-        setFormStep((currentStep) => currentStep + 1);
-      } else {
+      const payload = trimObjValues(coordinator);
+      const isValid = validateEmail(payload.email);
+      let validUsername = /^[A-Za-z\s]+$/;
+      if (payload.name.length < 5) {
+        toast.error("Name must be at least 5 characters long");
+      } else if (!validUsername.test(payload.name)) {
+        toast.error("Name should only contain letters");
+      } else if (payload.cellNumber.length < 9) {
+        toast.error("Phone number must be at least 9 digit");
+      } else if (!isValid) {
         toast.error("Invalid email address");
+      } else {
+        setFormStep((currentStep) => currentStep + 1);
       }
     } else {
       setFormStep((currentStep) => currentStep + 1);
@@ -301,11 +336,12 @@ function SpecialEvents() {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Name <span className="required">*</span>
+                    Project Manager Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
                     required
+                    minLength={3}
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
@@ -314,7 +350,7 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Email <span className="required">*</span>
+                    Project Manager Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -327,14 +363,14 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Cell number <span className="required">*</span>
+                    Project Manager Phone<span className="required">*</span>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     min={0}
                     required
                     value={coordinator.cellNumber}
-                    onChange={handleChangeCoordinator}
+                    onChange={handleChangePhone}
                     name="cellNumber"
                     placeholder="Enter phone"
                   />
@@ -370,18 +406,22 @@ function SpecialEvents() {
                   <label htmlFor="name">
                     Event Type <span className="required">*</span>
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={eventDetails.eventType}
-                    onChange={handleChangeEventDetails}
+                  <select
                     name="eventType"
-                    placeholder="Enter event type"
-                  />
+                    onChange={handleSelectEventDetails}
+                    value={eventDetails.eventType}
+                  >
+                    <option value="">Select event type</option>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Event Evening">Event Evening</option>
+                    <option value="Lorem Ispum">Lorem Ispum</option>
+                    <option value="Doller Sit">Doller Sit</option>
+                  </select>
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Do you need designated workers ?
+                    Many special events site offering gender specifics toilets,
+                    would you like to offer this ?
                     <span className="required"></span>
                   </label>
                   <select
@@ -403,44 +443,81 @@ function SpecialEvents() {
                       onChange={handleSelectQuotation}
                       value={quotation.workerTypes}
                     >
+                      <option selected disabled value="">Select</option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
+                      <option value="both">Both</option>
                     </select>
                   </div>
                 )}
-                {quotation.workerTypes === "female" && (
-                  <div className="form--group">
-                    <label htmlFor="name">
-                      How many female worker need ?
-                      <span className="required"></span>
-                    </label>
-                    <input
-                      type="number"
-                      min={0}
-                      required
-                      value={quotation.femaleWorkers}
-                      onChange={handleChangeQuotation}
-                      name="femaleWorkers"
-                      placeholder="Female workers"
-                    />
-                  </div>
-                )}
-                {quotation.workerTypes === "female" && (
-                  <div className="form--group">
-                    <label htmlFor="name">
-                      Do you need seperate toilet for female ?
-                      <span className="required"></span>
-                    </label>
-                    <select
-                      name="femaleToilet"
-                      onChange={handleSelectQuotation}
-                      value={quotation.femaleToilet.toString()}
-                    >
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </select>
-                  </div>
-                )}
+                
+                
+                {quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                  <label htmlFor="name">
+                    How many male workers do you need?
+                    <span className="required"></span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    required
+                    value={quotation.maleWorkers}
+                    onChange={handleChangeQuotation}
+                    name="maleWorkers"
+                    placeholder="Male workers"
+                  />
+                </div>
+              ) : null}
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                  <label htmlFor="name">
+                    How many female workers do you need?
+                    <span className="required"></span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    required
+                    value={quotation.femaleWorkers}
+                    onChange={handleChangeQuotation}
+                    name="femaleWorkers"
+                    placeholder="Female workers"
+                  />
+                </div>
+              ) : null}
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Do you need a separate toilet for female workers?
+                    <span className="required"></span>
+                  </label>
+                  <select
+                    name="femaleToilet"
+                    onChange={handleSelectQuotation}
+                    value={quotation.femaleToilet.toString()}
+                  >
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
+              ) : null}
+
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                <label htmlFor="name">Total Workers</label>
+                <input
+                  type="text"
+                  name="totalWorkers"
+                  value={Number(quotation.maleWorkers) + Number(quotation.femaleWorkers)}
+                  readOnly
+                />
+              </div>
+              ) : null}
+
               </React.Fragment>
             )}
 
@@ -482,9 +559,9 @@ function SpecialEvents() {
                     type="date"
                     required
                     min={new Date().toISOString().split("T")[0]}
-                    value={quotation.placement_datetime}
+                    value={quotation.placementDate}
                     onChange={handleChangeQuotation}
-                    name="placement_datetime"
+                    name="placementDate"
                     placeholder="Select placement date"
                   />
                 </div>
@@ -495,7 +572,7 @@ function SpecialEvents() {
                   <input
                     type="date"
                     required
-                    min={new Date().toISOString().split("T")[0]}
+                    min={quotation.placementDate ? quotation.placementDate : new Date().toISOString().split("T")[0]}
                     value={quotation.dateTillUse}
                     onChange={handleChangeQuotation}
                     name="dateTillUse"
@@ -567,7 +644,6 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 {quotation.peakUseTimes && (
                   <div className="form--group">
                     <label htmlFor="name">
@@ -595,29 +671,27 @@ function SpecialEvents() {
                     Use at night<span className="required"></span>
                   </label>
                   <select
-                    name="night_use"
+                    name="useAtNight"
                     onChange={handleSelectQuotation}
-                    value={quotation.night_use.toString()}
+                    value={quotation.useAtNight.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Use in winter<span className="required"></span>
                   </label>
                   <select
-                    name="winter_use"
+                    name="useInWinter"
                     onChange={handleSelectQuotation}
-                    value={quotation.winter_use.toString()}
+                    value={quotation.useInWinter.toString()}
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label>
                     Special requirements <span className="required"></span>
@@ -631,7 +705,6 @@ function SpecialEvents() {
                     placeholder="Requirements"
                   />
                 </div>
-
                 <div className="form--group">
                   <label>
                     Max Attendees <span className="required">*</span>
@@ -646,7 +719,6 @@ function SpecialEvents() {
                     placeholder="Enetr max attendees"
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Pay Per Use<span className="required"></span>
@@ -660,7 +732,6 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Actively Cleaned<span className="required"></span>
@@ -674,7 +745,6 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Fenced Off<span className="required"></span>
@@ -690,7 +760,6 @@ function SpecialEvents() {
                 </div>
               </React.Fragment>
             )}
-
             <div className="form--action">
               {(formStep === 2 || formStep === 3) && (
                 <button
@@ -726,7 +795,7 @@ function SpecialEvents() {
                   disabled={
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.placement_datetime ||
+                    !quotation.placementDate ||
                     !quotation.dateTillUse
                   }
                 >
@@ -745,7 +814,6 @@ function SpecialEvents() {
               )}
             </div>
           </form>
-
           {formStep === 4 && (
             <div>
               <div className="google--map">
@@ -770,9 +838,10 @@ function SpecialEvents() {
                   <button
                     onClick={handleSubmit}
                     type="button"
+                    disabled={!quotation.placementAddress}
                     className="submit--from submit--from--action btn"
                   >
-                    {loading ? "Loading..." : "Submit"}
+                    {loading ? "Loading..." : "Book Now"}
                   </button>
                 </div>
               </form>

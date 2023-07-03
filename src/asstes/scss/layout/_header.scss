@@ -31,9 +31,15 @@
                        display: flex;
                      }
                      img {
-                        min-width: 110px;
+                        min-width: 180px;
+                        width: 180px;
+                        @media (max-width:1024px) {
+                            min-width: 135px;
+                            width: 135px;
+                         }
                         @media (max-width:767px) {
-                           max-width: 60px;
+                            min-width: 70px;
+                            width: 70px;
                         }
                     }
                 }
@@ -50,11 +56,11 @@
                 }
                 .hamburger {
                     width: max-content;
-                    transform: translateX(60px);
+                    transform: translateX(-10px);
                     position: relative;
                     cursor: pointer;
                     @media (max-width:1024px) {
-                        transform: translateX(50px);
+                        transform: translateX(0px);
                     }
                     @media (max-width:767px) {
                         transform: translateX(0px);
@@ -217,7 +223,7 @@
                     position: relative;
                     cursor: pointer;
                     .badge {
-                        min-width: 13px;
+                        min-width: 24px;
                         background-color: $yellow;
                         aspect-ratio: 1;
                         font-size: 12px;
@@ -227,8 +233,8 @@
                         align-items: center;
                         color: $black;
                         position: absolute;
-                        right: 0px;
-                        top: -5px;
+                        right: -5px;
+                        top: -10px;
                         transform: scale(0.7);
                     }
                     img {
@@ -265,7 +271,8 @@
                         aspect-ratio: 1;
                         background-color: $white;
                         border-radius: 50px;
-                        font-size: 15px;
+                        font-size: 13px;
+                        text-align: center;
                         display: flex;
                         justify-content: center;
                         align-items: center;

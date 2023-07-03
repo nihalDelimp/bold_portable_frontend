@@ -1,0 +1,158 @@
+import React from "react";
+
+function AboutUsMenu() {
+  return (
+    <>
+      <section className="default--top--banner">
+        <div className="banner--thumbnuil">
+          <img
+            src={require("../asstes/image/about--banner.jpg")}
+            alt="AboutUs" loading="lazy"
+          />
+        </div>
+        <div className="banner--heading" data-aos="fade-up"
+                          data-aos-duration="1000">
+          <h1>About Us</h1>
+        </div>
+      </section>
+      <section className="about--portable">
+        <div className="grid--container">
+          <div className="grid">
+            <div className="grid----">
+              <div className="about--portable--wrapper">
+                <div className="about--portable--data">
+                  <h2 data-aos="fade-up"
+                          data-aos-duration="1000">Bold Portable</h2>
+                  <p className="highlight--text" data-aos="fade-up"
+                          data-aos-duration="1000">
+                    GetLorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                    magna aliquam erat volutpat. Ut wisi enim ad minim veniam
+                  </p>
+                  <p data-aos="fade-up"
+                          data-aos-duration="1000">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                    magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                    magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                    magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                    magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                  </p>
+                </div>
+                <div className="about--banner">
+                  <img
+                    src={require("../asstes/image/about--port.jpg")}
+                    alt=" Aboutport" data-aos="fade-in"
+                    data-aos-duration="500" loading="lazy"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="we--committed">
+        <div className="grid--container">
+          <div className="grid">
+            <div className="grid--">
+              <div className="we--commited--data">
+                <h2 data-aos="fade-up"
+                          data-aos-duration="1000">Bold Portable</h2>
+                <p data-aos="fade-up"
+                          data-aos-duration="1000">
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                  diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+                  aliquam erat volutpat. Ut wisi enim ad minim veniam, Lorem
+                  ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+                  nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+                  erat volutpat. Ut wisi enim ad minim veniam, Lorem ipsum dolor
+                  sit amet, consectetuer adipiscing elit.
+                </p>
+                <p data-aos="fade-up"
+                          data-aos-duration="1000">
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                  diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+                  aliquam erat volutpat. Ut wisi enim ad minim veniam, Lorem
+                  ipsum dolor sit amet, consectetuer adipiscing
+                </p>
+              </div>
+            </div>
+            <div className="grid--">
+              <div className="we--commited--list">
+                <ul>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
+                    <div className="we--commited--item">
+                      <div className="icons">
+                        <img
+                          src={require("../asstes/image/Efficiency.png")}
+                          alt="Efficiency" loading="lazy"
+                        />
+                      </div>
+                      <div className="we--commited--text">
+                        <h3>Efficiency</h3>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing
+                          elit, sed diam nonummy nibh euismod tincidunt ut
+                          laoreet dolore ma aliquam erat volutpat. Ut wisi enim
+                          ad minim veniam.
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
+                    <div className="we--commited--item">
+                      <div className="icons">
+                        <img
+                          src={require("../asstes/image/Simplicity.png")}
+                          alt="Simplicity" loading="lazy"
+                        />
+                      </div>
+                      <div className="we--commited--text">
+                        <h3>Simplicity</h3>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing
+                          elit, sed diam nonummy nibh euismod tincidunt ut
+                          laoreet dolore ma aliquam erat volutpat. Ut wisi enim
+                          ad minim veniam.
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li data-aos="fade-up"
+                          data-aos-duration="1000">
+                    <div className="we--commited--item">
+                      <div className="icons">
+                        <img
+                          src={require("../asstes/image/Technology.png")}
+                          alt="Technology" loading="lazy"
+                        />
+                      </div>
+                      <div className="we--commited--text">
+                        <h3>Technology</h3>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetuer adipiscing
+                          elit, sed diam nonummy nibh euismod tincidunt ut
+                          laoreet dolore ma aliquam erat volutpat. Ut wisi enim
+                          ad minim veniam.
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+export default AboutUsMenu;

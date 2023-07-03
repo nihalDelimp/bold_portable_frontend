@@ -6,6 +6,7 @@ import {
   Autocomplete,
 } from "@react-google-maps/api";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { Link } from "react-router-dom";
 
 const GoogleMaps = (props: any) => {
   const { setLoading } = props;
@@ -179,7 +180,7 @@ const GoogleMaps = (props: any) => {
                                     require("../asstes/image/house--1.svg")
                                       .default
                                   }
-                                  alt=""
+                                  alt="" loading="lazy"
                                 />
                               </div>
                               <h4>Residential Services</h4>
@@ -193,7 +194,7 @@ const GoogleMaps = (props: any) => {
                                     require("../asstes/image/house--1.svg")
                                       .default
                                   }
-                                  alt=""
+                                  alt="" loading="lazy"
                                 />
                               </div>
                               <h4>Business Services</h4>
@@ -227,10 +228,14 @@ const GoogleMaps = (props: any) => {
                               src={
                                 require("../asstes/image/house--1.svg").default
                               }
-                              alt="location"
+                              alt="location" loading="lazy"
                             />
                           </span>
                           <h5>Use my current location</h5>
+                        </div>
+                        <div className="location--buttons">
+                          <Link to={`#`} className="btn" data-aos="fade-up"
+                          data-aos-duration="1000">Get Now</Link>
                         </div>
                       </div>
                     </div>

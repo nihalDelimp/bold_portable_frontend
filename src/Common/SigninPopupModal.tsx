@@ -3,11 +3,14 @@ import SignupPopupModal from "./SignupPopupModal";
 import {
   setAccessToken,
   setIsAuthenticated,
+  setResetPassword,
   setuser,
 } from "../Redux/Reducers/authSlice";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { withoutAuthAxios } from "../config/config";
+import ForgotPassword from "./ForgotPassword";
+import { trimObjValues } from "../Helper";
 
 function SigninPopupModal() {
   const [loading, setLoading] = useState(false);
@@ -36,6 +39,14 @@ function SigninPopupModal() {
     }
   }, [storedRemember]);
 
+  useEffect(() => {
+    const reset_forms = document.getElementsByClassName("reset--form");
+    const reset_form = reset_forms[0] as HTMLElement;
+    if (reset_form) {
+      reset_form.style.display = "none";
+    }
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserInput((prev) => ({
@@ -46,11 +57,11 @@ function SigninPopupModal() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = userInput;
+    const requestPayload = trimObjValues(userInput);
 
     if (rememberMe) {
-      localStorage.setItem("rememberedEmail", payload.email);
-      localStorage.setItem("rememberedPassword", payload.password);
+      localStorage.setItem("rememberedEmail", requestPayload.email);
+      localStorage.setItem("rememberedPassword", requestPayload.password);
       localStorage.setItem("rememberMe", "true");
     } else {
       localStorage.removeItem("rememberedEmail");
@@ -60,20 +71,28 @@ function SigninPopupModal() {
 
     setLoading(true);
     await withoutAuthAxios()
-      .post("/auth/login", payload)
+      .post("/auth/login", requestPayload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success("Logged in successfully");
-            dispatch(setAccessToken(response.data.data.token));
-            dispatch(setuser(response.data.data.user));
-            dispatch(setIsAuthenticated(true));
-            setUserInput({ email: "", password: "" });
-            document
-              .querySelector(".custom--popup")
-              ?.classList.remove("active--popup");
-          } else {
+            const resData = response.data.data
+            const userType = resData.user.user_type;
+            if(userType === "ADMIN"){
+              toast.error("You don't have authorization!!")
+            }
+            else {
+              toast.success("Logged in successfully");
+              dispatch(setAccessToken(resData.token));
+              dispatch(setuser(resData.user));
+              dispatch(setIsAuthenticated(true));
+              setUserInput({ email: "", password: "" });
+              document
+                .querySelector(".custom--popup")
+                ?.classList.remove("active--popup");
+            }
+          }
+           else {
             toast.error(response.data?.message);
           }
         },
@@ -93,6 +112,16 @@ function SigninPopupModal() {
       .catch((error) => {
         console.log("errorrrr", error);
       });
+  };
+
+  const handleForgotPass = () => {
+    dispatch(setResetPassword(false));
+    document.querySelector(".custom--popup")?.classList.remove("active--popup");
+    const reset_passwords = document.getElementById("reset--password");
+    const element = reset_passwords as HTMLElement;
+    if (element) {
+      element.style.display = "flex";
+    }
   };
 
   return (
@@ -137,6 +166,7 @@ function SigninPopupModal() {
                     placeholder="Email"
                   />
                 </div>
+
                 <div className="form--group">
                   <label htmlFor="password">
                     Password <span className="required">*</span>
@@ -163,8 +193,12 @@ function SigninPopupModal() {
                     />{" "}
                     <span>Remember me</span>
                   </label>
-                  <span className="lost--password">
-                    <a href="#">Lost your password?</a>
+                  <span
+                    data-category="forgot-pass"
+                    onClick={handleForgotPass}
+                    className="lost--password"
+                  >
+                    <a>Lost your password?</a>
                   </span>
                 </div>
                 <div className="form--action">
@@ -178,6 +212,7 @@ function SigninPopupModal() {
           <SignupPopupModal />
         </div>
       </section>
+      <ForgotPassword />
     </>
   );
 }

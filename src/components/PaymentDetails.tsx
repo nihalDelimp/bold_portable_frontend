@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
-import { getFormatedDate } from "../Helper";
+import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -16,10 +15,9 @@ interface MyComponentProps {
 function PaymentDetails(props: MyComponentProps) {
   const { isLoading, setLoading, subscriptionID, setActiveSidebar } = props;
   const [paymentDetail, setPaymentDetail] = useState<any>({});
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const [subscription, setSubscription] = useState<any>({});
-
-  console.log("Subscription Details", paymentDetail);
+  const [costDetails, setCostDetails] = useState<any>({});
+  const [totalPaid, setTotalPaid] = useState(null);
 
   useEffect(() => {
     getsubscriptionDetails();
@@ -36,6 +34,27 @@ function PaymentDetails(props: MyComponentProps) {
             const resData = response.data.data;
             setPaymentDetail(resData.payments[0].payment);
             setSubscription(resData.payments[0].subscription);
+            const costDetail = resData.payments[1].costDetails;
+            const totalPaid =
+              costDetail.activelyCleaned +
+              costDetail.alcoholServed +
+              costDetail.deliveryPrice +
+              costDetail.fencedOff +
+              costDetail.handSanitizerPump +
+              costDetail.handSanitizerPumpCost +
+              costDetail.handWashing +
+              costDetail.handWashingCost +
+              costDetail.numberOfUnitsCost +
+              costDetail.payPerUse +
+              costDetail.pickUpPrice +
+              costDetail.serviceFrequencyCost +
+              costDetail.specialRequirementsCost +
+              costDetail.twiceWeeklyServicing +
+              costDetail.useAtNightCost +
+              costDetail.useInWinterCost +
+              costDetail.workersCost;
+            setTotalPaid(totalPaid);
+            setCostDetails(costDetail);
           }
         },
         (error) => {
@@ -56,8 +75,10 @@ function PaymentDetails(props: MyComponentProps) {
   const endSubscriptionPayment = async () => {
     const payload = {
       subscriptionID: subscriptionID,
-      pickup_charge: 10,
-      product_name: "potty box",
+      pickup_charge: costDetails?.pickUpPrice,
+      product_name: subscription?.quotationType,
+      success_url: `${window.location.origin}/payment-ended`,
+      cancel_url: `${window.location.origin}/payment-cancel`,
     };
     setLoading(true);
     await authAxios()
@@ -108,7 +129,7 @@ function PaymentDetails(props: MyComponentProps) {
             <tbody>
               <tr>
                 <th>Subscription ID :</th>
-                <td>{subscription?.subscription?.slice(15)}</td>
+                <td>{subscription?.subscription?.slice(-8)?.toUpperCase()}</td>
               </tr>
               <tr>
                 <th>Name :</th>
@@ -127,39 +148,43 @@ function PaymentDetails(props: MyComponentProps) {
                 <td>{subscription?.status}</td>
               </tr>
               <tr>
-                <th>Created AT :</th>
+                <th>Type :</th>
+                <td>{replaceHyphenCapitolize(subscription?.quotationType)}</td>
+              </tr>
+              <tr>
+                <th>Created At :</th>
                 <td>{getFormatedDate(subscription?.createdAt)}</td>
               </tr>
               <tr>
-                <th>Amount Due :</th>
-                <td>{paymentDetail?.amount_due}</td>
-              </tr>
-              <tr>
                 <th>Amount Paid :</th>
-                <td>{paymentDetail?.amount_paid}</td>
+                <td>{totalPaid}</td>
               </tr>
               <tr>
-                <th>Amount Remaining :</th>
-                <td>{paymentDetail?.amount_remaining}</td>
-              </tr>
-              <tr>
-                <th>Amount Shipping :</th>
-                <td>{paymentDetail?.amount_shipping}</td>
+                <th>Pick up Price :</th>
+                <td>{costDetails && costDetails?.pickUpPrice}</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div className="pt-3">
-          <button
-            onClick={endSubscriptionPayment}
-            disabled={isLoading || !paymentDetail}
-            className="btn btn-primary"
-          >
-            Pay Now
-          </button>
-        </div>
+        {subscription && subscription.status && (
+          <div className="pt--15">
+            {subscription.status === "INACTIVE" ? (
+              <button disabled className="btn btn-success">
+                Ended
+              </button>
+            ) : (
+              <button
+                onClick={endSubscriptionPayment}
+                disabled={isLoading || !paymentDetail}
+                className="btn btn-primary"
+              >
+                End Now
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
 }
-export default IsLoadingHOC(PaymentDetails);
+export default IsLoadingHOC(IsLoggedinHOC(PaymentDetails));

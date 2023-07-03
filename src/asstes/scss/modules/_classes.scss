@@ -12,6 +12,13 @@
     overflow: hidden;
     transition: $transition;
     z-index: 1;
+    &.white--btn {
+        background-color: $white;
+    }
+    &.black--btn {
+        background-color: $black;
+        color: $white;
+    }
     &::before{
         content: "";
         width: 100%;
@@ -86,7 +93,7 @@
 
 .heading--big {
     h2 {
-        font-size: clamp(36px, 6vw, 110px);
+        font-size: clamp(36px, 5.7vw, 90px);
         font-weight: 700;
         font-family: $montserrat;
         color: $black;
@@ -118,4 +125,11 @@
     @media (max-width:1024px) {
         order: 1;
     }
+}
+.align--center {
+    text-align: center;
+}
+
+.pt--15 {
+    padding-top: 15px;
 }

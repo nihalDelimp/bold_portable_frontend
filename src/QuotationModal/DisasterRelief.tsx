@@ -4,7 +4,15 @@ import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint, originAddress } from "../Helper/constants";
-import { validateEmail } from "../Helper";
+import { trimObjValues, validateEmail } from "../Helper";
+import {
+  maxFemaleWorkers,
+  maxTotalWorkers,
+  maxUserNameLength,
+  maxWeeklyHours,
+  minUserNameLength,
+  maxMaleWorkers,
+} from "../Constants";
 
 interface latlngPoint {
   lat: number;
@@ -34,12 +42,14 @@ interface quotationType {
 
   disasterNature: string;
   hazards: string;
+  maleWorkers: number;
+  totalWorkers: number;
 }
 
 interface coordinatorType {
   name: string;
   email: string;
-  cellNumber: number | string;
+  cellNumber: any;
 }
 
 const DisasterRelief: React.FC = () => {
@@ -76,13 +86,15 @@ const DisasterRelief: React.FC = () => {
     femaleWorkers: 0,
     femaleToilet: false,
     designatedWorkers: false,
-    workerTypes: "male",
+    workerTypes: "",
     handwashing: false,
     handSanitizerPump: false,
     twiceWeeklyService: false,
     dateTillUse: "",
     disasterNature: "",
     hazards: "",
+    maleWorkers: 0,
+    totalWorkers:0
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -103,11 +115,19 @@ const DisasterRelief: React.FC = () => {
     }));
   };
 
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
+    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+      setCoordinator((prev) => ({
+        ...prev,
+        [name]: sanitizedValue,
+      }));
+    }
+  };
+
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Radiobutton Value Access", typeof value);
-    console.log("Radiobutton name Access", name);
-
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
@@ -175,6 +195,8 @@ const DisasterRelief: React.FC = () => {
       dateTillUse: "",
       disasterNature: "",
       hazards: "",
+      maleWorkers: 0,
+      totalWorkers:0,
     });
     setFormStep(1);
   };
@@ -219,15 +241,21 @@ const DisasterRelief: React.FC = () => {
       });
   };
 
-
-
   const handleNextPage = () => {
     if (formStep === 1) {
-      const isValid = validateEmail(coordinator.email);
-      if (isValid) {
-        setFormStep((currentStep) => currentStep + 1);
-      } else {
+      const payload = trimObjValues(coordinator);
+      const isValid = validateEmail(payload.email);
+      let validUsername = /^[A-Za-z\s]+$/;
+      if (payload.name.length < 5) {
+        toast.error("Name must be at least 5 characters long");
+      } else if (!validUsername.test(payload.name)) {
+        toast.error("Name should only contain letters");
+      } else if (payload.cellNumber.length < 9) {
+        toast.error("Phone number must be at least 9 digit");
+      } else if (!isValid) {
         toast.error("Invalid email address");
+      } else {
+        setFormStep((currentStep) => currentStep + 1);
       }
     } else {
       setFormStep((currentStep) => currentStep + 1);
@@ -245,17 +273,18 @@ const DisasterRelief: React.FC = () => {
           <div className="form--title">
             <h3>Create Quotation for Disaster Relief</h3>
           </div>
-          <form
-          >
+          <form>
             {formStep === 1 && (
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Name <span className="required">*</span>
+                    Project Manager Name <span className="required">*</span>
                   </label>
                   <input
                     type="text"
                     required
+                    minLength={minUserNameLength}
+                    maxLength={maxUserNameLength}
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
@@ -264,7 +293,7 @@ const DisasterRelief: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Email <span className="required">*</span>
+                    Project Manager Email <span className="required">*</span>
                   </label>
                   <input
                     type="email"
@@ -277,14 +306,14 @@ const DisasterRelief: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Coordinator Cell number <span className="required">*</span>
+                    Project Manager Phone <span className="required">*</span>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     min={0}
                     required
                     value={coordinator.cellNumber}
-                    onChange={handleChangeCoordinator}
+                    onChange={handleChangePhone}
                     name="cellNumber"
                     placeholder="Enter phone"
                   />
@@ -331,7 +360,8 @@ const DisasterRelief: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Do you need designated workers ?
+                    Many Disaster Relief site offering gender specifics toilets,
+                    would you like to offer this ?
                     <span className="required"></span>
                   </label>
                   <select
@@ -353,44 +383,84 @@ const DisasterRelief: React.FC = () => {
                       onChange={handleSelectQuotation}
                       value={quotation.workerTypes}
                     >
+                      <option selected disabled value="">Select</option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
+                      <option value="both">Both</option>
                     </select>
                   </div>
                 )}
-                {quotation.workerTypes === "female" && (
-                  <div className="form--group">
-                    <label htmlFor="name">
-                      How many female worker need ?
-                      <span className="required"></span>
-                    </label>
-                    <input
-                      type="number"
-                      min={0}
-                      required
-                      value={quotation.femaleWorkers}
-                      onChange={handleChangeQuotation}
-                      name="femaleWorkers"
-                      placeholder="Female workers"
-                    />
-                  </div>
-                )}
-                {quotation.workerTypes === "female" && (
-                  <div className="form--group">
-                    <label htmlFor="name">
-                      Do you need seperate toilet for female ?
-                      <span className="required"></span>
-                    </label>
-                    <select
-                      name="femaleToilet"
-                      onChange={handleSelectQuotation}
-                      value={quotation.femaleToilet.toString()}
-                    >
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </select>
-                  </div>
-                )}
+                
+                
+                {quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                  <label htmlFor="name">
+                    How many male workers do you need?
+                    <span className="required"></span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={maxMaleWorkers}
+                    required
+                    value={quotation.maleWorkers}
+                    onChange={handleChangeQuotation}
+                    name="maleWorkers"
+                    placeholder="Male workers"
+                  />
+                </div>
+              ) : null}
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                  <label htmlFor="name">
+                    How many female workers do you need?
+                    <span className="required"></span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={maxFemaleWorkers}
+                    required
+                    value={quotation.femaleWorkers}
+                    onChange={handleChangeQuotation}
+                    name="femaleWorkers"
+                    placeholder="Female workers"
+                  />
+                </div>
+              ) : null}
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Do you need a separate toilet for female workers?
+                    <span className="required"></span>
+                  </label>
+                  <select
+                    name="femaleToilet"
+                    onChange={handleSelectQuotation}
+                    value={quotation.femaleToilet.toString()}
+                  >
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
+              ) : null}
+
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                <label htmlFor="name">Total Workers</label>
+                <input
+                  type="text"
+                  name="totalWorkers"
+                  value={Number(quotation.maleWorkers) + Number(quotation.femaleWorkers)}
+                  readOnly
+                />
+              </div>
+              ) : null}
+
+
               </React.Fragment>
             )}
             {formStep === 2 && (
@@ -402,6 +472,7 @@ const DisasterRelief: React.FC = () => {
                   <input
                     type="number"
                     min={0}
+                    max={maxTotalWorkers}
                     required
                     value={quotation.maxWorkers}
                     onChange={handleChangeQuotation}
@@ -415,6 +486,7 @@ const DisasterRelief: React.FC = () => {
                   </label>
                   <input
                     type="number"
+                    max={maxWeeklyHours}
                     min={0}
                     required
                     value={quotation.weeklyHours}
@@ -443,7 +515,7 @@ const DisasterRelief: React.FC = () => {
                   <input
                     type="date"
                     required
-                    min={new Date().toISOString().split("T")[0]}
+                    min={quotation.placementDate}
                     value={quotation.dateTillUse}
                     onChange={handleChangeQuotation}
                     name="dateTillUse"
@@ -531,7 +603,7 @@ const DisasterRelief: React.FC = () => {
                 </div>
               </React.Fragment>
             )}
-        
+
             <div className="form--action">
               {formStep === 2 && (
                 <button
@@ -597,9 +669,10 @@ const DisasterRelief: React.FC = () => {
                   <button
                     onClick={handleSubmit}
                     type="button"
+                    disabled={!quotation.placementAddress}
                     className="submit--from submit--from--action btn"
                   >
-                    {loading ? "Loading..." : "Submit"}
+                    {loading ? "Loading..." : "Book Now"}
                   </button>
                 </div>
               </form>

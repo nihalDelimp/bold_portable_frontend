@@ -8,6 +8,7 @@ import MyCart from "./MyCart";
 import SigninPopupModal from "./SigninPopupModal";
 import { firstChartByFullName } from "../Helper";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [isToggleMenu, setIsToggle] = useState(false);
@@ -21,8 +22,6 @@ const Header = () => {
   const location = useLocation();
   const pathName = location.pathname;
 
-  console.log("pathName", pathName);
-
   useEffect(() => {
     if (pathName !== "/") {
       document.querySelector("body")?.classList.add("other--template");
@@ -32,31 +31,6 @@ const Header = () => {
       document.querySelector(".header")?.classList.remove("header--dark");
     }
   }, [pathName]);
-
-  useEffect(() => {
-    // $(".nav--menu .menu--item").on("click", function(){
-    //   $(".hamburger").removeClass("active--hamburger");
-    //   $(".nav--menu--wrapper").removeClass("active--nav");
-    // });
-
-    var menu_ancor = document.querySelectorAll(".nav--menu .menu--item");
-
-    menu_ancor.forEach(function (item) {
-      item.addEventListener("click", function () {
-        document
-          .querySelector(".hamburger")
-          ?.classList.remove("active--hamburger");
-        document
-          .querySelector(".nav--menu--wrapper")
-          ?.classList.remove("active--nav");
-      });
-    });
-
-    $(".hamburger").on("click", function () {
-      $(this).toggleClass("active--hamburger");
-      $(".nav--menu--wrapper").toggleClass("active--nav");
-    });
-  }, []);
 
   useEffect(() => {
     // Login Dropdown
@@ -90,6 +64,13 @@ const Header = () => {
         $(e.target).closest(".form--popup").length === 0
       ) {
         $(".custom--popup").removeClass("active--popup");
+      }
+      if (
+        $(e.target).closest(".static--popup--wrapper").length === 0 &&
+        $(e.target).closest(".lost--password").length === 0 &&
+        $(e.target).closest(".reset--back").length === 0
+      ) {
+        $(".static--popup").css("display", "none");
       }
     });
 
@@ -148,6 +129,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout(false));
+    toast.success("Logged out successfully");
     navigate("/");
   };
 
@@ -157,9 +139,9 @@ const Header = () => {
         <div className="header--container">
           <div className="header--wrapper">
             <div className="site--logo">
-              <a href="#">
+              <Link to="/">
                 <img src={require("../asstes/image/site--logo.png")} alt="" />
-              </a>
+              </Link>
             </div>
             <div className="main--menu">
               <div
@@ -178,19 +160,31 @@ const Header = () => {
                 <nav className="nav--menu--layout">
                   <ul className="nav--menu">
                     <li className="nav--menu--item">
-                      <Link to="/" className="menu--item">
+                      <Link
+                        to="/"
+                        onClick={() => setIsToggle(!isToggleMenu)}
+                        className="menu--item"
+                      >
                         Home
                       </Link>
                     </li>
                     <li className="nav--menu--item">
-                      <a href="#" className="menu--item">
+                      <Link
+                        onClick={() => setIsToggle(!isToggleMenu)}
+                        to="/services"
+                        className="menu--item"
+                      >
                         Services
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav--menu--item">
-                      <a href="#" className="menu--item">
+                      <Link
+                        to="/about-us"
+                        onClick={() => setIsToggle(!isToggleMenu)}
+                        className="menu--item"
+                      >
                         About
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav--menu--item">
                       <a href="#" className="menu--item">
@@ -198,9 +192,13 @@ const Header = () => {
                       </a>
                     </li>
                     <li className="nav--menu--item">
-                      <a href="#" className="menu--item">
+                        <Link
+                          to="/contact-us"
+                          onClick={() => setIsToggle(!isToggleMenu)}
+                          className="menu--item"
+                        >
                         Contact
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </nav>
@@ -209,7 +207,7 @@ const Header = () => {
 
             <div className="login--cart--container">
               <div className="login--cart--wrapper">
-                <div className="cart">
+                {/* <div className="cart">
                   <div className="cart--wrapper">
                     <div className="cart--icon">
                       <span
@@ -223,7 +221,7 @@ const Header = () => {
                       />
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="notifications">
                   <div className="notifications--wrapper">
                     <span
@@ -254,7 +252,7 @@ const Header = () => {
                       <b>
                         {accessToken
                           ? firstChartByFullName(user?.name)
-                          : "Join Us"}{" "}
+                          : "Customer portal"}{" "}
                       </b>
                     </span>
                   </a>

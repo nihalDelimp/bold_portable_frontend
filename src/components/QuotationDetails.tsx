@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
-import { CapitalizeFirstLetter } from "../Helper";
+import {
+  CapitalizeFirstLetter,
+  getDaysBetweenDates,
+  replaceHyphenCapitolize,
+  setFormatDate,
+} from "../Helper";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -22,15 +26,17 @@ function QuotationDetails(props: MyComponentProps) {
     quotationType,
   } = props;
   const [quotation, setQuotation] = useState<any>(null);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [totalServicesDays, setTotalServicesDays] = useState<number>(0);
+
+  console.log("quotationDetailsDDDD", quotation);
 
   useEffect(() => {
     if (quotationID) {
-      getProductDetailsData();
+      getSpecificQuotationDetails();
     }
   }, [quotationID]);
 
-  const getProductDetailsData = async () => {
+  const getSpecificQuotationDetails = async () => {
     setLoading(true);
     const payload = { quote_id: quotationID };
     await authAxios()
@@ -40,50 +46,12 @@ function QuotationDetails(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data.quotation;
-            const costDetails = resData.costDetails;
-            console.log("resDataForSubSSS>>costDetails", costDetails);
-            const {
-              activelyCleaned,
-              alcoholServed,
-              deliveryPrice,
-              fencedOff,
-              handSanitizerPump,
-              handSanitizerPumpCost,
-              handWashing,
-              handWashingCost,
-              numberOfUnitsCost,
-              payPerUse,
-              pickUpPrice,
-              serviceFrequencyCost,
-              specialRequirementsCost,
-              twiceWeeklyServicing,
-              useAtNightCost,
-              useInWinterCost,
-              weeklyHoursCost,
-              workersCost,
-            } = costDetails;
-
             setQuotation(resData);
-            const totalAmount =
-              activelyCleaned +
-              alcoholServed +
-              deliveryPrice +
-              fencedOff +
-              handSanitizerPump +
-              handSanitizerPumpCost +
-              handWashing +
-              handWashingCost +
-              numberOfUnitsCost +
-              payPerUse +
-              pickUpPrice +
-              serviceFrequencyCost +
-              specialRequirementsCost +
-              twiceWeeklyServicing +
-              useAtNightCost +
-              useInWinterCost +
-              weeklyHoursCost +
-              workersCost;
-            setTotalPrice(totalAmount);
+            const servicesDays = getDaysBetweenDates(
+              resData.placementDate,
+              resData.dateTillUse
+            );
+            setTotalServicesDays(servicesDays);
           }
         },
         (error) => {
@@ -102,14 +70,20 @@ function QuotationDetails(props: MyComponentProps) {
   };
 
   const CreateCheckoutSession = async () => {
+    let intervalService = "day";
+    if (totalServicesDays >= 30 && totalServicesDays < 365) {
+      intervalService = "month";
+    } else if (totalServicesDays >= 365) {
+      intervalService = "year";
+    }
     const payload = {
-      price: totalPrice,
-      product_name: "Potty box1",
+      price: quotation?.costDetailsSum,
+      product_name: quotationType,
       product_description: "Big size potty box1",
       interval: "month",
-      shipping_amount: quotation?.costDetails?.pickUpPrice || 10,
+      shipping_amount: quotation?.costDetails?.pickUpPrice,
       quotationId: quotationID,
-      quotationType: quotationType,
+      quotationType: quotation?.quotationType,
       success_url: `${window.location.origin}/payment-success`,
       cancel_url: `${window.location.origin}/payment-cancel`,
     };
@@ -203,19 +177,29 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Status</th>
-                <td className="status">{quotation?.status}</td>
+                <td className="status">
+                  {CapitalizeFirstLetter(quotation?.status)}
+                </td>
               </tr>
               <tr>
                 <th>Type</th>
-                <td>{quotationType}</td>
+                <td>{replaceHyphenCapitolize(quotationType)}</td>
               </tr>
               <tr>
                 <th>Delivery Price</th>
-                <td>${quotation?.costDetails?.deliveryPrice}</td>
+                <td>{quotation?.costDetails?.deliveryPrice}</td>
               </tr>
               <tr>
                 <th>Distance From Kelowna</th>
                 <td>{quotation?.distanceFromKelowna} KM</td>
+              </tr>
+              <tr>
+                <th>Placement Date</th>
+                <td>{setFormatDate(quotation?.placementDate)}</td>
+              </tr>
+              <tr>
+                <th>Date till use</th>
+                <td>{setFormatDate(quotation?.dateTillUse)}</td>
               </tr>
               <tr>
                 <th>Max Workers</th>
@@ -255,22 +239,28 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Total Amount</th>
-                <td>${totalPrice}</td>
+                <td>${quotation?.costDetailsSum}</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div className="pt-3">
-          <button
-            onClick={subscriptionPayment}
-            disabled={isLoading || !quotation || !totalPrice}
-            className="btn btn-primary"
-          >
-            Pay Now
-          </button>
-        </div>
+        {quotation && (
+          <div className="pt--15">
+            {quotation?.status === "pending" ? (
+              <button
+                onClick={subscriptionPayment}
+                disabled={isLoading || !quotation || !quotation?.costDetailsSum}
+                className="btn btn-primary"
+              >
+                Subscribe
+              </button>
+            ) : (
+              <button className="btn btn-success">Paid</button>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
 }
-export default QuotationDetails;
+export default IsLoggedinHOC(QuotationDetails);

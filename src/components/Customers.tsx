@@ -2,6 +2,7 @@ import React from "react";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import { Link } from "react-router-dom";
 
 
 const Customers = () => {
@@ -44,26 +45,33 @@ const Customers = () => {
       >
         <div className="customer--logo">
           {" "}
-          <img
-            src={require("../asstes/image/customers/customer--icon--1.png")}
-            alt=""
-          />
+          <Link to={`#`}>          
+            <img
+              src={require("../asstes/image/customers/Custom-Vac.png")}
+              alt="" loading="lazy"
+            />
+          </Link>
         </div>
         <div className="customer--logo">
           {" "}
+          <Link to={`#`}> 
           <img
-            src={require("../asstes/image/customers/customer--icon--2.png")}
-            alt=""
+            src={require("../asstes/image/customers/Poly-John.png")}
+            alt="" loading="lazy"
           />
+          </Link>
         </div>
         <div className="customer--logo">
           {" "}
+          <Link to={`#`}> 
           <img
-            src={require("../asstes/image/customers/customer--icon--3.png")}
-            alt=""
+            src={require("../asstes/image/customers/PSAI.png")}
+            alt="" loading="lazy"
           />
+          </Link>
         </div>
-        <div className="customer--logo">
+
+        {/* <div className="customer--logo">
           {" "}
           <img
             src={require("../asstes/image/customers/customer--icon--4.png")}
@@ -104,7 +112,7 @@ const Customers = () => {
             src={require("../asstes/image/customers/customer--icon--8.png")}
             alt=""
           />
-        </div>
+        </div> */}
       </OwlCarousel>
     </section>
   );

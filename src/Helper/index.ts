@@ -41,8 +41,6 @@ export function firstChartByFullName (fullName : any){
   return str; 
 };
 
-
-
 function deg2rad(deg: number) {
   return deg * (Math.PI / 180);
 }
@@ -69,9 +67,46 @@ export const CapitalizeFirstLetter = (data : any) => {
   }
 }
 
+export function replaceHyphenCapitolize (strData : any){
+  if(strData){
+    const newStr = strData.charAt(0).toUpperCase() + strData.slice(1);
+    let replacedWord = newStr.replace(/-/g, ' ');
+    return replacedWord
+  }
+}
+
 export function validateEmail(email: string) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
+}
+
+export function trimObjValues(obj: any) {
+  return Object.keys(obj).reduce((acc:any, curr:any) => {
+      acc[curr] = obj[curr]
+      if (typeof obj[curr] === 'string') {
+          acc[curr] = obj[curr].trim()
+      }
+      return acc;
+  }, {});
+}
+
+  export function getDaysBetweenDates(date1 : any, date2 : any) {
+  const oneDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+
+  // Convert the input dates to JavaScript Date objects
+  const d1 = new Date(date1);
+  const d2 = new Date(date2);
+
+  // Set the time of both dates to midnight
+  d1.setHours(0, 0, 0, 0);
+  d2.setHours(0, 0, 0, 0);
+
+  // Calculate the difference in days
+  const diffInTime = Math.abs(d2.getTime() - d1.getTime());
+  const diffInDays = Math.ceil(diffInTime / oneDay);
+  console.log(typeof  diffInDays)
+  console.log(diffInDays , 'diffInDays')
+  return diffInDays;
 }
 
 

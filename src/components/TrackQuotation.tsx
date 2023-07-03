@@ -3,13 +3,15 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
-import { getDateWithDay } from "../Helper/index";
+import { CapitalizeFirstLetter, getDateWithDay } from "../Helper/index";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   isLoading: boolean;
   quotationID: string;
   quotationType: string;
+  qoutStatus: string;
   setActiveSidebar: (activeSidebarMenu: string) => void;
 }
 
@@ -20,6 +22,7 @@ function TrackQuotation(props: MyComponentProps) {
     setActiveSidebar,
     quotationID,
     quotationType,
+    qoutStatus,
   } = props;
   const [quotation, setQuotation] = useState<any>(null);
   const { user } = useSelector((state: RootState) => state.auth);
@@ -28,7 +31,7 @@ function TrackQuotation(props: MyComponentProps) {
 
   useEffect(() => {
     if (quotationID) {
-       getOrderTrackingData();
+      getOrderTrackingData();
     }
   }, [quotationID]);
 
@@ -85,7 +88,9 @@ function TrackQuotation(props: MyComponentProps) {
           </div>
           <div className="order--status">
             <span>Status - </span>{" "}
-            <span className="order--status--corrent">Pending</span>
+            <span className="order--status--corrent">
+              {CapitalizeFirstLetter(qoutStatus)}
+            </span>
           </div>
           <div className="order--tracking--bar">
             <ul>
@@ -152,4 +157,4 @@ function TrackQuotation(props: MyComponentProps) {
   );
 }
 
-export default TrackQuotation;
+export default IsLoggedinHOC(TrackQuotation);

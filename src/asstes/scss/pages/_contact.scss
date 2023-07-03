@@ -1,0 +1,147 @@
+.contact--us {
+    padding-block: clamp(40px, 6vw, 100px);
+    .contact--us--wrapper {
+        display: flex;
+        gap: 35px;
+        @media (max-width:1024px) {
+            flex-direction: column;
+        }
+        .contact--sidebar {
+            width: calc(100% / 3);
+            background-color: $blue;
+            padding: clamp(20px, 3.4vw, 60px);
+            border-radius: 8px;
+            @media (max-width:1024px) {
+                width: 100% ;
+            }
+            .contact--data {
+                padding-top: 10px;
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 50px;
+                    @media (max-width:767px) {
+                        gap: 35px;
+                    }
+                    li {
+                        .contact--data--item {
+                            display: flex;
+                            gap: 15px;
+                            .icons {
+                                img {
+                                    min-width: 24px;
+                                }
+                            }
+                            .details--item {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 10px;
+                                h3 {
+                                    font-size: 18px;
+                                    font-weight: 500;
+                                }
+                                p {
+                                    color: $black;
+                                }
+                                address {
+                                    font-weight: 500;
+                                    font-style: normal;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .social--hendals {
+                ul {
+                    display: flex;
+                    gap: 15px;
+                    margin-top: 50px;
+                    margin-left: 35px;
+                    @media (max-width:767px) {
+                        margin-top: 30px;
+                    }
+                    li {
+                        a {
+                            min-width: 35px;
+                            aspect-ratio: 1;
+                            background-color: $black;
+                            border-radius: 50%;
+                            @include flex();
+                            color: $white;
+                            font-size: 12px;
+                            transition: $transition;
+                           &:hover {
+                            background-color: $yellow;
+                            color: $black;
+                           } 
+                        }
+                    }
+                }
+            }
+        }
+        .contact--us--form {
+            width: calc(100% - calc(calc(100% / 3)));
+            border-radius: 8px;
+            border: 5px solid $blue;
+            @media (max-width:1024px) {
+                width: 100% ;
+            }
+            .default--form {
+                padding: 50px;
+                @media (max-width:767px) {
+                    padding: 35px 15px;
+                }
+                &.active--from {
+                    display: block;
+                }
+                .default--form--wrapper {
+                    .form--title {
+                        padding-bottom: 20px;
+                    }
+                    form {
+                        display: grid;
+                        grid-template-columns: repeat(2,1fr);
+                        gap: 30px;
+                        @media (max-width:767px) {
+                            grid-template-columns: repeat(1,1fr);
+                        }
+                        .form--group {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 10px;
+                            justify-content: space-between;
+                            &.span--2 {
+                                grid-column: span 2;
+                                @media (max-width:767px) {
+                                    grid-column: span 1;
+                                }
+                            }
+                            input, select {
+                                padding: 15px 0;
+                                border-bottom: 1px solid $black;
+                            }
+                            textarea {
+                                padding: 8px 0;
+                                border-bottom: 1px solid $black;
+                                resize: none;
+                            }
+                        }
+                        .form--action {
+                            grid-column: span 2;
+                            @include flex(flex-end);
+                            gap: 15px;
+                            @media (max-width:767px) {
+                                grid-column: span 1;
+                                @include flex(center);
+                            }
+                            .submit--from {
+                                width:max-content;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
