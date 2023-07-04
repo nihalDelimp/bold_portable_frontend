@@ -12,6 +12,7 @@ export const maxUserPasswordLength = 20
 
 // limit validation for Create Quotations Modal form
 export const maxFemaleWorkers = 50
+export const maxMaleWorkers = 50
 export const maxTotalWorkers = 100
 export const maxWeeklyHours = 1000
 

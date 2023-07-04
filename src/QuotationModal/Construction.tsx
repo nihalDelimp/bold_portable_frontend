@@ -13,6 +13,7 @@ import {
   maxWeeklyHours,
   minUserNameLength,
   minUserPhoneLength,
+  maxMaleWorkers
 } from "../Constants";
 
 interface latlngPoint {
@@ -40,6 +41,8 @@ interface quotationType {
   handSanitizerPump: boolean;
   twiceWeeklyService: boolean;
   dateTillUse: string;
+  maleWorkers: number;
+  totalWorkers: number;
 }
 
 interface coordinatorType {
@@ -82,11 +85,14 @@ const Construction: React.FC = () => {
     femaleWorkers: 0,
     femaleToilet: false,
     designatedWorkers: false,
-    workerTypes: "male",
+    workerTypes: "",
     handwashing: false,
     handSanitizerPump: false,
     twiceWeeklyService: false,
     dateTillUse: "",
+    maleWorkers: 0,
+    totalWorkers:0
+    
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -129,10 +135,13 @@ const Construction: React.FC = () => {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "workerTypes") {
+    if (name === "workerTypes" || name === "designatedWorkers") {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
+        maleWorkers: 0, // Reset maleWorkers
+        femaleWorkers: 0, // Reset femaleWorkers
+        totalWorkers: 0, // Reset totalWorkers
       }));
     } else {
       setQuotation((prev) => ({
@@ -185,6 +194,8 @@ const Construction: React.FC = () => {
       handSanitizerPump: false,
       twiceWeeklyService: false,
       dateTillUse: "",
+      maleWorkers: 0,
+      totalWorkers: 0
     });
     setFormStep(1);
   };
@@ -373,64 +384,90 @@ const Construction: React.FC = () => {
                       onChange={handleSelectQuotation}
                       value={quotation.workerTypes}
                     >
+                      <option selected disabled value="">Select</option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
+                      <option value="both">Both</option>
                     </select>
                   </div>
                 )}
-                {quotation.workerTypes === "female" && (
-                  <div className="form--group">
-                    <label htmlFor="name">
-                      How many female worker need ?
-                      <span className="required"></span>
-                    </label>
-                    <input
-                      type="number"
-                      min={0}
-                      max={maxFemaleWorkers}
-                      required
-                      value={quotation.femaleWorkers}
-                      onChange={handleChangeQuotation}
-                      name="femaleWorkers"
-                      placeholder="Female workers"
-                    />
-                  </div>
-                )}
-                {quotation.workerTypes === "female" && (
-                  <div className="form--group">
-                    <label htmlFor="name">
-                      Do you need seperate toilet for female ?
-                      <span className="required"></span>
-                    </label>
-                    <select
-                      name="femaleToilet"
-                      onChange={handleSelectQuotation}
-                      value={quotation.femaleToilet.toString()}
-                    >
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </select>
-                  </div>
-                )}
-              </React.Fragment>
-            )}
-            {formStep === 2 && (
-              <React.Fragment>
+                
+                
+                {quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
                 <div className="form--group">
                   <label htmlFor="name">
-                    Max workers <span className="required">*</span>
+                    How many male workers do you need?
+                    <span className="required"></span>
                   </label>
                   <input
                     type="number"
                     min={0}
-                    max={maxTotalWorkers}
+                    max={maxMaleWorkers}
                     required
-                    value={quotation.maxWorkers}
+                    value={quotation.maleWorkers}
                     onChange={handleChangeQuotation}
-                    name="maxWorkers"
-                    placeholder="Enter max workers"
+                    name="maleWorkers"
+                    placeholder="Male workers"
                   />
                 </div>
+              ) : null}
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                  <label htmlFor="name">
+                    How many female workers do you need?
+                    <span className="required"></span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={maxFemaleWorkers}
+                    required
+                    value={quotation.femaleWorkers}
+                    onChange={handleChangeQuotation}
+                    name="femaleWorkers"
+                    placeholder="Female workers"
+                  />
+                </div>
+              ) : null}
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Do you need a separate toilet for female workers?
+                    <span className="required"></span>
+                  </label>
+                  <select
+                    name="femaleToilet"
+                    onChange={handleSelectQuotation}
+                    value={quotation.femaleToilet.toString()}
+                  >
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
+              ) : null}
+
+
+              {quotation.workerTypes === "female" || quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
+                <div className="form--group">
+                <label htmlFor="name">Total Workers</label>
+                <input
+                  type="text"
+                  name="totalWorkers"
+                  value={Number(quotation.maleWorkers) + Number(quotation.femaleWorkers)}
+                  readOnly
+                />
+              </div>
+              ) : null}
+
+
+
+
+              </React.Fragment>
+            )}
+            {formStep === 2 && (
+              <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
                     Weekly hours <span className="required">*</span>
