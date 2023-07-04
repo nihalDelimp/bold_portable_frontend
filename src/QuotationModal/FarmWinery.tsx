@@ -384,49 +384,9 @@ const FarmWinery: React.FC = () => {
                     </select>
                   </div>
                 )}
-<<<<<<< HEAD
                 
                 
                 {quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
-=======
-                {quotation.workerTypes === "female" && (
-                  <div className="form--group">
-                    <label htmlFor="name">
-                      How many female worker need ?
-                      <span className="required"></span>
-                    </label>
-                    <input
-                      type="number"
-                      min={0}
-                      required
-                      value={quotation.femaleWorkers}
-                      onChange={handleChangeQuotation}
-                      name="femaleWorkers"
-                      placeholder="Female workers"
-                    />
-                  </div>
-                )}
-                {quotation.workerTypes === "female" && (
-                  <div className="form--group">
-                    <label htmlFor="name">
-                      Do you need seperate toilet for female ?
-                      <span className="required"></span>
-                    </label>
-                    <select
-                      name="femaleToilet"
-                      onChange={handleSelectQuotation}
-                      value={quotation.femaleToilet.toString()}
-                    >
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </select>
-                  </div>
-                )}
-              </React.Fragment>
-            )}
-            {formStep === 2 && (
-              <React.Fragment>
->>>>>>> origin/Nihal
                 <div className="form--group">
                   <label htmlFor="name">
                     How many male workers do you need?
