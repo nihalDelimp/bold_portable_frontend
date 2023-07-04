@@ -137,10 +137,13 @@ const DisasterRelief: React.FC = () => {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "workerTypes") {
+    if (name === "workerTypes" || name === "designatedWorkers") {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
+        maleWorkers: 0, // Reset maleWorkers
+        femaleWorkers: 0, // Reset femaleWorkers
+        totalWorkers: 0, // Reset totalWorkers
       }));
     } else {
       setQuotation((prev) => ({

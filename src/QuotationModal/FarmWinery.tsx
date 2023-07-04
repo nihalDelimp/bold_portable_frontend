@@ -129,10 +129,14 @@ const FarmWinery: React.FC = () => {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "workerTypes" || name === "useType") {
+    
+    if (name === "workerTypes" || name === "designatedWorkers" || name === "useType") {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
+        maleWorkers: 0, // Reset maleWorkers
+        femaleWorkers: 0, // Reset femaleWorkers
+        totalWorkers: 0, // Reset totalWorkers
       }));
     } else {
       setQuotation((prev) => ({
