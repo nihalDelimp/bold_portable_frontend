@@ -470,21 +470,6 @@ const Construction: React.FC = () => {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Max workers <span className="required">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    max={maxTotalWorkers}
-                    required
-                    value={quotation.maxWorkers}
-                    onChange={handleChangeQuotation}
-                    name="maxWorkers"
-                    placeholder="Enter max workers"
-                  />
-                </div>
-                <div className="form--group">
-                  <label htmlFor="name">
                     Weekly hours <span className="required">*</span>
                   </label>
                   <input
