@@ -254,7 +254,7 @@ function SpecialEvents() {
       dateTillUse: "",
       placementAddress: "",
       maleWorkers: 0,
-    totalWorkers:0
+      totalWorkers:0
     });
     setEventDetails({
       eventName: "",
