@@ -135,7 +135,8 @@ const Construction: React.FC = () => {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    if (name === "workerTypes" || name === "designatedWorkers") {
+    
+    if (name === "workerTypes") {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
@@ -147,6 +148,11 @@ const Construction: React.FC = () => {
       setQuotation((prev) => ({
         ...prev,
         [name]: boolValue,
+        workerTypes: '', // Reset workerTypes
+        maleWorkers: 0, // Reset maleWorkers
+        femaleWorkers: 0, // Reset femaleWorkers
+        femaleToilet: false, // Reset femaleToilet
+        totalWorkers: 0, // Reset totalWorkers
       }));
     }
   };
@@ -359,6 +365,7 @@ const Construction: React.FC = () => {
                     <option value="true">Yes</option>
                   </select>
                 </div>
+                
                 <div className="form--group">
                   <label htmlFor="name">
                     Many construction site offering gender specifics toilets,
