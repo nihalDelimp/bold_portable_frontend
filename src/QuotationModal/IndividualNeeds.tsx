@@ -126,11 +126,37 @@ const IndividualNeeds: React.FC = () => {
     }));
   };
 
+  // const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const { name, value } = e.target;
+  //   const boolValue = value === "true";
+
+  //   if (name === "workerTypes" || name === "useType") {
+  //     setQuotation((prev) => ({
+  //       ...prev,
+  //       [name]: value,
+  //       maleWorkers: 0, // Reset maleWorkers
+  //       femaleWorkers: 0, // Reset femaleWorkers
+  //       totalWorkers: 0, // Reset totalWorkers
+  //     }));
+  //   } else if (name === "femaleToilet") {
+  //     setQuotation((prev) => ({
+  //       ...prev,
+  //       [name]: boolValue,
+  //     }));
+  //   } else {
+  //     setQuotation((prev) => ({
+  //       ...prev,
+  //       [name]: boolValue,
+  //       workerTypes: '', // Reset workerTypes
+  //     }));
+  //   }
+  // };
+
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-    
-    if (name === "workerTypes" || name === "useType") {
+  
+    if (name === "workerTypes" && value !== quotation.workerTypes) {
       setQuotation((prev) => ({
         ...prev,
         [name]: value,
@@ -142,15 +168,10 @@ const IndividualNeeds: React.FC = () => {
       setQuotation((prev) => ({
         ...prev,
         [name]: boolValue,
-        workerTypes: '', // Reset workerTypes
-        maleWorkers: 0, // Reset maleWorkers
-        femaleWorkers: 0, // Reset femaleWorkers
-        femaleToilet: false, // Reset femaleToilet
-        totalWorkers: 0, // Reset totalWorkers
       }));
     }
   };
-
+  
   const distanceCallBack = (distance: number) => {
     setQuotation((prev) => ({
       ...prev,
