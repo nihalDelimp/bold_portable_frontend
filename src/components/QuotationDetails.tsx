@@ -202,8 +202,12 @@ function QuotationDetails(props: MyComponentProps) {
                 <td>{setFormatDate(quotation?.dateTillUse)}</td>
               </tr>
               <tr>
-                <th>Max Workers</th>
-                <td>{quotation?.maxWorkers}</td>
+                <th>Male Worker</th>
+                <td>{quotation?.maleWorkers}</td>
+              </tr>
+              <tr>
+                <th>Female Worker</th>
+                <td>{quotation?.femaleWorkers}</td>
               </tr>
               <tr>
                 <th>Service Frequency:</th>
