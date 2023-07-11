@@ -18,12 +18,15 @@ import {
   minUserNameLength,
   minUserPhoneLength,
 } from "../Constants";
-import { acceptedFileTypes } from "../Helper/constants";
+import { acceptedFileTypes, originPoint } from "../Helper/constants";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   isLoading: boolean;
 }
+
+const libraries: any[] = ["places"];
+const mapContainerStyle = { width: "100%", height: "600px" };
 
 function Services(props: MyComponentProps) {
   const { setLoading } = props;
@@ -42,15 +45,15 @@ function Services(props: MyComponentProps) {
 
   const [currentLatLng, setCurrentLatLng] = useState<any[]>([]);
   const [selectedImages, setSelectedImages] = useState<any>([]);
-
-  console.log("selectedImages", selectedImages);
+  const [currentLocation, setCurrentLocation] = useState(originPoint);
+  const [map, setMap] = useState(null);
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    libraries: ["places"],
+    libraries: libraries,
   });
 
   const getAddressFromLatLng = (lat: number, lng: number) => {
@@ -84,11 +87,12 @@ function Services(props: MyComponentProps) {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          setCurrentLatLng([lat, lng]);
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          setCurrentLatLng([latitude, longitude]);
           if (isMount) {
-            getAddressFromLatLng(lat, lng);
+            getAddressFromLatLng(latitude, longitude);
+            setCurrentLocation({ lat: latitude, lng: longitude });
           }
           setLoading(false);
         }
@@ -178,28 +182,6 @@ function Services(props: MyComponentProps) {
       setUserPhone(sanitizedValue);
     }
   };
-
-  // const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name } = e.target;
-  //   const files = e.target.files;
-
-  //   console.log("filesfiles" , files)
-  //   if(Array.isArray(files)){
-  //     alert("TRUE")
-  //   }
-  //   else{
-  //     alert("not array")
-
-  //   }
-
-  //   if (!files) {
-  //     return;
-  //   } else if (files.length > 3) {
-  //     toast.error("Maximum three files are allowed");
-  //   } else {
-  //     setSelectedImages(files);
-  //   }
-  // };
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -346,6 +328,10 @@ function Services(props: MyComponentProps) {
   const handleAction = () => {
     setModal(false);
   };
+
+  function handleLoad(maps: any) {
+    setMap(maps);
+  }
 
   return (
     <>
@@ -535,18 +521,21 @@ function Services(props: MyComponentProps) {
                           </button>
                           <p>{userAddress}</p>
                         </div>
-                        {/* <div className="form--group iframe--wrapper">
-                            <label htmlFor="email">Location</label>
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83988654095!2d-0.2664029782833932!3d51.528739805082814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sin!4v1687426924908!5m2!1sen!2sin"  style={{border: "0px", width:"100%"}} allowFullScreen  loading="lazy"></iframe>
-                          </div> */}
                       </div>
                       <div className="service--map">
-                        <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83988654095!2d-0.2664029782833932!3d51.528739805082814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sin!4v1687426924908!5m2!1sen!2sin"
-                          style={{ border: "0px", width: "100%" }}
-                          allowFullScreen
-                          loading="lazy"
-                        ></iframe>
+                        {isLoaded &&
+                          currentLocation &&
+                          currentLocation.lat &&
+                          currentLocation.lng && (
+                            <GoogleMap
+                              center={currentLocation}
+                              zoom={15}
+                              mapContainerStyle={mapContainerStyle}
+                              onLoad={handleLoad}
+                            >
+                              <MarkerF position={currentLocation} />
+                            </GoogleMap>
+                          )}
                       </div>
                     </div>
                     <ul className="servies--inner--links">
@@ -735,5 +724,4 @@ function Services(props: MyComponentProps) {
     </>
   );
 }
-
 export default IsLoadingHOC(Services);

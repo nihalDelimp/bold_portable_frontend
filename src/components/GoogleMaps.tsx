@@ -8,6 +8,9 @@ import {
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 
+const mapContainerStyle = { width: "100%", height: "600px" };
+const libraries : any[] = ["places"]
+
 const GoogleMaps = (props: any) => {
   const { setLoading } = props;
   const [latLng, setCurrentLatLng] = useState({ lat: 0, lng: 0 });
@@ -18,7 +21,7 @@ const GoogleMaps = (props: any) => {
   
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    libraries: ["places"],
+    libraries: libraries,
   });
 
   var options = {
@@ -82,7 +85,6 @@ const GoogleMaps = (props: any) => {
     setMount(!isMount)
   }, []);
 
-
   function handleLoad(maps: any) {
     setMap(maps);
   }
@@ -141,7 +143,7 @@ const GoogleMaps = (props: any) => {
     getAddressFromLatLng(lat, lng);
   }
 
-  const mapContainerStyle = { width: "100%", height: "600px" };
+
 
   return (
     <section className="form--services">
@@ -149,13 +151,6 @@ const GoogleMaps = (props: any) => {
         <div className="p--0 grid----">
           <div className="grid--wrapper">
             <div className="map--wrapper">
-              {/* <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d99029.84505283511!2d-84.61044109524899!3d39.13645224401073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x884051b1de3821f9%3A0x69fb7e8be4c09317!2sCincinnati%2C%20OH%2C%20USA!5e0!3m2!1sen!2sin!4v1680159428717!5m2!1sen!2sin"
-                width="100%"
-                style={{ border: "0px" }}
-                loading="lazy"
-                allowFullScreen
-              ></iframe> */}
               {isLoaded && latLng && latLng.lat && latLng.lng && (
                 <GoogleMap
                   center={latLng}

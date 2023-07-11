@@ -210,11 +210,16 @@ function SpecialEvents() {
     }
   };
 
+  const handleSelectPickTimeSlot = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const {value , name} =  e.target
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Radiobutton Value Access", typeof value);
-    console.log("Radiobutton name Access", name);
-
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
@@ -667,7 +672,7 @@ function SpecialEvents() {
                     </label>
                     <select
                       name="peakTimeSlot"
-                      onChange={handleSelectQuotation}
+                      onChange={handleSelectPickTimeSlot}
                       value={quotation.peakTimeSlot}
                     >
                       <option value="">Select Time</option>
