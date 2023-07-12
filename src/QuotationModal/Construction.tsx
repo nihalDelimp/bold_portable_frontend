@@ -394,7 +394,6 @@ const Construction: React.FC = () => {
                   </div>
                 )}
                 
-                
                 {quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
                 <div className="form--group">
                   <label htmlFor="name">
@@ -449,8 +448,6 @@ const Construction: React.FC = () => {
                   </select>
                 </div>
               ) : null}
-
-
               {quotation.workerTypes === "female" || quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
                 <div className="form--group">
                 <label htmlFor="name">Total Workers</label>
@@ -462,10 +459,6 @@ const Construction: React.FC = () => {
                 />
               </div>
               ) : null}
-
-
-
-
               </React.Fragment>
             )}
             {formStep === 2 && (
