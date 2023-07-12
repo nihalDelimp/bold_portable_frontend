@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
@@ -8,7 +8,6 @@ import {
   useJsApiLoader,
   GoogleMap,
   MarkerF,
-  Autocomplete,
 } from "@react-google-maps/api";
 import {
   maxUserEmailLength,
@@ -30,6 +29,7 @@ const mapContainerStyle = { width: "100%", height: "600px" };
 
 function Services(props: MyComponentProps) {
   const { setLoading } = props;
+  const navigate = useNavigate();
   const [requestServices, setRequestServices] = useState<any[]>([]);
   const [isOtherService, setOtherService] = useState<boolean>(false);
   const [otherServiceName, setOtherServiceName] = useState<string>("");
@@ -47,6 +47,7 @@ function Services(props: MyComponentProps) {
   const [selectedImages, setSelectedImages] = useState<any>([]);
   const [currentLocation, setCurrentLocation] = useState(originPoint);
   const [map, setMap] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
@@ -55,6 +56,7 @@ function Services(props: MyComponentProps) {
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
     libraries: libraries,
   });
+
 
   const getAddressFromLatLng = (lat: number, lng: number) => {
     const geocoder = new window.google.maps.Geocoder();
@@ -147,6 +149,7 @@ function Services(props: MyComponentProps) {
     const quotation_Type = params.get("quotationType");
     if (quotation_Id) {
       setquotationId(quotation_Id.toString());
+      setShowModal(true);
     }
     if (quotation_Type) {
       setServiceName(quotation_Type.toString());
@@ -318,15 +321,6 @@ function Services(props: MyComponentProps) {
           console.log("errorrrr", error);
         });
     }
-  };
-
-  const [modal, setModal] = useState(false);
-  useEffect(() => {
-    //  setModal(true);
-  }, []);
-
-  const handleAction = () => {
-    setModal(false);
   };
 
   function handleLoad(maps: any) {
@@ -696,27 +690,30 @@ function Services(props: MyComponentProps) {
       </section>
       <section
         className={`default--popup user--action--popup ${
-          modal ? "active--popup" : ""
+          showModal ? "active--popup" : ""
         }  `}
       >
         <div className="default--popup--wrapper">
           <div className="user--action--datta">
-            <h2>Title</h2>
             <ul>
               <li>
-                <h3>Your session has expired. Please sign in again</h3>
-                <p>Your session has expired.</p>
-                <button onClick={handleAction} type="button" className="btn">
-                  yes
+                <h3>Do you want to rent site or service again?</h3>
+                <div className="request--service--btn">
+               <a onClick={()=>navigate('/')} href="#best--describes" id = "process--book--now">
+                  <button type="button"  className="btn">
+                    Rent a site
+                  </button>
+                  </a>
+                <button
+                  onClick={() => setShowModal(false)}
+                  type="button"
+                  className="btn"
+                >
+                  Request service
                 </button>
+                </div>
               </li>
-              <li>
-                <h3>Your session has expired. Please sign in again</h3>
-                <p>Your session has expired.</p>
-                <button onClick={handleAction} type="button" className="btn">
-                  No
-                </button>
-              </li>
+              
             </ul>
           </div>
         </div>

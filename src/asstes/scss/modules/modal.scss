@@ -444,34 +444,42 @@
     .default--popup--wrapper {
         max-width: 500px;
         .user--action--datta {
-            padding: 30px;
+            padding: 30px 30px 60px;
             @media (max-width:767px) {
-                padding: 15px;
+                padding: 30px 15px;
             }
             h2 {
                 text-align: center;
                 padding-bottom: 10px;
-                border-bottom: 1px solid lighten($black, 90%);
                 font-size: clamp(20px,2vw, 30px);
             }
             ul {
-                display: inline-flex;
+                display: flex;
                 flex-direction: column;
                 gap: 5px;
+                text-align: center;
                 li {
                     padding-block:20px;
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
+                    .request--service--btn {
+                        display: flex;
+                        gap: 15px;
+                        margin-top: 30px;
+                        justify-content: center;
+                        @media (max-width:500px) {
+                            margin-top: 20px;
+                            flex-direction: column;
+                            align-items: center;
+                        }
+                    }
                     .btn {
                         width: max-content;
                         padding: clamp(10px, 1.1vw, 10px) clamp(30px, 2vw, 30px);
                         min-height: 40px;
                     }
-                    &:first-child {
-                        border-bottom: 1px solid lighten($black, 90%);
-
-                    }
+                    
                     h3 {
                         font-size: 18px;
                         font-weight: 500;
