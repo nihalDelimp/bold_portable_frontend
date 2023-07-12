@@ -1,14 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import io, { Socket } from "socket.io-client";
-import {
-  useJsApiLoader,
-  GoogleMap,
-  MarkerF,
-} from "@react-google-maps/api";
+import { useJsApiLoader, GoogleMap, MarkerF } from "@react-google-maps/api";
 import {
   maxUserEmailLength,
   maxUserNameLength,
@@ -56,7 +52,6 @@ function Services(props: MyComponentProps) {
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
     libraries: libraries,
   });
-
 
   const getAddressFromLatLng = (lat: number, lng: number) => {
     const geocoder = new window.google.maps.Geocoder();
@@ -699,21 +694,24 @@ function Services(props: MyComponentProps) {
               <li>
                 <h3>Do you want to rent site or service again?</h3>
                 <div className="request--service--btn">
-               <a onClick={()=>navigate('/')} href="#best--describes" id = "process--book--now">
-                  <button type="button"  className="btn">
-                    Rent a site
-                  </button>
+                  <a
+                    onClick={() => navigate("/")}
+                    href="#best--describes"
+                    id="process--book--now"
+                  >
+                    <button type="button" className="btn">
+                      Rent a site
+                    </button>
                   </a>
-                <button
-                  onClick={() => setShowModal(false)}
-                  type="button"
-                  className="btn"
-                >
-                  Request service
-                </button>
+                  <button
+                    onClick={() => setShowModal(false)}
+                    type="button"
+                    className="btn"
+                  >
+                    Request service
+                  </button>
                 </div>
               </li>
-              
             </ul>
           </div>
         </div>
