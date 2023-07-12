@@ -63,7 +63,6 @@ function Services(props: MyComponentProps) {
             let currentAddress = results[0]?.formatted_address;
             geocoder.geocode({ address: results[0]?.formatted_address });
             setUserAddress(currentAddress);
-            console.log("CurrentAddrssByTTTTTT", results[0].formatted_address);
           } else {
             console.log("No results found");
           }
@@ -183,7 +182,6 @@ function Services(props: MyComponentProps) {
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-
     if (!files) {
       return;
     } else if (files.length > 3) {
@@ -295,6 +293,11 @@ function Services(props: MyComponentProps) {
               setOtherService(false);
               setOtherServiceName("");
               setServiceTypes([]);
+              setUserName("");
+              setUserEmail("");
+              setUserPhone("");
+              setUserAddress("");
+              setSelectedImages([])
             } else {
               toast.error(response.data?.message);
             }
