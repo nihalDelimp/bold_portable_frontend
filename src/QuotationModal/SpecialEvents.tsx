@@ -4,7 +4,7 @@ import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import { usePickTimes } from "../Helper/constants";
 import GoogleMaps from "./GoogleMaps";
-import { originPoint, originAddress } from "../Helper/constants";
+import { originPoint } from "../Helper/constants";
 import { trimObjValues, validateEmail } from "../Helper";
 
 interface latlngPoint {
@@ -114,7 +114,7 @@ function SpecialEvents() {
     dateTillUse: "",
     placementAddress: "",
     maleWorkers: 0,
-    totalWorkers:0
+    totalWorkers: 0,
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -193,7 +193,7 @@ function SpecialEvents() {
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const boolValue = value === "true";
-  
+
     if (name === "workerTypes" && value !== quotation.workerTypes) {
       setQuotation((prev) => ({
         ...prev,
@@ -210,13 +210,15 @@ function SpecialEvents() {
     }
   };
 
-  const handleSelectPickTimeSlot = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const {value , name} =  e.target
+  const handleSelectPickTimeSlot = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value, name } = e.target;
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
     }));
-  }
+  };
 
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -280,7 +282,7 @@ function SpecialEvents() {
       dateTillUse: "",
       placementAddress: "",
       maleWorkers: 0,
-      totalWorkers:0
+      totalWorkers: 0,
     });
     setEventDetails({
       eventName: "",
@@ -339,9 +341,7 @@ function SpecialEvents() {
       const payload = trimObjValues(coordinator);
       const isValid = validateEmail(payload.email);
       let validUsername = /^[A-Za-z\s]+$/;
-      if (payload.name.length < 5) {
-        toast.error("Name must be at least 5 characters long");
-      } else if (!validUsername.test(payload.name)) {
+      if (!validUsername.test(payload.name)) {
         toast.error("Name should only contain letters");
       } else if (payload.cellNumber.length < 9) {
         toast.error("Phone number must be at least 9 digit");
@@ -376,7 +376,6 @@ function SpecialEvents() {
                   <input
                     type="text"
                     required
-                    minLength={3}
                     value={coordinator.name}
                     onChange={handleChangeCoordinator}
                     name="name"
@@ -478,81 +477,88 @@ function SpecialEvents() {
                       onChange={handleSelectQuotation}
                       value={quotation.workerTypes}
                     >
-                      <option selected disabled value="">Select</option>
+                      <option selected disabled value="">
+                        Select
+                      </option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                       <option value="both">Both</option>
                     </select>
                   </div>
                 )}
-                
-                
-                {quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
-                <div className="form--group">
-                  <label htmlFor="name">
-                    How many male workers do you need?
-                    <span className="required"></span>
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    required
-                    value={quotation.maleWorkers}
-                    onChange={handleChangeQuotation}
-                    name="maleWorkers"
-                    placeholder="Male workers"
-                  />
-                </div>
-              ) : null}
 
-              {quotation.workerTypes === "female" || quotation.workerTypes === "both" ? (
-                <div className="form--group">
-                  <label htmlFor="name">
-                    How many female workers do you need?
-                    <span className="required"></span>
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    required
-                    value={quotation.femaleWorkers}
-                    onChange={handleChangeQuotation}
-                    name="femaleWorkers"
-                    placeholder="Female workers"
-                  />
-                </div>
-              ) : null}
+                {quotation.workerTypes === "male" ||
+                quotation.workerTypes === "both" ? (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      How many male workers do you need?
+                      <span className="required"></span>
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      required
+                      value={quotation.maleWorkers}
+                      onChange={handleChangeQuotation}
+                      name="maleWorkers"
+                      placeholder="Male workers"
+                    />
+                  </div>
+                ) : null}
 
-              {quotation.workerTypes === "female" || quotation.workerTypes === "both" ? (
-                <div className="form--group">
-                  <label htmlFor="name">
-                    Do you need a separate toilet for female workers?
-                    <span className="required"></span>
-                  </label>
-                  <select
-                    name="femaleToilet"
-                    onChange={handleSelectQuotation}
-                    value={quotation.femaleToilet.toString()}
-                  >
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                  </select>
-                </div>
-              ) : null}
+                {quotation.workerTypes === "female" ||
+                quotation.workerTypes === "both" ? (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      How many female workers do you need?
+                      <span className="required"></span>
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      required
+                      value={quotation.femaleWorkers}
+                      onChange={handleChangeQuotation}
+                      name="femaleWorkers"
+                      placeholder="Female workers"
+                    />
+                  </div>
+                ) : null}
 
+                {quotation.workerTypes === "female" ||
+                quotation.workerTypes === "both" ? (
+                  <div className="form--group">
+                    <label htmlFor="name">
+                      Do you need a separate toilet for female workers?
+                      <span className="required"></span>
+                    </label>
+                    <select
+                      name="femaleToilet"
+                      onChange={handleSelectQuotation}
+                      value={quotation.femaleToilet.toString()}
+                    >
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                ) : null}
 
-              {quotation.workerTypes === "female" || quotation.workerTypes === "male" || quotation.workerTypes === "both" ? (
-                <div className="form--group">
-                <label htmlFor="name">Total Workers</label>
-                <input
-                  type="text"
-                  name="totalWorkers"
-                  value={Number(quotation.maleWorkers) + Number(quotation.femaleWorkers)}
-                  readOnly
-                />
-              </div>
-              ) : null}
-
+                {quotation.workerTypes === "female" ||
+                quotation.workerTypes === "male" ||
+                quotation.workerTypes === "both" ? (
+                  <div className="form--group">
+                    <label htmlFor="name">Total Workers</label>
+                    <input
+                      type="text"
+                      name="totalWorkers"
+                      value={
+                        Number(quotation.maleWorkers) +
+                        Number(quotation.femaleWorkers)
+                      }
+                      readOnly
+                    />
+                  </div>
+                ) : null}
               </React.Fragment>
             )}
 
@@ -593,7 +599,11 @@ function SpecialEvents() {
                   <input
                     type="date"
                     required
-                    min={quotation.placementDate ? quotation.placementDate : new Date().toISOString().split("T")[0]}
+                    min={
+                      quotation.placementDate
+                        ? quotation.placementDate
+                        : new Date().toISOString().split("T")[0]
+                    }
                     value={quotation.dateTillUse}
                     onChange={handleChangeQuotation}
                     name="dateTillUse"

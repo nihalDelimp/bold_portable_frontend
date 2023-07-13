@@ -58,14 +58,11 @@ function ContactUs(props: MyComponentProps) {
     let validUsername = /^[A-Za-z\s]+$/;
     if (!payload.first_name) {
       toast.error("First name is required!");
-    } else if (payload.first_name.length < 3) {
-      toast.error("First name must be at least 3 characters long!");
-    } else if (!validUsername.test(payload.first_name)) {
+    }
+    else if (!validUsername.test(payload.first_name)) {
       toast.error("First name should only contain letters");
     } else if (!payload.last_name) {
       toast.error("Last name is required!");
-    } else if (payload.last_name.length < 3) {
-      toast.error("Last name must be at least 3 characters long!");
     } else if (!validUsername.test(payload.last_name)) {
       toast.error("Last Name should only contain letters");
     } else {
@@ -244,7 +241,6 @@ function ContactUs(props: MyComponentProps) {
                           <input
                             type="text"
                             required
-                            minLength={3}
                             maxLength={35}
                             placeholder="First Name"
                             value={userData.first_name}
@@ -259,7 +255,6 @@ function ContactUs(props: MyComponentProps) {
                           <input
                             type="text"
                             required
-                            minLength={3}
                             maxLength={35}
                             placeholder="Last Name"
                             value={userData.last_name}
@@ -274,7 +269,6 @@ function ContactUs(props: MyComponentProps) {
                           <input
                             type="text"
                             required
-                            minLength={5}
                             maxLength={60}
                             placeholder="Company Name"
                             value={userData.company_name}
@@ -317,7 +311,6 @@ function ContactUs(props: MyComponentProps) {
                           <textarea
                             placeholder="Message"
                             required
-                            minLength={5}
                             value={userData.message}
                             name="message"
                             onChange={handleChangeTextArea}

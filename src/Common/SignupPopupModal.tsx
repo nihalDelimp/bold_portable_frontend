@@ -9,8 +9,6 @@ import {
   maxUserPasswordLength,
   maxUserPhoneLength,
   minUserAddressLength,
-  minUserEmailLength,
-  minUserNameLength,
   minUserPasswordLength,
   minUserPhoneLength,
 } from "../Constants";
@@ -32,8 +30,6 @@ function SignupPopupModal() {
     let validUsername = /^[A-Za-z\s]+$/;
     if (!payload.name) {
       toast.error("Name is required!");
-    } else if (payload.name.length < 5) {
-      toast.error("Name must be at least 5 characters long!");
     } else if (!validUsername.test(payload.name)) {
       toast.error("Name should only contain letters");
     } else {
@@ -109,7 +105,6 @@ function SignupPopupModal() {
               </label>
               <input
                 required
-                minLength={minUserNameLength}
                 maxLength={maxUserNameLength}
                 value={user.name}
                 onChange={handleChange}
@@ -124,7 +119,6 @@ function SignupPopupModal() {
               </label>
               <input
                 required
-                minLength={minUserEmailLength}
                 maxLength={maxUserEmailLength}
                 value={user.email}
                 onChange={handleChange}

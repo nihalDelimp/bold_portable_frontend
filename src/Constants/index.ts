@@ -4,8 +4,8 @@ export const minUserEmailLength = 5
 export const maxUserEmailLength = 50
 export const minUserPhoneLength = 9
 export const maxUserPhoneLength = 20
-export const minUserAddressLength = 10
-export const maxUserAddressLength = 150
+export const minUserAddressLength = 5
+export const maxUserAddressLength = 200
 export const minUserPasswordLength = 8
 export const maxUserPasswordLength = 20
 

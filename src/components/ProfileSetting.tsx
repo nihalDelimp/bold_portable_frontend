@@ -266,7 +266,6 @@ function ProfileSetting(props: MyComponentProps) {
                   <label htmlFor="">Name</label>
                   <input
                     required
-                    minLength={minUserNameLength}
                     maxLength={maxUserNameLength}
                     disabled={!isEditAble}
                     type="text"
@@ -281,7 +280,6 @@ function ProfileSetting(props: MyComponentProps) {
                   <input
                     required
                     disabled
-                    minLength={minUserEmailLength}
                     maxLength={maxUserEmailLength}
                     type="email"
                     placeholder="Email"

@@ -243,8 +243,6 @@ function Services(props: MyComponentProps) {
     let validUsername = /^[A-Za-z\s]+$/;
     if (!payload.name) {
       toast.error("Name is required!");
-    } else if (payload.name.length < 5) {
-      toast.error("Name must be at least 5 characters long!");
     } else if (!validUsername.test(payload.name)) {
       toast.error("Name should only contain letters");
     } else if (!payload.address) {
@@ -453,7 +451,6 @@ function Services(props: MyComponentProps) {
                           <input
                             type="text"
                             required
-                            minLength={minUserNameLength}
                             maxLength={maxUserNameLength}
                             placeholder="Name"
                             value={userName}
@@ -469,7 +466,6 @@ function Services(props: MyComponentProps) {
                             id="email"
                             required
                             name="userEmail"
-                            minLength={minUserEmailLength}
                             maxLength={maxUserEmailLength}
                             value={userEmail}
                             onChange={(e) => setUserEmail(e.target.value)}
