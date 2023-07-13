@@ -26,6 +26,8 @@ const Notifications = (props: any) => {
     }
   }, []);
 
+ // 
+
   useEffect(() => {
     if (socket.current) {
       socket.current.on("cancel_order_received", (order) => {
@@ -33,6 +35,14 @@ const Notifications = (props: any) => {
       });
       socket.current.on("update_quote_received", (quotation) => {
         console.log("update_quote_received", quotation);
+        getAllNotifications();
+      });
+      socket.current.on("received_location", (data) => {
+        console.log("received_location", data);
+        getAllNotifications();
+      });
+      socket.current.on("resolved_service", (data) => {
+        console.log("resolved_service", data);
         getAllNotifications();
       });
     }
