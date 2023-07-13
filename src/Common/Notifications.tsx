@@ -26,7 +26,6 @@ const Notifications = (props: any) => {
     }
   }, []);
 
- // 
 
   useEffect(() => {
     if (socket.current) {
@@ -76,7 +75,7 @@ const Notifications = (props: any) => {
   };
 
   const markAllNotificationsSeen = async () => {
-   // setLoading(true);
+    // setLoading(true);
     await authAxios()
       .put(`/notification/mark-all-notfications-true`)
       .then(
@@ -123,6 +122,21 @@ const Notifications = (props: any) => {
     navigate("/my-account");
   };
 
+  const checkNotificationType = (type : string) => {
+    if (type === "UPDATE_QUOTE"){
+      return "Admin has sent you Invoice"
+    }
+    else if (type === "SAVE_TRACKING"){
+      return "Your Order location has updated"
+    }
+    else if (type === "RESOLVED_SERVICE"){
+       return "Your service request has resolved"
+    }
+    else {
+      return "Admin has updated Quotation"
+    }
+  }
+
   return (
     <React.Fragment>
       <div className="notifications--dropdown">
@@ -154,7 +168,7 @@ const Notifications = (props: any) => {
                       onClick={() => handleChangeRoute(item._id)}
                       className="notification--content"
                     >
-                      <span>Admin has approved your request</span>
+                      <span>{checkNotificationType(item.type)}</span>
                     </div>
                     <div
                       onClick={() => markSpecificNotificationSeen(item._id)}
