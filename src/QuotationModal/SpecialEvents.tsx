@@ -59,6 +59,7 @@ interface quotationType {
   placementAddress: string;
   maleWorkers: number;
   totalWorkers: number;
+  productTypes: string,
 }
 
 function SpecialEvents() {
@@ -115,6 +116,7 @@ function SpecialEvents() {
     placementAddress: "",
     maleWorkers: 0,
     totalWorkers: 0,
+    productTypes: "standard",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -283,6 +285,7 @@ function SpecialEvents() {
       placementAddress: "",
       maleWorkers: 0,
       totalWorkers: 0,
+      productTypes: "standard",
     });
     setEventDetails({
       eventName: "",
@@ -358,6 +361,14 @@ function SpecialEvents() {
   const handlePreviousPage = () => {
     setFormStep((currentStep) => currentStep - 1);
   };
+
+  const handleChangeProductionType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const {name , value} = e.target
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   return (
     <React.Fragment>
@@ -723,18 +734,25 @@ function SpecialEvents() {
                     <option value="true">Yes</option>
                   </select>
                 </div>
+
                 <div className="form--group">
-                  <label>
-                    Special requirements <span className="required"></span>
+                  <label htmlFor="name">
+                    Production Type<span className="required"></span>
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={quotation.special_requirements}
-                    onChange={handleChangeQuotation}
-                    name="special_requirements"
-                    placeholder="Requirements"
-                  />
+                  <select
+                    name="productTypes"
+                    onChange={handleChangeProductionType}
+                    value={quotation.productTypes}
+                  >
+                    <option value="standard">Standard</option>
+                    <option value="standard With Sink">
+                      Standard With Sink
+                    </option>
+                    <option value="wheel Chair Accessible">
+                      Wheel Chair Accessible
+                    </option>
+                    <option value="high rise capable">High rise capable</option>
+                  </select>
                 </div>
                 <div className="form--group">
                   <label>
@@ -788,6 +806,20 @@ function SpecialEvents() {
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
+                </div>
+
+                <div className="form--group">
+                  <label>
+                    Special requirements <span className="required"></span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={quotation.special_requirements}
+                    onChange={handleChangeQuotation}
+                    name="special_requirements"
+                    placeholder="Requirements"
+                  />
                 </div>
               </React.Fragment>
             )}

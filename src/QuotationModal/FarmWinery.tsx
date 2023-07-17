@@ -12,7 +12,7 @@ interface latlngPoint {
 }
 
 interface quotationType {
-  maxWorkers: number;
+  maxWorkers: number,
   weeklyHours: number;
   placementDate: string;
   restrictedAccess: boolean;
@@ -34,6 +34,7 @@ interface quotationType {
   useType: string;
   maleWorkers: number;
   totalWorkers: number;
+  productTypes: string
 }
 
 interface coordinatorType {
@@ -84,6 +85,7 @@ const FarmWinery: React.FC = () => {
     useType: "",
     maleWorkers: 0,
     totalWorkers: 0,
+    productTypes: "standard",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -219,6 +221,7 @@ const FarmWinery: React.FC = () => {
       useType: "",
       maleWorkers: 0,
       totalWorkers: 0,
+      productTypes: "standard",
     });
     setFormStep(1);
   };
@@ -285,6 +288,14 @@ const FarmWinery: React.FC = () => {
   const handlePreviousPage = () => {
     setFormStep((currentStep) => currentStep - 1);
   };
+
+  const handleChangeProductionType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const {name , value} = e.target
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   return (
     <React.Fragment>
@@ -582,6 +593,27 @@ const FarmWinery: React.FC = () => {
                     <option value="orchad">Orchad</option>
                   </select>
                 </div>
+
+                <div className="form--group">
+                  <label htmlFor="name">
+                    Production Type<span className="required"></span>
+                  </label>
+                  <select
+                    name="productTypes"
+                    onChange={handleChangeProductionType}
+                    value={quotation.productTypes}
+                  >
+                    <option value="standard">Standard</option>
+                    <option value="standard With Sink">
+                      Standard With Sink
+                    </option>
+                    <option value="wheel Chair Accessible">
+                      Wheel Chair Accessible
+                    </option>
+                    <option value="high rise capable">High rise capable</option>
+                  </select>
+                </div>
+
                 <div className="form--group">
                   <label>
                     Special requirement <span className="required"></span>

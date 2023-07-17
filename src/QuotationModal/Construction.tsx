@@ -41,6 +41,7 @@ interface quotationType {
   dateTillUse: string;
   maleWorkers: number;
   totalWorkers: number;
+  productTypes: string;
 }
 
 interface coordinatorType {
@@ -90,6 +91,7 @@ const Construction: React.FC = () => {
     dateTillUse: "",
     maleWorkers: 0,
     totalWorkers: 0,
+    productTypes: "standard",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -194,6 +196,7 @@ const Construction: React.FC = () => {
       dateTillUse: "",
       maleWorkers: 0,
       totalWorkers: 0,
+      productTypes: "standard",
     });
     setFormStep(1);
   };
@@ -260,6 +263,14 @@ const Construction: React.FC = () => {
   const handlePreviousPage = () => {
     setFormStep((currentStep) => currentStep - 1);
   };
+
+  const handleChangeProductionType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const {name , value} = e.target
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   return (
     <React.Fragment>
@@ -549,6 +560,25 @@ const Construction: React.FC = () => {
                   </select>
                 </div>
                 <div className="form--group">
+                  <label htmlFor="name">
+                    Production Type<span className="required"></span>
+                  </label>
+                  <select
+                    name="productTypes"
+                    onChange={handleChangeProductionType}
+                    value={quotation.productTypes}
+                  >
+                    <option value="standard">Standard</option>
+                    <option value="standard With Sink">
+                      Standard With Sink
+                    </option>
+                    <option value="wheel Chair Accessible">
+                      Wheel Chair Accessible
+                    </option>
+                    <option value="high rise capable">High rise capable</option>
+                  </select>
+                </div>
+                <div className="form--group">
                   <label>
                     Special requirement <span className="required"></span>
                   </label>
@@ -605,7 +635,6 @@ const Construction: React.FC = () => {
               )}
             </div>
           </form>
-
           {formStep === 3 && (
             <div>
               <div className="google--map">
