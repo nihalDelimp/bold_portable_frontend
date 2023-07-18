@@ -213,7 +213,7 @@ const Footer = (props: MyComponentProps) => {
                     </li>
                     <li>
                       <a
-                        href="https://www.psai.in/"
+                        href="https://www.psai.org/"
                         target="_blank"
                         rel="noreferrer"
                       >
