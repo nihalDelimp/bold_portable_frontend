@@ -175,6 +175,14 @@ const FarmWinery: React.FC = () => {
     }
   };
 
+  const handleChangeUseType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const distanceCallBack = (distance: number) => {
     setQuotation((prev) => ({
       ...prev,
@@ -433,7 +441,7 @@ const FarmWinery: React.FC = () => {
                 quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
-                    How many male workers will be on site?
+                      How many male workers will be on site?
                       <span className="required"></span>
                     </label>
                     <input
@@ -452,7 +460,7 @@ const FarmWinery: React.FC = () => {
                 quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
-                    How many female workers will be on site?
+                      How many female workers will be on site?
                       <span className="required"></span>
                     </label>
                     <input
@@ -592,7 +600,7 @@ const FarmWinery: React.FC = () => {
                   </label>
                   <select
                     name="useType"
-                    onChange={handleSelectQuotation}
+                    onChange={handleChangeUseType}
                     value={quotation.useType}
                   >
                     <option value="">Select use type</option>

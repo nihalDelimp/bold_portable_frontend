@@ -174,6 +174,14 @@ const IndividualNeeds: React.FC = () => {
     }
   };
 
+  const handleChangeUseType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setQuotation((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const distanceCallBack = (distance: number) => {
     setQuotation((prev) => ({
       ...prev,
@@ -591,7 +599,7 @@ const IndividualNeeds: React.FC = () => {
                   </label>
                   <select
                     name="useType"
-                    onChange={handleSelectQuotation}
+                    onChange={handleChangeUseType}
                     value={quotation.useType}
                   >
                     <option value="">Select use type</option>
