@@ -220,7 +220,7 @@ const IndividualNeeds: React.FC = () => {
       femaleWorkers: 0,
       femaleToilet: false,
       designatedWorkers: false,
-      workerTypes: "",
+      workerTypes: "male",
       handwashing: false,
       handSanitizerPump: false,
       twiceWeeklyService: false,
