@@ -88,7 +88,7 @@ const Process = () => {
                       data-aos="fade-up"
                       data-aos-duration="1000"
                     >
-                      We do the rest
+                      We do the rest!!
                     </div>
                   </div>
                 </div>
