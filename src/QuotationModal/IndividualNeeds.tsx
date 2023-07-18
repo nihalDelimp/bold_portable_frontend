@@ -248,6 +248,10 @@ const IndividualNeeds: React.FC = () => {
             document
               .querySelector(".default--popup")
               ?.classList.remove("active--popup");
+              document
+              .querySelectorAll(".default--popup .default--form").forEach(function(item){
+                item?.classList.remove("active--from");
+              });
           } else {
             toast.error(response.data.message);
           }
