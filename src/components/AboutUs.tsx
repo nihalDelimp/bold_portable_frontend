@@ -62,13 +62,24 @@ const AboutUs = () => {
                   need with google map placement of your unit QR code enabled
                   restrooms for conveniant, instant worksite or public service
                   requests, and or booking. When you’re unit needs service, we
-                  know instantly! Text platform for simple, efficient customer
-                  communication and instant notification of service requests
-                  Online customer accounts and portal for convenient automated
-                  invoicing, payments, and contract management We’re committed
-                  to providing you with simplicity, efficiency, cleanliness and
-                  exceptional service!
+                  know instantly!
                 </p>
+
+                <p data-aos="fade-up" data-aos-duration="1000">
+                  Text platform for simple, efficient customer communication and
+                  instant notification of service requests
+                </p>
+
+                <p data-aos="fade-up" data-aos-duration="1000">
+                  Online customer accounts and portal for convenient automated
+                  invoicing, payments, and contract management
+                </p>
+
+                <p data-aos="fade-up" data-aos-duration="1000">
+                  We’re committed to providing you with simplicity, efficiency,
+                  cleanliness and exceptional service!
+                </p>
+
                 <Link
                   to="/about-us"
                   className="btn btn--primary"
