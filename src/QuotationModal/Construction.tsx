@@ -224,11 +224,11 @@ const Construction: React.FC = () => {
             document
               .querySelector(".default--popup")
               ?.classList.remove("active--popup");
-              document
-              .querySelectorAll(".default--popup .default--form").forEach(function(item){
+            document
+              .querySelectorAll(".default--popup .default--form")
+              .forEach(function (item) {
                 item?.classList.remove("active--from");
               });
-              
           } else {
             toast.error(response.data.message);
           }
@@ -269,13 +269,15 @@ const Construction: React.FC = () => {
     setFormStep((currentStep) => currentStep - 1);
   };
 
-  const handleChangeProductionType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const {name , value} = e.target
+  const handleChangeProductionType = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
     }));
-  }
+  };
 
   return (
     <React.Fragment>
@@ -373,8 +375,8 @@ const Construction: React.FC = () => {
 
                 <div className="form--group">
                   <label htmlFor="name">
-                    Many construction site offering gender specifics toilets,
-                    would you like to offer this ?
+                    Many construction sites are offering gender specific
+                    toilets. Would you like to offer this as well?
                     <span className="required"></span>
                   </label>
                   <select
@@ -410,7 +412,7 @@ const Construction: React.FC = () => {
                 quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
-                      How many male workers do you need?
+                      How many male workers will be on site?
                       <span className="required"></span>
                     </label>
                     <input
@@ -430,7 +432,7 @@ const Construction: React.FC = () => {
                 quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
-                      How many female workers do you need?
+                      How many female workers will be on site?
                       <span className="required"></span>
                     </label>
                     <input
@@ -467,7 +469,7 @@ const Construction: React.FC = () => {
                 quotation.workerTypes === "male" ||
                 quotation.workerTypes === "both" ? (
                   <div className="form--group">
-                    <label htmlFor="name">Total Workers</label>
+                    <label htmlFor="name">Total workers</label>
                     <input
                       type="text"
                       name="totalWorkers"
@@ -485,7 +487,8 @@ const Construction: React.FC = () => {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Weekly hours <span className="required">*</span>
+                    What is the average hours for each worker per week?{" "}
+                    <span className="required">*</span>
                   </label>
                   <input
                     type="number"

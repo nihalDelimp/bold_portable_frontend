@@ -53,15 +53,21 @@ const AboutUs = () => {
                     About Us
                   </h3>
                   <h2 data-aos="fade-up" data-aos-duration="1000">
-                    Customers First, Always!
+                    We do business differently!
                   </h2>
                 </div>
                 <p data-aos="fade-up" data-aos-duration="1000">
-                  GetLorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                  sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                  magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                  quis nostrud exerci tation ullamcorper suscipit lobortis nisl
-                  ut aliquip ex ea commodo consequat.
+                  We’re committed to simplicity and efficiency through
+                  innovative technology Simple easy online booking any time you
+                  need with google map placement of your unit QR code enabled
+                  restrooms for conveniant, instant worksite or public service
+                  requests, and or booking. When you’re unit needs service, we
+                  know instantly! Text platform for simple, efficient customer
+                  communication and instant notification of service requests
+                  Online customer accounts and portal for convenient automated
+                  invoicing, payments, and contract management We’re committed
+                  to providing you with simplicity, efficiency, cleanliness and
+                  exceptional service!
                 </p>
                 <Link
                   to="/about-us"

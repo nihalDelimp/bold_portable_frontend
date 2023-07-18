@@ -208,7 +208,7 @@ const Footer = (props: MyComponentProps) => {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        PJ
+                       Poly john
                       </a>
                     </li>
                     <li>
@@ -217,7 +217,7 @@ const Footer = (props: MyComponentProps) => {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        PSI
+                        PSAI
                       </a>
                     </li>
                   </ul>
@@ -229,7 +229,7 @@ const Footer = (props: MyComponentProps) => {
                   data-aos="fade-up"
                   data-aos-duration="1000"
                 >
-                  All Rights Reserved © 2023 Bold Portable INC
+                  All Rights Reserved © 2023 Bold Portables INC
                 </p>
                 <div
                   className="design--by"

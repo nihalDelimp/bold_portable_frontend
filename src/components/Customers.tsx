@@ -4,7 +4,6 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { Link } from "react-router-dom";
 
-
 const Customers = () => {
   const options = {
     loop: true,
@@ -34,7 +33,7 @@ const Customers = () => {
           Customers
         </h3>
         <h2 data-aos="fade-up" data-aos-duration="1000">
-          Customer we work with
+          Organizations that we work with
         </h2>
       </div>
       <OwlCarousel
@@ -45,29 +44,32 @@ const Customers = () => {
       >
         <div className="customer--logo">
           {" "}
-          <Link to={`#`}>          
+          <Link to={`#`}>
             <img
               src={require("../asstes/image/customers/Custom-Vac.png")}
-              alt="" loading="lazy"
+              alt=""
+              loading="lazy"
             />
           </Link>
         </div>
         <div className="customer--logo">
           {" "}
-          <Link to={`#`}> 
-          <img
-            src={require("../asstes/image/customers/Poly-John.png")}
-            alt="" loading="lazy"
-          />
+          <Link to={`#`}>
+            <img
+              src={require("../asstes/image/customers/Poly-John.png")}
+              alt=""
+              loading="lazy"
+            />
           </Link>
         </div>
         <div className="customer--logo">
           {" "}
-          <Link to={`#`}> 
-          <img
-            src={require("../asstes/image/customers/PSAI.png")}
-            alt="" loading="lazy"
-          />
+          <Link to={`#`}>
+            <img
+              src={require("../asstes/image/customers/PSAI.png")}
+              alt=""
+              loading="lazy"
+            />
           </Link>
         </div>
 

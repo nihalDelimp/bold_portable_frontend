@@ -58,8 +58,7 @@ function ContactUs(props: MyComponentProps) {
     let validUsername = /^[A-Za-z\s]+$/;
     if (!payload.first_name) {
       toast.error("First name is required!");
-    }
-    else if (!validUsername.test(payload.first_name)) {
+    } else if (!validUsername.test(payload.first_name)) {
       toast.error("First name should only contain letters");
     } else if (!payload.last_name) {
       toast.error("Last name is required!");
@@ -147,7 +146,7 @@ function ContactUs(props: MyComponentProps) {
                             />
                           </span>
                           <div className="details--item">
-                            <h3>Chat to us</h3>
+                            <h3>Email us</h3>
                             <p>Our team is here to help you.</p>
                             <Link to={"mailto:boldportable@mail.com"}>
                               boldportable@mail.com
@@ -165,10 +164,11 @@ function ContactUs(props: MyComponentProps) {
                             />
                           </span>
                           <div className="details--item">
-                            <h3>We are here</h3>
-                            <p>Come to discuss at our office.</p>
+                            <h3>Our office Location</h3>
+                            {/* <p>Come to discuss at our office.</p> */}
                             <address>
-                              1234 ABCD Address 123 Area XYZ City XYZ Country
+                              #6 8860 Jim Bailey Crescent, Kelowna BC 
+                              V4V 2L7
                             </address>
                           </div>
                         </div>

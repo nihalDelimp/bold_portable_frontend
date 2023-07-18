@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { authAxios } from "../config/config";
 import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
-import { originPoint} from "../Helper/constants";
+import { originPoint } from "../Helper/constants";
 import { trimObjValues, validateEmail } from "../Helper";
 
 interface latlngPoint {
@@ -12,7 +12,7 @@ interface latlngPoint {
 }
 
 interface quotationType {
-  maxWorkers: number,
+  maxWorkers: number;
   weeklyHours: number;
   placementDate: string;
   restrictedAccess: boolean;
@@ -34,7 +34,7 @@ interface quotationType {
   useType: string;
   maleWorkers: number;
   totalWorkers: number;
-  productTypes: string
+  productTypes: string;
 }
 
 interface coordinatorType {
@@ -249,8 +249,9 @@ const FarmWinery: React.FC = () => {
             document
               .querySelector(".default--popup")
               ?.classList.remove("active--popup");
-              document
-              .querySelectorAll(".default--popup .default--form").forEach(function(item){
+            document
+              .querySelectorAll(".default--popup .default--form")
+              .forEach(function (item) {
                 item?.classList.remove("active--from");
               });
           } else {
@@ -293,13 +294,15 @@ const FarmWinery: React.FC = () => {
     setFormStep((currentStep) => currentStep - 1);
   };
 
-  const handleChangeProductionType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const {name , value} = e.target
+  const handleChangeProductionType = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
     }));
-  }
+  };
 
   return (
     <React.Fragment>
@@ -393,8 +396,8 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Many Farm, Winery or Orchad site offering gender specifics
-                    toilets, would you like to offer this ?
+                    Many construction sites are offering gender specific
+                    toilets. Would you like to offer this as well?
                     <span className="required"></span>
                   </label>
                   <select
@@ -430,7 +433,7 @@ const FarmWinery: React.FC = () => {
                 quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
-                      How many male workers do you need?
+                    How many male workers will be on site?
                       <span className="required"></span>
                     </label>
                     <input
@@ -449,7 +452,7 @@ const FarmWinery: React.FC = () => {
                 quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
-                      How many female workers do you need?
+                    How many female workers will be on site?
                       <span className="required"></span>
                     </label>
                     <input
@@ -504,7 +507,8 @@ const FarmWinery: React.FC = () => {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Weekly hours <span className="required">*</span>
+                    What is the average hours for each worker per week?{" "}
+                    <span className="required">*</span>
                   </label>
                   <input
                     type="number"

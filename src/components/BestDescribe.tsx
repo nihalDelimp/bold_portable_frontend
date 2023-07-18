@@ -68,7 +68,7 @@ const BestDescribe = () => {
                       data-aos="fade-up"
                       data-aos-duration="1000"
                     >
-                      <h2>What do you Need?</h2>
+                      <h2>What do you need your restroom for?</h2>
                     </div>
                   </div>
                   <div className="describe-category--wrapper">
@@ -83,31 +83,36 @@ const BestDescribe = () => {
                       >
                         <img
                           src={require("../asstes/image/port--1.png")}
-                          alt="" loading="lazy"
+                          alt=""
+                          loading="lazy"
                         />
                       </div>
                       <div className="describe--category--item" id="cat--2">
                         <img
                           src={require("../asstes/image/port--2.png")}
-                          alt="" loading="lazy"
+                          alt=""
+                          loading="lazy"
                         />
                       </div>
                       <div className="describe--category--item" id="cat--3">
                         <img
                           src={require("../asstes/image/port--1.png")}
-                          alt="" loading="lazy"
+                          alt=""
+                          loading="lazy"
                         />
                       </div>
                       <div className="describe--category--item" id="cat--4">
                         <img
                           src={require("../asstes/image/port--2.png")}
-                          alt="" loading="lazy"
+                          alt=""
+                          loading="lazy"
                         />
                       </div>
                       <div className="describe--category--item" id="cat--5">
                         <img
                           src={require("../asstes/image/port--1.png")}
-                          alt="" loading="lazy"
+                          alt=""
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -124,20 +129,17 @@ const BestDescribe = () => {
                       data-category="cat--1"
                     >
                       <h3>Construction</h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
-                        dolor sit.
-                      </p>
+                      <p>From a home renovation to high rise projects.</p>
                       <a className="btn--arrow"></a>
                     </div>
                     <div
                       className="describe--categorys--item"
                       data-category="cat--4"
                     >
-                      <h3>Orchad, Farm, Winery</h3>
+                      <h3>Orchard, Farm, Winery</h3>
                       <p>
-                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
-                        dolor sit.
+                        From your small hobby orchard or winery to large
+                        commercial farms.
                       </p>
                       <a className="btn--arrow"></a>
                     </div>
@@ -147,8 +149,8 @@ const BestDescribe = () => {
                     >
                       <h3>Individual Needs</h3>
                       <p>
-                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
-                        dolor sit.
+                        From your bathroom reno or building a pool to a backyard
+                        party.
                       </p>
                       <a className="btn--arrow"></a>
                     </div>
@@ -158,8 +160,9 @@ const BestDescribe = () => {
                     >
                       <h3>Special Events</h3>
                       <p>
-                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
-                        dolor sit.
+                        concerts, sporting events, fairs, festivals, weddings,
+                        etc. Need special colors and features for your event?
+                        We’ll customize it to make it happen.
                       </p>
                       <a className="btn--arrow "></a>
                     </div>
@@ -168,10 +171,7 @@ const BestDescribe = () => {
                       data-category="cat--3"
                     >
                       <h3>Disaster Relief</h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, conser sit amet, Lorem ipsum
-                        dolor sit.
-                      </p>
+                      <p>From a house flood, to forest fires etc.</p>
                       <a className="btn--arrow "></a>
                     </div>
                   </div>

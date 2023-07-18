@@ -594,7 +594,7 @@ function Services(props: MyComponentProps) {
             <div className="grid--">
               <div className="we--commited--data">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
-                  Bold Portable
+                  Bold Portables
                 </h2>
                 <p data-aos="fade-up" data-aos-duration="1000">
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed

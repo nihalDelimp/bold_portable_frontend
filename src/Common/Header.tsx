@@ -170,15 +170,6 @@ const Header = () => {
                     </li>
                     <li className="nav--menu--item">
                       <Link
-                        onClick={() => setIsToggle(!isToggleMenu)}
-                        to="/services"
-                        className="menu--item"
-                      >
-                        Services
-                      </Link>
-                    </li>
-                    <li className="nav--menu--item">
-                      <Link
                         to="/about-us"
                         onClick={() => setIsToggle(!isToggleMenu)}
                         className="menu--item"
@@ -187,16 +178,25 @@ const Header = () => {
                       </Link>
                     </li>
                     <li className="nav--menu--item">
+                      <Link
+                        onClick={() => setIsToggle(!isToggleMenu)}
+                        to="/services"
+                        className="menu--item"
+                      >
+                        Request Service
+                      </Link>
+                    </li>
+                    <li className="nav--menu--item">
                       <a href="#" className="menu--item">
                         Articles
                       </a>
                     </li>
                     <li className="nav--menu--item">
-                        <Link
-                          to="/contact-us"
-                          onClick={() => setIsToggle(!isToggleMenu)}
-                          className="menu--item"
-                        >
+                      <Link
+                        to="/contact-us"
+                        onClick={() => setIsToggle(!isToggleMenu)}
+                        className="menu--item"
+                      >
                         Contact
                       </Link>
                     </li>
@@ -222,7 +222,8 @@ const Header = () => {
                     </div>
                   </div>
                 </div> */}
-                <div className="notifications">
+
+                {/* <div className="notifications">
                   <div className="notifications--wrapper">
                     <span
                       className={
@@ -241,7 +242,8 @@ const Header = () => {
                       alt=""
                     />
                   </div>
-                </div>
+                </div> */}
+
                 <div className="login--btn--wrapper">
                   <a href="#" className="login--btn">
                     <img

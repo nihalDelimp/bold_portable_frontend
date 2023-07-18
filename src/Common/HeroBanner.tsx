@@ -53,7 +53,7 @@ const HeroBanner = () => {
           <h1 data-aos="fade-up"
             data-aos-duration="1000" >Bold Portables</h1>
           <h3 data-aos="fade-up"
-            data-aos-duration="1000" data-aos-delay="200" >Revolutionizing the portable bathroom industry through technological innovation.</h3>
+            data-aos-duration="1000" data-aos-delay="200" >Revolutionizing the portable restroom industry through technological innovation</h3>
           <a href="#best--describes" id="btn--hero" className="btn btn--hero" data-aos="fade-up"
             data-aos-duration="1000" data-aos-delay="400">
               Book Now

@@ -21,11 +21,11 @@ const Process = () => {
                         <h2>Our Simple Process!</h2>
                       </div>
                     </div>
-                    <p data-aos="fade-up" data-aos-duration="1000">
+                    {/* <p data-aos="fade-up" data-aos-duration="1000">
                       Lorem ipsum dolor sit amet, conser psum dolor sit amet,
                       Lorem ipsum dolor sit. Lorem ipsum dolor sit amet, conser
                       psum dolor sit amet, Lorem ipsum dolor sit.
-                    </p>
+                    </p> */}
                   </div>
                   <a
                     href="#best--describes"
@@ -88,7 +88,7 @@ const Process = () => {
                       data-aos="fade-up"
                       data-aos-duration="1000"
                     >
-                      Simple repeat or ongoing requests
+                      We do the rest
                     </div>
                   </div>
                 </div>
