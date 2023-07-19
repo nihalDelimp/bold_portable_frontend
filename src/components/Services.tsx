@@ -295,7 +295,7 @@ function Services(props: MyComponentProps) {
               setUserEmail("");
               setUserPhone("");
               setUserAddress("");
-              setSelectedImages([])
+              setSelectedImages([]);
             } else {
               toast.error(response.data?.message);
             }
@@ -439,7 +439,7 @@ function Services(props: MyComponentProps) {
                 <div className="services--list--content--item">
                   <form onSubmit={handleSubmit}>
                     <p>
-                    Please give us information about your service request{" "}
+                      Please give us information about your service request{" "}
                     </p>
                     <div className="servies--inner--form--wrapper">
                       <div className="servies--inner--form">
@@ -484,7 +484,10 @@ function Services(props: MyComponentProps) {
                           />
                         </div>
                         <div className="form--group">
-                          <label htmlFor="service-iamge">Please upload a few images of the unit that needs to be serviced</label>
+                          <label htmlFor="service-iamge">
+                            Please upload a few images of the unit that needs to
+                            be serviced
+                          </label>
                           <input
                             type="file"
                             required
@@ -523,36 +526,43 @@ function Services(props: MyComponentProps) {
                           )}
                       </div>
                     </div>
-                    {/* <ul className="servies--inner--links">
-                      {requestServices &&
-                        requestServices.length > 0 &&
-                        requestServices.map((item, index) => (
-                          <li key={index + 1}>
-                            <label htmlFor="Wedding" className="service--label">
-                              <input
-                                type="checkbox"
-                                name={item}
-                                value={item}
-                                onChange={handleSelectService}
-                                checked={serviceTypes.includes(item)}
-                              />
-                              <span>{item}</span>
-                            </label>
-                          </li>
-                        ))}
-                      <li>
-                        <label htmlFor="other" className="service--label">
-                          <input
-                            onChange={toggleOtherService}
-                            checked={isOtherService}
-                            type="checkbox"
-                            id="other"
-                            name="other"
-                          />
-                          <span>Other Service</span>
-                        </label>
-                      </li>
-                    </ul> */}
+
+                    {quotationId && (
+                      <ul className="servies--inner--links">
+                        {requestServices &&
+                          requestServices.length > 0 &&
+                          requestServices.map((item, index) => (
+                            <li key={index + 1}>
+                              <label
+                                htmlFor="Wedding"
+                                className="service--label"
+                              >
+                                <input
+                                  type="checkbox"
+                                  name={item}
+                                  value={item}
+                                  onChange={handleSelectService}
+                                  checked={serviceTypes.includes(item)}
+                                />
+                                <span>{item}</span>
+                              </label>
+                            </li>
+                          ))}
+                        <li>
+                          <label htmlFor="other" className="service--label">
+                            <input
+                              onChange={toggleOtherService}
+                              checked={isOtherService}
+                              type="checkbox"
+                              id="other"
+                              name="other"
+                            />
+                            <span>Other Service</span>
+                          </label>
+                        </li>
+                      </ul>
+                    )}
+
                     <div className="service--action">
                       <div className="service--action--wrapper">
                         {isOtherService && (
