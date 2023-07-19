@@ -455,7 +455,7 @@
                     width: min-content;
                     position: relative;
                     cursor: pointer;
-                    text-transform: uppercase;
+                    text-transform: capitalize;
                     &:hover {
                         color: $yellow;
                     }
