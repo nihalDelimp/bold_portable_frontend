@@ -44,7 +44,7 @@ const PortaPotties = () => {
                     >
                       <div className="img--wrapper">
                         <img
-                          src={require("../asstes/image/deluxe-flush--1.png")}
+                          src={require("../asstes/image/PJN3-3Quarter-RIGHT-Lime.png")}
                           alt=""
                           loading="lazy"
                         />
@@ -52,9 +52,7 @@ const PortaPotties = () => {
                       <div className="content--wrapper">
                         <a href="#" className="btn--arrow"></a>
                         <p>
-                          spacious design, you won’t find a roomier standard
-                          toilet! Equipped with urinal and hand sanitizing pump.
-                          PJN3 image from Poly John use the lime green
+                        spacious design, you won’t find a roomier standard toilet! Equipped with urinal and hand sanitizing pump. 
                         </p>
                       </div>
                     </div>
@@ -72,8 +70,7 @@ const PortaPotties = () => {
                       <div className="content--wrapper">
                         <a href="#" className="btn--arrow"></a>
                         <p>
-                          our standard toilet plus a hand washing sink - use the
-                          same picture as above
+                          our standard toilet plus a hand washing sink
                         </p>
                       </div>
                     </div>
@@ -83,7 +80,7 @@ const PortaPotties = () => {
                     >
                       <div className="img--wrapper">
                         <img
-                          src={require("../asstes/image/deluxe-flush--1.png")}
+                          src={require("../asstes/image/ComfortXLT-3Quarter-RIGHT-LimeGreen.png")}
                           alt=""
                           loading="lazy"
                         />
@@ -91,9 +88,7 @@ const PortaPotties = () => {
                       <div className="content--wrapper">
                         <a href="#" className="btn--arrow"></a>
                         <p>
-                          oversized self closing door, roll in ground level
-                          access, optional interior hand rails - use the comfort
-                          XLT pic - again use the lime green
+                          oversized self closing door, roll in ground level access, optional interior hand rails
                         </p>
                       </div>
                     </div>
@@ -111,8 +106,7 @@ const PortaPotties = () => {
                       <div className="content--wrapper">
                         <a href="#" className="btn--arrow"></a>
                         <p>
-                          we provide various options for high rise accessibility
-                          and service - picture of polyLift and Sling Set
+                          we provide various options for high rise accessibility and service
                         </p>
                       </div>
                     </div>

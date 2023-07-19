@@ -21,7 +21,7 @@ interface MyComponentProps {
 }
 
 const libraries: any[] = ["places"];
-const mapContainerStyle = { width: "100%", height: "600px" };
+const mapContainerStyle = { width: "100%", height: "490px" };
 
 function Services(props: MyComponentProps) {
   const { setLoading } = props;
@@ -341,7 +341,7 @@ function Services(props: MyComponentProps) {
           <h1>Services</h1>
         </div>
       </section>
-      <section className="servies--portable ">
+      {/* <section className="servies--portable ">
         <div className="grid--container">
           <div className="grid">
             <div className="grid----">
@@ -377,15 +377,15 @@ function Services(props: MyComponentProps) {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <section
-        className="services--tabs"
+        className="services--tabs servies--portable"
         data-aos="fade-up"
         data-aos-duration="1000"
       >
         <div className="grid--container">
           <div className="grid">
-            <div className="grid-">
+            {/* <div className="grid-">
               <div className="servies--list--tab">
                 <ul>
                   <li>
@@ -433,26 +433,23 @@ function Services(props: MyComponentProps) {
                   </li>
                 </ul>
               </div>
-            </div>
-            <div className="grid---">
+            </div> */}
+            <div className="grid----">
               <div className="servies--list--content">
                 <div className="services--list--content--item">
                   <form onSubmit={handleSubmit}>
                     <p>
-                      GetLorem ipsum dolor sit amet, consadaectetuer
-                      adipisciaang elit, sed daiam nonummy nibh euismod
-                      tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                      Ut wisi{" "}
+                    Please give us information about your service request{" "}
                     </p>
                     <div className="servies--inner--form--wrapper">
                       <div className="servies--inner--form">
                         <div className="form--group">
-                          <label htmlFor="name">Name</label>
+                          <label htmlFor="name">Your Name</label>
                           <input
                             type="text"
                             required
                             maxLength={maxUserNameLength}
-                            placeholder="Name"
+                            placeholder="Your Name"
                             value={userName}
                             onChange={(e) => setUserName(e.target.value)}
                             id="userName"
@@ -460,7 +457,7 @@ function Services(props: MyComponentProps) {
                           />
                         </div>
                         <div className="form--group">
-                          <label htmlFor="email">Email</label>
+                          <label htmlFor="email">Your Email</label>
                           <input
                             type="Email"
                             id="email"
@@ -469,11 +466,11 @@ function Services(props: MyComponentProps) {
                             maxLength={maxUserEmailLength}
                             value={userEmail}
                             onChange={(e) => setUserEmail(e.target.value)}
-                            placeholder="Email"
+                            placeholder="Your Email"
                           />
                         </div>
                         <div className="form--group">
-                          <label htmlFor="phone">Phone</label>
+                          <label htmlFor="phone">Your Phone Number</label>
                           <input
                             type="text"
                             required
@@ -481,13 +478,13 @@ function Services(props: MyComponentProps) {
                             maxLength={maxUserPhoneLength}
                             id="userPhone"
                             value={userPhone}
-                            placeholder="Phone"
+                            placeholder="Your Phone Number"
                             name="userPhone"
                             onChange={handleChangePhone}
                           />
                         </div>
                         <div className="form--group">
-                          <label htmlFor="service-iamge">Service image</label>
+                          <label htmlFor="service-iamge">Please upload a few images of the unit that needs to be serviced</label>
                           <input
                             type="file"
                             required
@@ -526,7 +523,7 @@ function Services(props: MyComponentProps) {
                           )}
                       </div>
                     </div>
-                    <ul className="servies--inner--links">
+                    {/* <ul className="servies--inner--links">
                       {requestServices &&
                         requestServices.length > 0 &&
                         requestServices.map((item, index) => (
@@ -555,7 +552,7 @@ function Services(props: MyComponentProps) {
                           <span>Other Service</span>
                         </label>
                       </li>
-                    </ul>
+                    </ul> */}
                     <div className="service--action">
                       <div className="service--action--wrapper">
                         {isOtherService && (

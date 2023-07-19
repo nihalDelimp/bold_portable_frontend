@@ -95,6 +95,16 @@ function AboutUsMenu() {
                   request experience simple, efficient, and second to none.
                 </p>
               </div>
+              
+              <div className="we--commited--data">
+                <h2 data-aos="fade-up" data-aos-duration="1000">
+                  Online Customer Portal
+                </h2>
+                <p data-aos="fade-up" data-aos-duration="1000">
+                  Manage your contracts through our uniquely designed customer portal
+                </p>
+              </div>
+
             </div>
             <div className="grid--">
               <div className="we--commited--list">

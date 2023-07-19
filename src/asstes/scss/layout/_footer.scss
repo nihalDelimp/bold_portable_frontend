@@ -113,14 +113,14 @@
             ul {
                 display: flex;
                 justify-content: flex-end;
-                gap: 15px;
+                gap: clamp(8px, 1vw, 15px);
                 li {
                     a {
-                        width: 40px;
+                        width: clamp(66px, 5vw, 90px);
                         aspect-ratio: 1;
                         border: 2px solid lighten($black, 30%);
                         border-radius: 50%;
-                        font-size: 15px;
+                        font-size: clamp(12px, 1vw, 15px);
                         color: $white;
                         display: flex;
                         @include flex();
