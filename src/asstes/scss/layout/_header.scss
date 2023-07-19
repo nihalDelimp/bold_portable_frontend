@@ -56,11 +56,11 @@
                 }
                 .hamburger {
                     width: max-content;
-                    transform: translateX(-10px);
+                    transform: translateX(-50px);
                     position: relative;
                     cursor: pointer;
                     @media (max-width:1024px) {
-                        transform: translateX(0px);
+                        transform: translateX(-25px);
                     }
                     @media (max-width:767px) {
                         transform: translateX(0px);
