@@ -378,7 +378,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use in winter<span className="required"></span>
+                    Will the Unit be used during winter (Nov - Mar)<span className="required"></span>
                   </label>
                   <select
                     name="useInWinter"
@@ -391,7 +391,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use at night<span className="required"></span>
+                    Do You require inside lighting for night use?<span className="required"></span>
                   </label>
                   <select
                     name="useAtNight"
@@ -530,7 +530,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Restricted access <span className="required"></span>
+                    In regards to delivery or service, is there restricted access to the site. <span className="required"></span>
                   </label>
                   <select
                     name="restrictedAccess"
@@ -543,7 +543,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Date till use <span className="required">*</span>
+                    What date should the unit be picked up? <span className="required">*</span>
                   </label>
                   <input
                     type="date"
@@ -557,7 +557,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Hand washing<span className="required"></span>
+                    Would you like to ad handwashing sink ($50)<span className="required"></span>
                   </label>
                   <select
                     name="handwashing"
@@ -570,7 +570,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Hand sanitizer pump<span className="required"></span>
+                  Would you like to upgrade to a handwashing sink inside the unit/s <span className="required"></span>
                   </label>
                   <select
                     name="handSanitizerPump"
@@ -583,7 +583,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Twice weekly service<span className="required"></span>
+                  Would you like twice weekly service?<span className="required"></span>
                   </label>
                   <select
                     name="twiceWeeklyService"
