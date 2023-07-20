@@ -72,7 +72,7 @@ const DisasterRelief: React.FC = () => {
 
   const [quotation, setQuotation] = useState<quotationType>({
     maxWorkers: 10,
-    weeklyHours: 400,
+    weeklyHours: 40,
     placementDate: "",
     restrictedAccess: false,
     serviceCharge: 0,
@@ -179,7 +179,7 @@ const DisasterRelief: React.FC = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
       maxWorkers: 10,
-      weeklyHours: 400,
+      weeklyHours: 40,
       placementDate: "",
       restrictedAccess: false,
       serviceCharge: 0,

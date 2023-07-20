@@ -94,7 +94,7 @@ function SpecialEvents() {
 
   const [quotation, setQuotation] = useState<quotationType>({
     maxWorkers: 10,
-    weeklyHours: 400,
+    weeklyHours: 40,
     placementDate: "",
     distanceFromKelowna: 0,
     serviceCharge: 0,
@@ -263,7 +263,7 @@ function SpecialEvents() {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
       maxWorkers: 10,
-      weeklyHours: 400,
+      weeklyHours: 40,
       placementDate: "",
       distanceFromKelowna: 0,
       serviceCharge: 0,

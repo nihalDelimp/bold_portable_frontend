@@ -64,7 +64,7 @@ const FarmWinery: React.FC = () => {
 
   const [quotation, setQuotation] = useState<quotationType>({
     maxWorkers: 10,
-    weeklyHours: 400,
+    weeklyHours: 40,
     placementDate: "",
     restrictedAccess: false,
     serviceCharge: 0,
@@ -208,7 +208,7 @@ const FarmWinery: React.FC = () => {
     setCoordinator({ name: "", email: "", cellNumber: "" });
     setQuotation({
       maxWorkers: 10,
-      weeklyHours: 400,
+      weeklyHours: 40,
       placementDate: "",
       restrictedAccess: false,
       serviceCharge: 0,
