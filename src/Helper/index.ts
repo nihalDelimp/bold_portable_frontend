@@ -7,38 +7,49 @@ interface latlngPoint {
 }
 
 export function getFormatedDate(date : string) {
-    if(!date){
-     return 'NA'
+    if(date){
+      let formatedDateTime = moment(date).format('MMMM Do YYYY, hh:mm A');
+      return formatedDateTime;
     }
-     let formatedDateTime = moment(date).format('MMMM Do YYYY, hh:mm A');
-     return formatedDateTime;
+    else {
+      return "NA"
+    }   
 }
 
 export function getDateWithDay(date : string) {
-  if(!date){
-   return 'NA'
+  if(date){
+    let formatedDateTime = moment(date).format('ddd, DD MMMM YYYY hh:mm A');
+    return formatedDateTime;
   }
-   let formatedDateTime = moment(date).format('ddd, DD MMMM YYYY hh:mm A');
-   return formatedDateTime;
+  else {
+    return "NA"
+  }
 }
 
 export function setFormatDate(date : string) {
-  if(!date){
-   return 'NA'
+  if(date){
+    let formatedDateTime = moment(date).format('DD/MM/YYYY');
+    return formatedDateTime;
   }
-   let formatedDateTime = moment(date).format('DD/MM/YYYY');
-   return formatedDateTime;
+   else {
+    return "NA"
+   }
 }
 
 export function firstChartByFullName (fullName : any){ 
-  var str = fullName
-  str = str.split(" "); 
-  str = str.filter((res : any  ) => res.length > 0 ); 
-  str = str.map(function(res : any){ 
-    return res[0].toUpperCase(); 
-  }); 
-  str = str.join(""); 
-  return str; 
+  if(fullName){
+    var str = fullName
+    str = str.split(" "); 
+    str = str.filter((res : any  ) => res.length > 0 ); 
+    str = str.map(function(res : any){ 
+      return res[0].toUpperCase(); 
+    }); 
+    str = str.join(""); 
+    return str; 
+  }
+  else {
+    return "NA"
+  }
 };
 
 function deg2rad(deg: number) {
@@ -65,6 +76,9 @@ export const CapitalizeFirstLetter = (data : any) => {
     const str = data.charAt(0).toUpperCase() + data.slice(1);
     return str
   }
+  else {
+    return "NA"
+  }
 }
 
 export function replaceHyphenCapitolize (strData : any){
@@ -72,6 +86,9 @@ export function replaceHyphenCapitolize (strData : any){
     const newStr = strData.charAt(0).toUpperCase() + strData.slice(1);
     let replacedWord = newStr.replace(/-/g, ' ');
     return replacedWord
+  }
+  else {
+    return "NA"
   }
 }
 
@@ -108,10 +125,6 @@ export function trimObjValues(obj: any) {
   console.log(diffInDays , 'diffInDays')
   return diffInDays;
 }
-
-
-
-
 
 
 

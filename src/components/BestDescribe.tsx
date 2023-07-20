@@ -5,6 +5,7 @@ import DisasterRelief from "../QuotationModal/DisasterRelief";
 import IndividualNeeds from "../QuotationModal/IndividualNeeds";
 import FarmWinery from "../QuotationModal/FarmWinery";
 import $ from "jquery";
+import RecreationalSite from "../QuotationModal/RecreationalSite";
 
 const BestDescribe = () => {
   useEffect(() => {
@@ -115,6 +116,13 @@ const BestDescribe = () => {
                           loading="lazy"
                         />
                       </div>
+                      <div className="describe--category--item" id="cat--6">
+                        <img
+                          src={require("../asstes/image/port--1.png")}
+                          alt=""
+                          loading="lazy"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -143,15 +151,13 @@ const BestDescribe = () => {
                       </p>
                       <a className="btn--arrow"></a>
                     </div>
-                    
+
                     <div
                       className="describe--categorys--item"
-                      data-category="cat--4"
+                      data-category="cat--6"
                     >
                       <h3>Recreational Sites</h3>
-                      <p>
-                        From sporting fields to Camp grounds etc.
-                      </p>
+                      <p>From sporting fields to Camp grounds etc.</p>
                       <a className="btn--arrow"></a>
                     </div>
 
@@ -200,6 +206,7 @@ const BestDescribe = () => {
           <DisasterRelief />
           <FarmWinery />
           <IndividualNeeds />
+          <RecreationalSite />
         </div>
       </section>
     </>

@@ -286,8 +286,8 @@ const FarmWinery: React.FC = () => {
       let validUsername = /^[A-Za-z\s]+$/;
       if (!validUsername.test(payload.name)) {
         toast.error("Name should only contain letters");
-      } else if (payload.cellNumber.length < 9) {
-        toast.error("Phone number must be at least 9 digit");
+      } else if (payload.cellNumber.length < 7) {
+        toast.error("Phone number must be at least 7 digit");
       } else if (!isValid) {
         toast.error("Invalid email address");
       } else {
@@ -317,7 +317,7 @@ const FarmWinery: React.FC = () => {
       <div className="default--form cat--4">
         <div className="default--form--wrapper">
           <div className="form--title">
-            <h3>Create Quotation for Farm, Winery or Orchad</h3>
+            <h3>Create Quotation For Farm, Winery Or Orchad</h3>
           </div>
           <form>
             {formStep === 1 && (
