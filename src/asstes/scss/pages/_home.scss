@@ -534,6 +534,13 @@
                 align-items: center;
                 border-radius: 0 0 clamp(25px, 4vw, 70px) clamp(25px, 4vw, 70px);
                 transition: $transition;
+                font-size: clamp(16px, 2vw, 22px);
+                @media (max-width: 767px){
+                    position: relative;
+                    margin-top: 40px;
+                    border-radius:0px 0px 20px 20px;
+                    justify-content: center;
+                }
                 
             }
         }
@@ -550,7 +557,6 @@
                 margin-left: auto;
                 @media (max-width:767px) {
                     margin: 0 auto;
-                    gap: 100px;
                 }
                 .process--listing--item {
                     text-align: center;

@@ -33,7 +33,7 @@ const Customers = () => {
           Customers
         </h3>
         <h2 data-aos="fade-up" data-aos-duration="1000">
-          Organizations that we work with
+          Organizations that we work with:
         </h2>
       </div>
       <OwlCarousel

@@ -62,37 +62,31 @@ function AboutUsMenu() {
             <div className="grid--">
               <div className="we--commited--data">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
-                  Simple Easy online booking
+                Simple Easy Online Booking
                 </h2>
                 <p data-aos="fade-up" data-aos-duration="1000">
-                  go to our website, scan a QR code on our truck or our toilet
-                  and get the booking process done! Simple, Easy!
+                Go to our website, scan a QR code on our truck or our toilet, and get the booking process done! Simple,
+easy!
                 </p>
               </div>
               <div className="we--commited--data">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
-                  QR code enabled
+                QR Code Enabled
                 </h2>
                 <p data-aos="fade-up" data-aos-duration="1000">
-                  need service, maintenance, or leave us a review? Just scan the
-                  QR code on our units and we step into action. We get instant
-                  notification of your booking or service request and we step
-                  into action!. Simple, Easy!
+                Need service, maintenance, or want to leave us a review? Just scan the QR code on one of our units and
+we step into action. We will be instantly notified of your booking or service request. Simple, easy!
                 </p>
               </div>
 
               <div className="we--commited--data">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
-                  Committed to Service
+                Committed to Service
                 </h2>
                 <p data-aos="fade-up" data-aos-duration="1000">
-                  We’re using technology to make sure our service is second to
-                  none. We value quality, cleanliness, simplicity and efficiency
-                  in communication.
-                </p>
-                <p data-aos="fade-up" data-aos-duration="1000">
-                  We’re using technology to make your booking and service
-                  request experience simple, efficient, and second to none.
+                We’re using technology to make sure our service is second to none. We value quality,
+cleanliness, simplicity and efficiency in communication. Our technology makes your booking and service request
+experience simple, efficient, and second to none.
                 </p>
               </div>
               
@@ -101,7 +95,7 @@ function AboutUsMenu() {
                   Online Customer Portal
                 </h2>
                 <p data-aos="fade-up" data-aos-duration="1000">
-                  Manage your contracts through our uniquely designed customer portal
+                Manage your contracts through our uniquely designed customer portal.
                 </p>
               </div>
 

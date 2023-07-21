@@ -90,7 +90,7 @@ const Footer = (props: MyComponentProps) => {
                   data-aos="fade-up"
                   data-aos-duration="1000"
                 >
-                  <h2>Get in Touch? </h2>
+                  <h2>Get in touch? </h2>
                 </div>
               </div>
               <div
@@ -208,7 +208,7 @@ const Footer = (props: MyComponentProps) => {
                         target="_blank"
                         rel="noreferrer"
                       >
-                       Poly john
+                       POLYJOHN
                       </a>
                     </li>
                     <li>

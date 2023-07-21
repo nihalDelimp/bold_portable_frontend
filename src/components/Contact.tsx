@@ -147,9 +147,25 @@ function ContactUs(props: MyComponentProps) {
                           </span>
                           <div className="details--item">
                             <h3>Email us</h3>
-                            <p>Our team is here to help you.</p>
                             <Link to={"mailto:boldportable@mail.com"}>
                               boldportable@mail.com
+                            </Link>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="contact--data--item">
+                          <span className="icons">
+                            <img
+                              src={require("../asstes/image/iconamoon-phone-light.png")}
+                              alt="AboutUs"
+                              loading="lazy"
+                            />
+                          </span>
+                          <div className="details--item">
+                            <h3>Phone</h3>
+                            <Link to={"tel:+0123456789"}>
+                              +0 123456789  
                             </Link>
                           </div>
                         </div>
@@ -173,24 +189,7 @@ function ContactUs(props: MyComponentProps) {
                           </div>
                         </div>
                       </li>
-                      <li>
-                        <div className="contact--data--item">
-                          <span className="icons">
-                            <img
-                              src={require("../asstes/image/iconamoon-phone-light.png")}
-                              alt="AboutUs"
-                              loading="lazy"
-                            />
-                          </span>
-                          <div className="details--item">
-                            <h3>Phone</h3>
-                            <p>Our team is here to help you.</p>
-                            <Link to={"mailto:boldportable@mail.com"}>
-                              boldportable@mail.com
-                            </Link>
-                          </div>
-                        </div>
-                      </li>
+                      
                     </ul>
                   </div>
                   <div className="social--hendals">
@@ -216,7 +215,8 @@ function ContactUs(props: MyComponentProps) {
                         </Link>
                       </li>
                       <li>
-                        <Link to="">
+                        <Link to={"https://www.psai.org/"}  target="_blank"
+                        rel="noreferrer">
                           <span>PSI</span>
                         </Link>
                       </li>

@@ -439,7 +439,7 @@ function Services(props: MyComponentProps) {
                 <div className="services--list--content--item">
                   <form onSubmit={handleSubmit}>
                     <p>
-                      Please give us information about your service request{" "}
+                      Please give us information about your service request.{" "}
                     </p>
                     <div className="servies--inner--form--wrapper">
                       <div className="servies--inner--form">
@@ -485,8 +485,7 @@ function Services(props: MyComponentProps) {
                         </div>
                         <div className="form--group">
                           <label htmlFor="service-iamge">
-                            Please upload a few images of the unit that needs to
-                            be serviced
+                            Please upload a few images of the unit that needs to serviced.
                           </label>
                           <input
                             type="file"
@@ -500,6 +499,10 @@ function Services(props: MyComponentProps) {
                           />
                         </div>
                         <div className="form--group get--location">
+                          <label htmlFor="service-iamge">
+                            Please give us the location of the unit by clicking the button below to get the current location of
+                            your phone, or by selecting the location on the map.
+                          </label>
                           <button
                             type="button"
                             className="btn black--btn"
@@ -595,10 +598,10 @@ function Services(props: MyComponentProps) {
           </div>
         </div>
       </section>
-      <section className="we--committed">
+      {/* <section className="we--committed">
         <div className="grid--container">
           <div className="grid">
-          <div className="grid--">
+            <div className="grid--">
               <div className="we--commited--data">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
                   Simple Easy online booking
@@ -634,7 +637,7 @@ function Services(props: MyComponentProps) {
                   request experience simple, efficient, and second to none.
                 </p>
               </div>
-              
+
               <div className="we--commited--data">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
                   Online Customer Portal
@@ -713,11 +716,10 @@ function Services(props: MyComponentProps) {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <section
-        className={`default--popup user--action--popup ${
-          showModal ? "active--popup" : ""
-        }  `}
+        className={`default--popup user--action--popup ${showModal ? "active--popup" : ""
+          }  `}
       >
         <div className="default--popup--wrapper">
           <div className="user--action--datta">
