@@ -52,7 +52,7 @@ const PortaPotties = () => {
                       <div className="content--wrapper">
                         <a href="#best--describes" className="btn--arrow" id="portable--toilets"></a>
                         <p>
-                        spacious design, you won’t find a roomier standard toilet! Equipped with urinal and hand sanitizing pump. 
+                        Spacious design, you won’t find a roomier standard toilet! Equipped with urinal and hand sanitizing pump. 
                         </p>
                       </div>
                     </div>
@@ -70,7 +70,7 @@ const PortaPotties = () => {
                       <div className="content--wrapper">
                         <a href="#best--describes" className="btn--arrow" id="portable--toilets"></a>
                         <p>
-                          our standard toilet plus a hand washing sink
+                          Our standard toilet plus a hand washing sink
                         </p>
                       </div>
                     </div>
@@ -88,7 +88,7 @@ const PortaPotties = () => {
                       <div className="content--wrapper">
                         <a href="#best--describes" className="btn--arrow" id="portable--toilets"></a>
                         <p>
-                          oversized self closing door, roll in ground level access, optional interior hand rails
+                          Oversized self closing door, roll in ground level access, optional interior hand rails
                         </p>
                       </div>
                     </div>
@@ -106,7 +106,7 @@ const PortaPotties = () => {
                       <div className="content--wrapper">
                         <a href="#best--describes" className="btn--arrow" id="portable--toilets"></a>
                         <p>
-                          we provide various options for high rise accessibility and service
+                          We provide various options for high rise accessibility and service
                         </p>
                       </div>
                     </div>
