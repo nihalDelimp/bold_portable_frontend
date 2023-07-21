@@ -75,7 +75,7 @@ const PortaPotties = () => {
                       </div>
                     </div>
                     <div
-                      className="port--types--category--item active--port--type"
+                      className="port--types--category--item"
                       id="portcat--3"
                     >
                       <div className="img--wrapper">
@@ -93,7 +93,7 @@ const PortaPotties = () => {
                       </div>
                     </div>
                     <div
-                      className="port--types--category--item"
+                      className="port--types--category--item active--port--type"
                       id="portcat--4"
                     >
                       <div className="img--wrapper">
