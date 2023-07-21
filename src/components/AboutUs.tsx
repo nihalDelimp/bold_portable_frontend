@@ -57,28 +57,18 @@ const AboutUs = () => {
                   </h2>
                 </div>
                 <p data-aos="fade-up" data-aos-duration="1000">
-                  We’re committed to simplicity and efficiency through
-                  innovative technology Simple easy online booking any time you
-                  need with google map placement of your unit QR code enabled
-                  restrooms for conveniant, instant worksite or public service
-                  requests, and or booking. When you’re unit needs service, we
-                  know instantly!
-                </p>
-
-                <p data-aos="fade-up" data-aos-duration="1000">
-                  Text platform for simple, efficient customer communication and
-                  instant notification of service requests
-                </p>
-
-                <p data-aos="fade-up" data-aos-duration="1000">
-                  Online customer accounts and portal for convenient automated
-                  invoicing, payments, and contract management
-                </p>
-
-                <p data-aos="fade-up" data-aos-duration="1000">
-                  We’re committed to providing you with simplicity, efficiency,
-                  cleanliness and exceptional service!
-                </p>
+                  At our core, we prioritize simplicity and efficiency by harnessing the power of innovative technology. Our
+                  goal is to make your experience seamless and hassle-free. With our user-friendly online booking system,
+                  you can easily reserve a unit anytime you need, and we even provide Google Map placement for precise
+                  location selection.
+                  Additionally, our restrooms are equipped with QR code technology, allowing for convenient and instant worksite or public service requests, as well as quick and easy booking. We stay on
+                  top of your unit's needs by receiving instant notifications when it requires servicing.
+                  To streamline
+                  communication, we offer a text platform that ensures simple and efficient customer interaction while
+                  promptly notifying you about service requests. Managing your account is effortless with our online
+                  customer portal, providing automated invoicing, convenient payment options, and hassle-free contract
+                  management. Our commitment extends beyond technology, we strive to deliver exceptional service,
+                  cleanliness, and overall satisfaction.</p>
 
                 <Link
                   to="/about-us"

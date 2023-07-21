@@ -70,6 +70,14 @@ const BestDescribe = () => {
                       data-aos-duration="1000"
                     >
                       <h2>What do you need your restroom for?</h2>
+                      <p
+                        className="highlight--text"
+                        data-aos="fade-up"
+                        data-aos-duration="1000"
+                      >
+                        Please select your application or the one that most closely fits.
+                      </p>
+
                     </div>
                   </div>
                   <div className="describe-category--wrapper">
@@ -157,7 +165,7 @@ const BestDescribe = () => {
                       data-category="cat--6"
                     >
                       <h3>Recreational Sites</h3>
-                      <p>From sporting fields to Camp grounds etc.</p>
+                      <p>From sports fields to campgrounds, etc.</p>
                       <a className="btn--arrow"></a>
                     </div>
 
@@ -178,8 +186,7 @@ const BestDescribe = () => {
                     >
                       <h3>Special Events</h3>
                       <p>
-                        concerts, sporting events, fairs, festivals, weddings,
-                        etc. Need special colors and features for your event?
+                        Concerts, sporting events, fairs, festivals, weddings, etc. Need special colors and features for your event?
                         We’ll customize it to make it happen.
                       </p>
                       <a className="btn--arrow "></a>
@@ -189,7 +196,7 @@ const BestDescribe = () => {
                       data-category="cat--3"
                     >
                       <h3>Disaster Relief</h3>
-                      <p>From a house flood, to forest fires etc.</p>
+                      <p>From a house flood to forest fires, etc.</p>
                       <a className="btn--arrow "></a>
                     </div>
                   </div>

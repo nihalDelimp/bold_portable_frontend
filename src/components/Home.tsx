@@ -43,6 +43,20 @@ const HomePage = () => {
         smoothScroll(target); 
       }
     });
+    
+    const link3 = document.querySelectorAll('#portable--toilets') ;
+
+    for (var i = 0; i < link3.length; i++) {
+      link3[i].addEventListener('click', function(event) {
+            event.preventDefault();
+            const target = link2.getAttribute('href'); 
+            if (target) {
+              smoothScroll(target); 
+            }
+        });
+    }
+    
+
     const link2 = document.querySelector('#process--book--now') as HTMLAnchorElement; 
     
     link2.addEventListener('click', (event) => {

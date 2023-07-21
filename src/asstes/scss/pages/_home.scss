@@ -195,6 +195,10 @@
                 h2 {
                     color: $white;
                 }
+                p{
+                    color: $white;
+                    font-size: clamp(18px, 1.3vw, 24px);
+                }
             }
         }
         .describe-category--wrapper {

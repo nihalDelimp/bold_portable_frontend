@@ -378,7 +378,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Will the Unit be used during winter (Nov - Mar)<span className="required"></span>
+                    Will the unit be used during winter (Nov-Mar)?<span className="required"></span>
                   </label>
                   <select
                     name="useInWinter"
@@ -391,7 +391,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Do You require inside lighting for night use?<span className="required"></span>
+                    Do you require inside lighting for night use?<span className="required"></span>
                   </label>
                   <select
                     name="useAtNight"
@@ -438,7 +438,7 @@ const FarmWinery: React.FC = () => {
                 )}
 
                 {quotation.workerTypes === "male" ||
-                quotation.workerTypes === "both" ? (
+                  quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       How many male workers will be on site?
@@ -457,7 +457,7 @@ const FarmWinery: React.FC = () => {
                 ) : null}
 
                 {quotation.workerTypes === "female" ||
-                quotation.workerTypes === "both" ? (
+                  quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       How many female workers will be on site?
@@ -476,7 +476,7 @@ const FarmWinery: React.FC = () => {
                 ) : null}
 
                 {quotation.workerTypes === "female" ||
-                quotation.workerTypes === "both" ? (
+                  quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       Do you need a separate toilet for female workers?
@@ -494,8 +494,8 @@ const FarmWinery: React.FC = () => {
                 ) : null}
 
                 {quotation.workerTypes === "female" ||
-                quotation.workerTypes === "male" ||
-                quotation.workerTypes === "both" ? (
+                  quotation.workerTypes === "male" ||
+                  quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">Total Workers</label>
                     <input
@@ -515,7 +515,7 @@ const FarmWinery: React.FC = () => {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    What is the average hours for each worker per week?{" "}
+                    What are the average hours for each worker per week?{" "}
                     <span className="required">*</span>
                   </label>
                   <input
@@ -530,7 +530,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    In regards to delivery or service, is there restricted access to the site. <span className="required"></span>
+                    In regards to delivery or service, is there restricted access to the site? <span className="required"></span>
                   </label>
                   <select
                     name="restrictedAccess"
@@ -543,7 +543,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    What date should the unit be picked up? <span className="required">*</span>
+                    What date should the unit(s) be picked up? <span className="required">*</span>
                   </label>
                   <input
                     type="date"
@@ -555,7 +555,7 @@ const FarmWinery: React.FC = () => {
                     placeholder="Select date till use"
                   />
                 </div>
-                <div className="form--group">
+                {/* <div className="form--group">
                   <label htmlFor="name">
                     Would you like to ad handwashing sink ($50)<span className="required"></span>
                   </label>
@@ -567,10 +567,10 @@ const FarmWinery: React.FC = () => {
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="form--group">
                   <label htmlFor="name">
-                  Would you like to upgrade to a handwashing sink inside the unit/s <span className="required"></span>
+                    Units come standard with a hand sanitizer pump. Would you like to upgrade to a handwashing sink inside the unit(s)? <span className="required"></span>
                   </label>
                   <select
                     name="handSanitizerPump"
@@ -583,7 +583,8 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  Would you like twice weekly service?<span className="required"></span>
+                    Standard service of unit(s) is once per week. To ensure a higher level of cleanliness, would you
+                    like twice weekly service? <span className="required"></span>
                   </label>
                   <select
                     name="twiceWeeklyService"
@@ -596,7 +597,7 @@ const FarmWinery: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Use type <span className="required">*</span>
+                    Use Type <span className="required">*</span>
                   </label>
                   <select
                     name="useType"
@@ -626,13 +627,13 @@ const FarmWinery: React.FC = () => {
                     <option value="wheel Chair Accessible">
                       Wheel Chair Accessible
                     </option>
-                    <option value="high rise capable">High rise capable</option>
+                    <option value="high rise capable">High Rise Capable</option>
                   </select>
                 </div>
 
                 <div className="form--group">
                   <label>
-                    Special requirement <span className="required"></span>
+                    Special Requirements <span className="required"></span>
                   </label>
                   <input
                     type="text"
