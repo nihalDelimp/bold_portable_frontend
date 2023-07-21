@@ -250,16 +250,23 @@ function QuotationDetails(props: MyComponentProps) {
         </div>
         {quotation && (
           <div className="pt--15">
-            {quotation?.status === "pending" ? (
-              <button
-                onClick={subscriptionPayment}
-                disabled={isLoading || !quotation || !quotation?.costDetailsSum}
-                className="btn btn-primary"
-              >
-                Subscribe
-              </button>
-            ) : (
+            {quotation?.status === "pending" ||
+              (quotation?.status === "modified" && (
+                <button
+                  onClick={subscriptionPayment}
+                  disabled={
+                    isLoading || !quotation || !quotation?.costDetailsSum
+                  }
+                  className="btn btn-primary"
+                >
+                  Subscribe
+                </button>
+              ))}
+            {quotation?.status === "active" && (
               <button className="btn btn-success">Paid</button>
+            )}
+            {quotation?.status === "cancelled" && (
+              <button className="btn btn-danger">cancelled</button>
             )}
           </div>
         )}
