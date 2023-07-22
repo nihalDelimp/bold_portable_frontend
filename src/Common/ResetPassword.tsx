@@ -136,7 +136,7 @@ function ResetPassword(props: myComponentProps) {
         </div>
         <div className="form--group span--2">
           <label htmlFor="name">
-            OTP <span className="required">*</span>
+          Please check your email for a one time code. <span className="required">*</span>
           </label>
           <input
             required
