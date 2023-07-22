@@ -498,7 +498,7 @@ function Services(props: MyComponentProps) {
                             onChange={handleChangeImage}
                           />
                         </div>
-                        <div className="form--group get--location">
+                        {/* <div className="form--group get--location">
                           <label htmlFor="service-iamge">
                             Please give us the location of the unit by clicking the button below to get the current location of
                             your phone, or by selecting the location on the map.
@@ -511,9 +511,9 @@ function Services(props: MyComponentProps) {
                             Get Current Location
                           </button>
                           <p>{userAddress}</p>
-                        </div>
+                        </div> */}
                       </div>
-                      <div className="service--map">
+                      {/* <div className="service--map">
                         {isLoaded &&
                           currentLocation &&
                           currentLocation.lat &&
@@ -527,7 +527,7 @@ function Services(props: MyComponentProps) {
                               <MarkerF position={currentLocation} />
                             </GoogleMap>
                           )}
-                      </div>
+                      </div> */}
                     </div>
 
                     {quotationId && (
