@@ -48,8 +48,8 @@ function QuotationDetails(props: MyComponentProps) {
             const resData = response.data.data.quotation;
             setQuotation(resData);
             const servicesDays = getDaysBetweenDates(
-              resData.placementDate,
-              resData.dateTillUse
+              resData?.placementDate,
+              resData?.dateTillUse
             );
             setTotalServicesDays(servicesDays);
           }
@@ -250,18 +250,15 @@ function QuotationDetails(props: MyComponentProps) {
         </div>
         {quotation && (
           <div className="pt--15">
-            {quotation?.status === "pending" ||
-              (quotation?.status === "modified" && (
-                <button
-                  onClick={subscriptionPayment}
-                  disabled={
-                    isLoading || !quotation || !quotation?.costDetailsSum
-                  }
-                  className="btn btn-primary"
-                >
-                  Subscribe
-                </button>
-              ))}
+            {quotation?.status === "pending" && (
+              <button
+                onClick={subscriptionPayment}
+                disabled={isLoading || !quotation || !quotation?.costDetailsSum}
+                className="btn btn-primary"
+              >
+                Subscribe
+              </button>
+            )}
             {quotation?.status === "active" && (
               <button className="btn btn-success">Paid</button>
             )}
