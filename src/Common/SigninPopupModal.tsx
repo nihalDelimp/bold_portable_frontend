@@ -127,6 +127,7 @@ function SigninPopupModal() {
   return (
     <>
       <section className="custom--popup">
+      <span className="close--login">x</span>
         <div className="custom--popup--wrapper">
           <div className="switcher--tabs">
             <ul>

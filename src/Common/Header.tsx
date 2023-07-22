@@ -38,6 +38,8 @@ const Header = () => {
       $(".user--dropdown").toggleClass("active--dropdown");
     });
 
+    
+
     $(document).on("click", function (e) {
       if (
         $(e.target).closest(".user--dropdown").length === 0 &&
@@ -59,19 +61,19 @@ const Header = () => {
       ) {
         $(".cart--dropdown").removeClass("active--cart--dropdown");
       }
-      if (
-        $(e.target).closest(".custom--popup--wrapper").length === 0 &&
-        $(e.target).closest(".form--popup").length === 0
-      ) {
-        $(".custom--popup").removeClass("active--popup");
-      }
-      if (
-        $(e.target).closest(".static--popup--wrapper").length === 0 &&
-        $(e.target).closest(".lost--password").length === 0 &&
-        $(e.target).closest(".reset--back").length === 0
-      ) {
-        $(".static--popup").css("display", "none");
-      }
+      // if (
+      //   $(e.target).closest(".custom--popup--wrapper").length === 0 &&
+      //   $(e.target).closest(".form--popup").length === 0
+      // ) {
+      //   $(".custom--popup").removeClass("active--popup");
+      // }
+      // if (
+      //   $(e.target).closest(".static--popup--wrapper").length === 0 &&
+      //   $(e.target).closest(".lost--password").length === 0 &&
+      //   $(e.target).closest(".reset--back").length === 0
+      // ) {
+      //   $(".static--popup").css("display", "none");
+      // }
     });
 
     // notification dropdown
@@ -122,9 +124,22 @@ const Header = () => {
       }
     });
 
+   
+    $(".close--login").on("click", function () {
+      $(this).closest('.custom--popup').removeClass('active--popup');
+    });
+
+    
+    $(".close--forgot").on("click", function () {
+      $(this).closest('.static--popup').css('display', 'none');
+    });
+
+    
     $(".user--dropdown ul li  a").on("click", function () {
       $(".user--dropdown").removeClass("active--dropdown");
     });
+
+
   }, []);
 
   const handleLogout = () => {

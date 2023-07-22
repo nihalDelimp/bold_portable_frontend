@@ -25,19 +25,19 @@ const BestDescribe = () => {
   }, []);
 
   useEffect(() => {
-    $(document).on("click", function (e) {
-      if (
-        $(e.target).closest(".default--popup--wrapper").length === 0 &&
-        $(e.target).closest(".submit--from").length === 0 &&
-        $(e.target).closest(
-          ".describe--categorys--list .describe--categorys--item"
-        ).length === 0
-      ) {
-        $(".default--popup").removeClass("active--popup");
-        $(".default--form ").removeClass("active--from");
-      }
-    });
 
+    // $(document).on("click", function (e) {
+    //   if (
+    //     $(e.target).closest(".default--popup--wrapper").length === 0 &&
+    //     $(e.target).closest(".submit--from").length === 0 &&
+    //     $(e.target).closest(
+    //       ".describe--categorys--list .describe--categorys--item"
+    //     ).length === 0
+    //   ) {
+    //     $(".default--popup").removeClass("active--popup");
+    //     $(".default--form ").removeClass("active--from");
+    //   }
+    // });
     $(".describe--categorys--list .describe--categorys--item").click(
       function () {
         var data_category = $(this).attr("data-category");
@@ -53,6 +53,22 @@ const BestDescribe = () => {
         $(this).addClass("active--item");
       }
     );
+
+    var btnClosePop = document.querySelectorAll('#close--modal');
+
+    var btnClosePop = document.querySelectorAll('#close--modal');
+
+    for (let i = 0; i < btnClosePop.length; i++) {
+      btnClosePop[i].addEventListener('click', function () {
+        document.querySelector('.default--popup')?.classList.remove('active--popup');
+        var formPop = document.querySelectorAll('.default--form');
+        for (let s = 0; s < formPop.length; s++) {
+          formPop[s]?.classList.remove('active--from');
+        }
+      });
+    }
+    
+
   }, []);
 
   return (
@@ -207,6 +223,7 @@ const BestDescribe = () => {
         </div>
       </section>
       <section className="default--popup">
+        <span id="close--modal">x</span>
         <div className="default--popup--wrapper">
           <Construction />
           <SpecialEvents />

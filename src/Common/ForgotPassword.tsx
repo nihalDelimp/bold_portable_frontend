@@ -62,6 +62,7 @@ function ForgotPassword() {
   return (
     <>
       <section id="reset--password" className="static--popup">
+      <span className="close--forgot">x</span>
         <div className="static--popup--wrapper">
           <div className="static--form active--from">
             <div className="static--form--wrapper">

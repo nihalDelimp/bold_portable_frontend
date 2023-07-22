@@ -1,3 +1,17 @@
+#close--modal, .close--login, .close--forgot {
+    background: white;
+    width: 35px;
+    aspect-ratio: 1;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    cursor: pointer;
+}
 .custom--popup {
     position: fixed;
     top: 0;
