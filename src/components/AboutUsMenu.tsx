@@ -59,7 +59,7 @@ function AboutUsMenu() {
       <section className="we--committed">
         <div className="grid--container">
           <div className="grid">
-            <div className="grid--">
+            {/* <div className="grid--">
               <div className="we--commited--data">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
                 Simple Easy Online Booking
@@ -99,8 +99,8 @@ experience simple, efficient, and second to none.
                 </p>
               </div>
 
-            </div>
-            <div className="grid--">
+            </div> */}
+            <div className="grid----">
               <div className="we--commited--list">
                 <ul>
                   <li data-aos="fade-up" data-aos-duration="1000">

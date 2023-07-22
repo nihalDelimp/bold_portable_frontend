@@ -561,6 +561,7 @@
                 .process--listing--item {
                     text-align: center;
                     border: 1px solid $blue;
+                    background: $blue;
                     padding: 13px;
                     border-radius: 10px;
                     text-transform: uppercase;
@@ -568,21 +569,7 @@
                     font-size: clamp(14px, 1.2vw, 18px);
                     position: relative;
                     transition: $transition;
-                    &:nth-child(1):hover {
-                        border-color: $yellow;
-                    }
-                    &:nth-child(2):hover {
-                        border-color: $dark-blue;
-                    }
-                    &:nth-child(3):hover {
-                        border-color: $green;
-                    }
-                    &:nth-child(4):hover {
-                        border-color: $red;
-                    }
-                    &:nth-child(5):hover {
-                        border-color: $sky;
-                    }
+                    
                     &:not(:last-child)::before {
                         content: "";
                         width: 22px;
