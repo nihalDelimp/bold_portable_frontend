@@ -113,12 +113,10 @@ experience simple, efficient, and second to none.
                         />
                       </div>
                       <div className="we--commited--text">
-                        <h3>Efficiency</h3>
+                        <h3>Simple Easy Online Booking</h3>
                         <p>
-                          Lorem ipsum dolor sit amet, consectetuer adipiscing
-                          elit, sed diam nonummy nibh euismod tincidunt ut
-                          laoreet dolore ma aliquam erat volutpat. Ut wisi enim
-                          ad minim veniam.
+                        Go to our website, scan a QR code on our truck or our toilet, and get the booking process done! Simple,
+easy!
                         </p>
                       </div>
                     </div>
@@ -133,12 +131,10 @@ experience simple, efficient, and second to none.
                         />
                       </div>
                       <div className="we--commited--text">
-                        <h3>Simplicity</h3>
+                        <h3>QR Code Enabled</h3>
                         <p>
-                          Lorem ipsum dolor sit amet, consectetuer adipiscing
-                          elit, sed diam nonummy nibh euismod tincidunt ut
-                          laoreet dolore ma aliquam erat volutpat. Ut wisi enim
-                          ad minim veniam.
+                        Need service, maintenance, or want to leave us a review? Just scan the QR code on one of our units and
+we step into action. We will be instantly notified of your booking or service request. Simple, easy!
                         </p>
                       </div>
                     </div>
@@ -153,16 +149,34 @@ experience simple, efficient, and second to none.
                         />
                       </div>
                       <div className="we--commited--text">
-                        <h3>Technology</h3>
+                        <h3> Committed to Service</h3>
                         <p>
-                          Lorem ipsum dolor sit amet, consectetuer adipiscing
-                          elit, sed diam nonummy nibh euismod tincidunt ut
-                          laoreet dolore ma aliquam erat volutpat. Ut wisi enim
-                          ad minim veniam.
+                        We’re using technology to make sure our service is second to none. We value quality,
+cleanliness, simplicity and efficiency in communication. Our technology makes your booking and service request
+experience simple, efficient, and second to none.
                         </p>
                       </div>
                     </div>
                   </li>
+
+                  <li data-aos="fade-up" data-aos-duration="1000">
+                  <div className="we--commited--item">
+                      <div className="icons">
+                        <img
+                          src={require("../asstes/image/Technology.png")}
+                          alt="Technology"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="we--commited--text">
+                        <h3>  Online Customer Portal</h3>
+                        <p>
+                        Manage your contracts through our uniquely designed customer portal.
+                        </p>
+                      </div>
+                     
+                    </div>
+                    </li>
                 </ul>
               </div>
             </div>
