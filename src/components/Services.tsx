@@ -234,21 +234,12 @@ function Services(props: MyComponentProps) {
       name: userName?.trim(),
       email: userEmail?.trim(),
       phone: userPhone?.trim(),
-      address: userAddress?.trim(),
-      coordinates: {
-        type: "Point",
-        coordinates: currentLatLng,
-      },
     };
     let validUsername = /^[A-Za-z\s]+$/;
     if (!payload.name) {
       toast.error("Name is required!");
     } else if (!validUsername.test(payload.name)) {
       toast.error("Name should only contain letters");
-    } else if (!payload.address) {
-      toast.error("Current address is not found!");
-    } else if (currentLatLng.length === 0) {
-      toast.error("Current location is not found!");
     } else if (payload.serviceTypes.length === 0) {
       toast.error("No service request found!");
     } else if (!quotationId) {
@@ -274,10 +265,7 @@ function Services(props: MyComponentProps) {
       formData.append("name", payload.name);
       formData.append("email", payload.email);
       formData.append("phone", payload.phone);
-      formData.append("address", payload.address);
-      formData.append("coordinates[type]", "Point");
-      formData.append("coordinates[coordinates][0]", currentLatLng[0]);
-      formData.append("coordinates[coordinates][1]", currentLatLng[1]);
+     
       await authAxios()
         .post("/user-service/save", formData)
         .then(
@@ -294,7 +282,6 @@ function Services(props: MyComponentProps) {
               setUserName("");
               setUserEmail("");
               setUserPhone("");
-              setUserAddress("");
               setSelectedImages([]);
             } else {
               toast.error(response.data?.message);
