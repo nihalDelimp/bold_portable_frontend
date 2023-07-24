@@ -598,7 +598,7 @@ like twice weekly service? <span className="required"></span>
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"
-                    placeholder="Special requirement"
+                    placeholder="Special requirements"
                   />
                 </div>
               </React.Fragment>

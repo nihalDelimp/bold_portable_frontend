@@ -317,7 +317,7 @@ const FarmWinery: React.FC = () => {
       <div className="default--form cat--4">
         <div className="default--form--wrapper">
           <div className="form--title">
-            <h3>Create Quotation For Farm, Winery Or Orchad</h3>
+            <h3>Create Quotation For Farm, Winery Or Orchard</h3>
           </div>
           <form>
             {formStep === 1 && (
@@ -607,7 +607,7 @@ const FarmWinery: React.FC = () => {
                     <option value="">Select use type</option>
                     <option value="farm">Farm</option>
                     <option value="winery">Winery</option>
-                    <option value="orchad">Orchad</option>
+                    <option value="orchad">Orchard</option>
                   </select>
                 </div>
 
@@ -641,7 +641,7 @@ const FarmWinery: React.FC = () => {
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"
-                    placeholder="Special requirement"
+                    placeholder="Special requirements"
                   />
                 </div>
               </React.Fragment>

@@ -61,8 +61,8 @@ const PortaPotties = () => {
                       id="portcat--2"
                     >
                       <div className="img--wrapper">
-                        <img
-                          src={require("../asstes/image/deluxe-flush--1.png")}
+                      <img
+                          src={require("../asstes/image/PJN3-3Quarter-RIGHT-Lime.png")}
                           alt=""
                           loading="lazy"
                         />

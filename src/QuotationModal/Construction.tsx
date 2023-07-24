@@ -598,7 +598,7 @@ const Construction: React.FC = () => {
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"
-                    placeholder="Special requirement"
+                    placeholder="Special requirements"
                   />
                 </div>
               </React.Fragment>

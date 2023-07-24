@@ -188,6 +188,9 @@ function ContactUs(props: MyComponentProps) {
                             </address>
                           </div>
                         </div>
+                          <div style={{ margin: "36px" }}>
+                              <b> Our team is here to help you!</b>
+                          </div>
                       </li>
                       
                     </ul>
@@ -205,12 +208,13 @@ function ContactUs(props: MyComponentProps) {
                         </Link>
                       </li>
                       <li>
-                        <Link to="">
+                      <Link to="">
                           <i className="fa-brands fa-linkedin-in"></i>
                         </Link>
                       </li>
                       <li>
-                        <Link to="">
+                      <Link to={"https://www.polyjohn.com/"} target="_blank"
+                        rel="noreferrer">
                           <span>PJ</span>
                         </Link>
                       </li>

@@ -431,7 +431,7 @@ function Services(props: MyComponentProps) {
                     <div className="servies--inner--form--wrapper">
                       <div className="servies--inner--form">
                         <div className="form--group">
-                          <label htmlFor="name">Your Name</label>
+                          <label htmlFor="name">Your Name *</label>
                           <input
                             type="text"
                             required
@@ -444,7 +444,7 @@ function Services(props: MyComponentProps) {
                           />
                         </div>
                         <div className="form--group">
-                          <label htmlFor="email">Your Email</label>
+                          <label htmlFor="email">Your Email *</label>
                           <input
                             type="Email"
                             id="email"
@@ -457,7 +457,7 @@ function Services(props: MyComponentProps) {
                           />
                         </div>
                         <div className="form--group">
-                          <label htmlFor="phone">Your Phone Number</label>
+                          <label htmlFor="phone">Your Phone Number *</label>
                           <input
                             type="text"
                             required
@@ -472,7 +472,7 @@ function Services(props: MyComponentProps) {
                         </div>
                         <div className="form--group">
                           <label htmlFor="service-iamge">
-                            Please upload a few images of the unit that needs to serviced.
+                            Please upload a few images of the unit that needs to be serviced. *
                           </label>
                           <input
                             type="file"
