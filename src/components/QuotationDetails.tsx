@@ -198,7 +198,7 @@ function QuotationDetails(props: MyComponentProps) {
                 <td>{setFormatDate(quotation?.placementDate)}</td>
               </tr>
               <tr>
-                <th>Date till use</th>
+                <th>Pickup Date </th>
                 <td>{setFormatDate(quotation?.dateTillUse)}</td>
               </tr>
               <tr>
@@ -226,15 +226,15 @@ function QuotationDetails(props: MyComponentProps) {
                 <td>{quotation?.costDetails?.handWashingCost}</td>
               </tr>
               <tr>
-                <th>Use At Night Cost:</th>
+                <th>Use at Night Cost:</th>
                 <td>{quotation?.costDetails?.useAtNightCost}</td>
               </tr>
               <tr>
-                <th>Use In Winter Cost:</th>
+                <th>Use in Winter Cost:</th>
                 <td>{quotation?.costDetails?.useInWinterCost}</td>
               </tr>
               <tr>
-                <th>Number Of Units Cost:</th>
+                <th>Number Of Unit(s) Cost:</th>
                 <td>{quotation?.costDetails?.numberOfUnitsCost}</td>
               </tr>
               <tr>

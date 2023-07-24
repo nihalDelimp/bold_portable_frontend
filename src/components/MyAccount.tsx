@@ -187,7 +187,7 @@ function MyAccountNew(props: MyComponentProps) {
                           src={require("../asstes/image/Quotation.png")}
                           alt=""
                         />{" "}
-                        <span>Quotation</span>
+                        <span>Quotations</span>
                       </a>
                     </li>
                     <li>
@@ -205,7 +205,7 @@ function MyAccountNew(props: MyComponentProps) {
                           src={require("../asstes/image/Subscription.png")}
                           alt=""
                         />{" "}
-                        <span>Subscription</span>
+                        <span>Subscriptions</span>
                       </a>
                     </li>
                   </ul>
@@ -245,7 +245,12 @@ function MyAccountNew(props: MyComponentProps) {
               </div>
               <div className="put--quoats">
                 <img src={require("../asstes/image/put--quots.png")} alt="" />
-                <Link to="/">Put Quotes</Link>
+                 <a
+                    onClick={() => navigate("/")}
+                    href="#best--describes"
+                  >
+               Get a Quote
+                </a>
               </div>
             </div>
             <div className="user--dashboard--content">
@@ -693,7 +698,7 @@ function MyAccountNew(props: MyComponentProps) {
                   <div className="quotations--content">
                     <div className="dashboard--content--title">
                       <h2>
-                        <span>Quotation</span>
+                        <span>Quotations</span>
                       </h2>
                     </div>
                     <div className="table--wrapper">
@@ -781,7 +786,7 @@ function MyAccountNew(props: MyComponentProps) {
                   <div className="quotations--content subscription--content">
                     <div className="dashboard--content--title">
                       <h2>
-                        <span>Subscription</span>
+                        <span>Subscriptions</span>
                       </h2>
                     </div>
                     <div className="table--wrapper">
