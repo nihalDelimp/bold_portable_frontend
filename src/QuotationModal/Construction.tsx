@@ -42,6 +42,7 @@ interface quotationType {
   maleWorkers: number;
   totalWorkers: number;
   productTypes: string;
+  restrictedAccessDescription: string;
 }
 
 interface coordinatorType {
@@ -92,6 +93,7 @@ const Construction: React.FC = () => {
     maleWorkers: 0,
     totalWorkers: 0,
     productTypes: "standard",
+    restrictedAccessDescription: "",
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -197,6 +199,7 @@ const Construction: React.FC = () => {
       maleWorkers: 0,
       totalWorkers: 0,
       productTypes: "standard",
+      restrictedAccessDescription: "",
     });
     setFormStep(1);
   };
@@ -348,7 +351,8 @@ const Construction: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Will the unit be used during winter (Nov-Mar)?<span className="required"></span>
+                    Will the unit be used during winter (Nov-Mar)?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="useInWinter"
@@ -361,7 +365,8 @@ const Construction: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Do you require inside lighting for night use?<span className="required"></span>
+                    Do you require inside lighting for night use?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="useAtNight"
@@ -409,7 +414,7 @@ const Construction: React.FC = () => {
                 )}
 
                 {quotation.workerTypes === "male" ||
-                  quotation.workerTypes === "both" ? (
+                quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       How many male workers will be on site?
@@ -429,7 +434,7 @@ const Construction: React.FC = () => {
                 ) : null}
 
                 {quotation.workerTypes === "female" ||
-                  quotation.workerTypes === "both" ? (
+                quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       How many female workers will be on site?
@@ -449,7 +454,7 @@ const Construction: React.FC = () => {
                 ) : null}
 
                 {quotation.workerTypes === "female" ||
-                  quotation.workerTypes === "both" ? (
+                quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       Do you need a separate toilet for female workers?
@@ -466,8 +471,8 @@ const Construction: React.FC = () => {
                   </div>
                 ) : null}
                 {quotation.workerTypes === "female" ||
-                  quotation.workerTypes === "male" ||
-                  quotation.workerTypes === "both" ? (
+                quotation.workerTypes === "male" ||
+                quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">Total Workers</label>
                     <input
@@ -503,7 +508,8 @@ const Construction: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    In regards to delivery or service, is there restricted access to the site? <span className="required"></span>
+                    In regards to delivery or service, is there restricted
+                    access to the site? <span className="required"></span>
                   </label>
                   <select
                     name="restrictedAccess"
@@ -514,9 +520,11 @@ const Construction: React.FC = () => {
                     <option value="true">Yes</option>
                   </select>
                 </div>
+                
                 <div className="form--group">
                   <label htmlFor="name">
-                    What date should the unit(s) be picked up? <span className="required">*</span>
+                    What date should the unit(s) be picked up?{" "}
+                    <span className="required">*</span>
                   </label>
                   <input
                     type="date"
@@ -528,6 +536,23 @@ const Construction: React.FC = () => {
                     placeholder="Select date till use"
                   />
                 </div>
+
+                {quotation.restrictedAccess && (
+                  <div className="form--group">
+                    <label>
+                    Please give us details why is it Restricted? <span className="required"></span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={quotation.restrictedAccessDescription}
+                      onChange={handleChangeQuotation}
+                      name="restrictedAccessDescription"
+                      placeholder="Restricted access details"
+                    />
+                  </div>
+                )}
+
                 {/* <div className="form--group">
                   <label htmlFor="name">
                     Would you like to ad handwashing sink ($50)<span className="required"></span>
@@ -543,8 +568,9 @@ const Construction: React.FC = () => {
                 </div> */}
                 <div className="form--group">
                   <label htmlFor="name">
-                    Units come standard with a hand sanitizer pump. Would you like to upgrade to a handwashing
-                    sink inside the unit(s)? <span className="required"></span>
+                    Units come standard with a hand sanitizer pump. Would you
+                    like to upgrade to a handwashing sink inside the unit(s)?{" "}
+                    <span className="required"></span>
                   </label>
                   <select
                     name="handSanitizerPump"
@@ -557,8 +583,9 @@ const Construction: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Standard service of unit(s) is once per week. To ensure a higher level of cleanliness, would you
-                    like twice weekly service? <span className="required"></span>
+                    Standard service of unit(s) is once per week. To ensure a
+                    higher level of cleanliness, would you like twice weekly
+                    service? <span className="required"></span>
                   </label>
                   <select
                     name="twiceWeeklyService"
@@ -594,7 +621,6 @@ const Construction: React.FC = () => {
                   </label>
                   <input
                     type="text"
-                    required
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"
@@ -603,7 +629,6 @@ const Construction: React.FC = () => {
                 </div>
               </React.Fragment>
             )}
-
             <div className="form--action">
               {formStep === 2 && (
                 <button
