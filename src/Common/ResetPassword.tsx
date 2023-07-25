@@ -11,6 +11,8 @@ function ResetPassword(props: myComponentProps) {
   const { userEmail } = props;
   const [loading, setLoading] = useState(false);
   const [isSendingOTP, setSendingOTP] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [userData, setUserData] = useState({
     email: userEmail,
     otp: "",
@@ -136,7 +138,7 @@ function ResetPassword(props: myComponentProps) {
         </div>
         <div className="form--group span--2">
           <label htmlFor="name">
-          Please check your email for a one time code. <span className="required">*</span>
+            Please check your email for a one time code. <span className="required">*</span>
           </label>
           <input
             required
@@ -147,30 +149,54 @@ function ResetPassword(props: myComponentProps) {
             placeholder="OTP"
           />
         </div>
-        <div className="form--group span--2">
+        <div className="form--group span--2 password--container">
           <label htmlFor="name">
             Password <span className="required">*</span>
           </label>
+          <a
+            className={`form-icon form-icon-right passcode-switch password-hide--show lg ${showPassword ? "is-hiden" : "is-shown"
+              } `}
+            onClick={() => setShowPassword(!showPassword)}
+            data-target="password"
+          >
+            {showPassword ? (
+              <em className="passcode-icon icon-show icon ni ni-eye"></em>
+            ) : (
+              <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+            )}
+          </a>
           <input
             required
             minLength={8}
             value={userData.password}
             onChange={handleChange}
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
           />
         </div>
-        <div className="form--group span--2">
+        <div className="form--group span--2 password--container">
           <label htmlFor="name">
             Confirm password <span className="required">*</span>
           </label>
+          <a
+            className={`form-icon form-icon-right passcode-switch password-hide--show lg ${showConfirmPassword ? "is-hiden" : "is-shown"
+              } `}
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            data-target="password"
+          >
+            {showConfirmPassword ? (
+              <em className="passcode-icon icon-show icon ni ni-eye"></em>
+            ) : (
+              <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+            )}
+          </a>
           <input
             required
             minLength={8}
             value={userData.confirm_password}
             onChange={handleChange}
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             name="confirm_password"
             placeholder="Confirm password"
           />

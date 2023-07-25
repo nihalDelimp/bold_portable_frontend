@@ -30,6 +30,9 @@ interface MyComponentProps {
 }
 
 function ProfileSetting(props: MyComponentProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const dispatch = useDispatch();
   const { setLoading, isLoading } = props;
   const [isEditAble, setEditAble] = useState<boolean>(false);
@@ -320,11 +323,23 @@ function ProfileSetting(props: MyComponentProps) {
                 <div className="table--title span--2">
                   <span>Change Password</span>
                 </div>
-                <div className="form--group">
+                <div className="form--group password--container">
                   <label htmlFor="">New Password</label>
+                  <a
+                    className={`form-icon form-icon-right passcode-switch password-hide--show lg ${showPassword ? "is-hiden" : "is-shown"
+                      } `}
+                    onClick={() => setShowPassword(!showPassword)}
+                    data-target="password"
+                  >
+                    {showPassword ? (
+                      <em className="passcode-icon icon-show icon ni ni-eye"></em>
+                    ) : (
+                      <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                    )}
+                  </a>
                   <input
                     disabled={!isEditAble}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     minLength={minUserPasswordLength}
                     maxLength={maxUserPasswordLength}
                     placeholder="Password"
@@ -333,11 +348,23 @@ function ProfileSetting(props: MyComponentProps) {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form--group">
+                <div className="form--group password--container">
                   <label htmlFor="">Re-Enter Password</label>
+                  <a
+                    className={`form-icon form-icon-right passcode-switch password-hide--show lg ${showConfirmPassword ? "is-hiden" : "is-shown"
+                      } `}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    data-target="password"
+                  >
+                    {showConfirmPassword ? (
+                      <em className="passcode-icon icon-show icon ni ni-eye"></em>
+                    ) : (
+                      <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                    )}
+                  </a>
                   <input
                     disabled={!isEditAble}
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     minLength={minUserPasswordLength}
                     maxLength={maxUserPasswordLength}
                     placeholder="Confirm Password"

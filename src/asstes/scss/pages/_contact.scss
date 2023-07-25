@@ -1,3 +1,5 @@
+$success-bg-color: rgba(146, 146, 146, 0.95);
+
 .contact--us {
     padding-block: clamp(40px, 6vw, 100px);
     .contact--us--wrapper {
@@ -142,6 +144,43 @@
                     }
                 }
             }
+        }
+    }
+}
+
+
+.success--container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: $success-bg-color;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 60px 15px 60px;
+    z-index: 999;
+    overflow-y: auto;
+
+    > .success--content {
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: clamp(20px, 3vw, 50px);
+        width: 90%;
+
+        > p {
+            text-align: center;
+        }
+
+        > button {
+            display: flex;
+            margin: 0 auto;
+            margin-top: 20px;
         }
     }
 }

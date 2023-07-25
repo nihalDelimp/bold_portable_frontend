@@ -1,4 +1,34 @@
-#close--modal, .close--login, .close--forgot {
+@font-face {
+    font-family: "Nioicon";
+    src: url("../../fonts/Nioicon.eot");
+    src: url("../../fonts/Nioicon.eot#iefix") format("embedded-opentype"), url("../../fonts/Nioicon.ttf") format("truetype"), url("../../fonts/Nioicon.woff") format("woff"), url("../../fonts/Nioicon.svg#Nioicon") format("svg");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+.ni {
+    font-family: "Nioicon" !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .ni-eye:before {
+    content: "\ea3c";
+  }
+  .ni-eye-off:before {
+    content: "\ea3b";
+  }
+
+#close--modal,
+.close--login,
+.close--forgot {
     background: white;
     width: 35px;
     aspect-ratio: 1;
@@ -12,13 +42,14 @@
     right: 5%;
     cursor: pointer;
 }
+
 .custom--popup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(146,146,146,.95);
+    background-color: rgba(146, 146, 146, .95);
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -26,45 +57,58 @@
     z-index: 999;
     display: none;
     overflow-y: auto;
+
     &::-webkit-scrollbar {
         width: 4px;
-      }
-      &::-webkit-scrollbar-track {
+    }
+
+    &::-webkit-scrollbar-track {
         background: lighten($black, 90%);
-      }
-      &::-webkit-scrollbar-thumb {
+    }
+
+    &::-webkit-scrollbar-thumb {
         background: $blue;
-      }
-      &::-webkit-scrollbar-thumb:hover {
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
         background: $blue;
-      }
+    }
+
     &.active--popup {
         display: flex;
     }
+
     .custom--popup--wrapper {
         max-width: 500px;
         margin: 0 auto;
         background-color: $white;
+
         .switcher--tabs {
             ul {
                 display: flex;
+
                 @media (max-width:767px) {
-                   flex-direction: column;
+                    flex-direction: column;
                 }
+
                 li {
                     width: 50%;
+
                     @media (max-width:767px) {
                         width: 100%;
                     }
+
                     a {
                         color: $black;
                         padding: 20px 20px;
                         display: block;
                         text-align: center;
                         border-radius: 0;
+
                         &:hover {
                             color: $white;
                         }
+
                         &.active {
                             background-color: $black;
                             color: $white;
@@ -73,38 +117,60 @@
                 }
             }
         }
+
         .login--form {
             padding: 50px;
             display: none;
+
             @media (max-width:767px) {
                 padding: 35px 15px;
             }
+
             &.active--from {
                 display: block;
             }
+
             .login--form--wrapper {
                 form {
                     display: flex;
                     flex-direction: column;
                     gap: 30px;
+
                     .form--group {
                         display: flex;
                         flex-direction: column;
                         gap: 10px;
                         justify-content: space-between;
-                        input, select, textarea {
+
+                        input,
+                        select,
+                        textarea {
                             padding: 15px 0;
                             border-bottom: 1px solid black;
                         }
+
                     }
+
+                    .password--container{
+                        position: relative;
+
+                        .password-hide--show{
+                            position: absolute;
+                            bottom: 15px;
+                            right: 20px;
+                        }
+                    }
+
                     .form--checkbox {
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
                         gap: 15px;
+
                         @media (max-width:767px) {
                             flex-wrap: wrap;
                         }
+
                         input[type=checkbox] {
                             accent-color: $blue;
                             width: 15px;
@@ -112,14 +178,16 @@
                             position: relative;
                             top: 1px;
                         }
+
                         .lost--password {
                             a {
                                 &:hover {
                                     color: $blue;
                                 }
                             }
-                        }    
+                        }
                     }
+
                     .form--action {
                         .submit--from {
                             width: 100%;
@@ -139,77 +207,95 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(146,146,146,.95);
+    background-color: rgba(146, 146, 146, .95);
     display: none;
     align-items: flex-start;
     justify-content: center;
     padding: 60px 15px 60px;
     z-index: 999;
     overflow-y: auto;
+
     &::-webkit-scrollbar {
         width: 4px;
-      }
-      &::-webkit-scrollbar-track {
+    }
+
+    &::-webkit-scrollbar-track {
         background: lighten($black, 90%);
-      }
-      &::-webkit-scrollbar-thumb {
+    }
+
+    &::-webkit-scrollbar-thumb {
         background: $blue;
-      }
-      &::-webkit-scrollbar-thumb:hover {
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
         background: $blue;
-      }
+    }
+
     &.active--popup {
         display: flex;
     }
+
     .default--popup--wrapper {
         max-width: 960px;
         margin: 0 auto;
         background-color: $white;
-        
+
         .default--form {
             padding: 50px;
             display: none;
+
             @media (max-width:767px) {
                 padding: 35px 15px;
             }
+
             &.active--from {
                 display: block;
             }
+
             .default--form--wrapper {
                 .form--title {
                     text-align: center;
                     padding-bottom: 20px;
                 }
+
                 form {
                     display: grid;
-                    grid-template-columns: repeat(2,1fr);
+                    grid-template-columns: repeat(2, 1fr);
                     gap: 30px;
+
                     @media (max-width:767px) {
-                        grid-template-columns: repeat(1,1fr);
+                        grid-template-columns: repeat(1, 1fr);
                     }
+
                     .form--group {
                         display: flex;
                         flex-direction: column;
                         gap: 10px;
                         justify-content: space-between;
-                        input, select {
+
+                        input,
+                        select {
                             padding: 15px 0;
                             border-bottom: 1px solid $black;
                         }
+
                         textarea {
                             padding: 8px 0;
                             border-bottom: 1px solid $black;
                             resize: none;
                         }
                     }
+
                     .form--checkbox {
                         display: flex;
                         justify-content: space-between;
                         align-items: flex-start;
                         gap: 15px;
+
                         @media (max-width:767px) {
                             flex-wrap: wrap;
                         }
+
                         input[type=checkbox] {
                             accent-color: $blue;
                             width: 15px;
@@ -217,22 +303,26 @@
                             position: relative;
                             top: 1px;
                         }
+
                         .lost--password {
                             a {
                                 &:hover {
                                     color: $blue;
                                 }
                             }
-                        }    
+                        }
                     }
+
                     .form--checkbox--option {
                         display: flex;
                         align-items: flex-start;
-                        gap:15px;
+                        gap: 15px;
                         border-bottom: 1px solid $black;
                         min-height: 80px;
+
                         .checkbox--option {
                             width: fit-content;
+
                             input[type=checkbox] {
                                 accent-color: $blue;
                                 width: 15px;
@@ -242,14 +332,17 @@
                             }
                         }
                     }
+
                     .form--radio--option {
                         display: flex;
                         align-items: flex-start;
-                        gap:15px;
+                        gap: 15px;
                         border-bottom: 1px solid $black;
                         min-height: 80px;
+
                         .radio--option {
                             width: fit-content;
+
                             input[type=radio] {
                                 accent-color: $blue;
                                 width: 15px;
@@ -259,13 +352,16 @@
                             }
                         }
                     }
+
                     .form--action {
                         grid-column: span 2;
                         @include flex();
                         gap: 15px;
+
                         @media (max-width:767px) {
                             grid-column: span 1;
                         }
+
                         .submit--from {
                             width: 100%;
                         }
@@ -275,84 +371,112 @@
         }
     }
 }
+
 .static--popup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(146,146,146,.95);
+    background-color: rgba(146, 146, 146, .95);
     display: none;
     align-items: flex-start;
     justify-content: center;
     padding: 60px 15px 60px;
     z-index: 999;
     overflow-y: auto;
+
     &::-webkit-scrollbar {
         width: 4px;
-      }
-      &::-webkit-scrollbar-track {
+    }
+
+    &::-webkit-scrollbar-track {
         background: lighten($black, 90%);
-      }
-      &::-webkit-scrollbar-thumb {
+    }
+
+    &::-webkit-scrollbar-thumb {
         background: $blue;
-      }
-      &::-webkit-scrollbar-thumb:hover {
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
         background: $blue;
-      }
+    }
+
     &.active--popup {
         display: flex;
     }
+
     .static--popup--wrapper {
         max-width: 660px;
         margin: 0 auto;
         background-color: $white;
-        
+
         .static--form {
             padding: 50px;
-           
+
             @media (max-width:767px) {
                 padding: 35px 15px;
             }
-            
+
             .static--form--wrapper {
                 .form--title {
                     text-align: center;
                     padding-bottom: 20px;
                 }
+
                 form {
                     display: grid;
-                    grid-template-columns: repeat(2,1fr);
+                    grid-template-columns: repeat(2, 1fr);
                     gap: 30px;
+
                     @media (max-width:767px) {
-                        grid-template-columns: repeat(1,1fr);
+                        grid-template-columns: repeat(1, 1fr);
                     }
+
                     .form--group {
                         display: flex;
                         flex-direction: column;
                         gap: 10px;
                         justify-content: space-between;
-                        input, select {
+
+                        input,
+                        select {
                             padding: 15px 0;
                             border-bottom: 1px solid $black;
                         }
+
                         textarea {
                             padding: 8px 0;
                             border-bottom: 1px solid $black;
                             resize: none;
                         }
+
                         &.span--2 {
                             grid-column: span 2;
                         }
                     }
+
+                    .password--container {
+                        position: relative;
+
+                        .password-hide--show {
+                            position: absolute;
+                            bottom: 15px;
+                            right: 20px;
+                        }
+                    }
+                    
+
                     .form--checkbox {
                         display: flex;
                         justify-content: space-between;
                         align-items: flex-start;
                         gap: 15px;
+
                         @media (max-width:767px) {
                             flex-wrap: wrap;
                         }
+
                         input[type=checkbox] {
                             accent-color: $blue;
                             width: 15px;
@@ -360,22 +484,26 @@
                             position: relative;
                             top: 1px;
                         }
+
                         .lost--password {
                             a {
                                 &:hover {
                                     color: $blue;
                                 }
                             }
-                        }    
+                        }
                     }
+
                     .form--checkbox--option {
                         display: flex;
                         align-items: flex-start;
-                        gap:15px;
+                        gap: 15px;
                         border-bottom: 1px solid $black;
                         min-height: 80px;
+
                         .checkbox--option {
                             width: fit-content;
+
                             input[type=checkbox] {
                                 accent-color: $blue;
                                 width: 15px;
@@ -385,14 +513,17 @@
                             }
                         }
                     }
+
                     .form--radio--option {
                         display: flex;
                         align-items: flex-start;
-                        gap:15px;
+                        gap: 15px;
                         border-bottom: 1px solid $black;
                         min-height: 80px;
+
                         .radio--option {
                             width: fit-content;
+
                             input[type=radio] {
                                 accent-color: $blue;
                                 width: 15px;
@@ -402,13 +533,16 @@
                             }
                         }
                     }
+
                     .form--action {
                         grid-column: span 2;
                         @include flex();
                         gap: 15px;
+
                         @media (max-width:767px) {
                             grid-column: span 1;
                         }
+
                         .submit--from {
                             width: 100%;
                         }
@@ -422,21 +556,25 @@
 .session--out--popup--main {
     .default--popup--wrapper {
         max-width: 500px;
+
         .session--out--popup {
             padding: clamp(20px, 3vw, 40px);
             text-align: center;
+
             h3 {
                 font-size: clamp(16px, 1.1vw, 18px);
                 margin-bottom: 20px;
             }
+
             .btn {
                 padding: clamp(10px, 1.1vw, 10px) clamp(30px, 2vw, 30px);
                 min-height: 40px;
             }
         }
     }
-    
+
 }
+
 .back--form--btn {
     span {
         color: $dark-blue;
@@ -447,53 +585,62 @@
 .default--popup {
     .form--services {
         .from--wrapper {
-            top:16%;
+            top: 16%;
         }
     }
-   
+
 }
 
 .user--action--popup {
     align-items: center;
+
     .default--popup--wrapper {
         max-width: 500px;
+
         .user--action--datta {
             padding: 30px 30px 60px;
+
             @media (max-width:767px) {
                 padding: 30px 15px;
             }
+
             h2 {
                 text-align: center;
                 padding-bottom: 10px;
-                font-size: clamp(20px,2vw, 30px);
+                font-size: clamp(20px, 2vw, 30px);
             }
+
             ul {
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
                 text-align: center;
+
                 li {
-                    padding-block:20px;
+                    padding-block: 20px;
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
+
                     .request--service--btn {
                         display: flex;
                         gap: 15px;
                         margin-top: 30px;
                         justify-content: center;
+
                         @media (max-width:500px) {
                             margin-top: 20px;
                             flex-direction: column;
                             align-items: center;
                         }
                     }
+
                     .btn {
                         width: max-content;
                         padding: clamp(10px, 1.1vw, 10px) clamp(30px, 2vw, 30px);
                         min-height: 40px;
                     }
-                    
+
                     h3 {
                         font-size: 18px;
                         font-weight: 500;
@@ -502,5 +649,5 @@
             }
         }
     }
-    
-} 
+
+}

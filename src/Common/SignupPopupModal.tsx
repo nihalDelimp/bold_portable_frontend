@@ -15,6 +15,7 @@ import {
 
 function SignupPopupModal() {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -157,15 +158,27 @@ function SignupPopupModal() {
                 placeholder="Address"
               />
             </div>
-            <div className="form--group">
+            <div className="form--group password--container">
               <label htmlFor="password">
                 Password <span className="required">*</span>
               </label>
+              <a
+                className={`form-icon form-icon-right passcode-switch password-hide--show lg ${showPassword ? "is-hiden" : "is-shown"
+                  } `}
+                onClick={() => setShowPassword(!showPassword)}
+                data-target="password"
+              >
+                {showPassword ? (
+                  <em className="passcode-icon icon-show icon ni ni-eye"></em>
+                ) : (
+                  <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                )}
+              </a>
               <input
                 required
                 minLength={minUserPasswordLength}
                 maxLength={maxUserPasswordLength}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={user.password}
                 name="password"
                 onChange={handleChange}
