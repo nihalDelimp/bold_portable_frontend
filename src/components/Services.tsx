@@ -32,6 +32,7 @@ function Services(props: MyComponentProps) {
   const [serviceTypes, setServiceTypes] = useState<string[]>([]);
   const [quotationId, setquotationId] = useState<string | null>("");
   const [quotationType, setquotationType] = useState<any>("");
+  const [qrId, setQrId] = useState<any>("");
   const [serviceName, setServiceName] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
@@ -141,6 +142,7 @@ function Services(props: MyComponentProps) {
     const params = new URLSearchParams(window.location.search);
     const quotation_Id = params.get("quotationId");
     const quotation_Type = params.get("quotationType");
+    const qr_Id = params.get("qrId");
     if (quotation_Id) {
       setquotationId(quotation_Id.toString());
       setShowModal(true);
@@ -148,6 +150,9 @@ function Services(props: MyComponentProps) {
     if (quotation_Type) {
       setServiceName(quotation_Type.toString());
       setquotationType(quotation_Type?.toLowerCase().toString());
+    }
+     if (qr_Id) {
+      setQrId(qr_Id)
     }
   }, []);
 
@@ -231,6 +236,7 @@ function Services(props: MyComponentProps) {
       serviceTypes: allServiceType,
       quotationId: quotationId,
       quotationType: quotationType,
+      qrId:qrId,
       name: userName?.trim(),
       email: userEmail?.trim(),
       phone: userPhone?.trim(),
@@ -261,6 +267,9 @@ function Services(props: MyComponentProps) {
       }
       if (payload.quotationType !== null) {
         formData.append("quotationType", payload.quotationType);
+      }
+      if (payload.qrId !== null) {
+        formData.append("qrId", payload.qrId);
       }
       formData.append("name", payload.name);
       formData.append("email", payload.email);
