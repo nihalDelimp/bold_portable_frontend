@@ -15,6 +15,8 @@ import { trimObjValues } from "../Helper";
 function SigninPopupModal() {
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const dispatch = useDispatch();
 
   const [userInput, setUserInput] = useState({
@@ -78,7 +80,7 @@ function SigninPopupModal() {
           if (response.data.status === 1) {
             const resData = response.data.data
             const userType = resData.user.user_type;
-            if(userType === "ADMIN"){
+            if (userType === "ADMIN") {
               toast.error("You don't have authorization!!")
             }
             else {
@@ -92,7 +94,7 @@ function SigninPopupModal() {
                 ?.classList.remove("active--popup");
             }
           }
-           else {
+          else {
             toast.error(response.data?.message);
           }
         },
@@ -127,7 +129,7 @@ function SigninPopupModal() {
   return (
     <>
       <section className="custom--popup">
-      <span className="close--login">x</span>
+        <span className="close--login">x</span>
         <div className="custom--popup--wrapper">
           <div className="switcher--tabs">
             <ul>
@@ -168,14 +170,26 @@ function SigninPopupModal() {
                   />
                 </div>
 
-                <div className="form--group">
+                <div className="form--group password--container">
                   <label htmlFor="password">
                     Password <span className="required">*</span>
                   </label>
+                  <a
+                    className={`form-icon form-icon-right passcode-switch password-hide--show lg ${showPassword ? "is-hiden" : "is-shown"
+                      } `}
+                    onClick={() => setShowPassword(!showPassword)}
+                    data-target="password"
+                  >
+                    {showPassword ? (
+                      <em className="passcode-icon icon-show icon ni ni-eye"></em>
+                    ) : (
+                      <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                    )}
+                  </a>
                   <input
                     required
                     minLength={8}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={userInput.password}
                     name="password"
                     onChange={handleChange}

@@ -52,6 +52,12 @@ function ContactUs(props: MyComponentProps) {
     }
   };
 
+  const handleModalClose = () => {
+    setShowSuccessPopup(false);
+  };
+
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = trimObjValues(userData);
@@ -72,7 +78,8 @@ function ContactUs(props: MyComponentProps) {
           (response) => {
             setLoading(false);
             if (response.data.status === 1) {
-              toast.success(response.data.message);
+              // toast.success(response.data.message);
+              setShowSuccessPopup(true);
               setUserData({
                 first_name: "",
                 last_name: "",
@@ -82,6 +89,11 @@ function ContactUs(props: MyComponentProps) {
                 message: "",
                 feedback: "",
               });
+
+              // setTimeout(() => {
+              //   setShowSuccessPopup(false);
+              // }, 3000);
+
             } else {
               toast.error(response.data?.message);
             }
@@ -103,6 +115,10 @@ function ContactUs(props: MyComponentProps) {
           console.log("errorrrr", error);
         });
     }
+  };
+
+  const handleRedirect = () => {
+    window.location.href = '/';
   };
 
   return (
@@ -334,6 +350,17 @@ function ContactUs(props: MyComponentProps) {
           </div>
         </div>
       </section>
+
+      {showSuccessPopup && (
+        <div id="success--popup" className="success--container">
+          <span id="close--modal" onClick={handleModalClose}>x</span>
+          <div className="success--content">
+            <p>Your request has been submited. One of our team members will be contacting you shortly.</p>
+            <button onClick={handleRedirect} className="btn">Go to Home Page</button>
+          </div>
+        </div>
+      )}
+
     </>
   );
 }

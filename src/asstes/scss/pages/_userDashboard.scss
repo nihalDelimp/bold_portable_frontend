@@ -775,6 +775,15 @@
                                         padding: 14px 20px;
                                     }
                                 }
+                                .password--container {
+                                    position: relative;
+
+                                    .password-hide--show {
+                                        position: absolute;
+                                        bottom: 12px;
+                                        right: 20px;
+                                    }
+                                }
                             }
                         }
                     }

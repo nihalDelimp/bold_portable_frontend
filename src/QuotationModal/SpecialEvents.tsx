@@ -825,7 +825,6 @@ function SpecialEvents() {
                   </label>
                   <input
                     type="text"
-                    required
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"

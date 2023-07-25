@@ -35,6 +35,7 @@ interface quotationType {
   maleWorkers: number;
   totalWorkers: number;
   productTypes: string;
+  restrictedAccessDescription : string
 }
 
 interface coordinatorType {
@@ -86,6 +87,7 @@ const FarmWinery: React.FC = () => {
     maleWorkers: 0,
     totalWorkers: 0,
     productTypes: "standard",
+    restrictedAccessDescription :''
   });
 
   const [placementLocation, setPlacementLocation] = useState({
@@ -230,6 +232,7 @@ const FarmWinery: React.FC = () => {
       maleWorkers: 0,
       totalWorkers: 0,
       productTypes: "standard",
+      restrictedAccessDescription : ''
     });
     setFormStep(1);
   };
@@ -555,6 +558,21 @@ const FarmWinery: React.FC = () => {
                     placeholder="Select date till use"
                   />
                 </div>
+                {quotation.restrictedAccess && (
+                  <div className="form--group">
+                    <label>
+                    Please give us details why is it Restricted? <span className="required"></span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={quotation.restrictedAccessDescription}
+                      onChange={handleChangeQuotation}
+                      name="restrictedAccessDescription"
+                      placeholder="Restricted access details"
+                    />
+                  </div>
+                )}
                 {/* <div className="form--group">
                   <label htmlFor="name">
                     Would you like to ad handwashing sink ($50)<span className="required"></span>
@@ -630,14 +648,12 @@ const FarmWinery: React.FC = () => {
                     <option value="high rise capable">High Rise Capable</option>
                   </select>
                 </div>
-
                 <div className="form--group">
                   <label>
                     Special Requirements <span className="required"></span>
                   </label>
                   <input
                     type="text"
-                    required
                     value={quotation.special_requirements}
                     onChange={handleChangeQuotation}
                     name="special_requirements"

@@ -225,6 +225,12 @@ function Services(props: MyComponentProps) {
       });
   };
 
+  const handleModalClose = () => {
+    setShowSuccessPopup(false);
+  };
+
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let allServiceType = [...serviceTypes];
@@ -284,7 +290,8 @@ function Services(props: MyComponentProps) {
               if (socket.current) {
                 socket.current.emit("user_request_service", response.data.data);
               }
-              toast.success(response.data.message);
+              // toast.success(response.data.message);
+              setShowSuccessPopup(true);
               setOtherService(false);
               setOtherServiceName("");
               setServiceTypes([]);
@@ -318,6 +325,10 @@ function Services(props: MyComponentProps) {
   function handleLoad(maps: any) {
     setMap(maps);
   }
+
+  const handleRedirect = () => {
+    window.location.href = '/';
+  };
 
   return (
     <>
@@ -745,6 +756,17 @@ function Services(props: MyComponentProps) {
           </div>
         </div>
       </section>
+
+      {showSuccessPopup && (
+        <div id="success--popup" className="success--container">
+          <span id="close--modal" onClick={handleModalClose}>x</span>
+          <div className="success--content">
+            <p>Your request has been submited. One of our team members will be contacting you shortly.</p>
+            <button onClick={handleRedirect} className="btn">Go to Home Page</button>
+          </div>
+        </div>
+      )}
+
     </>
   );
 }
