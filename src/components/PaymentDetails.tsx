@@ -108,7 +108,7 @@ function PaymentDetails(props: MyComponentProps) {
                   />
                 </a>
               </span>{" "}
-              <span>Payment Details :</span>
+              <span>Payment Details</span>
             </span>
           </h2>
         </div>
@@ -116,39 +116,39 @@ function PaymentDetails(props: MyComponentProps) {
           <table>
             <tbody>
               <tr>
-                <th>Subscription ID :</th>
+                <th>Subscription ID</th>
                 <td>{subscription?.subscription?.slice(-8)?.toUpperCase()}</td>
               </tr>
               <tr>
-                <th>Name :</th>
+                <th>Name</th>
                 <td>{subscription?.user?.name}</td>
               </tr>
               <tr>
-                <th>Email Address :</th>
+                <th>Email Address</th>
                 <td>{subscription?.user?.email}</td>
               </tr>
               <tr>
-                <th>Phone Number :</th>
+                <th>Phone Number</th>
                 <td>{subscription?.user?.mobile}</td>
               </tr>
               <tr>
-                <th>Status :</th>
+                <th>Status</th>
                 <td>{subscription?.status}</td>
               </tr>
               <tr>
-                <th>Type :</th>
+                <th>Type</th>
                 <td>{replaceHyphenCapitolize(subscription?.quotationType)}</td>
               </tr>
               <tr>
-                <th>Created At :</th>
+                <th>Created At</th>
                 <td>{getFormatedDate(subscription?.createdAt)}</td>
               </tr>
               <tr>
-                <th>Amount Paid :</th>
+                <th>Amount Paid</th>
                 <td>{totalPaid}</td>
               </tr>
               <tr>
-                <th>Pick up Price :</th>
+                <th>Pick up Price</th>
                 <td>{costDetails && costDetails?.pickUpPrice}</td>
               </tr>
             </tbody>

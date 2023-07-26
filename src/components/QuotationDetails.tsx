@@ -156,7 +156,7 @@ function QuotationDetails(props: MyComponentProps) {
                   />
                 </a>
               </span>{" "}
-              <span>Quotation Details :</span>
+              <span>Quotation Details</span>
             </span>
           </h2>
         </div>
@@ -168,7 +168,7 @@ function QuotationDetails(props: MyComponentProps) {
                 <td>{quotation?.coordinator?.name}</td>
               </tr>
               <tr>
-                <th>Email Address </th>
+                <th>Email Address</th>
                 <td>{quotation?.coordinator?.email}</td>
               </tr>
               <tr>
@@ -213,46 +213,46 @@ function QuotationDetails(props: MyComponentProps) {
                 <td>{quotation?.femaleWorkers}</td>
               </tr>
               <tr>
-                <th>Service Frequency:</th>
+                <th>Service Frequency</th>
                 <td>{quotation?.serviceFrequency}</td>
               </tr>
               <tr>
-                <th>Weekly Hours:</th>
+                <th>Weekly Hours</th>
                 <td>{quotation?.weeklyHours}</td>
               </tr>
               {quotation?.costDetails?.handSanitizerPumpCost > 0 && (
                 <tr>
-                  <th>Hand Sanitizer Pump Cost:</th>
+                  <th>Hand Sanitizer Pump Cost</th>
                   <td>{quotation?.costDetails?.handSanitizerPumpCost}</td>
                 </tr>
               )}
               {quotation?.costDetails?.handWashingCost > 0 && (
                 <tr>
-                  <th>Hand Washing Cost:</th>
+                  <th>Hand Washing Cost</th>
                   <td>{quotation?.costDetails?.handWashingCost}</td>
                 </tr>
               )}
               {quotation?.costDetails?.useAtNightCost > 0 && (
                 <tr>
-                  <th>Use at Night Cost:</th>
+                  <th>Use at Night Cost</th>
                   <td>{quotation?.costDetails?.useAtNightCost}</td>
                 </tr>
               )}
               {quotation?.costDetails?.useInWinterCost > 0 && (
                 <tr>
-                  <th>Use in Winter Cost:</th>
+                  <th>Use in Winter Cost</th>
                   <td>{quotation?.costDetails?.useInWinterCost}</td>
                 </tr>
               )}
               {quotation?.costDetails?.numberOfUnitsCost > 0 && (
                 <tr>
-                  <th>Number Of Unit(s) Cost:</th>
+                  <th>Number Of Unit(s) Cost</th>
                   <td>{quotation?.costDetails?.numberOfUnitsCost}</td>
                 </tr>
               )}
               {quotation?.costDetails?.pickUpPrice > 0 && (
                 <tr>
-                  <th>Pickup Price:</th>
+                  <th>Pickup Price</th>
                   <td>{quotation?.costDetails?.pickUpPrice}</td>
                 </tr>
               )}

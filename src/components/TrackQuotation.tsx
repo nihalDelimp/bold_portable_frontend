@@ -78,13 +78,13 @@ function TrackQuotation(props: MyComponentProps) {
                   />
                 </a>
               </span>{" "}
-              <span>Tracking Quotation :</span>
+              <span>Tracking Quotation</span>
             </span>
           </h2>
         </div>
         <div className="track--order--wrapper">
           <div className="order--id">
-            <h3>Track Order :</h3>
+            {/* <h3>Track Order</h3> */}
           </div>
           <div className="order--status">
             <span>Status - </span>{" "}
