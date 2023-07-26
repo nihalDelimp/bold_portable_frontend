@@ -17,7 +17,7 @@ function PaymentDetails(props: MyComponentProps) {
   const [paymentDetail, setPaymentDetail] = useState<any>({});
   const [subscription, setSubscription] = useState<any>({});
   const [costDetails, setCostDetails] = useState<any>({});
-  const [totalPaid, setTotalPaid] = useState(null);
+  const [totalPaid, setTotalPaid] = useState<number>(0);
 
   useEffect(() => {
     getsubscriptionDetails();
@@ -34,26 +34,14 @@ function PaymentDetails(props: MyComponentProps) {
             const resData = response.data.data;
             setPaymentDetail(resData.payments[0].payment);
             setSubscription(resData.payments[0].subscription);
-            const costDetail = resData.payments[1].costDetails;
-            const totalPaid =
-              costDetail.activelyCleaned +
-              costDetail.alcoholServed +
-              costDetail.deliveryPrice +
-              costDetail.fencedOff +
-              costDetail.handSanitizerPump +
-              costDetail.handSanitizerPumpCost +
-              costDetail.handWashing +
-              costDetail.handWashingCost +
-              costDetail.numberOfUnitsCost +
-              costDetail.payPerUse +
-              costDetail.pickUpPrice +
-              costDetail.serviceFrequencyCost +
-              costDetail.specialRequirementsCost +
-              costDetail.twiceWeeklyServicing +
-              costDetail.useAtNightCost +
-              costDetail.useInWinterCost +
-              costDetail.workersCost;
-            setTotalPaid(totalPaid);
+            const costDetail: { [key: string]: number } =
+              resData?.payments[1]?.costDetails;
+            const totalCost: number = Object.values(costDetail).reduce(
+              (accumulator: number, currentValue: number) =>
+                accumulator + currentValue,
+              0
+            );
+            setTotalPaid(totalCost);
             setCostDetails(costDetail);
           }
         },

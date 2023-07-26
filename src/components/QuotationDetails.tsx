@@ -185,10 +185,13 @@ function QuotationDetails(props: MyComponentProps) {
                 <th>Type</th>
                 <td>{replaceHyphenCapitolize(quotationType)}</td>
               </tr>
-              <tr>
-                <th>Delivery Price</th>
-                <td>{quotation?.costDetails?.deliveryPrice}</td>
-              </tr>
+              {quotation?.costDetails &&
+                quotation?.costDetails?.deliveryPrice > 0 && (
+                  <tr>
+                    <th>Delivery Price</th>
+                    <td>{quotation?.costDetails?.deliveryPrice}</td>
+                  </tr>
+                )}
               <tr>
                 <th>Distance From Kelowna</th>
                 <td>{quotation?.distanceFromKelowna} KM</td>
@@ -217,34 +220,48 @@ function QuotationDetails(props: MyComponentProps) {
                 <th>Weekly Hours:</th>
                 <td>{quotation?.weeklyHours}</td>
               </tr>
-              <tr>
-                <th>Hand Sanitizer Pump Cost:</th>
-                <td>{quotation?.costDetails?.handSanitizerPumpCost}</td>
-              </tr>
-              <tr>
-                <th>Hand Washing Cost:</th>
-                <td>{quotation?.costDetails?.handWashingCost}</td>
-              </tr>
-              <tr>
-                <th>Use at Night Cost:</th>
-                <td>{quotation?.costDetails?.useAtNightCost}</td>
-              </tr>
-              <tr>
-                <th>Use in Winter Cost:</th>
-                <td>{quotation?.costDetails?.useInWinterCost}</td>
-              </tr>
-              <tr>
-                <th>Number Of Unit(s) Cost:</th>
-                <td>{quotation?.costDetails?.numberOfUnitsCost}</td>
-              </tr>
-              <tr>
-                <th>Pickup Price:</th>
-                <td>{quotation?.costDetails?.pickUpPrice}</td>
-              </tr>
-              <tr>
-                <th>Total Amount</th>
-                <td>${quotation?.costDetailsSum}</td>
-              </tr>
+              {quotation?.costDetails?.handSanitizerPumpCost > 0 && (
+                <tr>
+                  <th>Hand Sanitizer Pump Cost:</th>
+                  <td>{quotation?.costDetails?.handSanitizerPumpCost}</td>
+                </tr>
+              )}
+              {quotation?.costDetails?.handWashingCost > 0 && (
+                <tr>
+                  <th>Hand Washing Cost:</th>
+                  <td>{quotation?.costDetails?.handWashingCost}</td>
+                </tr>
+              )}
+              {quotation?.costDetails?.useAtNightCost > 0 && (
+                <tr>
+                  <th>Use at Night Cost:</th>
+                  <td>{quotation?.costDetails?.useAtNightCost}</td>
+                </tr>
+              )}
+              {quotation?.costDetails?.useInWinterCost > 0 && (
+                <tr>
+                  <th>Use in Winter Cost:</th>
+                  <td>{quotation?.costDetails?.useInWinterCost}</td>
+                </tr>
+              )}
+              {quotation?.costDetails?.numberOfUnitsCost > 0 && (
+                <tr>
+                  <th>Number Of Unit(s) Cost:</th>
+                  <td>{quotation?.costDetails?.numberOfUnitsCost}</td>
+                </tr>
+              )}
+              {quotation?.costDetails?.pickUpPrice > 0 && (
+                <tr>
+                  <th>Pickup Price:</th>
+                  <td>{quotation?.costDetails?.pickUpPrice}</td>
+                </tr>
+              )}
+              {quotation?.costDetailsSum > 0 && (
+                <tr>
+                  <th>Total Amount</th>
+                  <td>${quotation?.costDetailsSum}</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
