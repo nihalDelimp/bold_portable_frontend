@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
-import io, { Socket } from "socket.io-client";
+// import io, { Socket } from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { saveNotification } from "../Redux/Reducers/notification";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Notifications = (props: any) => {
   const { setLoading } = props;
@@ -17,14 +17,15 @@ const Notifications = (props: any) => {
     (state: RootState) => state.notification
   );
 
-  const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+  // const socket = useRef<Socket>();
+  // socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
-  useEffect(() => {
-    if (accessToken) {
-      getAllNotifications();
-    }
-  }, []);
+
+  // useEffect(() => {
+  //   if (accessToken) {
+  //     getAllNotifications();
+  //   }
+  // }, []);
 
 
   // useEffect(() => {

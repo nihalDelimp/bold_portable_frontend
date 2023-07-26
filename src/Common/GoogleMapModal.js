@@ -7,9 +7,9 @@ import {
 } from "@react-google-maps/api";
 import IsLoadingHOC from "./IsLoadingHOC";
 import { authAxios } from "../config/config";
-import io, { Socket } from "socket.io-client";
+// import io, { Socket } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
+// import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
 import { removeAllItems } from "../Redux/Reducers/productSlice";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,7 @@ function GoogleMapModal(props) {
   const dispetch = useDispatch();
   const navigate = useNavigate();
 
-  const socket = useRef();
+  // const socket = useRef();
 
   const { setLoading, isLoading } = props
   const [latLng, setCurrentLatLng] = useState(null)
@@ -34,13 +34,13 @@ function GoogleMapModal(props) {
   const [mapLoading, setMaptLoading] = useState(false)
 
 
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+  // socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
-  useEffect(() => {
-    return () => {
-      socket.current?.disconnect();
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     socket.current?.disconnect();
+  //   };
+  // }, []);
 
   var options = {
     enableHighAccuracy: true,
@@ -176,9 +176,11 @@ function GoogleMapModal(props) {
         (response) => {
           setMaptLoading(false);
           if (response.data.status === 1) {
-            if (socket.current) {
-              socket.current.emit("new_order", response.data.data);
-            }
+
+            // if (socket.current) {
+            //   socket.current.emit("new_order", response.data.data);
+            // }
+
             toast.success(response.data?.message);
             dispetch(removeAllItems());
             closeModal()
