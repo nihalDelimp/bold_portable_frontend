@@ -163,8 +163,8 @@ function ContactUs(props: MyComponentProps) {
                           </span>
                           <div className="details--item">
                             <h3>Email us</h3>
-                            <Link to={"mailto:boldportable@mail.com"}>
-                              boldportable@mail.com
+                            <Link to={"mailto:info@go-bold.ca"}>
+                              info@go-bold.ca
                             </Link>
                           </div>
                         </div>
@@ -180,8 +180,8 @@ function ContactUs(props: MyComponentProps) {
                           </span>
                           <div className="details--item">
                             <h3>Phone</h3>
-                            <Link to={"tel:+0123456789"}>
-                              +0 123456789  
+                            <Link to={"tel:+1 (250) 869-5444"}>
+                            +1 (250) 869-5444 
                             </Link>
                           </div>
                         </div>
