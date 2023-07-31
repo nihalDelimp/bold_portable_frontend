@@ -16,10 +16,23 @@ const Footer = (props: MyComponentProps) => {
   const [base64QRCode, setBase64QRCode] = useState(null);
   const [email, setEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  
+  const [accepted, setIsaccepted] = useState<boolean>(false);
 
-  useEffect(() => {
-  //  getBase64QRCodeData();
-  }, []);
+  const Isaccepted = localStorage.getItem('cookie-accepted')
+
+  useEffect(()=>{
+  
+    setIsaccepted(!accepted)
+  
+  },[accepted])
+  
+  const  handleCookieClick=()=>{
+  
+    localStorage.setItem('cookie-accepted', "true")
+    setIsaccepted(true)
+  
+  }
 
   const getBase64QRCodeData = async () => {
     setLoading(true);
@@ -79,6 +92,7 @@ const Footer = (props: MyComponentProps) => {
   };
 
   return (
+    <>
     <footer className="footer">
       <div className="grid--container">
         <div className="grid">
@@ -244,6 +258,11 @@ const Footer = (props: MyComponentProps) => {
         </div>
       </div>
     </footer>
+  {Isaccepted!=="true" && <div className="cookies--div" id="cookies--popup">
+      <p>We use cookies to ensure you have the best browsing experience on our website. By using our site, you acknowledge that you have read and understood our <Link to="#">Cookie Policy</Link> & <Link to="#">Privacy Policy</Link> </p>
+      <a href="#" className="btn" id="btncookies" onClick={handleCookieClick}>Got It ! </a>
+    </div>}
+     </>
   );
 };
 
