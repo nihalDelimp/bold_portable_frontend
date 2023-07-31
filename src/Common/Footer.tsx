@@ -18,7 +18,7 @@ const Footer = (props: MyComponentProps) => {
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
-    getBase64QRCodeData();
+  //  getBase64QRCodeData();
   }, []);
 
   const getBase64QRCodeData = async () => {

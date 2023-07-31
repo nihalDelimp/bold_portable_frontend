@@ -7,6 +7,7 @@ import {
 } from "@react-google-maps/api";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
+import {originPoint} from '../Helper/constants'
 
 const mapContainerStyle = { width: "100%", height: "600px" };
 const libraries : any[] = ["places"]
@@ -81,8 +82,8 @@ const GoogleMaps = (props: any) => {
   };
 
   useEffect(() => {
-    getCurrentLocation();
-    setMount(!isMount)
+  //  getCurrentLocation();
+   // setMount(!isMount)
   }, []);
 
   function handleLoad(maps: any) {
@@ -151,9 +152,9 @@ const GoogleMaps = (props: any) => {
         <div className="p--0 grid----">
           <div className="grid--wrapper">
             <div className="map--wrapper">
-              {isLoaded && latLng && latLng.lat && latLng.lng && (
+              {isLoaded && originPoint && originPoint.lat && originPoint.lng && (
                 <GoogleMap
-                  center={latLng}
+                  center={originPoint}
                   zoom={15}
                   mapContainerStyle={mapContainerStyle}
                   onLoad={handleLoad}
@@ -161,7 +162,7 @@ const GoogleMaps = (props: any) => {
                   <MarkerF
                     draggable
                     onDragEnd={handleDragEnd}
-                    position={latLng}
+                    position={originPoint}
                   />
                   <Autocomplete onPlaceChanged={onPlaceChanged}>
                     <div className="from--wrapper">
@@ -216,7 +217,6 @@ const GoogleMaps = (props: any) => {
                           className="current--location"
                           data-aos="fade-up"
                           data-aos-duration="1000"
-                          onClick={getCurrentLocation}
                         >
                           <span className="icon">
                             <img
