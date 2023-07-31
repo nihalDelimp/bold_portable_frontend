@@ -469,6 +469,8 @@ function SpecialEvents() {
                     <option value="Sporting Event">Sporting Event</option>
                     <option value="Fair">Fair</option>
                     <option value="Festival">Festival</option>
+                    <option value="Other">Other</option>
+
                   </select>
                 </div>
                 <div className="form--group">
