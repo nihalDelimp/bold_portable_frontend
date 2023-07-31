@@ -188,6 +188,7 @@ function SignupPopupModal() {
             <div className="form--checkbox">
               <label htmlFor="rememberme">
                 <input
+                  required
                   className=""
                   name="rememberme"
                   type="checkbox"

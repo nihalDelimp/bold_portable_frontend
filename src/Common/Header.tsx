@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/authSlice";
 import Notifications from "./Notifications";
-import MyCart from "./MyCart";
+// import MyCart from "./MyCart";
 import SigninPopupModal from "./SigninPopupModal";
 import { firstChartByFullName } from "../Helper";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -201,11 +201,11 @@ const Header = () => {
                         Request Service
                       </Link> */}
                     </li>
-                    <li className="nav--menu--item">
+                    {/* <li className="nav--menu--item">
                       <a href="#" className="menu--item">
                         Articles
                       </a>
-                    </li>
+                    </li> */}
                     <li className="nav--menu--item">
                       <Link
                         to="/contact-us"
@@ -340,7 +340,7 @@ const Header = () => {
                 </div>
               </div>
               <Notifications />
-              <MyCart />
+              {/* <MyCart /> */}
             </div>
           </div>
         </div>

@@ -537,7 +537,7 @@ const DisasterRelief: React.FC = () => {
                 {quotation.restrictedAccess && (
                   <div className="form--group">
                     <label>
-                    Please give us details why is it Restricted? <span className="required"></span>
+                    Please give us details on how to access the restricted site. <span className="required"></span>
                     </label>
                     <input
                       type="text"
@@ -593,7 +593,7 @@ const DisasterRelief: React.FC = () => {
 
                 <div className="form--group">
                   <label>
-                    Disaster Nature <span className="required"> *</span>
+                  What is the nature of the disaster? Forest fire, flood, etc? <span className="required"> *</span>
                   </label>
                   <input
                     type="text"
@@ -601,12 +601,12 @@ const DisasterRelief: React.FC = () => {
                     value={quotation.disasterNature}
                     onChange={handleChangeQuotation}
                     name="disasterNature"
-                    placeholder="disaster nature"
+                    placeholder="What is the nature of the disaster? Forest fire, flood, etc?"
                   />
                 </div>
                 <div className="form--group">
                   <label>
-                    Hazards <span className="required">*</span>
+                  Are there any known hazards to access that we should be aware of? <span className="required">*</span>
                   </label>
                   <input
                     type="text"
@@ -614,12 +614,12 @@ const DisasterRelief: React.FC = () => {
                     value={quotation.hazards}
                     onChange={handleChangeQuotation}
                     name="hazards"
-                    placeholder="hazards"
+                    placeholder="Are there any known hazards to access that we should be aware of?"
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Production Type<span className="required"></span>
+                  What type of Unit/s would you like?<span className="required"></span>
                   </label>
                   <select
                     name="productTypes"

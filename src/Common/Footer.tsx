@@ -126,10 +126,10 @@ const Footer = (props: MyComponentProps) => {
               <div className="contact--details">
                 <ul>
                   <li data-aos="fade-up" data-aos-duration="1000">
-                    <a href="tel:+0123456789">+0 123456789</a>
+                    <a href="tel:+1 (250) 869-5444">+1 (250) 869-5444</a>
                   </li>
                   <li data-aos="fade-up" data-aos-duration="1000">
-                    <a href="mailto:bold@example.com">Bold@example.com</a>
+                    <a href="mailto:info@go-bold.ca">info@go-bold.ca</a>
                   </li>
                   {/* <li data-aos="fade-up" data-aos-duration="1000">
                     <div
@@ -231,13 +231,13 @@ const Footer = (props: MyComponentProps) => {
                 >
                   All Rights Reserved © 2023 Bold Portables INC
                 </p>
-                <div
+                {/* <div
                   className="design--by"
                   data-aos="fade-up"
                   data-aos-duration="1000"
                 >
                   <a href="#">Designed & Developed By Delimp</a>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

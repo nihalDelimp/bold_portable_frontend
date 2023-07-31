@@ -80,7 +80,7 @@ const HomePage = () => {
       {/* <MaintenanceServices /> */}
       <Customers />
       <GoogleMaps />
-      <Blog />
+      {/* <Blog /> */}
     </>
   );
 };

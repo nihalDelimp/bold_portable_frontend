@@ -44,7 +44,7 @@ const Customers = () => {
       >
         <div className="customer--logo">
           {" "}
-          <Link to={`#`}>
+          <Link to={`https://www.customvac.com/`} target="_blank">
             <img
               src={require("../asstes/image/customers/Custom-Vac.png")}
               alt=""
@@ -54,7 +54,7 @@ const Customers = () => {
         </div>
         <div className="customer--logo">
           {" "}
-          <Link to={`#`}>
+          <Link to={`https://www.polyjohn.com/`} target="_blank">
             <img
               src={require("../asstes/image/customers/Poly-John.png")}
               alt=""
@@ -64,7 +64,7 @@ const Customers = () => {
         </div>
         <div className="customer--logo">
           {" "}
-          <Link to={`#`}>
+          <Link to={`https://www.psai.org/`} target="_blank">
             <img
               src={require("../asstes/image/customers/PSAI.png")}
               alt=""

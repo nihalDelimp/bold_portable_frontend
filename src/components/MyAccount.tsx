@@ -244,6 +244,7 @@ function MyAccountNew(props: MyComponentProps) {
                 </div>
               </div>
               <div className="put--quoats">
+                <p className="head--image">Bold Portable</p>
                 <img src={require("../asstes/image/put--quots.png")} alt="" />
                  <a
                     onClick={() => navigate("/")}

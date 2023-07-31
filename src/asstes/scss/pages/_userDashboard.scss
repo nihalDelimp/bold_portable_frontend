@@ -97,6 +97,16 @@
                 @media (max-width:1024px) {
                     display: none;
                 }
+                .head--image {
+                    position: absolute;
+                    max-width: 100px;
+                    width: 100%;
+                    color: white;
+                    left: 21px;
+                    top: 35px;
+                    line-height: inherit;
+                    font-weight: 600;
+                }
                 img {
                     width: 100%;
                 }
@@ -728,9 +738,10 @@
                                     min-height: 40px;
                                     color: $dark-blue;
                                     font-weight: 400;
+                                    overflow: hidden;
                                     input {
                                         position: absolute;
-                                        left: 0;
+                                        left: -110px;
                                         top: 0;
                                         padding: 0px;
                                         min-height: 40px;

@@ -534,7 +534,7 @@ const RecreationalSite: React.FC = () => {
                 {quotation.restrictedAccess && (
                   <div className="form--group">
                     <label>
-                    Please give us details why is it Restricted? <span className="required"></span>
+                    Please give us details on how to access the restricted site. <span className="required"></span>
                     </label>
                     <input
                       type="text"
@@ -589,7 +589,7 @@ like twice weekly service? <span className="required"></span>
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Production Type<span className="required"></span>
+                  What type of Unit/s would you like?<span className="required"></span>
                   </label>
                   <select
                     name="productTypes"

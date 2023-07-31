@@ -7,6 +7,18 @@
     font-display: block;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+    border-radius:50px;
+    transition:0.3s;
+    padding:5px;
+    cursor:pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    background-color: #98CED0;
+}
+
+
 .ni {
     font-family: "Nioicon" !important;
     speak: never;
