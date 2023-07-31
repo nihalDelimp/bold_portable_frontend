@@ -204,7 +204,7 @@ function ContactUs(props: MyComponentProps) {
                             </address>
                           </div>
                         </div>
-                          <div style={{ margin: "36px" }}>
+                          <div style={{ margin: "36px", marginBottom: "0px" }}>
                               <b> Our team is here to help you!</b>
                           </div>
                       </li>
