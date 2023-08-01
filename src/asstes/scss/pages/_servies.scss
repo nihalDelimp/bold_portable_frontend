@@ -150,13 +150,11 @@
             .service--action {
                 .service--action--wrapper {
                     display: flex;
-                    @media (max-width:767px) {
-                        flex-direction: column;
-                        gap: 15px;
-                    }
+                    flex-direction: column;
+                    gap: 15px;
                     input {
                         padding: 15px;
-                        border-radius: 5px 0px 0px 5px;
+                        border-radius: 5px;
                         min-width: 400px;
                         @media (max-width:767px) {
                             min-width: auto;
@@ -167,7 +165,6 @@
                     button {
                         border-radius: 5px 5px 5px 5px;
                         &.btn--radius {
-                            border-radius: 0px 5px 5px 0px;
                             @media (max-width:767px) { 
                                 border-radius: 5px;
                             }

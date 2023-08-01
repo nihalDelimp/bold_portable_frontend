@@ -686,13 +686,23 @@
                             }
                             .edit--setting {
                                 cursor: pointer;
+                                background: $dark-blue;
+                                border-radius: 50px;
+                                width: 35px;
+                                aspect-ratio: 1;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
                                 &:hover {
+                                    background: #98ced0;
                                     i {
-                                        color: $yellow;
+                                        color: $black;
                                     }
                                 }
                                 i {
-                                    color: $dark-blue;
+                                    color: $white;
+                                    font-size: 16px;
+                                    margin-left: 4px;
                                     transition: $transition;
                                 }
                             }
@@ -784,7 +794,24 @@
                                         border: 1px solid lighten($black, 90%);
                                         border-radius: 5px;
                                         padding: 14px 20px;
+                                        background: #98ced054;
                                     }
+                                    
+                                    input[disabled] {
+                                        opacity: 0.5;
+                                        cursor: not-allowed;
+                                        background: $white;
+                                        color: $black;
+                                    }
+                                    
+                                    input[disabled]::placeholder {
+                                        color: $black !important;
+                                    }
+
+                                    input::placeholder {
+                                        color: $black;
+                                    }
+
                                 }
                                 .password--container {
                                     position: relative;
