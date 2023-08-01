@@ -23,12 +23,14 @@ interface MyComponentProps {
   isLoading: boolean;
 }
 
+
 function MyAccountNew(props: MyComponentProps) {
   const { setLoading, isLoading } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemPerPage] = useState<number>(100);
+  const [itemsPerPage, setItemPerPage] = useState<number>(10);
+  const [totalPages, setTotalPage] = useState<number>(0);
   const [myQuotations, setMyQuotations] = useState<any[]>([]);
   const [mySubscriptions, setMySubscriptions] = useState<any[]>([]);
   const [activeSidebar, setActiveSidebar] = useState<string>("DASHBOARD");
@@ -56,7 +58,9 @@ function MyAccountNew(props: MyComponentProps) {
   useEffect(() => {
     getMyQuotationsData();
     getMySubscriptionsData();
-  }, [activeSidebar]);
+  }, [currentPage, activeSidebar]);
+
+
 
   const getMyQuotationsData = async () => {
     setLoading(true);
@@ -69,6 +73,8 @@ function MyAccountNew(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
+            console.log(resData,"nIHAL")
+            setTotalPage(resData.pages)
             setMyQuotations(resData.quotations);
           }
         },
@@ -82,6 +88,21 @@ function MyAccountNew(props: MyComponentProps) {
       .catch((error) => {
         console.log("errorrrr", error);
       });
+  };
+
+  const decrement = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+      console.log('decrement')
+    }
+  };
+console.log(myQuotations,"Hareeee")
+  const increment = () => {
+    if (currentPage < 10) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      console.log('increment');
+
+    }
   };
 
   const getMySubscriptionsData = async () => {
@@ -176,8 +197,8 @@ function MyAccountNew(props: MyComponentProps) {
                         onClick={() => setActiveSidebar("MY_QUOTATIONS")}
                         className={
                           activeSidebar === "MY_QUOTATIONS" ||
-                          activeSidebar === "VIEW_QUOTATION" ||
-                          activeSidebar === "TRACK_ORDER"
+                            activeSidebar === "VIEW_QUOTATION" ||
+                            activeSidebar === "TRACK_ORDER"
                             ? "active"
                             : ""
                         }
@@ -195,7 +216,7 @@ function MyAccountNew(props: MyComponentProps) {
                         onClick={() => setActiveSidebar("MY_SUBSCRIPTIONS")}
                         className={
                           activeSidebar === "MY_SUBSCRIPTIONS" ||
-                          activeSidebar === "VIEW_PAYMENT"
+                            activeSidebar === "VIEW_PAYMENT"
                             ? "active"
                             : ""
                         }
@@ -246,11 +267,11 @@ function MyAccountNew(props: MyComponentProps) {
               <div className="put--quoats">
                 <p className="head--image">Bold Portable</p>
                 <img src={require("../asstes/image/put--quots.png")} alt="" />
-                 <a
-                    onClick={() => navigate("/")}
-                    href="#best--describes"
-                  >
-               Get a Quote
+                <a
+                  onClick={() => navigate("/")}
+                  href="#best--describes"
+                >
+                  Get a Quote
                 </a>
               </div>
             </div>
@@ -766,20 +787,16 @@ function MyAccountNew(props: MyComponentProps) {
                         </tbody>
                       </table>
                     </div>
+                    {myQuotations.length >= 10 && (
                     <div className="paginations">
-                      <ul>
-                        <li>
-                          <a className="btn" href="#">
-                            Previous Page
-                          </a>
-                        </li>
-                        <li>
-                          <a className="btn" href="#">
-                            Next Page
-                          </a>
-                        </li>
-                      </ul>
+                      <button disabled={currentPage === 1 ? true : false} onClick={decrement} className="btn">
+                      PREVIOUS PAGE
+                      </button>
+                      <button disabled={currentPage === totalPages ? true : false} onClick={increment} className="btn">
+                        NEXT PAGE
+                      </button>
                     </div>
+                    )}
                   </div>
                 )}
 
@@ -814,11 +831,10 @@ function MyAccountNew(props: MyComponentProps) {
                                   {replaceHyphenCapitolize(item.quotationType)}
                                 </td>
                                 <td
-                                  className={`${
-                                    item.status === "ACTIVE"
-                                      ? "active"
-                                      : "cancel"
-                                  }`}
+                                  className={`${item.status === "ACTIVE"
+                                    ? "active"
+                                    : "cancel"
+                                    }`}
                                 >
                                   {item.status}
                                 </td>

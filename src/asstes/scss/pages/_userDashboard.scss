@@ -494,6 +494,27 @@
                             }
                         }
                     }
+                    .paginations {
+                        align-items: center;
+                        display: flex;
+                        gap: 25px;
+                        justify-content: center;
+                        padding: 20px;
+
+                        button {
+                            background-color: initial;
+                            border: 1px solid #e6e6e6;
+                            font-weight: 500;
+                            font-family: 'Poppins';
+                            &::before{
+                                background-color: $blue;
+                            }
+                            &:hover{
+                                color: $black;
+                            }
+                        }
+                    }
+                    
                     .table--wrapper {
                         border: 1px solid lighten($black, 90%);
                         border-radius: 10px;

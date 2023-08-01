@@ -21,11 +21,11 @@ const Footer = (props: MyComponentProps) => {
 
   const Isaccepted = localStorage.getItem('cookie-accepted')
 
-  useEffect(()=>{
+  // useEffect(()=>{
   
-    setIsaccepted(!accepted)
+  //   setIsaccepted(!accepted)
   
-  },[accepted])
+  // },[accepted])
   
   const  handleCookieClick=()=>{
   
