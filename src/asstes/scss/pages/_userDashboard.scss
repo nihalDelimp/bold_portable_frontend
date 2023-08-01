@@ -714,18 +714,15 @@
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
-                                &:hover {
-                                    background: #98ced0;
-                                    i {
-                                        color: $black;
-                                    }
-                                }
                                 i {
                                     color: $white;
                                     font-size: 16px;
                                     margin-left: 4px;
                                     transition: $transition;
                                 }
+                            }
+                            .editable {
+                                background: #98ced0 !important;
                             }
                         }
                     }

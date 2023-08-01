@@ -40,8 +40,18 @@ function ProfileSetting(props: MyComponentProps) {
   const [currentImage, setCurrentImage] = useState("");
   const [prevImage, setPrevImage] = useState("");
 
+  
+
+
   useEffect(() => {
     getuserProfileData();
+
+    const myElement = document.getElementById("myElement");
+    if (myElement) {
+      myElement.classList.toggle("editable");
+      myElement.classList.toggle("not-editable");
+    }
+
   }, []);
 
   const getuserProfileData = async () => {
@@ -223,7 +233,7 @@ function ProfileSetting(props: MyComponentProps) {
             <span>Settings</span>{" "}
             <span
               onClick={() => setEditAble(!isEditAble)}
-              className="edit--setting"
+              className={`edit--setting ${isEditAble ? "editable" : "not-editable"}`}
             >
               <i className="fa-solid fa-user-pen"></i>
             </span>
