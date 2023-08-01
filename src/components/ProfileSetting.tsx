@@ -45,13 +45,6 @@ function ProfileSetting(props: MyComponentProps) {
 
   useEffect(() => {
     getuserProfileData();
-
-    const myElement = document.getElementById("myElement");
-    if (myElement) {
-      myElement.classList.toggle("editable");
-      myElement.classList.toggle("not-editable");
-    }
-
   }, []);
 
   const getuserProfileData = async () => {
