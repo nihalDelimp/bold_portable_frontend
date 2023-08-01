@@ -740,7 +740,7 @@ function Services(props: MyComponentProps) {
                     id="process--book--now"
                   >
                     <button type="button" className="btn">
-                      Rent a site
+                      Rent site
                     </button>
                   </a>
                   <button
