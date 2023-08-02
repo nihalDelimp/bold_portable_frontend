@@ -8,10 +8,10 @@
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-    border-radius:50px;
-    transition:0.3s;
-    padding:5px;
-    cursor:pointer;
+    border-radius: 50px;
+    transition: 0.3s;
+    padding: 5px;
+    cursor: pointer;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator:hover {
@@ -29,14 +29,15 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-  
-  .ni-eye:before {
+}
+
+.ni-eye:before {
     content: "\ea3c";
-  }
-  .ni-eye-off:before {
+}
+
+.ni-eye-off:before {
     content: "\ea3b";
-  }
+}
 
 #close--modal,
 .close--login,
@@ -163,10 +164,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
                     }
 
-                    .password--container{
+                    .password--container {
                         position: relative;
 
-                        .password-hide--show{
+                        .password-hide--show {
                             position: absolute;
                             bottom: 15px;
                             right: 20px;
@@ -280,15 +281,17 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
                     }
 
                     .form--group {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 10px;
-                        justify-content: space-between;
+
+                        label {
+                            width: 100%;
+                            display: block;
+                        }
 
                         input,
                         select {
                             padding: 15px 0;
                             border-bottom: 1px solid $black;
+                            width: 100%;
                         }
 
                         textarea {
@@ -477,7 +480,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
                             right: 20px;
                         }
                     }
-                    
+
 
                     .form--checkbox {
                         display: flex;
@@ -665,12 +668,38 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .react-datepicker__input-container {
-    input{
-        width: 100%;
+    &:before {
+        content: '';
+        width: 20px;
+        aspect-ratio: 1;
+        display: block;
+        background-image: url(../../image/calender--icon.svg);
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-size: 13px;
+        background-repeat: no-repeat;
+        background-position: 9px center;
+        z-index: 1;
+        transition: 0.3s;
+        border-radius: 50px;
+        padding: 6px;
+    }
+
+    &:hover::before {
+        background-color: #98CED0;
+    }
+
+    input {
+        z-index: 2;
+        position: relative;
+        background: transparent;
     }
 }
 
-.react-datepicker-popper[data-placement^=bottom] {
+.react-datepicker-popper[data-placement^=bottom],
+.react-datepicker-popper[data-placement^=top] {
     padding-top: 10px;
     width: fit-content;
 }
