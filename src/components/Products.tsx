@@ -87,7 +87,6 @@ const Products = (props: MyComponentProps) => {
   };
 
   const addToCartHandler = (item: any) => {
-    console.log("Clicked Add To Cart");
     dispatch(addToCart(item));
   };
 

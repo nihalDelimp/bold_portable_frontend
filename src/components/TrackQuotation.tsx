@@ -27,7 +27,6 @@ function TrackQuotation(props: MyComponentProps) {
   const [quotation, setQuotation] = useState<any>(null);
   const { user } = useSelector((state: RootState) => state.auth);
 
-  console.log("TrackQuotation>>Data", quotation);
 
   useEffect(() => {
     if (quotationID) {

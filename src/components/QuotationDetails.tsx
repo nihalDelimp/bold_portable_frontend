@@ -28,7 +28,6 @@ function QuotationDetails(props: MyComponentProps) {
   const [quotation, setQuotation] = useState<any>(null);
   const [totalServicesDays, setTotalServicesDays] = useState<number>(0);
 
-  console.log("quotationDetailsDDDD", quotation);
 
   useEffect(() => {
     if (quotationID) {
@@ -94,7 +93,6 @@ function QuotationDetails(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            console.log("checkout-session", response.data);
             const resData = response.data.data;
             openInNewTab(resData.url);
           } else {
@@ -119,7 +117,6 @@ function QuotationDetails(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            console.log("create-customer", response.data);
             CreateCheckoutSession();
           } else {
             toast.error(response.data?.message);

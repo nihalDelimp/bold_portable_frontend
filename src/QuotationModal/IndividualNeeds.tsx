@@ -125,9 +125,6 @@ const IndividualNeeds: React.FC = () => {
 
   const handleChangeQuotation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Radiobutton Value Access", typeof value);
-    console.log("Radiobutton name Access", name);
-
     setQuotation((prev) => ({
       ...prev,
       [name]: value,

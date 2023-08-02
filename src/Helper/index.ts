@@ -121,8 +121,6 @@ export function trimObjValues(obj: any) {
   // Calculate the difference in days
   const diffInTime = Math.abs(d2.getTime() - d1.getTime());
   const diffInDays = Math.ceil(diffInTime / oneDay);
-  console.log(typeof  diffInDays)
-  console.log(diffInDays , 'diffInDays')
   return diffInDays;
 }
 

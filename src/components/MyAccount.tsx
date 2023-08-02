@@ -70,7 +70,6 @@ function MyAccountNew(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            console.log(resData, "nIHAL");
             setTotalPage(resData.pages);
             setMyQuotations(resData.quotations);
           }
@@ -90,14 +89,11 @@ function MyAccountNew(props: MyComponentProps) {
   const decrement = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
-      console.log("decrement");
     }
   };
-  console.log(myQuotations, "Hareeee");
   const increment = () => {
     if (currentPage < 10) {
       setCurrentPage((prevPage) => prevPage + 1);
-      console.log("increment");
     }
   };
 

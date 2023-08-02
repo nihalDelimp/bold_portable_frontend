@@ -151,7 +151,6 @@ function Services(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            console.log(resData,"Hsjhajh")
             if(resData.quote_id===null || resData.quote_type===null){
               toast.error("Sorry, please assign this QR Code with Active Quotation");
             }else{
