@@ -5,6 +5,8 @@ import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint } from "../Helper/constants";
 import { trimObjValues, validateEmail } from "../Helper";
+import DatePicker from "react-datepicker";
+
 import {
   maxFemaleWorkers,
   maxUserNameLength,
@@ -17,6 +19,10 @@ import {
 interface latlngPoint {
   lat: number;
   lng: number;
+}
+
+interface DateSelectorState {
+  selectedDate: Date | null;
 }
 
 interface quotationType {
@@ -57,6 +63,13 @@ const Construction: React.FC = () => {
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  // Handle date selection
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+  };
 
   useEffect(() => {
     return () => {
@@ -282,6 +295,16 @@ const Construction: React.FC = () => {
     }));
   };
 
+  const CustomInput = ({ value, onClick }: any) => (
+    <input
+      value={value}
+      onClick={onClick}
+      placeholder="MM/DD/YYYY"
+      readOnly // This prevents manual typing in the input field
+      style={{ cursor: "pointer" }}
+    />
+  );
+
   return (
     <React.Fragment>
       <div className="default--form cat--1">
@@ -339,7 +362,14 @@ const Construction: React.FC = () => {
                   <label htmlFor="name">
                     Placement Date <span className="required">*</span>
                   </label>
-                  <input
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                    dateFormat="MMMM d, yyyy"
+                    className="custom-date-picker"
+                    customInput={<CustomInput />} 
+                  />
+                  {/* <input
                     type="date"
                     required
                     min={new Date().toISOString().split("T")[0]}
@@ -347,7 +377,7 @@ const Construction: React.FC = () => {
                     onChange={handleChangeQuotation}
                     name="placementDate"
                     placeholder="Select placement date"
-                  />
+                  /> */}
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
@@ -520,7 +550,7 @@ const Construction: React.FC = () => {
                     <option value="true">Yes</option>
                   </select>
                 </div>
-                
+
                 <div className="form--group">
                   <label htmlFor="name">
                     What date should the unit(s) be picked up?{" "}
@@ -540,7 +570,8 @@ const Construction: React.FC = () => {
                 {quotation.restrictedAccess && (
                   <div className="form--group">
                     <label>
-                    Please give us details on how to access the restricted site. <span className="required"></span>
+                      Please give us details on how to access the restricted
+                      site. <span className="required"></span>
                     </label>
                     <input
                       type="text"
@@ -598,7 +629,8 @@ const Construction: React.FC = () => {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                  What type of Unit/s would you like?<span className="required"></span>
+                    What type of Unit/s would you like?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="productTypes"

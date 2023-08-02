@@ -7,6 +7,8 @@ import store from "./Redux/store";
 import { persistor } from "./Redux/store";
 // import './asstes/css/main.css';
 import './asstes/scss/main.scss';
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 
 
