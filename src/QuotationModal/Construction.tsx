@@ -5,8 +5,8 @@ import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint } from "../Helper/constants";
 import { trimObjValues, validateEmail } from "../Helper";
-import DatePicker from "react-datepicker";
-
+import DateSelector from "./DateSelector";
+import moment from "moment";
 import {
   maxFemaleWorkers,
   maxUserNameLength,
@@ -19,10 +19,6 @@ import {
 interface latlngPoint {
   lat: number;
   lng: number;
-}
-
-interface DateSelectorState {
-  selectedDate: Date | null;
 }
 
 interface quotationType {
@@ -64,12 +60,8 @@ const Construction: React.FC = () => {
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
-  // Handle date selection
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
+  const [placementDate, setPlacementDate] = useState<Date | null>(null);
+  const [pickupDate, setPickupDate] = useState<Date | null>(null);
 
   useEffect(() => {
     return () => {
@@ -143,6 +135,24 @@ const Construction: React.FC = () => {
     setQuotation((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const changePlacementDate = (date: Date | null) => {
+    setPlacementDate(date);
+    const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
+    setQuotation((prev) => ({
+      ...prev,
+      placementDate: formatDate,
+    }));
+  };
+
+  const changePickupDate = (date: Date | null) => {
+    setPickupDate(date);
+    const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
+    setQuotation((prev) => ({
+      ...prev,
+      dateTillUse: formatDate,
     }));
   };
 
@@ -295,16 +305,6 @@ const Construction: React.FC = () => {
     }));
   };
 
-  const CustomInput = ({ value, onClick }: any) => (
-    <input
-      value={value}
-      onClick={onClick}
-      placeholder="MM/DD/YYYY"
-      readOnly // This prevents manual typing in the input field
-      style={{ cursor: "pointer" }}
-    />
-  );
-
   return (
     <React.Fragment>
       <div className="default--form cat--1">
@@ -362,22 +362,11 @@ const Construction: React.FC = () => {
                   <label htmlFor="name">
                     Placement Date <span className="required">*</span>
                   </label>
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="MMMM d, yyyy"
-                    className="custom-date-picker"
-                    customInput={<CustomInput />} 
+                  <DateSelector
+                    selectedDate={placementDate}
+                    handleDateChange={changePlacementDate}
+                    minDate={new Date()}
                   />
-                  {/* <input
-                    type="date"
-                    required
-                    min={new Date().toISOString().split("T")[0]}
-                    value={quotation.placementDate}
-                    onChange={handleChangeQuotation}
-                    name="placementDate"
-                    placeholder="Select placement date"
-                  /> */}
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
@@ -556,17 +545,12 @@ const Construction: React.FC = () => {
                     What date should the unit(s) be picked up?{" "}
                     <span className="required">*</span>
                   </label>
-                  <input
-                    type="date"
-                    required
-                    min={quotation.placementDate}
-                    value={quotation.dateTillUse}
-                    onChange={handleChangeQuotation}
-                    name="dateTillUse"
-                    placeholder="Select date till use"
+                  <DateSelector
+                    selectedDate={pickupDate}
+                    handleDateChange={changePickupDate}
+                    minDate={placementDate || new Date()}
                   />
                 </div>
-
                 {quotation.restrictedAccess && (
                   <div className="form--group">
                     <label>
@@ -583,20 +567,6 @@ const Construction: React.FC = () => {
                     />
                   </div>
                 )}
-
-                {/* <div className="form--group">
-                  <label htmlFor="name">
-                    Would you like to ad handwashing sink ($50)<span className="required"></span>
-                  </label>
-                  <select
-                    name="handwashing"
-                    onChange={handleSelectQuotation}
-                    value={quotation.handwashing.toString()}
-                  >
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
-                  </select>
-                </div> */}
                 <div className="form--group">
                   <label htmlFor="name">
                     Units come standard with a hand sanitizer pump. Would you

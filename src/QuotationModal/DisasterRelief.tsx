@@ -5,6 +5,8 @@ import io, { Socket } from "socket.io-client";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint } from "../Helper/constants";
 import { trimObjValues, validateEmail } from "../Helper";
+import DateSelector from "./DateSelector";
+import moment from "moment";
 import {
   maxFemaleWorkers,
   maxUserNameLength,
@@ -55,6 +57,8 @@ interface coordinatorType {
 const DisasterRelief: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
+  const [placementDate, setPlacementDate] = useState<Date | null>(null);
+  const [pickupDate, setPickupDate] = useState<Date | null>(null);
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
@@ -135,6 +139,24 @@ const DisasterRelief: React.FC = () => {
       [name]: value,
     }));
   };
+
+  const changePlacementDate = (date: Date | null) => {
+    setPlacementDate(date);
+    const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
+    setQuotation((prev) => ({
+      ...prev,
+      placementDate: formatDate,
+    }));
+  };
+
+  const changePickupDate = (date: Date | null) => {
+    setPickupDate(date);
+    const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
+    setQuotation((prev) => ({
+      ...prev,
+      dateTillUse: formatDate,
+    }));
+  }
 
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -342,14 +364,10 @@ const DisasterRelief: React.FC = () => {
                   <label htmlFor="name">
                     Placement Date <span className="required">*</span>
                   </label>
-                  <input
-                    type="date"
-                    required
-                    min={new Date().toISOString().split("T")[0]}
-                    value={quotation.placementDate}
-                    onChange={handleChangeQuotation}
-                    name="placementDate"
-                    placeholder="Select placement date"
+                  <DateSelector
+                    selectedDate={placementDate}
+                    handleDateChange={changePlacementDate}
+                    minDate={new Date()}
                   />
                 </div>
                 <div className="form--group">
@@ -524,14 +542,10 @@ const DisasterRelief: React.FC = () => {
                   <label htmlFor="name">
                     What date should the unit(s) be picked up? <span className="required">*</span>
                   </label>
-                  <input
-                    type="date"
-                    required
-                    min={quotation.placementDate}
-                    value={quotation.dateTillUse}
-                    onChange={handleChangeQuotation}
-                    name="dateTillUse"
-                    placeholder="Select date till use"
+                  <DateSelector
+                    selectedDate={pickupDate}
+                    handleDateChange={changePickupDate}
+                    minDate={placementDate || new Date()}
                   />
                 </div>
                 {quotation.restrictedAccess && (

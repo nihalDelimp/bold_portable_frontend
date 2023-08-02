@@ -281,6 +281,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
                     }
 
                     .form--group {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        justify-content: space-between;
 
                         label {
                             width: 100%;

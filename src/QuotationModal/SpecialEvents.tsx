@@ -6,6 +6,8 @@ import { usePickTimes } from "../Helper/constants";
 import GoogleMaps from "./GoogleMaps";
 import { originPoint } from "../Helper/constants";
 import { trimObjValues, validateEmail } from "../Helper";
+import DateSelector from "./DateSelector";
+import moment from "moment";
 
 interface latlngPoint {
   lat: number;
@@ -65,6 +67,9 @@ interface quotationType {
 function SpecialEvents() {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
+  const [placementDate, setPlacementDate] = useState<Date | null>(null);
+  const [pickupDate, setPickupDate] = useState<Date | null>(null);
+  const [eventDate, setEventDate] = useState<Date | null>(null);
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
@@ -155,6 +160,33 @@ function SpecialEvents() {
     }));
   };
 
+  const changePlacementDate = (date: Date | null) => {
+    setPlacementDate(date);
+    const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
+    setQuotation((prev) => ({
+      ...prev,
+      placementDate: formatDate,
+    }));
+  };
+
+  const changePickupDate = (date: Date | null) => {
+    setPickupDate(date);
+    const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
+    setQuotation((prev) => ({
+      ...prev,
+      dateTillUse: formatDate,
+    }));
+  };
+
+  const changeEventDate = (date: Date | null) => {
+    setEventDate(date);
+    const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
+    setEventDetails((prev) => ({
+      ...prev,
+      eventDate: formatDate,
+    }));
+  };
+
   const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
@@ -165,32 +197,6 @@ function SpecialEvents() {
       }));
     }
   };
-
-  // const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const { name, value } = e.target;
-  //   const boolValue = value === "true";
-
-  //   if (name === "workerTypes" || name === "useType") {
-  //     setQuotation((prev) => ({
-  //       ...prev,
-  //       [name]: value,
-  //       maleWorkers: 0, // Reset maleWorkers
-  //       femaleWorkers: 0, // Reset femaleWorkers
-  //       totalWorkers: 0, // Reset totalWorkers
-  //     }));
-  //   } else if (name === "femaleToilet") {
-  //     setQuotation((prev) => ({
-  //       ...prev,
-  //       [name]: boolValue,
-  //     }));
-  //   } else {
-  //     setQuotation((prev) => ({
-  //       ...prev,
-  //       [name]: boolValue,
-  //       workerTypes: '', // Reset workerTypes
-  //     }));
-  //   }
-  // };
 
   const handleSelectQuotation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -444,14 +450,10 @@ function SpecialEvents() {
                   <label htmlFor="name">
                     Event Date <span className="required">*</span>
                   </label>
-                  <input
-                    type="date"
-                    min={new Date().toISOString().split("T")[0]}
-                    required
-                    value={eventDetails.eventDate}
-                    onChange={handleChangeEventDetails}
-                    name="eventDate"
-                    placeholder="Select event date"
+                  <DateSelector
+                    selectedDate={eventDate}
+                    handleDateChange={changeEventDate}
+                    minDate={new Date()}
                   />
                 </div>
                 <div className="form--group">
@@ -470,7 +472,6 @@ function SpecialEvents() {
                     <option value="Fair">Fair</option>
                     <option value="Festival">Festival</option>
                     <option value="Other">Other</option>
-
                   </select>
                 </div>
                 <div className="form--group">
@@ -509,7 +510,7 @@ function SpecialEvents() {
                 )}
 
                 {quotation.workerTypes === "male" ||
-                  quotation.workerTypes === "both" ? (
+                quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       How many male workers will be on site?
@@ -528,7 +529,7 @@ function SpecialEvents() {
                 ) : null}
 
                 {quotation.workerTypes === "female" ||
-                  quotation.workerTypes === "both" ? (
+                quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       How many female workers will be on site?
@@ -547,7 +548,7 @@ function SpecialEvents() {
                 ) : null}
 
                 {quotation.workerTypes === "female" ||
-                  quotation.workerTypes === "both" ? (
+                quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       Do you need a separate toilet for female workers?
@@ -565,8 +566,8 @@ function SpecialEvents() {
                 ) : null}
 
                 {quotation.workerTypes === "female" ||
-                  quotation.workerTypes === "male" ||
-                  quotation.workerTypes === "both" ? (
+                quotation.workerTypes === "male" ||
+                quotation.workerTypes === "both" ? (
                   <div className="form--group">
                     <label htmlFor="name">Total Workers</label>
                     <input
@@ -604,51 +605,29 @@ function SpecialEvents() {
                   <label htmlFor="name">
                     Placement Date <span className="required"> *</span>
                   </label>
-                  <input
-                    type="date"
-                    required
-                    min={new Date().toISOString().split("T")[0]}
-                    value={quotation.placementDate}
-                    onChange={handleChangeQuotation}
-                    name="placementDate"
-                    placeholder="Select placement date"
+                  <DateSelector
+                    selectedDate={placementDate}
+                    handleDateChange={changePlacementDate}
+                    minDate={new Date()}
                   />
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Date till use <span className="required">*</span>
+                    What date should the unit(s) be picked up?{" "}
+                    <span className="required">*</span>
                   </label>
-                  <input
-                    type="date"
-                    required
-                    min={
-                      quotation.placementDate
-                        ? quotation.placementDate
-                        : new Date().toISOString().split("T")[0]
-                    }
-                    value={quotation.dateTillUse}
-                    onChange={handleChangeQuotation}
-                    name="dateTillUse"
-                    placeholder="Select date till use"
+                  <DateSelector
+                    selectedDate={pickupDate}
+                    handleDateChange={changePickupDate}
+                    minDate={placementDate || new Date()}
                   />
                 </div>
-                {/* <div className="form--group">
-                  <label htmlFor="name">
-                    Would you like to ad handwashing sink ($50)<span className="required"></span>
-                  </label>
-                  <select
-                    name="handwashing"
-                    onChange={handleSelectQuotation}
-                    value={quotation.handwashing.toString()}
-                  >
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
-                  </select>
-                </div> */}
+
                 <div className="form--group">
                   <label htmlFor="name">
-                    Units come standard with a hand sanitizer pump. Would you like to upgrade to a handwashing
-                    sink inside the unit(s)?<span className="required"></span>
+                    Units come standard with a hand sanitizer pump. Would you
+                    like to upgrade to a handwashing sink inside the unit(s)?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="handSanitizerPump"
@@ -661,8 +640,9 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Standard service of unit(s) is once per week. To ensure a higher level of cleanliness, would you
-                    like twice weekly service?<span className="required"></span>
+                    Standard service of unit(s) is once per week. To ensure a
+                    higher level of cleanliness, would you like twice weekly
+                    service?<span className="required"></span>
                   </label>
                   <select
                     name="twiceWeeklyService"
@@ -723,7 +703,8 @@ function SpecialEvents() {
               <React.Fragment>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Do you require inside lighting for night use?<span className="required"></span>
+                    Do you require inside lighting for night use?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="useAtNight"
@@ -736,7 +717,8 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Will the unit be used during winter (Nov-Mar)?<span className="required"></span>
+                    Will the unit be used during winter (Nov-Mar)?
+                    <span className="required"></span>
                   </label>
                   <select
                     name="useInWinter"
