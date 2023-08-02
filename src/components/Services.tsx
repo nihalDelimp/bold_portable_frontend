@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
@@ -25,6 +25,7 @@ const mapContainerStyle = { width: "100%", height: "490px" };
 
 function Services(props: MyComponentProps) {
   const { setLoading } = props;
+  const {id} = useParams()
   const navigate = useNavigate();
   const [requestServices, setRequestServices] = useState<any[]>([]);
   const [isOtherService, setOtherService] = useState<boolean>(false);
@@ -138,23 +139,39 @@ function Services(props: MyComponentProps) {
   }, []);
 
   useEffect(() => {
-    // Get the URL parameters
-    const params = new URLSearchParams(window.location.search);
-    const quotation_Id = params.get("quotationId");
-    const quotation_Type = params.get("quotationType");
-    const qr_Id = params.get("qrId");
-    if (quotation_Id) {
-      setquotationId(quotation_Id.toString());
-      setShowModal(true);
-    }
-    if (quotation_Type) {
-      setServiceName(quotation_Type.toString());
-      setquotationType(quotation_Type?.toLowerCase().toString());
-    }
-     if (qr_Id) {
-      setQrId(qr_Id)
-    }
+    getServiceDetailsData();
   }, []);
+
+  const getServiceDetailsData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(`/inventory/get-deatils-by-qr_code_value/${id}`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            console.log(resData,"Hsjhajh")
+            if(resData.quote_id===null || resData.quote_type===null){
+              toast.error("Sorry, please assign this QR Code with Active Quotation");
+            }else{
+              setShowModal(true);
+              setquotationId(resData?.quote_id.toString());
+              setquotationType(resData.quote_type?.toLowerCase().toString());
+              setServiceName(resData.quote_type?.toString());
+              setQrId(resData._id)
+            }
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
 
   const toggleOtherService = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOtherService(event.target.checked);

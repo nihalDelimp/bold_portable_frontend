@@ -26,7 +26,7 @@ function RootRouter() {
           <Route path="/payment-ended" element={<PaymentEnded />} />
           <Route path="/payment-cancel" element={<PaymentCancel />} />
           <Route path="/about-us" element={<AboutUsMenu />} />
-          <Route path="/services" element={<Services />} />
+          <Route path="/services/:id" element={<Services />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>
