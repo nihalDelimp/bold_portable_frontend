@@ -198,7 +198,7 @@ function QuotationDetails(props: MyComponentProps) {
               </tr>
               <tr>
                 <th>Placement Date</th>
-                <td>{setFormatDate(quotation?.placementDate)}</td>
+                <td>{setFormatDate(quotation?.placementDate || quotation?.eventDetails?.eventDate)}</td>
               </tr>
               <tr>
                 <th>Pickup Date </th>

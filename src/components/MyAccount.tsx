@@ -23,7 +23,6 @@ interface MyComponentProps {
   isLoading: boolean;
 }
 
-
 function MyAccountNew(props: MyComponentProps) {
   const { setLoading, isLoading } = props;
   const dispatch = useDispatch();
@@ -60,8 +59,6 @@ function MyAccountNew(props: MyComponentProps) {
     getMySubscriptionsData();
   }, [currentPage, activeSidebar]);
 
-
-
   const getMyQuotationsData = async () => {
     setLoading(true);
     await authAxios()
@@ -73,8 +70,8 @@ function MyAccountNew(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            console.log(resData,"nIHAL")
-            setTotalPage(resData.pages)
+            console.log(resData, "nIHAL");
+            setTotalPage(resData.pages);
             setMyQuotations(resData.quotations);
           }
         },
@@ -93,15 +90,14 @@ function MyAccountNew(props: MyComponentProps) {
   const decrement = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
-      console.log('decrement')
+      console.log("decrement");
     }
   };
-console.log(myQuotations,"Hareeee")
+  console.log(myQuotations, "Hareeee");
   const increment = () => {
     if (currentPage < 10) {
       setCurrentPage((prevPage) => prevPage + 1);
-      console.log('increment');
-
+      console.log("increment");
     }
   };
 
@@ -197,8 +193,8 @@ console.log(myQuotations,"Hareeee")
                         onClick={() => setActiveSidebar("MY_QUOTATIONS")}
                         className={
                           activeSidebar === "MY_QUOTATIONS" ||
-                            activeSidebar === "VIEW_QUOTATION" ||
-                            activeSidebar === "TRACK_ORDER"
+                          activeSidebar === "VIEW_QUOTATION" ||
+                          activeSidebar === "TRACK_ORDER"
                             ? "active"
                             : ""
                         }
@@ -216,7 +212,7 @@ console.log(myQuotations,"Hareeee")
                         onClick={() => setActiveSidebar("MY_SUBSCRIPTIONS")}
                         className={
                           activeSidebar === "MY_SUBSCRIPTIONS" ||
-                            activeSidebar === "VIEW_PAYMENT"
+                          activeSidebar === "VIEW_PAYMENT"
                             ? "active"
                             : ""
                         }
@@ -267,10 +263,7 @@ console.log(myQuotations,"Hareeee")
               <div className="put--quoats">
                 <p className="head--image">Bold Portable</p>
                 <img src={require("../asstes/image/put--quots.png")} alt="" />
-                <a
-                  onClick={() => navigate("/")}
-                  href="#best--describes"
-                >
+                <a onClick={() => navigate("/")} href="#best--describes">
                   Get a Quote
                 </a>
               </div>
@@ -315,7 +308,8 @@ console.log(myQuotations,"Hareeee")
                                 <td>{item.coordinator.cellNumber}</td>
                                 <td>
                                   {setFormatDate(
-                                    item.placementDate || item.createdAt
+                                    item?.placementDate ||
+                                      item?.eventDetails?.eventDate
                                   )}
                                 </td>
                                 <td>{replaceHyphenCapitolize(item.type)}</td>
@@ -746,7 +740,8 @@ console.log(myQuotations,"Hareeee")
                                 <td>{item.coordinator.cellNumber}</td>
                                 <td>
                                   {setFormatDate(
-                                    item.placementDate || item.createdAt
+                                    item.placementDate ||
+                                      item?.eventDetails?.eventDate
                                   )}
                                 </td>
                                 <td>{replaceHyphenCapitolize(item.type)}</td>
@@ -788,14 +783,22 @@ console.log(myQuotations,"Hareeee")
                       </table>
                     </div>
                     {myQuotations.length >= 10 && (
-                    <div className="paginations">
-                      <button disabled={currentPage === 1 ? true : false} onClick={decrement} className="btn">
-                      PREVIOUS PAGE
-                      </button>
-                      <button disabled={currentPage === totalPages ? true : false} onClick={increment} className="btn">
-                        NEXT PAGE
-                      </button>
-                    </div>
+                      <div className="paginations">
+                        <button
+                          disabled={currentPage === 1 ? true : false}
+                          onClick={decrement}
+                          className="btn"
+                        >
+                          PREVIOUS PAGE
+                        </button>
+                        <button
+                          disabled={currentPage === totalPages ? true : false}
+                          onClick={increment}
+                          className="btn"
+                        >
+                          NEXT PAGE
+                        </button>
+                      </div>
                     )}
                   </div>
                 )}
@@ -831,10 +834,11 @@ console.log(myQuotations,"Hareeee")
                                   {replaceHyphenCapitolize(item.quotationType)}
                                 </td>
                                 <td
-                                  className={`${item.status === "ACTIVE"
-                                    ? "active"
-                                    : "cancel"
-                                    }`}
+                                  className={`${
+                                    item.status === "ACTIVE"
+                                      ? "active"
+                                      : "cancel"
+                                  }`}
                                 >
                                   {item.status}
                                 </td>

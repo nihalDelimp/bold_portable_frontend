@@ -40,7 +40,6 @@ interface vipSectionType {
 interface quotationType {
   maxWorkers: number;
   weeklyHours: number;
-  placementDate: string;
   distanceFromKelowna: number;
   serviceCharge: number;
   peakUseTimes: boolean;
@@ -67,7 +66,6 @@ interface quotationType {
 function SpecialEvents() {
   const [loading, setLoading] = useState(false);
   const [formStep, setFormStep] = useState<number>(1);
-  const [placementDate, setPlacementDate] = useState<Date | null>(null);
   const [pickupDate, setPickupDate] = useState<Date | null>(null);
   const [eventDate, setEventDate] = useState<Date | null>(null);
 
@@ -100,7 +98,6 @@ function SpecialEvents() {
   const [quotation, setQuotation] = useState<quotationType>({
     maxWorkers: 10,
     weeklyHours: 40,
-    placementDate: "",
     distanceFromKelowna: 0,
     serviceCharge: 0,
     peakUseTimes: false,
@@ -160,15 +157,7 @@ function SpecialEvents() {
     }));
   };
 
-  const changePlacementDate = (date: Date | null) => {
-    setPlacementDate(date);
-    const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
-    setQuotation((prev) => ({
-      ...prev,
-      placementDate: formatDate,
-    }));
-  };
-
+ 
   const changePickupDate = (date: Date | null) => {
     setPickupDate(date);
     const formatDate = date ? moment(date).format("YYYY-MM-DD") : "";
@@ -270,7 +259,6 @@ function SpecialEvents() {
     setQuotation({
       maxWorkers: 10,
       weeklyHours: 40,
-      placementDate: "",
       distanceFromKelowna: 0,
       serviceCharge: 0,
       peakUseTimes: false,
@@ -603,26 +591,15 @@ function SpecialEvents() {
                 </div>
                 <div className="form--group">
                   <label htmlFor="name">
-                    Placement Date <span className="required"> *</span>
-                  </label>
-                  <DateSelector
-                    selectedDate={placementDate}
-                    handleDateChange={changePlacementDate}
-                    minDate={new Date()}
-                  />
-                </div>
-                <div className="form--group">
-                  <label htmlFor="name">
                     What date should the unit(s) be picked up?{" "}
                     <span className="required">*</span>
                   </label>
                   <DateSelector
                     selectedDate={pickupDate}
                     handleDateChange={changePickupDate}
-                    minDate={placementDate || new Date()}
+                    minDate={eventDate || new Date()}
                   />
                 </div>
-
                 <div className="form--group">
                   <label htmlFor="name">
                     Units come standard with a hand sanitizer pump. Would you
@@ -852,7 +829,6 @@ function SpecialEvents() {
                   disabled={
                     !quotation.maxWorkers ||
                     !quotation.weeklyHours ||
-                    !quotation.placementDate ||
                     !quotation.dateTillUse
                   }
                 >
