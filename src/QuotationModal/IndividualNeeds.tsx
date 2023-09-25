@@ -114,11 +114,19 @@ const IndividualNeeds: React.FC = () => {
 
   const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const sanitizedValue = value.replace(/[^0-9-+]/g, ""); // Remove non-numeric, non-hyphen, and non-plus characters
-    if (sanitizedValue.match(/^\+?[0-9-]*$/)) {
+  
+    // Remove any characters that are not digits or hyphens
+    const sanitizedValue = value.replace(/[^0-9-]/g, "");
+  
+    // Use a regular expression to format the phone number as "000-000-0000"
+    const formattedValue = sanitizedValue
+      .slice(0, 12) // Limit the length to 12 characters (000-000-0000)
+      .replace(/(\d{3})(\d{3})/, '$1-$2-'); // Format as 000-000-0000
+  
+    if (formattedValue.match(/^\+?[0-9-]*$/)) {
       setCoordinator((prev) => ({
         ...prev,
-        [name]: sanitizedValue,
+        [name]: formattedValue,
       }));
     }
   };
@@ -343,10 +351,11 @@ const IndividualNeeds: React.FC = () => {
                     placeholder="Enter email"
                   />
                 </div>
-                <div className="form--group">
+                <div className="form--group defualt--phone">
                   <label htmlFor="name">
                     Project Manager Phone <span className="required">*</span>
                   </label>
+                  <span className="phone--set">+1</span>
                   <input
                     type="text"
                     min={0}

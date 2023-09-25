@@ -328,6 +328,17 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
                         }
                     }
 
+                    .defualt--phone{
+                        position: relative;
+                        .phone--set {
+                            position: absolute;
+                            bottom: 15px;
+                        }
+                        input{
+                            padding-left: 22px;
+                        }
+                    }
+
                     .form--checkbox {
                         display: flex;
                         justify-content: space-between;
