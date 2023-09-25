@@ -412,7 +412,7 @@ const RecreationalSite: React.FC = () => {
                 {quotation.designatedWorkers && (
                   <div className="form--group">
                     <label htmlFor="name">
-                      Worker Types<span className="required"></span>
+                    Worker Gender (Male/Female/Both)<span className="required"></span>
                     </label>
                     <select
                       name="workerTypes"
@@ -449,8 +449,7 @@ const RecreationalSite: React.FC = () => {
                   </div>
                 ) : null}
 
-                {quotation.workerTypes === "female" ||
-                quotation.workerTypes === "both" ? (
+                {quotation.designatedWorkers === true && (quotation.workerTypes === "female" || quotation.workerTypes === "both") ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       How many female workers will be on site?
@@ -469,8 +468,7 @@ const RecreationalSite: React.FC = () => {
                   </div>
                 ) : null}
 
-                {quotation.workerTypes === "female" ||
-                quotation.workerTypes === "both" ? (
+                {quotation.designatedWorkers === true && (quotation.workerTypes === "female" || quotation.workerTypes === "both") ? (
                   <div className="form--group">
                     <label htmlFor="name">
                       Do you need a separate toilet for female workers?
@@ -489,17 +487,19 @@ const RecreationalSite: React.FC = () => {
                 {quotation.workerTypes === "female" ||
                 quotation.workerTypes === "male" ||
                 quotation.workerTypes === "both" ? (
-                  <div className="form--group">
-                    <label htmlFor="name">Total Workers</label>
-                    <input
-                      type="text"
-                      name="totalWorkers"
-                      value={
-                        Number(quotation.maleWorkers) +
-                        Number(quotation.femaleWorkers)
-                      }
-                      readOnly
-                    />
+                  <div className={`form--group ${quotation.designatedWorkers === false || (quotation.designatedWorkers === true && quotation.workerTypes === "female") ? 'right--active--total' : ''}`}>
+                      <div className="total_div">
+                      <label htmlFor="name">Total Workers</label>
+                      <input
+                        type="text"
+                        name="totalWorkers"
+                        value={
+                          Number(quotation.maleWorkers) +
+                          Number(quotation.femaleWorkers)
+                        }
+                        readOnly
+                      />
+                    </div>
                   </div>
                 ) : null}
               </React.Fragment>

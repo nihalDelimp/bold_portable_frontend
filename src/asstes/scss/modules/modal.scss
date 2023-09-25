@@ -277,7 +277,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
                     gap: 30px;
 
                     @media (max-width:767px) {
-                        grid-template-columns: repeat(1, 1fr);
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
                     }
 
                     .form--group {
@@ -302,6 +304,27 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
                             padding: 8px 0;
                             border-bottom: 1px solid $black;
                             resize: none;
+                        }
+                        .total_div {
+                            height: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 10px;
+                            justify-content: space-between;
+                            @media(max-width: 767px){
+                                width: 100%;
+                            }
+                        }
+                    }
+
+                    .right--active--total {
+                        grid-column: span 2;
+                        align-items: flex-end;
+                        .total_div {
+                            width: calc(50% - 15px);
+                            @media(max-width: 767px){
+                                width: 100%;
+                            }
                         }
                     }
 
